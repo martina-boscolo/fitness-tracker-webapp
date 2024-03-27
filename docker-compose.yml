@@ -7,7 +7,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./cyclek.war:/usr/local/tomcat/webapps/cyclek.war
+      - ./src/main/webapp/cyclek.war:/usr/local/tomcat/webapps/cyclek.war
       
   db:
     image: postgres
@@ -15,8 +15,8 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
     volumes:
-      - ./cyclek.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./data/db:/var/lib/postgresql/data
+      - ./src/main/database/cyclek.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/data/db:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
