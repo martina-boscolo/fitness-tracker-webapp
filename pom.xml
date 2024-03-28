@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>it.unipd.dei.webapp.cyclek</groupId>
+
+    <artifactId>cycleK</artifactId>
+
+    <version>1.0.0</version>
+
+    <packaging>war</packaging>
+
+    <name>cyclek</name>
+
+    <url>https://bitbucket.org/upd-dei-stud-prj/wa2324-cyclek/</url>
+
+    <description>
+        Code of group Cyclek for the "Web App" course, A.Y. 2023/2024 for the Master Degree in Computer Engineering (University of Padua).
+        Our WebApp is a Fitness Tracker to keep trace of diet, exercises!
+    </description>
+
+    <inceptionYear>2024</inceptionYear>
+
+    <developers>
+        <developer>
+            <id>ac</id>
+            <name>Alessio Cocco</name>
+            <email>alessio.cocco@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+        <developer>
+            <id>gm</id>
+            <name>Giacomo Munerotto</name>
+            <email>giacomo.munerotto@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+        <developer>
+            <id>ka</id>
+            <name>Kimia Abedini</name>
+            <email>kimia.abedini@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+        <developer>
+            <id>mt</id>
+            <name>Marco Tomaiuoli</name>
+            <email>marco.tomaiuoli@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+        <developer>
+            <id>mb</id>
+            <name>Martina Boscolo Bacheto</name>
+            <email>martina.boscolobacheto@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+        <developer>
+            <id>rt</id>
+            <name>Riccardo Trevisiol</name>
+            <email>riccardo.trevisiol.1@studenti.unipd.it</email>
+            <organization>University of Padua, Italy</organization>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Department of Information Engineering (DEI), University of Padua, Italy</name>
+        <url>https://www.dei.unipd.it/en/</url>
+    </organization>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
+        <tomcat.version>10.1.20</tomcat.version>
+        <jakarta.version>9.1.0</jakarta.version>
+    </properties>
+
+    <!-- Build settings -->
+
+    <!-- Specifies the encoding to be used for project source files
+        and other properties
+    -->
+    <build>
+        <defaultGoal>compile</defaultGoal>
+
+        <sourceDirectory>$(basedir)/src/main/java</sourceDirectory>
+
+        <directory>$(basedir)/target</directory>
+
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+        <pluginManagement> <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+            <plugins>
+                <!-- generates war file including any dependencies -->
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>war-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>  <!-- this is used for inheritance merges -->
+                            <phase>package</phase>  <!-- bind to the packaging phase -->
+                            <goals>
+                                <goal>single</goal>  <!-- the only goal of the assembly plugin -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <reportOutputDirectory>${basedir}/javadoc</reportOutputDirectory>
+                        <author>true</author>
+                        <nosince>false</nosince>
+                        <show>protected</show>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
