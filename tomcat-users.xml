@@ -37,7 +37,7 @@
 -->
 
   <role rolename="manager-gui"/>
-  <user username="tomcat" password="s3cret" roles="manager-gui"/>
+  <user username="admin" password="admin" roles="manager-gui"/>
 
 <!--
   The sample user and role entries below are intended for use with the
