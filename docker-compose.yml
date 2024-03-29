@@ -1,13 +1,14 @@
 services:
   web:
-    image: tomcat:10
+    image: tomcat:11.0.0-M18
     ports:
       - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - ./src/main/webapp/cyclek.war:/usr/local/tomcat/webapps/cyclek.war
+      - ./target/cycleK-1-0-0.war:/usr/local/tomcat/webapps/cycleK-1-0-0.war
+      - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       
   db:
     image: postgres
