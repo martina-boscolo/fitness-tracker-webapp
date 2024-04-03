@@ -11,4 +11,18 @@
         <welcome-file>/html/hello.html</welcome-file>
     </welcome-file-list>
 
+    <servlet>
+        <servlet-name>HelloWorld</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.HelloWorldServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloWorld</servlet-name>
+        <url-pattern>/tette</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HelloWorld</servlet-name>
+        <url-pattern>/dado</url-pattern>
+    </servlet-mapping>
+
 </web-app>
