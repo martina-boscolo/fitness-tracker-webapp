@@ -8,6 +8,7 @@ services:
         condition: service_healthy
     volumes:
       - ./target/cycleK-1-0-0.war:/usr/local/tomcat/webapps/cycleK-1-0-0.war
+      - ./src/main/resources/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       
   db:
     image: postgres
