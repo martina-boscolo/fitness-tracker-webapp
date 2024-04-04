@@ -30,7 +30,7 @@
         <url-pattern>/dado</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HelloWorld</servlet-name>
+        <servlet-name>HelloWorldForm</servlet-name>
         <url-pattern>/hello-get</url-pattern>
     </servlet-mapping>
 
