@@ -16,6 +16,11 @@
         <servlet-class>it.unipd.dei.cyclek.servlet.HelloWorldServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>HelloWorldForm</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.HelloWorldFormGetServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -23,6 +28,10 @@
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
         <url-pattern>/dado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HelloWorld</servlet-name>
+        <url-pattern>/hello-get</url-pattern>
     </servlet-mapping>
 
 </web-app>

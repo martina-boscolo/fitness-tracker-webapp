@@ -180,6 +180,4 @@ public abstract class AbstractDAO<T> implements DataAccessObject<T> {
      * @throws Exception if there is any issue.
      */
     protected abstract void doAccess() throws Exception;
-
-
 }
