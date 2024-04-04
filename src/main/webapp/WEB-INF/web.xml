@@ -18,7 +18,7 @@
 
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
-        <url-pattern>/tette</url-pattern>
+        <url-pattern>/hello</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
