@@ -43,7 +43,6 @@ CREATE TABLE meal (
   PASTO         VARCHAR(50) NOT NULL
 );
 
-Drop table posts, comments, likes_dislikes;
 --create the posts table
 CREATE TABLE posts
 (
