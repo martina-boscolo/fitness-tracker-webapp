@@ -1,5 +1,4 @@
 -- Create the cyclek database
-CREATE DATABASE cyclek;
 
 -- Connect to the cyclek database
 \c cyclek;
@@ -64,6 +63,25 @@ CREATE TABLE body_stats
     date    DATE NOT NULL
 );
 
+
+-- Create the exercise_category table
+CREATE TABLE exercise_category (
+    category_id INT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
+);
+
+-- Create the exercise table with a foreign key constraint referencing the exercise_category table
+CREATE TABLE exercise (
+     exercise_id INT PRIMARY KEY,
+     exercise_name VARCHAR(100) NOT NULL,
+     description TEXT,
+     exercise_equipment VARCHAR(100),
+      category_id INT,
+        FOREIGN KEY (category_id) REFERENCES exercise_category(category_id)
+);
+
+
+Drop table posts, comments, likes_dislikes;
 --create the posts table
 CREATE TABLE posts
 (
@@ -142,3 +160,16 @@ VALUES
     (3, 2, 'Love running in the morning!'),
     (1, 3, 'Leg day is always tough!'),
     (3, 3, 'Nice progress!');
+
+
+-- Insert sample data into the exercise_category table
+INSERT INTO exercise_category (category_id, category_name)
+VALUES
+    (1, 'Strength'),
+    (2, 'Cardio'),
+    (3, 'Flexibility'),
+    (4, 'Balance');
+-- insert data to exercise table
+INSERT INTO exercise(exercise_id, exercise_name, description, exercise_equipment, category_id)
+    VALUES
+        (1,'squat','this is a description1','Barbell',1)
