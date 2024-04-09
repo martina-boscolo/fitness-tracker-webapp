@@ -8,6 +8,7 @@
 CREATE TABLE login
 (
     id       SERIAL PRIMARY KEY,
+    id_user  INT NOT NULL,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL
 );
@@ -25,7 +26,7 @@ CREATE TABLE users
 -- create the FOODS table
 CREATE TABLE foods
 (
-    id_food     SERIAL PRIMARY KEY,
+    id          SERIAL PRIMARY KEY,
     fdnm        VARCHAR(50) NOT NULL,
     kcal        INTEGER NOT NULL,
     fats        INTEGER NOT NULL,
@@ -35,11 +36,31 @@ CREATE TABLE foods
 
 --create the MEAL table
 CREATE TABLE meal (
-  id            SERIAL PRIMARY KEY,
-  ID_UTE        INT NOT NULL,
-  ID_PASTO      INT NOT NULL,
-  GIORNO        DATE NOT NULL,
-  PASTO         VARCHAR(50) NOT NULL
+   id           SERIAL PRIMARY KEY,
+   id_user      INT NOT NULL,
+   id_meal      INT NOT NULL,
+   day          DATE NOT NULL,
+   meal         VARCHAR(50) NOT NULL
+);
+
+-- Create Diet Plans Table
+CREATE TABLE dietplans (
+    id SERIAL PRIMARY KEY,
+    id_user INT NOT NULL,
+    plan_name VARCHAR(50) NOT NULL,
+    diet bytea NOT NULL
+);
+
+--create table for body statistics
+CREATE TABLE body_stats
+(
+    id SERIAL PRIMARY KEY,
+    id_user INTEGER NOT NULL,
+    weight  FLOAT NOT NULL,
+    height  FLOAT NOT NULL,
+    fatty   FLOAT NOT NULL,
+    lean    FLOAT NOT NULL,
+    date    DATE NOT NULL
 );
 
 
