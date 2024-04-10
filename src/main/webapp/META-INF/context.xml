@@ -5,7 +5,7 @@
               type="javax.sql.DataSource"
               factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/cyclek"
+              url="jdbc:postgresql://host.docker.internal:5432/cyclek"
               username="postgres"
               password="postgres"
               testOnBorrow="true"

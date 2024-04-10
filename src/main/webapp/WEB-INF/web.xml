@@ -12,26 +12,20 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>HelloWorld</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.HelloWorldServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>HelloWorldForm</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.HelloWorldFormGetServlet</servlet-class>
+        <servlet-name>GetUserById</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.user.GetUserServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>HelloWorld</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <servlet-name>GetUserById</servlet-name>
+        <url-pattern>/getuserbyid</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HelloWorld</servlet-name>
-        <url-pattern>/dado</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HelloWorldForm</servlet-name>
-        <url-pattern>/hello-get</url-pattern>
-    </servlet-mapping>
+
+    <resource-ref>
+        <description>Connection pool to the database</description>
+        <res-ref-name>jdbc/cyclek</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
 
 </web-app>

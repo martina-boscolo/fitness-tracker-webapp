@@ -8,8 +8,8 @@ CREATE TABLE users (
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(50) NOT NULL,
     surname     VARCHAR(50) NOT NULL,
-    date        DATE        NOT NULL,
-    sex         char
+    birthday    DATE        NOT NULL,
+    gender      VARCHAR(1)
 );
 
 -- Create the login table
@@ -113,7 +113,7 @@ CREATE TABLE comments
 
 --insert basic data in the tables
 -- Insert some sample data for testing
-INSERT INTO users (name, surname, date, sex)
+INSERT INTO users (name, surname, birthday, gender)
 VALUES ('Paolo', 'Rossi', '1995-10-08', 'M'),
        ('Paolo', 'Bianchi', '1995-10-08', 'M'),
        ('Lucia', 'Rossi', '1995-10-08', 'F');
