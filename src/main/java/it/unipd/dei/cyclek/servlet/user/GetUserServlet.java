@@ -1,6 +1,9 @@
 package it.unipd.dei.cyclek.servlet.user;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Actions;
@@ -10,10 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 /**
@@ -56,15 +57,17 @@ public class GetUserServlet extends AbstractDatabaseServlet {
 
         try {
             res.setContentType("application/json");
-            OutputStream out = res.getOutputStream();
+            PrintWriter out = res.getWriter();
 
-            if (user != null)
-                user.toJSON(out);
-            else {
-                Date bt = new Date(1999, Calendar.DECEMBER,31);
-                user = new User(-1,"Pippo","Pluto",bt,"NB");
-                user.toJSON(out);
-            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = "";
+            ObjectNode rootNode = objectMapper.createObjectNode();
+
+            rootNode.put("result", user != null);
+            rootNode.set("user", objectMapper.valueToTree(user));
+
+            json = objectMapper.writeValueAsString(rootNode);
+            out.write(json);
 
         } catch (IOException ex) {
             LOGGER.error(new StringFormattedMessage("Unable to send response when searching user id %d.", id), ex);

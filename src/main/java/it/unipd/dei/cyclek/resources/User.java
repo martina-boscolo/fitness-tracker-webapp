@@ -1,10 +1,11 @@
 package it.unipd.dei.cyclek.resources;
-import com.fasterxml.jackson.core.JsonGenerator;
 
-import java.io.OutputStream;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.Date;
 
-public class User extends BaseResource{
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class User{
     private final int id;
     private final String name;
     private final String surname;
@@ -19,7 +20,6 @@ public class User extends BaseResource{
         this.gender = gender;
     }
 
-
     public int getId() {
         return id;
     }
@@ -32,7 +32,7 @@ public class User extends BaseResource{
         return surname;
     }
 
-    public Date getDate() {
+    public Date getBirthday() {
         return birthday;
     }
 
@@ -40,20 +40,4 @@ public class User extends BaseResource{
         return gender;
     }
 
-    @Override
-    protected void writeJSON(OutputStream out) throws Exception {
-        final JsonGenerator jg = JSON_FACTORY.createGenerator(out);
-
-        jg.writeStartObject();
-        jg.writeFieldName("user");
-        jg.writeStartObject();
-        jg.writeNumberField("id", id);
-        jg.writeStringField("name", name);
-        jg.writeStringField("surname", surname);
-        jg.writeStringField("birthday", birthday.toString() != null ? birthday.toString() : "");
-        jg.writeStringField("gender", gender);
-        jg.writeEndObject();
-        jg.writeEndObject();
-        jg.flush();
-    }
 }
