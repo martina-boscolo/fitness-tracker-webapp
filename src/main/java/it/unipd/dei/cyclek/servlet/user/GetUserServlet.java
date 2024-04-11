@@ -2,11 +2,10 @@ package it.unipd.dei.cyclek.servlet.user;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
-import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,9 +15,6 @@ import org.apache.logging.log4j.message.StringFormattedMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Searches user by their id.
@@ -32,6 +28,7 @@ public class GetUserServlet extends AbstractDatabaseServlet {
      * @param res the HTTP response from the server.
      * @throws IOException if any error occurs in the client/server communication.
      */
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.SEARCH_USER_BY_ID);
