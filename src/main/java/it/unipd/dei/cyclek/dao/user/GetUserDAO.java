@@ -38,7 +38,7 @@ public final class GetUserDAO extends AbstractDAO<User>{
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("surname"),
-                        LocalDate.from(rs.getDate("birthday")),
+                        rs.getString("birthday"),
                         rs.getString("gender")
                 );
             }

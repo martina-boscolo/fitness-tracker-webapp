@@ -50,7 +50,7 @@ public class GetUserServlet extends AbstractDatabaseServlet {
             // creates a new object for accessing the database and searching the employees
             user = new GetUserDAO(getConnection(), id).access().getOutputParam();
 
-            LOGGER.info("User successfully searched by id %d.", id);
+            LOGGER.info("User successfully searched by id {}.", id);
 
         } catch (NumberFormatException ex) {
             LOGGER.error("Cannot search for users. Id must be an integer", ex);
@@ -65,10 +65,6 @@ public class GetUserServlet extends AbstractDatabaseServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             String json = "";
             ObjectNode rootNode = objectMapper.createObjectNode();
-
-            List<User> users = new ArrayList<>();
-            User a = new User(1,"Pippo","Pluto", LocalDate.now(),"NB");
-
             rootNode.put("result", user != null);
             rootNode.set("user", objectMapper.valueToTree(user));
 
