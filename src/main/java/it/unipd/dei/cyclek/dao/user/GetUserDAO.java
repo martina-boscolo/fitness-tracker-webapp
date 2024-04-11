@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public final class GetUserDAO extends AbstractDAO<User>{
     private static final String QUERY = "SELECT * FROM users WHERE id = ?";
@@ -37,7 +38,7 @@ public final class GetUserDAO extends AbstractDAO<User>{
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("surname"),
-                        rs.getDate("birthday"),
+                        LocalDate.from(rs.getDate("birthday")),
                         rs.getString("gender")
                 );
             }

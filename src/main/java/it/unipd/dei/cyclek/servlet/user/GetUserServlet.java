@@ -16,6 +16,9 @@ import org.apache.logging.log4j.message.StringFormattedMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Searches user by their id.
@@ -62,6 +65,9 @@ public class GetUserServlet extends AbstractDatabaseServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             String json = "";
             ObjectNode rootNode = objectMapper.createObjectNode();
+
+            List<User> users = new ArrayList<>();
+            User a = new User(1,"Pippo","Pluto", LocalDate.now(),"NB");
 
             rootNode.put("result", user != null);
             rootNode.set("user", objectMapper.valueToTree(user));
