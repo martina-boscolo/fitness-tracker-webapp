@@ -3,23 +3,26 @@ package it.unipd.dei.cyclek.servlet.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import it.unipd.dei.cyclek.dao.user.GetUserDAO;
+import it.unipd.dei.cyclek.dao.user.GetUserByIdDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
+import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
+
 /**
  * Searches user by their id.
  */
-public class GetUserServlet extends AbstractDatabaseServlet {
+public class GetUserByIdServlet extends AbstractDatabaseServlet {
 
     /**
      * Searches user by their id.
@@ -38,6 +41,7 @@ public class GetUserServlet extends AbstractDatabaseServlet {
 
         // model
         User user = null;
+        Message m;
 
         try {
 
@@ -45,13 +49,17 @@ public class GetUserServlet extends AbstractDatabaseServlet {
             id = Integer.parseInt(req.getParameter("id"));
 
             // creates a new object for accessing the database and searching the employees
-            user = new GetUserDAO(getConnection(), id).access().getOutputParam();
+            user = new GetUserByIdDAO(getConnection(), id).access().getOutputParam();
 
-            LOGGER.info("User successfully searched by id {}.", id);
+            m = new Message("User successfully searched");
+
+            LOGGER.info("User successfully searched by id %d.", id);
 
         } catch (NumberFormatException ex) {
+            m = new Message("Cannot search for user. Id must be an integer", "E100", ex.getMessage());
             LOGGER.error("Cannot search for users. Id must be an integer", ex);
         } catch (SQLException ex) {
+            m = new Message("Cannot search for user. unexpected error while accessing the database", "E200", ex.getMessage());
             LOGGER.error("Cannot search for employees: unexpected error while accessing the database.", ex);
         }
 
@@ -62,9 +70,8 @@ public class GetUserServlet extends AbstractDatabaseServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             String json = "";
             ObjectNode rootNode = objectMapper.createObjectNode();
-            rootNode.put("result", user != null);
-            rootNode.set("user", objectMapper.valueToTree(user));
-
+            rootNode.set("message",objectMapper.valueToTree(m));
+            rootNode.set("user",objectMapper.valueToTree(user));
             json = objectMapper.writeValueAsString(rootNode);
             out.write(json);
 

@@ -7,13 +7,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
-public final class GetUserDAO extends AbstractDAO<User>{
+public final class GetUserByIdDAO extends AbstractDAO<User>{
     private static final String QUERY = "SELECT * FROM users WHERE id = ?";
     private final int id;
 
-    public GetUserDAO(final Connection con, int id) {
+    public GetUserByIdDAO(final Connection con, int id) {
         super(con);
         this.id = id;
     }

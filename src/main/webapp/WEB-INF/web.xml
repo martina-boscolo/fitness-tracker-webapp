@@ -13,7 +13,7 @@
 
     <servlet>
         <servlet-name>GetUserById</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.user.GetUserServlet</servlet-class>
+        <servlet-class>it.unipd.dei.cyclek.servlet.user.GetUserByIdServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
