@@ -37,7 +37,7 @@ public class ListUserRR extends AbstractRR{
                 LOGGER.info("Employee(s) successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList(ul).toJSON(res.getOutputStream());
+                new ResourceList<>(ul).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing employee(s).");
 

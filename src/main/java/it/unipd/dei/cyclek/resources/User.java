@@ -1,10 +1,14 @@
 package it.unipd.dei.cyclek.resources;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 public class User extends AbstractResource{
 
@@ -46,12 +50,11 @@ public class User extends AbstractResource{
 
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
-        final JsonGenerator jg = JSON_FACTORY.createGenerator(out);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode rootNode = objectMapper.createObjectNode();
-        rootNode.set("user",objectMapper.valueToTree(this));
-        jg.writeString(objectMapper.writeValueAsString(rootNode));
-        jg.flush();
+        String json = new ObjectMapper()
+                .enable(SerializationFeature.WRAP_ROOT_VALUE)
+                .writer().withRootName("user")
+                .writeValueAsString(this);
+        out.write(json.getBytes(StandardCharsets.UTF_8));
     }
 }
