@@ -10,6 +10,7 @@ public final class Actions {
      * The search of users by their id
      */
     public static final String SEARCH_USER_BY_ID = "SEARCH_USER_BY_ID";
+    public static final String LIST_USER = "LIST_USER";
 
     /**
      * This class can be neither instantiated nor sub-classed.

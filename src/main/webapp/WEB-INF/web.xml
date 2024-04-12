@@ -21,6 +21,16 @@
         <url-pattern>/getuserbyid</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RestManagerServlet</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.RestDispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RestManagerServlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
     <resource-ref>
         <description>Connection pool to the database</description>
         <res-ref-name>jdbc/cyclek</res-ref-name>

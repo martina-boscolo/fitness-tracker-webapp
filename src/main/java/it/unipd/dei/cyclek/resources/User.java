@@ -1,8 +1,14 @@
 package it.unipd.dei.cyclek.resources;
 
-public class User{
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-    private final int id;
+import java.io.OutputStream;
+
+public class User extends AbstractResource{
+
+    private final Integer id;
 
     private final String name;
 
@@ -10,7 +16,7 @@ public class User{
     private final String birthday;
     private final String gender;
 
-    public User(int id, String name, String surname, String birthday, String gender) {
+    public User(Integer id, String name, String surname, String birthday, String gender) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -18,7 +24,7 @@ public class User{
         this.gender = gender;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -38,4 +44,14 @@ public class User{
         return gender;
     }
 
+    @Override
+    protected void writeJSON(OutputStream out) throws Exception {
+        final JsonGenerator jg = JSON_FACTORY.createGenerator(out);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode rootNode = objectMapper.createObjectNode();
+        rootNode.set("user",objectMapper.valueToTree(this));
+        jg.writeString(objectMapper.writeValueAsString(rootNode));
+        jg.flush();
+    }
 }
