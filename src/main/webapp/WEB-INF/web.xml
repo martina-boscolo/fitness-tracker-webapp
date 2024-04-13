@@ -12,16 +12,6 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>GetUserById</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.user.GetUserByIdServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>GetUserById</servlet-name>
-        <url-pattern>/getuserbyid</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>RestManagerServlet</servlet-name>
         <servlet-class>it.unipd.dei.cyclek.servlet.RestDispatcherServlet</servlet-class>
     </servlet>
