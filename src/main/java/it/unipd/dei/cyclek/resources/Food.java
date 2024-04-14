@@ -7,9 +7,13 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class Food  extends AbstractResource{
-    private int id;         //food identificator
-
-    public Food(int id, String fdnm, int kcal, int fats, int carbs, int prot) {
+    private Integer id;         //food identificator
+    private String fdnm;    //food name
+    private int kcal;       //number of Calories for 100g of food
+    private int fats;       //grams of fats for 100g of food
+    private int carbs;      //grams of carbs for 100g of food
+    private int prot;       //grams of prot for 100g of food
+    public Food(Integer id, String fdnm, int kcal, int fats, int carbs, int prot) {
         this.id = id;
         this.fdnm = fdnm;
         this.kcal = kcal;
@@ -17,12 +21,6 @@ public class Food  extends AbstractResource{
         this.carbs = carbs;
         this.prot = prot;
     }
-
-    private String fdnm;    //food name
-    private int kcal;       //number of Calories for 100g of food
-    private int fats;       //grams of fats for 100g of food
-    private int carbs;      //grams of carbs for 100g of food
-    private int prot;       //grams of prot for 100g of food
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
         String json = new ObjectMapper()
