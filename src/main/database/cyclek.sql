@@ -34,7 +34,6 @@ CREATE TABLE foods (
 CREATE TABLE meal (
     id           SERIAL PRIMARY KEY,
     id_user      INTEGER NOT NULL REFERENCES users (id),
-    id_meal      INT NOT NULL,
     day          DATE NOT NULL,
     meal         VARCHAR(50) NOT NULL
 );
