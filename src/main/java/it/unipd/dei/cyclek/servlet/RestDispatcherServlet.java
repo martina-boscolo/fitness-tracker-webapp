@@ -22,7 +22,7 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
 
         try {
 
-            // if the requested resource was an Employee, delegate its processing and return
+            // if the requested resource was a user, delegate its processing and return
             if (processUser(req, res, getConnection())) {
                 return;
             }

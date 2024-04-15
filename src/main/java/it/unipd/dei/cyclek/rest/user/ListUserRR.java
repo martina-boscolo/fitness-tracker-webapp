@@ -1,4 +1,4 @@
-package it.unipd.dei.cyclek.rest;
+package it.unipd.dei.cyclek.rest.user;
 
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
@@ -6,6 +6,7 @@ import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.ResourceList;
 import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListUserRR extends AbstractRR{
+public class ListUserRR extends AbstractRR {
     public ListUserRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_USER, req, res, con);
     }
