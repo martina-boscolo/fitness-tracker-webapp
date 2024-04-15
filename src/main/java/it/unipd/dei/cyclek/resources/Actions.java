@@ -11,6 +11,7 @@ public final class Actions {
      */
     public static final String SEARCH_USER_BY_ID = "SEARCH_USER_BY_ID";
     public static final String LIST_USER = "LIST_USER";
+    public static final String ADD_USER = "ADD_USER";
 
     /**
      * This class can be neither instantiated nor sub-classed.

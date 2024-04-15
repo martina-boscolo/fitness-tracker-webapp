@@ -14,6 +14,7 @@ import static it.unipd.dei.cyclek.service.UserService.processUser;
 public class RestDispatcherServlet extends AbstractDatabaseServlet{
     private static final String JSON_UTF_8_MEDIA_TYPE = "application/json; charset=utf-8";
 
+    @Override
     protected void service(final HttpServletRequest req, final HttpServletResponse res) throws IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());

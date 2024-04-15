@@ -4,7 +4,11 @@ import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.User;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class RegisterUserDAO extends AbstractDAO<User> {
 
@@ -23,12 +27,14 @@ public class RegisterUserDAO extends AbstractDAO<User> {
         try (PreparedStatement stmnt = con.prepareStatement(QUERY)) {
             stmnt.setString(1, user.getName());
             stmnt.setString(2, user.getSurname());
-            stmnt.setString(3, user.getBirthday());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            stmnt.setDate(3, new Date(format.parse(user.getBirthday()).getTime()));
             stmnt.setString(4, user.getGender());
             stmnt.setString(5, user.getUsername());
             stmnt.setString(6, user.getPassword());
             stmnt.execute();
             LOGGER.info("User registered {}.", user.getUsername());
         }
+        this.outputParam = user;
     }
 }

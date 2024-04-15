@@ -31,7 +31,7 @@ public class ListUserRR extends AbstractRR {
             ul = new GetUserDAO(con, user).access().getOutputParam();
 
             if (ul != null) {
-                LOGGER.info("Employee(s) successfully listed.");
+                LOGGER.info("User(s) successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ul).toJSON(res.getOutputStream());

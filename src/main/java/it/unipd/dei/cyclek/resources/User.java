@@ -1,24 +1,24 @@
 package it.unipd.dei.cyclek.resources;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 public class User extends AbstractResource{
 
-    private final Integer id;
-    private final String name;
-    private final String surname;
-    private final String birthday;
-    private final String gender;
-    private final String username;
-    private final String password;
+    private Integer id;
+    private String name;
+    private String surname;
+    private String birthday;
+    private String gender;
+    private String username;
+    private String password;
+
+    public User() {}
 
     public User(Integer id, String name, String surname, String birthday, String gender, String username, String password) {
         this.id = id;
@@ -48,7 +48,6 @@ public class User extends AbstractResource{
     public String getGender() {
         return gender;
     }
-
     public String getUsername() {  return username; }
     public String getPassword() { return password; }
 
@@ -60,5 +59,10 @@ public class User extends AbstractResource{
                 .writer().withRootName("user")
                 .writeValueAsString(this);
         out.write(json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static User fromJSON(final InputStream in) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(in, User.class);
     }
 }

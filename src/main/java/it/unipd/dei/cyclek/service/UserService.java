@@ -29,6 +29,7 @@ public class UserService extends AbstractService{
                     break;
                 case "POST":
                     new RegisterUser(req, res, con).serve();
+                    break;
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }
