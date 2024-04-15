@@ -56,12 +56,18 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
                 sql+=" and proteins =?";
             pstmt = con.prepareStatement(sql);
             int i = 1;
-            pstmt.setInt(i++, id);
-            pstmt.setString(i++, fdnm);
-            pstmt.setInt(i++, kcal);
-            pstmt.setInt(i++, fats);
-            pstmt.setInt(i++, carbs);
-            pstmt.setInt(i++, prot);
+            if (id != null)
+                pstmt.setInt(i++, id);
+            if (StringUtils.isNotBlank(fdnm.trim()))
+                pstmt.setString(i++, fdnm);
+            if (kcal!=0)
+                pstmt.setInt(i++, kcal);
+            if (fats != 0)
+                pstmt.setInt(i++, fats);
+            if (carbs != 0)
+                pstmt.setInt(i++, carbs);
+            if(prot != 0)
+                pstmt.setInt(i++, prot);
             rs = pstmt.executeQuery();
             while (rs.next())
             {
