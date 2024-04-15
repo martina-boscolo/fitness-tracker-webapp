@@ -29,6 +29,13 @@ public class User extends AbstractResource{
         this.username = username;
         this.password = password;
     }
+
+    //used for the login
+    public User(Integer id, String username, String password){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
     public Integer getId() {
         return id;
     }

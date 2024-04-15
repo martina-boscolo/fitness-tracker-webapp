@@ -13,7 +13,7 @@ import java.util.Locale;
 public class RegisterUserDAO extends AbstractDAO<User> {
 
     private static final String QUERY = "INSERT INTO users (name, surname, birthday, gender, username, password) " +
-            "                            VALUES (?, ?, ?, ?, ?, ?)";
+            "                            VALUES (?, ?, ?, ?, ?, ?);";
 
 
     private final User user;
