@@ -12,11 +12,10 @@ import org.postgresql.util.PSQLException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 
-public class RegisterUser extends AbstractRR {
+public class RegisterUserRR extends AbstractRR {
 
-    public RegisterUser(HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public RegisterUserRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.ADD_USER, req, res, con);
     }
     @Override
