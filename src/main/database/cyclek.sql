@@ -76,7 +76,7 @@ CREATE TABLE exercise (
 );
 
 
---Drop table posts, comments, likes_dislikes;
+--Drop table posts, comments, likes;
 --create the posts table
 CREATE TABLE posts
 (
@@ -84,21 +84,20 @@ CREATE TABLE posts
     id_user         INTEGER NOT NULL REFERENCES users (id),
     text_content    TEXT NOT NULL,
     image_path      TEXT, -- images should be stored in the filesystem
-    like_count      INTEGER   DEFAULT 0,
-    dislike_count   INTEGER   DEFAULT 0,
-    comment_count   INTEGER   DEFAULT 0,
-    post_date       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    like_count      INTEGER NOT NULL DEFAULT 0,
+    comment_count   INTEGER NOT NULL DEFAULT 0,
+    post_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
---create the likes_dislikes table
-CREATE TABLE likes_dislikes
+--create the likes table
+CREATE TABLE likes
 (
     id          SERIAL PRIMARY KEY,
     id_user     INTEGER NOT NULL REFERENCES users (id),
     id_post     INTEGER NOT NULL REFERENCES posts (id),
     is_like     BOOLEAN NOT NULL,
 
-    CONSTRAINT unique_post_user_combination UNIQUE (id_post, id_user) -- only like or dislike on the same post by the same user
+    CONSTRAINT unique_post_user_combination UNIQUE (id_post, id_user) -- only one like on the same post by the same user
 );
 
 --create the comments table
@@ -140,7 +139,7 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00'),
     (1, 78, 175, 13.6, 23.5, '2024-04-09 09:43:00');
 
-INSERT INTO posts (id_user, text_content, image_path, like_count, dislike_count, comment_count, post_date)
+INSERT INTO posts (id_user, text_content, image_path, like_count, comment_count, post_date)
 VALUES
     (1, 'Just finished a 5-mile run! Feeling great!', '/fitness/images/run.jpg', 10, 2, 5, '2024-04-07 08:30:00'),
     (2, 'Leg day at the gym was intense!', '/fitness/images/legday.jpg', 15, 1, 8, '2024-04-06 17:45:00'),
@@ -149,7 +148,7 @@ VALUES
     (2, 'Back to the gym after a long break 💪', '/fitness/images/gym.jpg', 30, 5, 15, '2024-04-03 18:00:00');
 
 
-INSERT INTO likes_dislikes (id_user, id_post, is_like)
+INSERT INTO likes (id_user, id_post, is_like)
 VALUES
     (1, 1, TRUE),
     (2, 1, TRUE),
@@ -179,3 +178,4 @@ VALUES
 INSERT INTO exercise(exercise_name, description, exercise_equipment, id_category)
     VALUES
         ('squat','this is a description1','Barbell',1)
+
