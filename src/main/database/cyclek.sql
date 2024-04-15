@@ -9,13 +9,7 @@ CREATE TABLE users (
     name        VARCHAR(50) NOT NULL,
     surname     VARCHAR(50) NOT NULL,
     birthday    DATE        NOT NULL,
-    gender      VARCHAR(1)
-);
-
--- Create the login table
-CREATE TABLE login (
-    id          SERIAL PRIMARY KEY,
-    id_user     INTEGER NOT NULL REFERENCES users (id),
+    gender      VARCHAR(1),
     username    VARCHAR(50) NOT NULL,
     password    VARCHAR(50) NOT NULL
 );
@@ -113,15 +107,10 @@ CREATE TABLE comments
 
 --insert basic data in the tables
 -- Insert some sample data for testing
-INSERT INTO users (name, surname, birthday, gender)
-VALUES ('Paolo', 'Rossi', '1995-10-08', 'M'),
-       ('Paolo', 'Bianchi', '1995-10-08', 'M'),
-       ('Lucia', 'Rossi', '1995-10-08', 'F');
-
-INSERT INTO login (id_user, username, password)
-VALUES (1, 'user1', 'password1'),
-       (2, 'user2', 'password2'),
-       (3, 'user3', 'password3');
+INSERT INTO users (name, surname, birthday, gender, username, password)
+VALUES ('Paolo', 'Rossi', '1995-10-08', 'M', 'user1', '1234'),
+       ('Paolo', 'Bianchi', '1995-10-08', 'M', 'user2', '1234'),
+       ('Lucia', 'Rossi', '1995-10-08', 'F', 'user3', '1234');
 
 INSERT INTO foods (fdnm, kcal, fats, carbohydrates, proteins)
 VALUES ('Pollo', 239, 14, 0, 27),

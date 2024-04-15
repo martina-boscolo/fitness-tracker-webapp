@@ -13,21 +13,22 @@ import java.nio.charset.StandardCharsets;
 public class User extends AbstractResource{
 
     private final Integer id;
-
     private final String name;
-
     private final String surname;
     private final String birthday;
     private final String gender;
+    private final String username;
+    private final String password;
 
-    public User(Integer id, String name, String surname, String birthday, String gender) {
+    public User(Integer id, String name, String surname, String birthday, String gender, String username, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthday = birthday;
         this.gender = gender;
+        this.username = username;
+        this.password = password;
     }
-
     public Integer getId() {
         return id;
     }
@@ -47,6 +48,9 @@ public class User extends AbstractResource{
     public String getGender() {
         return gender;
     }
+
+    public String getUsername() {  return username; }
+    public String getPassword() { return password; }
 
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
