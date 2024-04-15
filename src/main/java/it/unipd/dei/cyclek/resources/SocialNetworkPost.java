@@ -10,7 +10,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, dislike count, comment count, and post date.
+ * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, comment count, and post date.
+ *
+ * @author Martina Boscolo Bacheto
+ *
  */
 public class SocialNetworkPost {
 

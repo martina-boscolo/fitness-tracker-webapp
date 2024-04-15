@@ -1,7 +1,10 @@
 package it.unipd.dei.cyclek.resources;
 
 /**
- * Represents a like or dislike action on a social network post with various attributes such as like/dislike ID, user ID, post ID, and whether it's a like or dislike.
+ * Represents a like action on a social network post
+ *
+ * @author Martina Boscolo Bacheto
+ * 
  */
 public class Like {
     private final int likeId;
@@ -15,7 +18,7 @@ public class Like {
      * @param likeDislikeId the ID of the like/dislike
      * @param userId        the ID of the user who made the like/dislike
      * @param postId        the ID of the post that was liked/disliked
-     * @param isLike        whether the action was a like (true) or dislike (false)
+     * @param isLike        whether the action was a like
      */
     public Like(int likeDislikeId, int userId, int postId, boolean isLike) {
         this.likeId = likeDislikeId;
@@ -25,9 +28,9 @@ public class Like {
     }
 
     /**
-     * Returns the ID of the like/dislike.
+     * Returns the ID of the like.
      *
-     * @return the ID of the like/dislike
+     * @return the ID of the like
      */
     public int getLikeId() {
         return likeId;
@@ -35,7 +38,7 @@ public class Like {
 
 
     /**
-     * Returns the ID of the user who made the like/dislike.
+     * Returns the ID of the user who made the like.
      *
      * @return the ID of the user
      */
@@ -45,7 +48,7 @@ public class Like {
 
 
     /**
-     * Returns the ID of the post that was liked/disliked.
+     * Returns the ID of the post that was liked.
      *
      * @return the ID of the post
      */
@@ -55,9 +58,9 @@ public class Like {
 
 
     /**
-     * Returns whether the action was a like or dislike.
+     * Returns whether the action was a like.
      *
-     * @return true if the action was a like, false if it was a dislike
+     * @return true if the action was a like
      */
     public boolean isLike() {
         return isLike;

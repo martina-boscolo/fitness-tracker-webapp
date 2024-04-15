@@ -5,6 +5,9 @@ import jakarta.json.JsonObject;
 
 /**
  * Represents a comment on a social network post with various attributes such as comment ID, post ID, user ID, comment text, and comment date.
+ *
+ * @author Martina Boscolo Bacheto
+ *
  */
 public class Comment {
     private final int commentId;

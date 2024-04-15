@@ -4,13 +4,15 @@ import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 /**
  * This class handles the creation of a new social network post in the database.
+ *
+ * @author Martina Boscolo Bacheto
+ *
  */
 public class CreateSocialNetworkPostDAO extends AbstractDAO {
 
