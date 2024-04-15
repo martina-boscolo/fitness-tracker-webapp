@@ -1,21 +1,30 @@
 package it.unipd.dei.cyclek.resources;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import jakarta.json.*;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
+import static it.unipd.dei.cyclek.resources.AbstractResource.JSON_FACTORY;
+
 /**
  * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, comment count, and post date.
  *
  * @author Martina Boscolo Bacheto
- *
  */
-public class SocialNetworkPost {
+public class SocialNetworkPost extends AbstractResource {
 
     private final int postId;
     private final int userId;
@@ -28,13 +37,13 @@ public class SocialNetworkPost {
     /**
      * Constructs a new SocialNetworkPost with the given attributes.
      *
-     * @param postId the ID of the post
-     * @param userId the ID of the user who created the post
-     * @param textContent the text content of the post
-     * @param imagePath the path to the image of the post
-     * @param likeCount the number of likes the post has received
+     * @param postId       the ID of the post
+     * @param userId       the ID of the user who created the post
+     * @param textContent  the text content of the post
+     * @param imagePath    the path to the image of the post
+     * @param likeCount    the number of likes the post has received
      * @param commentCount the number of comments the post has received
-     * @param postDate the date the post was created
+     * @param postDate     the date the post was created
      */
     public SocialNetworkPost(int postId, int userId, String textContent, String imagePath, int likeCount, int commentCount, Timestamp postDate) {
         this.postId = postId;
@@ -56,7 +65,6 @@ public class SocialNetworkPost {
     }
 
 
-
     /**
      * Returns the ID of the user who created the post.
      *
@@ -65,7 +73,6 @@ public class SocialNetworkPost {
     public int getUserId() {
         return userId;
     }
-
 
 
     /**
@@ -78,7 +85,6 @@ public class SocialNetworkPost {
     }
 
 
-
     /**
      * Returns the path to the image of the post.
      *
@@ -87,7 +93,6 @@ public class SocialNetworkPost {
     public String getImagePath() {
         return imagePath;
     }
-
 
 
     /**
@@ -100,7 +105,6 @@ public class SocialNetworkPost {
     }
 
 
-
     /**
      * Returns the number of comments the post has received.
      *
@@ -109,7 +113,6 @@ public class SocialNetworkPost {
     public int getCommentCount() {
         return commentCount;
     }
-
 
 
     /**
@@ -122,4 +125,105 @@ public class SocialNetworkPost {
     }
 
 
+    @Override
+    protected final void writeJSON(final OutputStream out) throws IOException {
+
+        final JsonGenerator jg = JSON_FACTORY.createGenerator(out);
+
+        jg.writeStartObject();
+
+        jg.writeFieldName("socialNetworkPost");
+
+        jg.writeStartObject();
+
+        jg.writeNumberField("postId", postId);
+
+        jg.writeNumberField("userId", userId);
+
+        jg.writeStringField("textContent", textContent);
+
+        jg.writeStringField("imagePath", imagePath);
+
+        jg.writeNumberField("likeCount", likeCount);
+
+        jg.writeNumberField("commentCount", commentCount);
+
+        jg.writeStringField("postDate", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(postDate));
+
+        jg.writeEndObject();
+
+        jg.writeEndObject();
+
+        jg.flush();
+    }
+
+
+    public static SocialNetworkPost fromJSON(final InputStream in) throws IOException {
+
+        // the fields read from JSON
+        int jPostId = -1;
+        int jUserId = -1;
+        String jTextContent = null;
+        String jImagePath = null;
+        int jLikeCount = -1;
+        int jCommentCount = -1;
+        Timestamp jPostDate = null;
+
+
+        try {
+            final JsonParser jp = JSON_FACTORY.createParser(in);
+
+            // while we are not on the start of an element or the element is not
+            // a token element, advance to the next element (if any)
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"socialNetworkPost".equals(jp.getCurrentName())) {
+
+                // there are no more events
+                if (jp.nextToken() == null) {
+                    LOGGER.error("No Social Network Post object found in the stream.");
+                    throw new EOFException("Unable to parse JSON: no Social Network Post object found.");
+                }
+            }
+
+            while (jp.nextToken() != JsonToken.END_OBJECT) {
+
+                if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
+
+                    switch (jp.getCurrentName()) {
+                        case "postId":
+                            jp.nextToken();
+                            jPostId = jp.getIntValue();
+                            break;
+                        case "userId":
+                            jp.nextToken();
+                            jUserId = jp.getIntValue();
+                            break;
+                        case "textContent":
+                            jp.nextToken();
+                            jTextContent = jp.getText();
+                            break;
+                        case "imagePath":
+                            jp.nextToken();
+                            jImagePath = jp.getText();
+                            break;
+                        case "likeCount":
+                            jp.nextToken();
+                            jLikeCount = jp.getIntValue();
+                            break;
+                        case "commentCount":
+                            jp.nextToken();
+                            jCommentCount = jp.getIntValue();
+                            break;
+                        case "postDate":
+                            jp.nextToken();
+                            jPostDate = Timestamp.valueOf(jp.getText());
+                            break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.error("Unable to parse an Social Network Post object from JSON.", e);
+            throw e;
+        }
+        return new SocialNetworkPost(jPostId, jUserId, jTextContent, jImagePath, jLikeCount, jCommentCount, jPostDate);
+    }
 }

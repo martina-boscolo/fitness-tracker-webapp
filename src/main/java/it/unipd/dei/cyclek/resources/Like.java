@@ -1,12 +1,21 @@
 package it.unipd.dei.cyclek.resources;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
  * Represents a like action on a social network post
  *
  * @author Martina Boscolo Bacheto
- * 
+ *
  */
-public class Like {
+public class Like extends AbstractResource {
     private final int likeId;
     private final int userId;
     private final int postId;
@@ -64,6 +73,90 @@ public class Like {
      */
     public boolean isLike() {
         return isLike;
+    }
+
+    @Override
+    protected final void writeJSON(final OutputStream out) throws IOException {
+
+        final JsonGenerator jg = JSON_FACTORY.createGenerator(out);
+
+        jg.writeStartObject();
+
+        jg.writeFieldName("socialNetworkPost");
+
+        jg.writeStartObject();
+
+        jg.writeNumberField("likeId", likeId);
+
+        jg.writeNumberField("postId", postId);
+
+        jg.writeNumberField("userId", userId);
+
+        jg.writeBooleanField("isLike", isLike);
+
+        jg.writeEndObject();
+
+        jg.writeEndObject();
+
+        jg.flush();
+    }
+
+
+    public static Like fromJSON(final InputStream in) throws IOException {
+
+        // the fields read from JSON
+        int jLikeId = -1;
+        int jPostId = -1;
+        int jUserId = -1;
+        boolean jIsLike = false;
+
+
+
+        try {
+            final JsonParser jp = JSON_FACTORY.createParser(in);
+
+            // while we are not on the start of an element or the element is not
+            // a token element, advance to the next element (if any)
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"like".equals(jp.getCurrentName())) {
+
+                // there are no more events
+                if (jp.nextToken() == null) {
+                    LOGGER.error("No like object found in the stream.");
+                    throw new EOFException("Unable to parse JSON: no like object found.");
+                }
+            }
+
+            while (jp.nextToken() != JsonToken.END_OBJECT) {
+
+                if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
+
+                    switch (jp.getCurrentName()) {
+                        case "likeId":
+                            jp.nextToken();
+                            jLikeId = jp.getIntValue();
+                            break;
+                        case "postId":
+                            jp.nextToken();
+                            jPostId = jp.getIntValue();
+                            break;
+                        case "userId":
+                            jp.nextToken();
+                            jUserId = jp.getIntValue();
+                            break;
+                        case "isLike":
+                            jp.nextToken();
+                            jIsLike = jp.getBooleanValue();
+                            break;
+
+
+                    }
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.error("Unable to parse a Like object from JSON.", e);
+            throw e;
+        }
+        return new Like(jLikeId, jPostId, jUserId, jIsLike);
     }
 
 
