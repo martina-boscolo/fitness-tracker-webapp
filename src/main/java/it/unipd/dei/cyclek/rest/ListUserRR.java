@@ -21,15 +21,11 @@ public class ListUserRR extends AbstractRR{
 
     @Override
     protected void doServe() throws IOException {
-        List<User> ul = null;
-        Message m = null;
+        List<User> ul;
+        Message m;
 
         try {
-
-            String path = req.getRequestURI();
-
-            User user = new User(null,"","","","");
-
+            User user = new User(null,"","","","", "", "");
             // creates a new DAO for accessing the database and lists the employee(s)
             ul = new GetUserDAO(con, user).access().getOutputParam();
 
@@ -39,16 +35,14 @@ public class ListUserRR extends AbstractRR{
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ul).toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while listing employee(s).");
-
-                m = new Message("Cannot list employee(s): unexpected error.", "E5A1", null);
+                LOGGER.error("Fatal error while listing user(s).");
+                m = new Message("Cannot list user(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list employee(s): unexpected database error.", ex);
-
-            m = new Message("Cannot list employee(s): unexpected database error.", "E5A1", ex.getMessage());
+            LOGGER.error("Cannot list user(s): unexpected database error.", ex);
+            m = new Message("Cannot list user(s): unexpected database error.", "E5A1", ex.getMessage());
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }
