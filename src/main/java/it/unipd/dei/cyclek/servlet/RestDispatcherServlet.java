@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static it.unipd.dei.cyclek.service.DietService.processDiet;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
 
@@ -23,9 +24,11 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
         try {
 
             // if the requested resource was an Employee, delegate its processing and return
-            if (processUser(req, res, getConnection())) {
+            if (processUser(req, res, getConnection()))
                 return;
-            }
+            if(processDiet(req, res, getConnection()))
+                return;
+
 
             // if none of the above process methods succeeds, it means an unknown resource has been requested
             LOGGER.warn("Unknown resource requested: %s.", req.getRequestURI());

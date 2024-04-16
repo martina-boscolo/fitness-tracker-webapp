@@ -3,7 +3,6 @@ package it.unipd.dei.cyclek.resources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.json.Json;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -55,12 +54,4 @@ public class Diet extends AbstractResource {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(in, Diet.class);
     }
-
-
-
-
-
-
-
-
 }

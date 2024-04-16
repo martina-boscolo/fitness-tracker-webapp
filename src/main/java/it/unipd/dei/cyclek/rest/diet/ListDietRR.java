@@ -5,7 +5,6 @@ import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ public class ListDietRR extends AbstractRR {
     }
     @Override
     protected void doServe() throws IOException {
-        List<Diet> ul = null;
+        List<Diet> dl = null;
         Message m = null;
 
         try {
@@ -28,13 +27,13 @@ public class ListDietRR extends AbstractRR {
             Diet diet = new Diet(null,null,"",null);
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            ul = new GetDietDAO(con, diet).access().getOutputParam();
+            dl = new GetDietDAO(con, diet).access().getOutputParam();
 
-            if (ul != null) {
+            if (dl != null) {
                 LOGGER.info("Diet(s) successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList<>(ul).toJSON(res.getOutputStream());
+                new ResourceList<>(dl).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing diet(s).");
 

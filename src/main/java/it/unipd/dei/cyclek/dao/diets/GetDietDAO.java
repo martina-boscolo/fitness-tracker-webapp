@@ -1,7 +1,6 @@
 package it.unipd.dei.cyclek.dao.diets;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Diet;
 import jakarta.json.Json;
@@ -23,7 +22,7 @@ public GetDietDAO(Connection con, Diet diet){
 }
 
 @Override
-protected final void doAccess() throws SQLException, JsonProcessingException {
+protected final void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -39,7 +38,7 @@ protected final void doAccess() throws SQLException, JsonProcessingException {
                 sb.append("and idUser = ").append(diet.getDiet());
             if (!diet.getPlanName().isEmpty())
                 sb.append("and planName = ").append(diet.getPlanName());
-            if (diet.getDiet().toString().equals("{}"))
+            if (diet.getDiet() != null)
                 sb.append("and diet = ").append(diet.getDiet());
 
 
