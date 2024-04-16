@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static it.unipd.dei.cyclek.service.BodyStatsService.processBodyStats;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
 
@@ -24,6 +25,9 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
 
             // if the requested resource was an Employee, delegate its processing and return
             if (processUser(req, res, getConnection())) {
+                return;
+            }
+            if (processBodyStats(req, res, getConnection())) {
                 return;
             }
 

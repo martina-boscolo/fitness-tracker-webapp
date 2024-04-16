@@ -48,15 +48,15 @@ CREATE TABLE dietplans (
 );
 
 --create table for body statistics
-CREATE TABLE body_stats
+CREATE TABLE bodyStats
 (
     id          SERIAL PRIMARY KEY,
-    id_user     INTEGER NOT NULL REFERENCES users (id),
+    idUser     INTEGER NOT NULL REFERENCES users (id),
     weight      FLOAT NOT NULL,
     height      FLOAT NOT NULL,
     fatty       FLOAT NOT NULL,
     lean        FLOAT NOT NULL,
-    stats_date  DATE NOT NULL
+    statsDate  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -132,7 +132,7 @@ INSERT INTO dietplans (id_user, plan_name, diet)
 VALUES
     (2, 'Eman', '{"Monday":{"Breakfast":{"Scrambledeggs":150,"Spinach":50,"Wholegraintoast":50},"Lunch":{"Quinoa":100,"Mixedvegetables":{"bellpeppers":50,"cucumber":50,"tomato":50},"Grilledchicken":150},"Dinner":{"Salmon":150,"Broccoli":100,"Brownrice":100}},"Tuesday":{"Breakfast":{"Greekyogurt":150,"Strawberries":100,"Granola":30},"Lunch":{"Turkey":100,"Avocado":50,"Lettuce":50,"Tomato":50,"Carrotsticks":100},"Dinner":{"Kidneybeans":100,"Corn":100,"Bellpeppers":50,"Wholegraingarlicbread":50}},"Wednesday":{"Breakfast":{"Oatmeal":150,"Banana":100,"Honey":15},"Lunch":{"Grilledvegetables":{"zucchini":100,"eggplant":100,"redonion":50,"roastedredpepper":50},"Salad":150},"Dinner":{"Leanbeef":150,"Broccoli":100,"Bellpeppers":50,"Snappeas":50,"Brownrice":100}},"Thursday":{"Breakfast":{"Spinach":50,"Banana":100,"Almondmilk":150,"Proteinpowder":30},"Lunch":{"Quinoa":100,"Bellpeppers":50,"Blackbeans":100,"Corn":100,"Tomatoes":50,"Cheese":50},"Dinner":{"Chickenbreast":150,"Sweetpotatoes":150,"Greenbeans":100}},"Friday":{"Breakfast":{"Wholegraintoast":50,"Avocado":50,"Boiledeggs":100},"Lunch":{"Tuna":100,"Mixedgreens":100,"Cherrytomatoes":50,"Balsamicvinaigrettedressing":30},"Dinner":{"Tofu":150,"Broccoli":100,"Carrots":50,"Snowpeas":50,"Quinoa":100}},"Saturday":{"Breakfast":{"Wholewheatpancakes":100,"Berries":100,"Maplesyrup":30},"Lunch":{"Grilledshrimp":150,"Mixedgreens":100,"Cucumber":50,"Citrusvinaigrettedressing":30},"Dinner":{"Spaghettisquash":200,"Turkeymeatballs":150,"Asparagus":100}},"Sunday":{"Breakfast":{"Veggieomelette":150,"Mushrooms":50,"Onions":50,"Bellpeppers":50,"Cheese":50},"Lunch":{"Lentilsoup":200,"Carrots":50,"Celery":50,"Tomatoes":50,"Wholegraincrackers":50},"Dinner":{"Tilapia":150,"Brusselssprouts":100,"Quinoapilaf":100}}}');
 
-INSERT INTO body_stats (id_user, weight, height, fatty, lean, stats_date)
+INSERT INTO bodyStats (idUser, weight, height, fatty, lean, statsDate)
 VALUES
     (1, 82, 175, 14.8, 20, '2024-01-02 08:30:00'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),
