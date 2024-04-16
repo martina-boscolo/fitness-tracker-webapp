@@ -10,7 +10,7 @@ import it.unipd.dei.cyclek.resources.User;
 
 public class LoginUserDAO extends AbstractDAO<User> {
 
-    private static final String  QUERY = "SELECT id, username, password FROM users WHERE username=? AND password=?;";
+    private static final String QUERY = "SELECT id, username, password FROM users WHERE username=? AND password=?;";
     private final User user;
 
     public LoginUserDAO(final Connection con, final User user) {
@@ -22,8 +22,8 @@ public class LoginUserDAO extends AbstractDAO<User> {
     protected void doAccess() throws Exception {
         PreparedStatement stmnt = null;
         ResultSet rs = null;
-
         User userResult = null;
+
         try {
             stmnt = con.prepareStatement(QUERY);
             stmnt.setString(1, user.getUsername());
@@ -32,13 +32,12 @@ public class LoginUserDAO extends AbstractDAO<User> {
 
             if(rs.next()) {
                 userResult = new User(
-                        rs.getInt("id"),
                         rs.getString("username"),
                         rs.getString("password")
                 );
                 LOGGER.info("User logged in {}.", userResult.getUsername());
             } else
-                LOGGER.error("error logging in the user {}",user.getUsername());
+                LOGGER.error("error logging in the user {}", user.getUsername());
         } finally {
             if (rs != null)
                 rs.close();

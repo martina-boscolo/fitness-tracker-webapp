@@ -31,30 +31,23 @@ public class User extends AbstractResource{
     }
 
     //used for the login
-    public User(Integer id, String username, String password){
-        this.id = id;
+    public User(String username, String password){
         this.username = username;
         this.password = password;
     }
     public Integer getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public String getSurname() {
         return surname;
     }
-
     public String getBirthday() {
         return birthday;
     }
-
-    public String getGender() {
-        return gender;
-    }
+    public String getGender() { return gender; }
     public String getUsername() {  return username; }
     public String getPassword() { return password; }
 

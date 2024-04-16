@@ -32,7 +32,6 @@ public class ListUserRR extends AbstractRR {
 
             if (ul != null) {
                 LOGGER.info("User(s) successfully listed.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ul).toJSON(res.getOutputStream());
             } else { // it should not happen

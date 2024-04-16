@@ -21,7 +21,7 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
     }
 
     @Override
-    protected final void doAccess() throws SQLException {
+    protected final void doAccess() throws Exception {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
