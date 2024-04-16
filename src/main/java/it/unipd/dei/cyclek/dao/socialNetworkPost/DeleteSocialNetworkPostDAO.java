@@ -1,9 +1,11 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
+import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -13,12 +15,12 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  *
  */
-public class DeleteSocialNetworkPostDAO extends AbstractDAO {
+public class DeleteSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
 
     /**
      * SQL statement to delete a social network post from the database.
      */
-    private static final String STATEMENT = "DELETE FROM cyclek.public.social_network_posts WHERE id = ? ";
+    private static final String STATEMENT = "DELETE FROM posts WHERE id = ? RETURNING * ";
 
     /**
      * The post ID to be deleted.
@@ -50,16 +52,33 @@ public class DeleteSocialNetworkPostDAO extends AbstractDAO {
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        // the deleted employee
+        SocialNetworkPost e = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, postId);
-            pstmt.executeUpdate();
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                e = new SocialNetworkPost(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
+                        rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
+                        rs.getTimestamp("post_date"));
+
+                LOGGER.info("Post %d successfully deleted from the database.", e.getPostId());
+            }
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
+
             if (pstmt != null) {
                 pstmt.close();
             }
+
         }
 
+        outputParam = e;
     }
 }

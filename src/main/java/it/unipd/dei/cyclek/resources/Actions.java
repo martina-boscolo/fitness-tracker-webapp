@@ -16,6 +16,14 @@ public final class Actions {
 
     public static final String LIST_POSTS = "LIST_POSTS";
 
+    public static final String DELETE_POST = "DELETE_POST";
+
+    public static final String GET_POST_BY_ID = "GET_POST_BY_ID";
+
+    public static final String UPDATE_POST = "UPDATE_POST";
+
+    public static final String LIST_POST = "LIST_POST";
+
     /**
      * This class can be neither instantiated nor sub-classed.
      */

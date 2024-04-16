@@ -5,6 +5,7 @@ import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -14,9 +15,9 @@ import java.time.LocalDateTime;
  * @author Martina Boscolo Bacheto
  *
  */
-public class CreateSocialNetworkPostDAO extends AbstractDAO {
+public class CreateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
 
-    private static final String STATEMENT = "INSERT INTO cyclek.public.posts (id_user, text_content, image_path, like_count, comment_count, post_date) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, image_path, like_count, comment_count, post_date) VALUES ( ?, ?, ?, ?, ?, ?) RETURNING * ";
     private final SocialNetworkPost socialNetworkPost;
 
     /**
@@ -43,6 +44,9 @@ public class CreateSocialNetworkPostDAO extends AbstractDAO {
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        SocialNetworkPost e = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -53,12 +57,24 @@ public class CreateSocialNetworkPostDAO extends AbstractDAO {
             pstmt.setInt(5, socialNetworkPost.getCommentCount());
             pstmt.setTimestamp(6, java.sql.Timestamp.valueOf(LocalDateTime.now()));
 
-            pstmt.executeUpdate();
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                e = new SocialNetworkPost(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
+                        rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
+                        rs.getTimestamp("post_date"));
+                LOGGER.info("Post %d successfully stored in the database.", e.getPostId());
+            }
         } finally {
+
+            if (rs != null) {
+                rs.close();
+            }
             if (pstmt != null) {
                 pstmt.close();
             }
         }
 
+        outputParam = e;
     }
 }

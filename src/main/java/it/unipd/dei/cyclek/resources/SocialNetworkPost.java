@@ -132,7 +132,7 @@ public class SocialNetworkPost extends AbstractResource {
 
         jg.writeStartObject();
 
-        jg.writeFieldName("socialNetworkPost");
+        jg.writeFieldName("post");
 
         jg.writeStartObject();
 
@@ -165,8 +165,8 @@ public class SocialNetworkPost extends AbstractResource {
         int jUserId = -1;
         String jTextContent = null;
         String jImagePath = null;
-        int jLikeCount = -1;
-        int jCommentCount = -1;
+        int jLikeCount = 0; //default value
+        int jCommentCount = 0; //default value
         Timestamp jPostDate = null;
 
 
@@ -175,7 +175,7 @@ public class SocialNetworkPost extends AbstractResource {
 
             // while we are not on the start of an element or the element is not
             // a token element, advance to the next element (if any)
-            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"socialNetworkPost".equals(jp.getCurrentName())) {
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"post".equals(jp.getCurrentName())) {
 
                 // there are no more events
                 if (jp.nextToken() == null) {
@@ -221,7 +221,7 @@ public class SocialNetworkPost extends AbstractResource {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to parse an Social Network Post object from JSON.", e);
+            LOGGER.error("Unable to parse a Social Network Post object from JSON.", e);
             throw e;
         }
         return new SocialNetworkPost(jPostId, jUserId, jTextContent, jImagePath, jLikeCount, jCommentCount, jPostDate);
