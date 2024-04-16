@@ -54,7 +54,7 @@ protected final void doAccess() throws SQLException {
                         rs.getInt("id"),
                         rs.getInt("idUser"),
                         rs.getString("planName"),
-                        (Json)rs.getObject("diet")
+                        rs.getString("diet")
                 ));
             }
 
