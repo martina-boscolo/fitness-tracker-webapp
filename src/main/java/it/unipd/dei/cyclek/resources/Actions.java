@@ -14,6 +14,9 @@ public final class Actions {
     public static final String LIST_BODY_STATS = "LIST_BODY_STATS";
     public static final String LIST_BODY_STATS_BY_IDUSER = "LIST_BODY_STATS_BY_IDUSER";
     public static final String CREATE_BODY_STATS = "CREATE_BODY_STATS";
+    public static final String LIST_BODY_OBJ = "LIST_BODY_OBJ";
+    public static final String LIST_BODY_OBJ_BY_IDUSER = "LIST_BODY_OBJ_BY_IDUSER";
+    public static final String CREATE_BODY_OBJ = "CREATE_BODY_OBJ";
 
     /**
      * This class can be neither instantiated nor sub-classed.

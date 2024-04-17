@@ -47,7 +47,7 @@ CREATE TABLE dietplans (
     diet        JSON NOT NULL
 );
 
---create table for body statistics
+-- Create table for body statistics
 CREATE TABLE bodyStats
 (
     id          SERIAL PRIMARY KEY,
@@ -56,7 +56,23 @@ CREATE TABLE bodyStats
     height      FLOAT NOT NULL,
     fatty       FLOAT NOT NULL,
     lean        FLOAT NOT NULL,
-    statsDate  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    statsDate   DATE DEFAULT CURRENT_DATE,
+
+    CONSTRAINT unique_daily_stats UNIQUE (idUser, statsDate)
+);
+
+-- Create table for personal objectives
+CREATE TABLE bodyObjective
+(
+    id SERIAL PRIMARY KEY,
+    idUser INTEGER NOT NULL REFERENCES users (id),
+    weight      FLOAT NOT NULL,
+    height      FLOAT NOT NULL,
+    fatty       FLOAT NOT NULL,
+    lean        FLOAT NOT NULL,
+    objDate     DATE DEFAULT CURRENT_DATE,
+
+    CONSTRAINT unique_daily_obj UNIQUE (idUser, objDate)
 );
 
 

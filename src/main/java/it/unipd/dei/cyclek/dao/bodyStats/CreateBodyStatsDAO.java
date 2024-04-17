@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class CreateBodyStatsDAO extends AbstractDAO<BodyStats>{
-    private static final String QUERY = "INSERT INTO bodyStats VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP) RETURNING *";
+    private static final String QUERY = "INSERT INTO bodyStats VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
 
     private final BodyStats bodyStats;
 

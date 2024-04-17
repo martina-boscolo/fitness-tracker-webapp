@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static it.unipd.dei.cyclek.service.BodyObjService.processBodyObj;
 import static it.unipd.dei.cyclek.service.BodyStatsService.processBodyStats;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
@@ -28,6 +29,9 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
                 return;
             }
             if (processBodyStats(req, res, getConnection())) {
+                return;
+            }
+            if (processBodyObj(req, res, getConnection())) {
                 return;
             }
 
