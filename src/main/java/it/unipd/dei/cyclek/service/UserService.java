@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.service;
 
+import it.unipd.dei.cyclek.rest.user.GetUserByIdRR;
 import it.unipd.dei.cyclek.rest.user.ListUserRR;
 import it.unipd.dei.cyclek.rest.user.LoginUserRR;
 import it.unipd.dei.cyclek.rest.user.RegisterUserRR;
@@ -17,6 +18,8 @@ public class UserService extends AbstractService{
         final String method = req.getMethod();
         String path = req.getRequestURI();
 
+
+
         // the requested resource was not a user
         if (path.lastIndexOf("rest/".concat(TABLE_NAME)) <= 0)
             return false;
@@ -32,7 +35,10 @@ public class UserService extends AbstractService{
         else if (path.equals("/login") || path.equals("/login/") && method.equals("POST"))
             new LoginUserRR(req, res, con).serve();
 
-        else {
+        else if (path.contains("id") && method.equals("GET")) {
+            new GetUserByIdRR(req, res, con).serve();
+
+        } else {
             LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             throw new UnsupportedOperationException();
         }

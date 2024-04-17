@@ -29,20 +29,24 @@ public class LoginUserRR extends AbstractRR {
             LOGGER.info("student {} is trying to login", username);
             User user = new User(username, password);
             ul = new GetUserDAO(con, user).access().getOutputParam();
-            if (ul == null || ul.size() > 1) {
+            if (ul == null) {
                 m = new Message("The User does not exist", "E200", "Missing User");
                 LOGGER.error("problems with student: {}", m.getMessage());
             }
+            else if (ul.size() > 1) {
+                m = new Message("The Db is broken", "E666", "Missing User");
+                LOGGER.error("problems with student: {}", m.getMessage());
+            }
+            //createtoken(id) -> GEDYWGYGVDe2873621
+            //toJSOnToken { GEDYWGYGVDe2873621 }
+            //decodetoken() -> 4
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
 
+        } catch (SQLException ex) {
+            LOGGER.error("Cannot log the User: unexpected database error.", ex);
+            m = new Message("Cannot log the User: unexpected database error.", "E5A1", ex.getMessage());
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m.toJSON(res.getOutputStream());
         }
     }
 }
-
-/*{
-    username : IlPazzo
-    password : Vicenza
-        }*/

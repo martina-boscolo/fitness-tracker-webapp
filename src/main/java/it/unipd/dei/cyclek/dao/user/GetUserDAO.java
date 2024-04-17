@@ -13,6 +13,7 @@ import java.util.List;
 public final class GetUserDAO extends AbstractDAO<List<User>>{
     private static final String QUERY = "SELECT * FROM users WHERE 1=1";
 
+
     private final User user;
 
     public GetUserDAO(Connection con, User user) {
@@ -21,7 +22,7 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
     }
 
     @Override
-    protected final void doAccess() throws Exception {
+    protected void doAccess() throws Exception {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -31,16 +32,21 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
         try {
             StringBuilder sb = new StringBuilder(QUERY);
 
-            if (this.user.getId() != null)
-                sb.append("and id = ").append(this.user.getId());
-            if (!this.user.getName().isEmpty())
-                sb.append("and name = ").append(this.user.getName());
-            if (!this.user.getSurname().isEmpty())
-                sb.append("and surname = ").append(this.user.getSurname());
-            if (!this.user.getBirthday().isEmpty())
-                sb.append("and birthday = ").append(this.user.getBirthday());
-            if (!this.user.getGender().isEmpty())
-                sb.append("and gender = ").append(this.user.getGender());
+            if (user.getId() != null)
+                sb.append("and id = ").append(user.getId());
+            if (!user.getName().isEmpty())
+                sb.append("and name = ").append(user.getName());
+            if (!user.getSurname().isEmpty())
+                sb.append("and surname = ").append(user.getSurname());
+            if (!user.getBirthday().isEmpty())
+                sb.append("and birthday = ").append(user.getBirthday());
+            if (!user.getGender().isEmpty())
+                sb.append("and gender = ").append(user.getGender());
+            if (!user.getUsername().isEmpty())
+                sb.append("and username = ").append(user.getUsername());
+            if (!user.getPassword().isEmpty())
+                sb.append("and password = ").append(user.getPassword());
+
 
             pstmt = con.prepareStatement(sb.toString());
             rs = pstmt.executeQuery();
