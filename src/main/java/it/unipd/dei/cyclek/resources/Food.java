@@ -2,7 +2,10 @@ package it.unipd.dei.cyclek.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import jakarta.servlet.ServletInputStream;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -21,6 +24,13 @@ public class Food  extends AbstractResource{
         this.carbs = carbs;
         this.prot = prot;
     }
+
+    public static Food fromJSON(final InputStream in) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(in, Food.class);
+    }
+
+
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
         String json = new ObjectMapper()

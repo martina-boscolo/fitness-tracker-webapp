@@ -1,16 +1,17 @@
-package it.unipd.dei.cyclek.service;
+package it.unipd.dei.cyclek.service.meal;
 
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.ListUserRR;
+import it.unipd.dei.cyclek.service.AbstractService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
 
-public class FoodService extends AbstractService{
-    private static final String TABLE_NAME = "foods";
-    public static boolean processFood(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
+public class MealService extends AbstractService {
+    private static final String TABLE_NAME = "meal";
+    public static boolean processMeal(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
 
         final String method = req.getMethod();
         String path = req.getRequestURI();
@@ -22,7 +23,7 @@ public class FoodService extends AbstractService{
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/")) {
+        if (!path.isEmpty() && path.equals("/mealService")) {
             switch (method) {
                 case "GET":
                     new ListUserRR(req, res, con).serve();

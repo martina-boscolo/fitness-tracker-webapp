@@ -1,4 +1,4 @@
-package it.unipd.dei.cyclek.dao.foodRetriever;
+package it.unipd.dei.cyclek.dao.food;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Food;

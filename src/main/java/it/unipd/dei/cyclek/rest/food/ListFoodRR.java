@@ -1,7 +1,8 @@
-package it.unipd.dei.cyclek.rest;
+package it.unipd.dei.cyclek.rest.food;
 
-import it.unipd.dei.cyclek.dao.foodRetriever.GetFoodDao;
+import it.unipd.dei.cyclek.dao.food.GetFoodDao;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,18 +11,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListFoodRR extends AbstractRR{
+public class ListFoodRR extends AbstractRR {
 
 
     /**
      * Creates a new REST resource.
      *
-     * @param action the action performed by this REST resource.
      * @param req    the HTTP request.
      * @param res    the HTTP response.
      * @param con    the connection to the database.
      */
-    protected ListFoodRR(String action, HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public ListFoodRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_FOOD, req, res, con);
     }
 
