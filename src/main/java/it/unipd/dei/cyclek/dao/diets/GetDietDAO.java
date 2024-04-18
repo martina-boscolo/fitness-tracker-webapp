@@ -33,15 +33,17 @@ protected final void doAccess() throws SQLException {
             StringBuilder sb = new StringBuilder(QUERY);
 
             if (diet.getId() != null)
-                sb.append("and id = ").append(diet.getId());
+                sb.append(" and id = ").append(diet.getId());
             if (diet.getIdUser() != null)
-                sb.append("and idUser = ").append(diet.getDiet());
+                sb.append(" and idUser = ").append(diet.getDiet());
             if (!diet.getPlanName().isEmpty())
-                sb.append("and planName = ").append(diet.getPlanName());
+                sb.append(" and planName = ").append(diet.getPlanName());
             if (diet.getDiet() != null)
-                sb.append("and diet = ").append(diet.getDiet());
+                sb.append(" and diet = ").append(diet.getDiet());
             if (!diet.getDietDate().isEmpty())
-                sb.append("and date = ").append(diet.getDietDate());
+                sb.append(" and date = ").append(diet.getDietDate());
+            if (!diet.getDietHour().isEmpty())
+                sb.append(" and hour = ").append(diet.getDietHour());
 
             pstmt = con.prepareStatement(sb.toString());
 
@@ -56,7 +58,8 @@ protected final void doAccess() throws SQLException {
                         rs.getInt("idUser"),
                         rs.getString("planName"),
                         rs.getString("diet"),
-                        rs.getString("dietDate")
+                        rs.getString("dietDate"),
+                        rs.getString("dietHour")
                 ));
             }
 

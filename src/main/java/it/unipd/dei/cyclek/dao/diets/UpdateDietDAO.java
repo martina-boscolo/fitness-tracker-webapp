@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UpdateDietDAO extends AbstractDAO<Boolean> {
 
-    public static final String QUERY = "UPDATE dietplans SET planName = ?, diet = ? WHERE idUser = ?";
+    public static final String QUERY = "UPDATE dietplans SET planName = ?, diet = ? WHERE id = ?";
 
     private final Diet diet;
 
@@ -29,7 +29,7 @@ public class UpdateDietDAO extends AbstractDAO<Boolean> {
             jsonObject.setType("json");
             jsonObject.setValue(diet.getDiet());
             pstmt.setObject(2, jsonObject);
-            pstmt.setInt(3, diet.getIdUser());
+            pstmt.setInt(3, diet.getId());
 
 
             int rowsAffected = pstmt.executeUpdate();

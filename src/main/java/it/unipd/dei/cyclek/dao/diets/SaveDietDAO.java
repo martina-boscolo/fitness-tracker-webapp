@@ -29,7 +29,6 @@ public class SaveDietDAO extends AbstractDAO<Boolean> {
             PGobject jsonObject = new PGobject();
             jsonObject.setType("json");
             jsonObject.setValue(diet.getDiet());
-            LOGGER.debug("JSON String obtained from diet.getDiet(): {}", jsonObject);
             pstmt.setObject(3, jsonObject);
 
             int rowsAffected = pstmt.executeUpdate();
