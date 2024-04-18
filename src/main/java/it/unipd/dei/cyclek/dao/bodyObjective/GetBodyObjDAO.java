@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class GetBodyObjDAO extends AbstractDAO<List<BodyObj>>{
-    private static final String QUERY = "SELECT * FROM bodyobjective WHERE 1=1 ";
+    private static final String QUERY = "SELECT * FROM bodyobjective WHERE 1=1";
 
     private final BodyObj bodyObj;
 
@@ -32,19 +32,21 @@ public final class GetBodyObjDAO extends AbstractDAO<List<BodyObj>>{
             StringBuilder sb = new StringBuilder(QUERY);
 
             if (bodyObj.getId() != null)
-                sb.append("and id = ").append(bodyObj.getId());
+                sb.append(" and id = ").append(bodyObj.getId());
             if (bodyObj.getIdUser() != null)
-                sb.append("and idUser = ").append(bodyObj.getIdUser());
+                sb.append(" and idUser = ").append(bodyObj.getIdUser());
             if (bodyObj.getWeight() != null)
-                sb.append("and weight = ").append(bodyObj.getWeight());
+                sb.append(" and weight = ").append(bodyObj.getWeight());
             if (bodyObj.getHeight() != null)
-                sb.append("and height = ").append(bodyObj.getHeight());
+                sb.append(" and height = ").append(bodyObj.getHeight());
             if (bodyObj.getFatty() != null)
-                sb.append("and fatty = ").append(bodyObj.getFatty());
+                sb.append(" and fatty = ").append(bodyObj.getFatty());
             if (bodyObj.getLean() != null)
-                sb.append("and lean = ").append(bodyObj.getLean());
+                sb.append(" and lean = ").append(bodyObj.getLean());
             if (!bodyObj.getObjDate().isEmpty())
-                sb.append("and objDate = ").append(bodyObj.getObjDate());
+                sb.append(" and objDate = ").append(bodyObj.getObjDate());
+
+            sb.append(" ORDER BY objDate DESC");
 
             pstmt = con.prepareStatement(sb.toString());
 

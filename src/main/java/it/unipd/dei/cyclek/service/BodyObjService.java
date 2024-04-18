@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class BodyObjService extends AbstractService{
-    private static final String TABLE_NAME = "bodyObj";
+    private static final String TABLE_NAME = "bodyobj";
 
     private static void unsupportedOperation(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String method = req.getMethod();
@@ -36,26 +36,20 @@ public class BodyObjService extends AbstractService{
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/")) {  // request is /bodyStats
+        if (path.isEmpty() || path.equals("/")) {
             switch (method) {
                 case "GET":
-                    new ListBodyObjRR(req, res, con).serve();  // list all table bodyStats
+                    new ListBodyObjRR(req, res, con).serve();           // GET  /rest/bodyobj  (list body objective of all users)
                     break;
                 case "POST":
-                    new CreateBodyObjRR(req, res, con).serve();  // create a new bodyStats
+                    new CreateBodyObjRR(req, res, con).serve();         // POST /rest/bodyobj  (insert a new body objective)
                     break;
                 default:
                     unsupportedOperation(req,res);
                     break;
             }
-            // request is /bodyStats/user/{idUser}
-        } else if (path.contains("user")) {
-            if (method.equals("GET")) {
-                new ListBodyObjByUserIdRR(req, res, con).serve(); // get bodyStats by idUser
-            } else {
-                unsupportedOperation(req, res);
-            }
-            // request is /bodyStats
+        } else if (path.contains("user") && method.equals("GET")) {
+            new ListBodyObjByUserIdRR(req, res, con).serve();           // GET /rest/bodyobj/user/{id}  (list body objective of a user)
         } else {
             unsupportedOperation(req, res);
         }
