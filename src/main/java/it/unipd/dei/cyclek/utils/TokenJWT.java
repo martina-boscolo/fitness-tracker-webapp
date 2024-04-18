@@ -19,12 +19,16 @@ public class TokenJWT extends AbstractResource {
     @JsonIgnore
     private static final String SECRET_KEY = "S463hkj5G56783bjGkbFSAgvllPtt789YGUTFStuqhdbuiywe874632";
 
-    private static String token;
+    private String token;
 
-    private static final boolean connection = true;
+    public TokenJWT(){}
 
     public TokenJWT(Integer id) {
         this.token = generateToken(id.toString());
+    }
+
+    public String getToken() {
+        return token;
     }
 
     // Method to generate JWT token

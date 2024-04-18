@@ -33,19 +33,19 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
             StringBuilder sb = new StringBuilder(QUERY);
 
             if (user.getId() != null)
-                sb.append("and id=").append(user.getId());
+                sb.append(" and id = ").append(user.getId());
             if(!StringUtils.isEmpty(user.getName()))
-                sb.append("and name=").append(user.getName());
+                sb.append(" and name = ").append(user.getName());
             if(!StringUtils.isEmpty(user.getSurname()))
-                sb.append("and surname=").append(user.getSurname());
+                sb.append(" and surname = ").append(user.getSurname());
             if(!StringUtils.isEmpty(user.getBirthday()))
-                sb.append("and birthday=").append(user.getBirthday());
+                sb.append(" and birthday = ").append(user.getBirthday());
             if(!StringUtils.isEmpty(user.getGender()))
-                sb.append("and gender=").append(user.getGender());
+                sb.append(" and gender = ").append(user.getGender());
             if(!StringUtils.isEmpty(user.getUsername()))
-                sb.append("and username=").append(user.getUsername());
+                sb.append(" and username = '").append(user.getUsername()).append("'");
             if(!StringUtils.isEmpty(user.getPassword()))
-                sb.append("and password=").append(user.getPassword());
+                sb.append(" and password = '").append(user.getPassword()).append("'");
 
             pstmt = con.prepareStatement(sb.toString());
             rs = pstmt.executeQuery();

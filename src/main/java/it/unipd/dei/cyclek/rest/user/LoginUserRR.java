@@ -1,14 +1,20 @@
 package it.unipd.dei.cyclek.rest.user;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.json.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,8 +31,20 @@ public class LoginUserRR extends AbstractRR {
         List<User> ul;
         Message m;
         try {
-            String username = req.getParameter("username");
-            String password = req.getParameter("password");
+            BufferedReader reader = req.getReader();
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+            String requestBody = sb.toString();
+            String username = null;
+            String password = null;
+            final JsonNode node = new ObjectMapper().readTree(requestBody);
+            if (node.has("username"))
+                username = node.get("username").textValue();
+            if (node.has("password"))
+                password = node.get("password").textValue();
             LOGGER.info("student {} is trying to login", username);
             User user = new User(username, password);
             ul = new GetUserDAO(con, user).access().getOutputParam();
@@ -41,8 +59,8 @@ public class LoginUserRR extends AbstractRR {
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             } else {
-               TokenJWT token = new TokenJWT(user.getId());
-               token.toJSON(res.getOutputStream());
+                TokenJWT token = new TokenJWT(ul.get(0).getId());
+                token.toJSON(res.getOutputStream());
             }
 
 
