@@ -42,7 +42,6 @@ public class SaveDietRR extends AbstractRR {
 
                 Diet diet = new Diet(idUser, planName, dietJson);
 
-                // Create a DAO for accessing the database and save the diet
                 boolean saved = new SaveDietDAO(con, diet).access().getOutputParam();
 
                 if (saved) {

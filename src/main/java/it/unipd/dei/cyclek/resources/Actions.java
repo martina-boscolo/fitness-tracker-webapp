@@ -14,6 +14,7 @@ public final class Actions {
     public static final String LIST_USER = "LIST_USER";
     public static final String LIST_DIET = "LIST_DIET";
     public static final String SAVE_DIET = "SAVE_DIET";
+    public static final String UPDATE_DIET = "UPDATE_DIET";
 
     /**
      * This class can be neither instantiated nor sub-classed.
