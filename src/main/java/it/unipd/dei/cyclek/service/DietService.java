@@ -1,6 +1,7 @@
 package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.rest.diet.ListDietRR;
+import it.unipd.dei.cyclek.rest.diet.SaveDietRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.sql.Connection;
 
 public class DietService extends AbstractService {
 
-    private static final String TABLE_NAME = "dietplans";
+    private static final String TABLE_NAME = "diet";
     public static boolean processDiet(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
 
         final String method = req.getMethod();
@@ -26,7 +27,8 @@ public class DietService extends AbstractService {
                     new ListDietRR(req, res, con).serve();
                     break;
                 case "POST":
-                    throw new UnsupportedOperationException();
+                    new SaveDietRR(req, res, con).serve();
+                    break;
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }

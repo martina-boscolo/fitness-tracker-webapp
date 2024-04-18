@@ -41,10 +41,10 @@ CREATE TABLE meal (
 
 -- Create Diet Plans Table
 CREATE TABLE dietplans (
-    id          SERIAL PRIMARY KEY,
+    id         SERIAL PRIMARY KEY,
     idUser     INTEGER NOT NULL REFERENCES users (id),
     planName   VARCHAR(50) NOT NULL,
-    diet        JSON NOT NULL
+    diet       JSON NOT NULL
 );
 
 --create table for body statistics
