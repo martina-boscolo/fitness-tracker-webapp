@@ -44,7 +44,9 @@ CREATE TABLE dietplans (
     id         SERIAL PRIMARY KEY,
     idUser     INTEGER NOT NULL REFERENCES users (id),
     planName   VARCHAR(50) NOT NULL,
-    diet       JSON NOT NULL
+    diet       JSON NOT NULL,
+    dietDate   DATE NOT NULL DEFAULT CURRENT_DATE,
+    CONSTRAINT unique_daily_diet UNIQUE (idUser, dietDate)
 );
 
 --create table for body statistics

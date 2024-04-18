@@ -1,5 +1,7 @@
 package it.unipd.dei.cyclek.rest.diet;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.diets.SaveDietDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Diet;
@@ -7,6 +9,8 @@ import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,15 +26,21 @@ public class SaveDietRR extends AbstractRR {
             Message m = null;
 
             try {
-                // Retrieve diet data from request parameters or body
-                String idUser = req.getParameter("idUser");
-                
 
-                // Assuming you have more parameters to retrieve
+                BufferedReader reader = req.getReader();
+                StringBuilder jsonBody = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    jsonBody.append(line);
+                }
 
-                // Create a new Diet object with the retrieved data
-                Diet diet = new Diet(null, idUser, , null);
-                // Assuming you set other properties of the Diet object
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode rootNode = objectMapper.readTree(jsonBody.toString());
+                int idUser = rootNode.get("idUser").asInt();
+                String planName = rootNode.get("planName").asText();
+                String dietJson = rootNode.get("diet").toString();
+
+                Diet diet = new Diet(idUser, planName, dietJson);
 
                 // Create a DAO for accessing the database and save the diet
                 boolean saved = new SaveDietDAO(con, diet).access().getOutputParam();

@@ -24,7 +24,7 @@ public class ListDietRR extends AbstractRR {
 
             String path = req.getRequestURI();
 
-            Diet diet = new Diet(null,null,"",null);
+            Diet diet = new Diet(null,"",null);
 
             // creates a new DAO for accessing the database and lists the employee(s)
             dl = new GetDietDAO(con, diet).access().getOutputParam();

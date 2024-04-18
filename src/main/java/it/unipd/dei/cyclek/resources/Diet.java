@@ -13,30 +13,45 @@ public class Diet extends AbstractResource {
     private final String planName;
     @JsonRawValue
     private final String diet;
+    private final String dietDate;
 
-    public Diet(Integer id, Integer idUser, String planName, String diet) {
+    public Diet(Integer idUser, String planName, String diet) {
+
+        this.idUser = idUser;
+        this.planName = planName;
+        this.diet = diet;
+        this.dietDate = "";
+        this.id = null;
+
+    }
+    public Diet(Integer id, Integer idUser, String planName, String diet, String dietDate) {
 
         this.id = id;
         this.idUser = idUser;
         this.planName = planName;
         this.diet = diet;
+        this.dietDate = dietDate;
 
     }
 
-    public String getDiet() {
-        return diet;
-    }
-
-    public String getPlanName() {
-        return planName;
+    public Integer getId() {
+        return id;
     }
 
     public Integer getIdUser() {
         return idUser;
     }
 
-    public Integer getId() {
-        return id;
+    public String getPlanName() {
+        return planName;
+    }
+
+    public String getDiet() {
+        return diet;
+    }
+
+    public String getDietDate() {
+        return dietDate;
     }
 
     @Override

@@ -3,7 +3,6 @@ package it.unipd.dei.cyclek.dao.diets;
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Diet;
 import org.postgresql.util.PGobject;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class SaveDietDAO extends AbstractDAO<Boolean> {
             // If rowsAffected > 0, diet was saved successfully
             this.outputParam = rowsAffected > 0;
 
-            LOGGER.info("Diet successfully saved.");
+            LOGGER.info("Diet successfully saved. ");
         }
     }
 }
