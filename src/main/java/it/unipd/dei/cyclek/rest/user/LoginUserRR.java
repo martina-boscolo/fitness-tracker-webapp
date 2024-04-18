@@ -5,6 +5,7 @@ import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,7 @@ public class LoginUserRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        List<User> ul ;
+        List<User> ul;
         Message m;
         try {
             String username = req.getParameter("username");
@@ -32,14 +33,17 @@ public class LoginUserRR extends AbstractRR {
             if (ul == null) {
                 m = new Message("The User does not exist", "E200", "Missing User");
                 LOGGER.error("problems with student: {}", m.getMessage());
-            }
-            else if (ul.size() > 1) {
+                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m.toJSON(res.getOutputStream());
+            } else if (ul.size() > 1) {
                 m = new Message("The Db is broken", "E666", "Missing User");
                 LOGGER.error("problems with student: {}", m.getMessage());
+                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m.toJSON(res.getOutputStream());
+            } else {
+               TokenJWT token = new TokenJWT(user.getId());
+               token.toJSON(res.getOutputStream());
             }
-            //createtoken(id) -> GEDYWGYGVDe2873621
-            //toJSOnToken { GEDYWGYGVDe2873621 }
-            //decodetoken() -> 4
 
 
         } catch (SQLException ex) {

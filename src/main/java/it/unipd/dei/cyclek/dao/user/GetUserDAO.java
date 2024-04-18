@@ -6,7 +6,7 @@ import it.unipd.dei.cyclek.resources.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +33,19 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
             StringBuilder sb = new StringBuilder(QUERY);
 
             if (user.getId() != null)
-                sb.append("and id = ").append(user.getId());
-            if (!user.getName().isEmpty())
-                sb.append("and name = ").append(user.getName());
-            if (!user.getSurname().isEmpty())
-                sb.append("and surname = ").append(user.getSurname());
-            if (!user.getBirthday().isEmpty())
-                sb.append("and birthday = ").append(user.getBirthday());
-            if (!user.getGender().isEmpty())
-                sb.append("and gender = ").append(user.getGender());
-            if (!user.getUsername().isEmpty())
-                sb.append("and username = ").append(user.getUsername());
-            if (!user.getPassword().isEmpty())
-                sb.append("and password = ").append(user.getPassword());
-
+                sb.append("and id=").append(user.getId());
+            if(!StringUtils.isEmpty(user.getName()))
+                sb.append("and name=").append(user.getName());
+            if(!StringUtils.isEmpty(user.getSurname()))
+                sb.append("and surname=").append(user.getSurname());
+            if(!StringUtils.isEmpty(user.getBirthday()))
+                sb.append("and birthday=").append(user.getBirthday());
+            if(!StringUtils.isEmpty(user.getGender()))
+                sb.append("and gender=").append(user.getGender());
+            if(!StringUtils.isEmpty(user.getUsername()))
+                sb.append("and username=").append(user.getUsername());
+            if(!StringUtils.isEmpty(user.getPassword()))
+                sb.append("and password=").append(user.getPassword());
 
             pstmt = con.prepareStatement(sb.toString());
             rs = pstmt.executeQuery();
