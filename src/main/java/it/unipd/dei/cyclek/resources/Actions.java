@@ -14,8 +14,6 @@ public final class Actions {
 
     public static final String CREATE_POST = "CREATE_POST";
 
-    public static final String LIST_POSTS = "LIST_POSTS";
-
     public static final String DELETE_POST = "DELETE_POST";
 
     public static final String GET_POST_BY_ID = "GET_POST_BY_ID";
@@ -23,6 +21,18 @@ public final class Actions {
     public static final String UPDATE_POST = "UPDATE_POST";
 
     public static final String LIST_POST = "LIST_POST";
+
+    public static final String CREATE_LIKE = "LIST_POST";
+
+    public static final String DELETE_LIKE = "LIST_POST";
+
+    public static final String LIST_LIKE_BY_POST_ID = "LIST_POST";
+
+    public static final String CREATE_COMMENT = "LIST_POST";
+
+    public static final String DELETE_COMMENT = "LIST_POST";
+
+    public static final String LIST_COMMENT_BY_ID = "LIST_POST";
 
     /**
      * This class can be neither instantiated nor sub-classed.

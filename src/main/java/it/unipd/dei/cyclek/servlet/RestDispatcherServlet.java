@@ -2,7 +2,7 @@ package it.unipd.dei.cyclek.servlet;
 
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.rest.post.*;
+import it.unipd.dei.cyclek.rest.socialNetworkPost.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

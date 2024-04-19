@@ -1,9 +1,13 @@
 package it.unipd.dei.cyclek.dao.comment;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
+import it.unipd.dei.cyclek.resources.Comment;
+import it.unipd.dei.cyclek.resources.Like;
+import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -13,12 +17,12 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  *
  */
-public class DeleteCommentDAO extends AbstractDAO {
+public class DeleteCommentDAO extends AbstractDAO<Comment> {
 
     /**
      * SQL statement to delete a comment from the database.
      */
-    private static final String STATEMENT = "DELETE FROM cyclek.public.comments WHERE id = ? ";
+    private static final String STATEMENT = "DELETE FROM comments WHERE id = ? ";
 
     /**
      * The comment ID to be deleted.
@@ -51,15 +55,32 @@ public class DeleteCommentDAO extends AbstractDAO {
 
         PreparedStatement pstmt = null;
 
+        ResultSet rs = null;
+
+        // the deleted employee
+        Comment c = null;
+
         try {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, commentId);
-            pstmt.executeUpdate();
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                c = new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content"));
+
+                LOGGER.info("Comment %d successfully deleted from the database.", c.getCommentId());
+            }
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
+
             if (pstmt != null) {
                 pstmt.close();
             }
+
         }
+
+        outputParam = c;
 
     }
 }

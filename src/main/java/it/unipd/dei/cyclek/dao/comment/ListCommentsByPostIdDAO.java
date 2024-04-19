@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCommentsByPostId extends AbstractDAO {
+public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
     private static final String STATEMENT = "SELECT * FROM cyclek.public.comments WHERE id_post = ?";
 
     private final int postId;
 
-    public ListCommentsByPostId(Connection con, int postId) {
+    public ListCommentsByPostIdDAO(Connection con, int postId) {
         super(con);
         if (postId <= 0) {
             throw new IllegalArgumentException("postId must be greater than 0.");

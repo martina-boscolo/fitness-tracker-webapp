@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListLikesByPostId extends AbstractDAO {
+public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
 
         private static final String STATEMENT = "SELECT * FROM cyclek.public.likes WHERE id_post = ?";
 
         private final int postId;
 
-        public ListLikesByPostId(Connection con, int postId) {
+        public ListLikesByPostIdDAO(Connection con, int postId) {
             super(con);
             if (postId <= 0) {
                 throw new IllegalArgumentException("postId must be greater than 0.");

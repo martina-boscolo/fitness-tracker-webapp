@@ -1,9 +1,12 @@
 package it.unipd.dei.cyclek.dao.like;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
+import it.unipd.dei.cyclek.resources.Like;
+import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -13,12 +16,12 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  *
  */
-public class DeleteLikeDAO extends AbstractDAO {
+public class DeleteLikeDAO extends AbstractDAO<Like> {
 
     /**
      * SQL statement to delete a like from the database.
      */
-    private static final String STATEMENT = "DELETE FROM cyclek.public.likes WHERE id_user = ? AND id_post = ?";
+    private static final String STATEMENT = "DELETE FROM likes WHERE id_user = ? AND id_post = ? RETURNING *  ";
 
     /**
      * The user ID of the like to be deleted.
@@ -57,6 +60,9 @@ public class DeleteLikeDAO extends AbstractDAO {
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Like l = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -64,12 +70,23 @@ public class DeleteLikeDAO extends AbstractDAO {
             pstmt.setInt(1, userId);
             pstmt.setInt(2, postId);
 
-            pstmt.executeUpdate();
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                l = new Like(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getBoolean("is_like") );
+
+                LOGGER.info("Like %d successfully deleted from the database.", l.getPostId());
+            }
         } finally {
+            if (rs != null) {
+                rs.close();
+            }
+
             if (pstmt != null) {
                 pstmt.close();
             }
+
         }
 
+        outputParam = l;
     }
 }

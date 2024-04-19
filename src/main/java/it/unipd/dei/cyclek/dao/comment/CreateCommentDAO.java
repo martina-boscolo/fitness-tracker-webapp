@@ -5,6 +5,7 @@ import it.unipd.dei.cyclek.resources.Comment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -14,12 +15,12 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  *
  */
-public class CreateCommentDAO extends AbstractDAO {
+public class CreateCommentDAO extends AbstractDAO<Comment> {
 
     /**
      * SQL statement to insert a new comment into the database.
      */
-    private static final String STATEMENT = "INSERT INTO cyclek.public.likes (id_user, id_post, text_content) VALUES (?, ?, ?)";
+    private static final String STATEMENT = "INSERT INTO comments (id_user, id_post, text_content) VALUES (?, ?, ?)";
     /**
      * The comment to be inserted into the database.
      */
@@ -50,19 +51,33 @@ public class CreateCommentDAO extends AbstractDAO {
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        Comment c = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
 
+
             pstmt.setInt(1, comment.getUserId());
             pstmt.setInt(2, comment.getPostId());
             pstmt.setString(3, comment.getCommentText());
-            pstmt.executeUpdate();
+
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                c = new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content"));
+                LOGGER.info("Comment %d successfully stored in the database.", c.getCommentId());
+            }
         } finally {
+
+            if (rs != null) {
+                rs.close();
+            }
             if (pstmt != null) {
                 pstmt.close();
             }
         }
 
+        outputParam = c;
     }
 }
