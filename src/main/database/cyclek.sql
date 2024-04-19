@@ -32,11 +32,15 @@ CREATE TABLE foods (
 
 --create the MEAL table
 CREATE TABLE meal (
-    id           SERIAL PRIMARY KEY,
-    id_user      INTEGER NOT NULL REFERENCES users (id),
-    day          DATE NOT NULL,
-    meal         VARCHAR(50) NOT NULL
+    id              SERIAL PRIMARY KEY,
+    id_user         INTEGER NOT NULL REFERENCES users (id),
+    id_food        INTEGER NOT NULL REFERENCES foods(id),
+    date             DATE NOT NULL,
+    meal_type   INTEGER NOT NULL,
+    grams          INTEGER NOT NULL
 );
+
+--drop table meal;
 
 -- Create Diet Plans Table
 CREATE TABLE dietplans (
@@ -177,4 +181,11 @@ VALUES
 -- insert data to exercise table
 INSERT INTO exercise(exercise_name, description, exercise_equipment, id_category)
     VALUES
-        ('squat','this is a description1','Barbell',1)
+        ('squat','this is a description1','Barbell',1);
+
+
+INSERT INTO meal(id_user, id_food, date, meal_type, grams)
+    VALUES
+        (1, 1, '2024-10-04', 3, 100),
+        (1, 2, '2024-10-04', 3, 80),
+        (1, 3, '2024-10-04', 3, 300);

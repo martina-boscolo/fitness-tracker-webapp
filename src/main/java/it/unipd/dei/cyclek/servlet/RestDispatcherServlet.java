@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import static it.unipd.dei.cyclek.service.food.FoodService.*;
+import static it.unipd.dei.cyclek.service.FoodService.*;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
 

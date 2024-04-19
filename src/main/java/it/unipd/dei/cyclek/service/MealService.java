@@ -1,7 +1,8 @@
-package it.unipd.dei.cyclek.service.meal;
+package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.ListUserRR;
+import it.unipd.dei.cyclek.rest.meal.ListMealRR;
 import it.unipd.dei.cyclek.service.AbstractService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,18 +24,29 @@ public class MealService extends AbstractService {
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (!path.isEmpty() && path.equals("/mealService")) {
-            switch (method) {
+        if (path.isEmpty() || path.equals("/")){
+            switch (method){
                 case "GET":
-                    new ListUserRR(req, res, con).serve();
+                        new ListMealRR(req, res, con);
                     break;
                 case "POST":
-                    throw new UnsupportedOperationException();
+                    unsupportedOperation(req, res);
+                    break;
                 default:
-                    LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
+                    unsupportedOperation(req, res);
+                    break;
             }
         }
 
         return true;
+    }
+
+    private static void unsupportedOperation(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        String method = req.getMethod();
+        String msg = String.format("Unsupported operation for URI /%s: %s.",TABLE_NAME,method);
+        LOGGER.warn(msg);
+        Message m = new Message(msg,"E4A5",String.format("Method %s,",method));
+        res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        m.toJSON(res.getOutputStream());
     }
 }

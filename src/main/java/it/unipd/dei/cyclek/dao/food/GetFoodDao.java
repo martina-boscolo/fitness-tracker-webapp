@@ -5,9 +5,13 @@ import it.unipd.dei.cyclek.resources.Food;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unipd.dei.cyclek.resources.Message;
+import it.unipd.dei.cyclek.resources.ResourceList;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 public final class GetFoodDao extends AbstractDAO<List<Food>> {
@@ -16,7 +20,7 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
      *
      * @param con the connection to be used for accessing the database.
      */
-    private static final String QUERY = "SELECT * FROM users WHERE 1=1";
+    private static final String QUERY = "SELECT * FROM foods WHERE 1=1";
 
     private final Integer id;         //food identificator
     private final String fdnm;    //food name

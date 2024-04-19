@@ -18,12 +18,11 @@ public class ListMealRR extends AbstractRR {
     /**
      * Creates a new REST resource.
      *
-     * @param action the action performed by this REST resource.
      * @param req    the HTTP request.
      * @param res    the HTTP response.
      * @param con    the connection to the database.
      */
-    protected ListMealRR(String action, HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public ListMealRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_MEAL, req, res, con);
     }
 
@@ -36,7 +35,7 @@ public class ListMealRR extends AbstractRR {
 
             String path = req.getRequestURI();
 
-            Meal meal = new Meal(null, null, null, "");
+            Meal meal = new Meal(null, null, null, null, null, null);
 
             // creates a new DAO for accessing the database and lists the employee(s)
             fl = new GetMealDao(con, meal).access().getOutputParam();
@@ -59,5 +58,6 @@ public class ListMealRR extends AbstractRR {
             m = new Message("Cannot list meal(s): unexpected database error.", "E5A1", ex.getMessage());
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
-        }    }
+        }
+    }
 }
