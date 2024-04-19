@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UpdateDietDAO extends AbstractDAO<Boolean> {
 
-    public static final String QUERY = "UPDATE dietplans SET planName = ?, diet = ? WHERE id = ?";
+    public static final String QUERY = "UPDATE dietplans SET planName = ?, diet = ? WHERE id = ? AND dietDate > NOW() - INTERVAL '24 hours'";
 
     private final Diet diet;
 

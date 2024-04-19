@@ -42,8 +42,6 @@ protected final void doAccess() throws SQLException {
                 sb.append(" and diet = ").append(diet.getDiet());
             if (!diet.getDietDate().isEmpty())
                 sb.append(" and date = ").append(diet.getDietDate());
-            if (!diet.getDietHour().isEmpty())
-                sb.append(" and hour = ").append(diet.getDietHour());
 
             pstmt = con.prepareStatement(sb.toString());
 
@@ -58,8 +56,7 @@ protected final void doAccess() throws SQLException {
                         rs.getInt("idUser"),
                         rs.getString("planName"),
                         rs.getString("diet"),
-                        rs.getString("dietDate"),
-                        rs.getString("dietHour")
+                        rs.getString("dietDate")
                 ));
             }
 

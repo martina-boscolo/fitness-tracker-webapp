@@ -14,7 +14,6 @@ public class Diet extends AbstractResource {
     @JsonRawValue
     private final String diet;
     private final String dietDate;
-    private final String dietHour;
 
     public Diet(Integer id){
 
@@ -23,7 +22,6 @@ public class Diet extends AbstractResource {
         this.planName = "";
         this.diet = null;
         this.dietDate = "";
-        this.dietHour = "";
 
     }
     public Diet(Integer idUser, String planName, String diet) {
@@ -32,18 +30,17 @@ public class Diet extends AbstractResource {
         this.planName = planName;
         this.diet = diet;
         this.dietDate = "";
-        this.dietHour = "";
         this.id = null;
 
     }
-    public Diet(Integer id, Integer idUser, String planName, String diet, String dietDate, String dietHour) {
+    public Diet(Integer id, Integer idUser, String planName, String diet, String dietDate) {
 
         this.id = id;
         this.idUser = idUser;
         this.planName = planName;
         this.diet = diet;
         this.dietDate = dietDate;
-        this.dietHour = dietHour;
+
 
     }
 
@@ -65,10 +62,6 @@ public class Diet extends AbstractResource {
 
     public String getDietDate() {
         return dietDate;
-    }
-
-    public String getDietHour() {
-        return dietHour;
     }
 
     @Override

@@ -45,8 +45,7 @@ CREATE TABLE dietplans (
     idUser     INTEGER NOT NULL REFERENCES users (id),
     planName   VARCHAR(50) NOT NULL,
     diet       JSON NOT NULL,
-    dietDate   DATE NOT NULL DEFAULT CURRENT_DATE,
-    dietHour   TIME NOT NULL DEFAULT CURRENT_TIME,
+    dietDate   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_daily_diet UNIQUE (idUser, dietDate)
 );
 
