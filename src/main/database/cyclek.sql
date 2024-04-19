@@ -34,10 +34,10 @@ CREATE TABLE foods (
 CREATE TABLE meal (
     id              SERIAL PRIMARY KEY,
     id_user         INTEGER NOT NULL REFERENCES users (id),
-    id_food        INTEGER NOT NULL REFERENCES foods(id),
-    date             DATE NOT NULL,
-    meal_type   INTEGER NOT NULL,
-    grams          INTEGER NOT NULL
+    meal_date       DATE NOT NULL DEFAULT CURRENT_DATE,
+    meal_type       INTEGER NOT NULL,
+    meal            JSON NOT NULL,
+    CONSTRAINT unique_user_date_type_combination UNIQUE (id_user, meal_date, meal_type)
 );
 
 --drop table meal;
@@ -184,8 +184,6 @@ INSERT INTO exercise(exercise_name, description, exercise_equipment, id_category
         ('squat','this is a description1','Barbell',1);
 
 
-INSERT INTO meal(id_user, id_food, date, meal_type, grams)
+INSERT INTO meal(id_user, meal_date, meal_type, meal)
     VALUES
-        (1, 1, '2024-10-04', 3, 100),
-        (1, 2, '2024-10-04', 3, 80),
-        (1, 3, '2024-10-04', 3, 300);
+        (1, '2024-10-04', 3, '{"meal":[{"id_food":1, "grams":80},{"id_food":2, "grams":100},{"id_food":3, "grams":300}]}');
