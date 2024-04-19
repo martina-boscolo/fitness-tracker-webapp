@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.service;
 
+import it.unipd.dei.cyclek.rest.diet.GetDietByIdRR;
 import it.unipd.dei.cyclek.rest.diet.UpdateDietRR;
 import it.unipd.dei.cyclek.rest.diet.ListDietRR;
 import it.unipd.dei.cyclek.rest.diet.SaveDietRR;
@@ -21,7 +22,7 @@ public class DietService extends AbstractService {
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/") && method.equals("GET")) {
+        if (path.isEmpty() || path.equals("/")) {
             switch (method) {
                 case "GET":
                     new ListDietRR(req, res, con).serve();
@@ -35,6 +36,12 @@ public class DietService extends AbstractService {
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }
+        }
+        else if(path.contains("id") && method.equals("GET"))
+            new GetDietByIdRR(req, res, con).serve();
+        else{
+            LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
+            throw new UnsupportedOperationException();
         }
         return true;
     }
