@@ -35,6 +35,12 @@ public class MealService extends AbstractService {
                     unsupportedOperation(req, res);
                     break;
             }
+        } else if(path.equals("/calories") || path.equals("/calories/")){
+            if(method.equals("GET")){
+
+            }else{
+                unsupportedOperation(req, res);
+            }
         }
         return true;
     }

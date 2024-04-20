@@ -14,6 +14,7 @@ public final class Actions {
     public static final String LIST_FOOD ="LIST_FOOD";
     public static final String REGISTER_FOOD = "REGISTER_FOOD";
     public static final String LIST_MEAL = "LIST_MEAL";
+    public static final String LIST_CALORIES_MEAL = "LIST_CALORIES_MEAL";
 
 
     /**

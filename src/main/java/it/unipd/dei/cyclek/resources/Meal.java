@@ -46,8 +46,8 @@ public class Meal extends AbstractResource{
         return objectMapper.readValue(in, Meal.class);
     }
 
-    public ArrayList<MealJava> fromJsonToMealJava(){
-        ArrayList<MealJava> listMealJava = new ArrayList<>();
+    public ArrayList<FoodGramsAssociation> fromJsonToMealJava(){
+        ArrayList<FoodGramsAssociation> listMealJava = new ArrayList<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(this.getMeal());
@@ -60,16 +60,15 @@ public class Meal extends AbstractResource{
                             Integer id_food = Integer.parseInt(entry.getKey()); // Nome del campo (id_food o grams)
                             Integer grams = entry.getValue().asInt(); // Valore del campo
 
-                            listMealJava.add(new MealJava(id_food, grams));
+                            listMealJava.add(new FoodGramsAssociation(id_food, grams));
                         });
                     }
                 }
             }
+            return listMealJava;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
-        return listMealJava;
     }
 
     public Integer getId() {
