@@ -149,11 +149,11 @@ VALUES
 -- Martina
 INSERT INTO posts (id_user, text_content, image_path, like_count, comment_count, post_date)
 VALUES
-    (1, 'Just finished a 5-mile run! Feeling great!', '/fitness/images/run.jpg', 10, 2, 5, '2024-04-07 08:30:00'),
-    (2, 'Leg day at the gym was intense!', '/fitness/images/legday.jpg', 15, 1, 8, '2024-04-06 17:45:00'),
-    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, 20, 0, 12, '2024-04-05 09:00:00'),
-    (1, 'Completed my first marathon! What an achievement!', '/fitness/images/marathon.jpg', 50, 3, 25, '2024-04-04 11:20:00'),
-    (2, 'Back to the gym after a long break 💪', '/fitness/images/gym.jpg', 30, 5, 15, '2024-04-03 18:00:00');
+    (1, 'Just finished a 5-mile run! Feeling great!', '/fitness/images/run.jpg', 10, 2, '2024-04-07 08:30:00'),
+    (2, 'Leg day at the gym was intense!', '/fitness/images/legday.jpg', 15, 1, '2024-04-06 17:45:00'),
+    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, 20, 0, '2024-04-05 09:00:00'),
+    (1, 'Completed my first marathon! What an achievement!', '/fitness/images/marathon.jpg', 50, 3, '2024-04-04 11:20:00'),
+    (2, 'Back to the gym after a long break 💪', '/fitness/images/gym.jpg', 30, 5, '2024-04-03 18:00:00');
 
 
 INSERT INTO likes (id_user, id_post, is_like)
