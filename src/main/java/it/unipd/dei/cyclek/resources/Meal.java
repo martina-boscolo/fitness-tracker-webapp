@@ -5,23 +5,36 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import it.unipd.dei.cyclek.rest.meal.ListMealRR;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class Meal extends AbstractResource{
-    private Integer id;               //meal identificator
-    private Integer id_user;          //id of user who registered it
-    private Integer id_food;          //id of food registered
-    private Date date;                //day
-    private Integer meal_type;        //meal
-    private Integer grams;            //grams of food
-    
+    private Integer id;                 //meal identificator
+    private Integer id_user;            //id of user who registered it
+    private Date date;                  //day
+    private Integer meal_type;          //meal type
+    @JsonRawValue
+    private String meal;                //meal
+
+    public Meal(Integer id, Integer id_user, Date date, Integer meal_type, String meal) {
+        this.id=id;
+        this.id_user=id_user;
+        this.date=date;
+        this.meal_type=meal_type;
+        this.meal=meal;
+    }
+
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
-        String json=new ObjectMapper()
+        String json = new ObjectMapper()
                 .enable(SerializationFeature.WRAP_ROOT_VALUE)
                 .writer().withRootName("meal")
                 .writeValueAsString(this);
@@ -33,12 +46,30 @@ public class Meal extends AbstractResource{
         return objectMapper.readValue(in, Meal.class);
     }
 
-    public Meal(Integer id, Integer id_user, Integer id_food, Date date, Integer meal_type, Integer grams) {
-        this.id=id;
-        this.id_user=id_user;
-        this.date=date;
-        this.meal_type=meal_type;
-        this.grams=grams;
+    public ArrayList<MealJava> fromJsonToMealJava(){
+        ArrayList<MealJava> listMealJava = new ArrayList<>();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(this.getMeal());
+            JsonNode mealsNode = rootNode.get("meal");
+
+            if (mealsNode != null && mealsNode.isArray()) {
+                for (JsonNode mealNode : mealsNode) {
+                    if (mealNode.isObject()) {
+                        mealNode.fields().forEachRemaining(entry -> {
+                            Integer id_food = Integer.parseInt(entry.getKey()); // Nome del campo (id_food o grams)
+                            Integer grams = entry.getValue().asInt(); // Valore del campo
+
+                            listMealJava.add(new MealJava(id_food, grams));
+                        });
+                    }
+                }
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listMealJava;
     }
 
     public Integer getId() {
@@ -57,14 +88,6 @@ public class Meal extends AbstractResource{
         this.id_user=id_user;
     }
 
-    public Integer getId_food() {
-        return id_food;
-    }
-
-    public void setId_food(Integer id_food) {
-        this.id_food=id_food;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -81,12 +104,10 @@ public class Meal extends AbstractResource{
         this.meal_type=meal_type;
     }
 
-    public Integer getGrams() {
-        return grams;
+    public String getMeal() {
+        return meal;
     }
-
-    public void setGrams(Integer grams) {
-        this.grams=grams;
+    public void setMeal(String meal) {
+        this.meal = meal;
     }
-
 }

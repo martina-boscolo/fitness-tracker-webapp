@@ -24,7 +24,6 @@ public class FoodService extends AbstractService {
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        // Gestione delle azioni in base al percorso e al metodo HTTP
         if (path.isEmpty() || path.equals("/")){
             switch (method){
                 case "GET":

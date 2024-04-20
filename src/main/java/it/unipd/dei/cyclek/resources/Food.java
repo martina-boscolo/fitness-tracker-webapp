@@ -86,4 +86,5 @@ public class Food  extends AbstractResource{
 
     public void setCarbs(int carbs) {
         this.carbs = carbs;
-    }}
+    }
+}

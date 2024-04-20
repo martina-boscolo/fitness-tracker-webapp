@@ -35,7 +35,7 @@ public class ListMealRR extends AbstractRR {
 
             String path = req.getRequestURI();
 
-            Meal meal = new Meal(null, null, null, null, null, null);
+            Meal meal = new Meal(null, null, null, null, null);
 
             // creates a new DAO for accessing the database and lists the employee(s)
             fl = new GetMealDao(con, meal).access().getOutputParam();

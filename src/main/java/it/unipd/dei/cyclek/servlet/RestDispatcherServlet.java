@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.FoodService.*;
+import static it.unipd.dei.cyclek.service.MealService.*;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
 
@@ -29,6 +30,10 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
             }
 
             if(processFood(req, res, getConnection())){
+                return;
+            }
+
+            if(processMeal(req, res, getConnection())){
                 return;
             }
 

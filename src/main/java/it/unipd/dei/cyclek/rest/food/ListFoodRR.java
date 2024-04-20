@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ListFoodRR extends AbstractRR {
-
-
     /**
      * Creates a new REST resource.
      *

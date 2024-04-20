@@ -16,7 +16,6 @@ public class MealService extends AbstractService {
 
         final String method = req.getMethod();
         String path = req.getRequestURI();
-        Message m = null;
 
         // the requested resource was not a user
         if (path.lastIndexOf("rest/".concat(TABLE_NAME)) <= 0)
@@ -27,7 +26,7 @@ public class MealService extends AbstractService {
         if (path.isEmpty() || path.equals("/")){
             switch (method){
                 case "GET":
-                        new ListMealRR(req, res, con);
+                        new ListMealRR(req, res, con).serve();
                     break;
                 case "POST":
                     unsupportedOperation(req, res);
@@ -37,7 +36,6 @@ public class MealService extends AbstractService {
                     break;
             }
         }
-
         return true;
     }
 
