@@ -1,9 +1,6 @@
 package it.unipd.dei.cyclek.service;
 
-import it.unipd.dei.cyclek.rest.user.GetUserByIdRR;
-import it.unipd.dei.cyclek.rest.user.ListUserRR;
-import it.unipd.dei.cyclek.rest.user.LoginUserRR;
-import it.unipd.dei.cyclek.rest.user.RegisterUserRR;
+import it.unipd.dei.cyclek.rest.user.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -35,10 +32,13 @@ public class UserService extends AbstractService{
         else if (path.equals("/login") || path.equals("/login/") && method.equals("POST"))
             new LoginUserRR(req, res, con).serve();
 
-        else if (path.contains("id") && method.equals("GET")) {
+        else if (path.contains("id") && method.equals("GET"))
             new GetUserByIdRR(req, res, con).serve();
 
-        } else {
+        else if (path.contains("id") && method.equals("PUT"))
+            new UpdateUserRR(req, res, con).serve();
+
+        else {
             LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             throw new UnsupportedOperationException();
         }
@@ -47,8 +47,13 @@ public class UserService extends AbstractService{
 }
 
 
-// GET  http://localhost:8080/cycleK-1.0.0/rest/user
-// POST http://localhost:8080/cycleK-1.0.0/rest/user/login
-// POST http://localhost:8080/cycleK-1.0.0/rest/user/signup
+/*  GET      http://localhost:8080/cycleK-1.0.0/rest/user   --> take all the users
+    GET      http://localhost:8080/cycleK-1.0.0/rest/user/id/(anyNumber)  --> take user with specific id
+    POST     http://localhost:8080/cycleK-1.0.0/rest/user/login  --> login user
+    POST     http://localhost:8080/cycleK-1.0.0/rest/user/signup --> signup user
+    DELETE   http://localhost:8080/cycleK-1.0.0/rest/user/id/(anyNumber) --> delete a use
+    PUT      http://localhost:8080/cycleK-1.0.0/rest/user/id/(anyNumber) --> modify user's information
+*/
+
 
 
