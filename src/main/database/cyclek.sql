@@ -189,4 +189,5 @@ VALUES
 -- insert data to exercise table
 INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
     VALUES
-        ('squat','this is a description1','Barbell',1)
+        ('squat','this is a description1','Barbell',1),
+        ('exe2','this is a description2','Barbell2',1)
