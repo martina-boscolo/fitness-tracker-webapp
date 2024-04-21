@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
 
-        private static final String STATEMENT = "SELECT * FROM cyclek.public.likes WHERE id_post = ?";
+        private static final String STATEMENT = "SELECT * FROM likes WHERE id_post = ?";
 
         private final int postId;
 

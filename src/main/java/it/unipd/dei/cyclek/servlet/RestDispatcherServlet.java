@@ -2,7 +2,6 @@ package it.unipd.dei.cyclek.servlet;
 
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.rest.socialNetworkPost.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.UserService.processUser;
+import static it.unipd.dei.cyclek.service.PostService.processSocialNetworkPost;
 
 
 public class RestDispatcherServlet extends AbstractDatabaseServlet{
@@ -30,7 +30,7 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
 
 
             // if the requested resource was a post, delegate its processing and return
-            if (processSocialNetworkPost(req, res)) {
+            if (processSocialNetworkPost(req, res, getConnection())) {
                 return;
             }
 
@@ -60,66 +60,5 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
         }
     }
 
-    private boolean processSocialNetworkPost(final HttpServletRequest req, final HttpServletResponse res) throws Exception {
 
-        final String method = req.getMethod();
-
-        String path = req.getRequestURI();
-        Message m = null;
-
-        // the requested resource was not an employee
-        if (path.lastIndexOf("rest/post") <= 0) {
-            return false;
-        }
-
-        // strip everything until after the /employee
-        path = path.substring(path.lastIndexOf("post") + 4);
-
-        // the request URI is: /post
-        // if method GET, list post
-        // if method POST, create post
-        if (path.length() == 0 || path.equals("/")) {
-
-            switch (method) {
-                case "GET":
-                    new ListSocialNetworkPostRR(req, res, getConnection()).serve();
-                    break;
-                case "POST":
-                    new CreateSocialNetworkPostRR(req, res, getConnection()).serve();
-                    break;
-                default:
-                    LOGGER.warn("Unsupported operation for URI /post: %s.", method);
-
-                    m = new Message("Unsupported operation for URI /post.", "E4A5",
-                            String.format("Requested operation %s.", method));
-                    res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-                    m.toJSON(res.getOutputStream());
-                    break;
-            }
-        }else  {
-            switch (method) {
-                case "GET":
-                    new ReadSocialNetworkPostRR(req, res, getConnection()).serve();
-                    break;
-                case "PUT":
-                    new UpdateSocialNetworkPostRR(req, res, getConnection()).serve();
-                    break;
-                case "DELETE":
-                    new DeleteSocialNetworkPostRR(req, res, getConnection()).serve();
-                    break;
-                default:
-                    LOGGER.warn("Unsupported operation for URI /post/{postId}: %s.", method);
-
-                    m = new Message("Unsupported operation for URI /post/{postId}.", "E4A5",
-                            String.format("Requested operation %s.", method));
-                    res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-                    m.toJSON(res.getOutputStream());
-                    break;
-            }
-        }
-
-
-        return true;
-
-    }
 }

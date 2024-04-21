@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
-    private static final String STATEMENT = "SELECT * FROM cyclek.public.comments WHERE id_post = ?";
+    private static final String STATEMENT = "SELECT * FROM comments WHERE id_post = ?";
 
     private final int postId;
 
