@@ -32,11 +32,8 @@ public class ListFoodRR extends AbstractRR {
 
             String path = req.getRequestURI();
 
-            Food food = new Food(null,"",0,0,00, 00);
-
-            // creates a new DAO for accessing the database and lists the employee(s)
+            Food food = new Food(null,null,null,null,null, null);
             fl = new GetFoodDao(con, food).access().getOutputParam();
-
             if (fl != null) {
                 LOGGER.info("Food(s) successfully listed.");
 

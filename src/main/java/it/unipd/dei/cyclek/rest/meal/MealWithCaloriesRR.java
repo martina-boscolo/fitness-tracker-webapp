@@ -1,13 +1,11 @@
 package it.unipd.dei.cyclek.rest.meal;
 
 import it.unipd.dei.cyclek.dao.meal.GetMealDao;
-import it.unipd.dei.cyclek.resources.Meal;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import it.unipd.dei.cyclek.resources.Actions;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +20,7 @@ public class MealWithCaloriesRR extends AbstractRR {
      * @param res    the HTTP response.
      * @param con    the connection to the database.
      */
-    protected MealWithCaloriesRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public MealWithCaloriesRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_CALORIES_MEAL, req, res, con);
     }
 
@@ -36,12 +34,14 @@ public class MealWithCaloriesRR extends AbstractRR {
             String path = req.getRequestURI();
 
             Meal meal = new Meal(null, null, null, null, null);
-
+            Food food = null;
             // creates a new DAO for accessing the database and lists the employee(s)
             fl = new GetMealDao(con, meal).access().getOutputParam();
 
             for(Meal itr: fl){
+                //prendere il meal da fl
 
+                food = null;
             }
 
             if (fl != null) {

@@ -4,7 +4,6 @@ import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Food;
 import it.unipd.dei.cyclek.resources.Meal;
 import org.apache.commons.lang3.StringUtils;
-import sun.jvm.hotspot.utilities.CStringUtilities;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

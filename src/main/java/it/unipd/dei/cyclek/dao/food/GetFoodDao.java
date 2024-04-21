@@ -24,10 +24,10 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
 
     private final Integer id;         //food identificator
     private final String fdnm;    //food name
-    private final int kcal;       //number of Calories for 100g of food
-    private final int fats;       //grams of fats for 100g of food
-    private final int carbs;      //grams of carbs for 100g of food
-    private final int prot;       //grams of prot for 100g of food
+    private final Integer kcal;       //number of Calories for 100g of food
+    private final Integer fats;       //grams of fats for 100g of food
+    private final Integer carbs;      //grams of carbs for 100g of food
+    private final Integer prot;       //grams of prot for 100g of food
     public GetFoodDao(Connection con, Food food) {
         super(con);
         this.id=food.getId();
@@ -35,43 +35,30 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
         this.kcal=food.getKcal();
         this.fats= food.getFats();
         this.carbs=food.getCarbs();
-       this.prot=food.getProt();
+        this.prot=food.getProt();
     }
     @Override
     protected void doAccess() throws Exception {
         PreparedStatement pstmt = null;
-        String sql=QUERY;
+        StringBuilder sql= new StringBuilder(QUERY);
         ResultSet rs = null;
         // the results of the search
         final List<Food> foodList = new ArrayList<>();
         try {
-            //parameterized queries prevents sql injection
             if (id != null)
-                sql+=" and id =? ";
-            if (StringUtils.isNotBlank(fdnm.trim()))
-                sql+=" and fdnm =? ";
-            if (kcal!=0)
-                sql+=" and kcal =? ";
-            if (fats != 0)
-                sql+=" and fats =? ";
-            if (carbs != 0)
-                sql+=" and carbohydrates =? ";
-            if(prot != 0)
-                sql+=" and proteins =?";
-            pstmt = con.prepareStatement(sql);
-            int i = 1;
-            if (id != null)
-                pstmt.setInt(i++, id);
-            if (StringUtils.isNotBlank(fdnm.trim()))
-                pstmt.setString(i++, fdnm);
-            if (kcal!=0)
-                pstmt.setInt(i++, kcal);
-            if (fats != 0)
-                pstmt.setInt(i++, fats);
-            if (carbs != 0)
-                pstmt.setInt(i++, carbs);
-            if(prot != 0)
-                pstmt.setInt(i++, prot);
+                sql.append(" and id = ").append(id);
+            if (StringUtils.isNotBlank(fdnm) && StringUtils.isNotBlank(fdnm.trim()))
+                sql.append(" and fdnm = ").append(fdnm.trim());
+            if (kcal!=null)
+                sql.append(" and kcal = ").append(kcal);
+            if (fats != null)
+                sql.append(" and fats = ").append(fats);
+            if (carbs != null)
+                sql.append(" and carbohydrates = ").append(carbs);
+            if(prot != null)
+                sql.append(" and proteins = ").append(prot);
+            pstmt = con.prepareStatement(sql.toString());
+
             rs = pstmt.executeQuery();
             while (rs.next())
             {

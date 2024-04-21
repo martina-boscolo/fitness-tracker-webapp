@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class FoodGramsAssociation{
-
         private Integer id_food;
         private Integer grams;
 

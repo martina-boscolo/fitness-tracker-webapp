@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.dao.food.GetFoodDao;
 import it.unipd.dei.cyclek.resources.Message;
+import it.unipd.dei.cyclek.rest.food.GetFoodByIdRR;
 import it.unipd.dei.cyclek.rest.food.ListFoodRR;
 import it.unipd.dei.cyclek.rest.food.RegisterFoodRR;
 import it.unipd.dei.cyclek.rest.meal.ListMealRR;
@@ -36,7 +37,10 @@ public class FoodService extends AbstractService {
                     unsupportedOperation(req, res);
                     break;
             }
-        }
+        } else if(path.contains("id") && method.equals("GET"))
+            new GetFoodByIdRR(req, res, con).serve();
+        else
+            unsupportedOperation(req, res);
         return true;
     }
 
@@ -49,3 +53,6 @@ public class FoodService extends AbstractService {
         m.toJSON(res.getOutputStream());
     }
 }
+
+// http://localhost:8080/cycleK-1.0.0/rest/food         GET
+// http://localhost:8080/cycleK-1.0.0/rest/food/id/1    GET

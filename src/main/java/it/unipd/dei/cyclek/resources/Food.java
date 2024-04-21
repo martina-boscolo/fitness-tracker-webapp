@@ -12,17 +12,21 @@ import java.nio.charset.StandardCharsets;
 public class Food  extends AbstractResource{
     private Integer id;         //food identificator
     private String fdnm;    //food name
-    private int kcal;       //number of Calories for 100g of food
-    private int fats;       //grams of fats for 100g of food
-    private int carbs;      //grams of carbs for 100g of food
-    private int prot;       //grams of prot for 100g of food
-    public Food(Integer id, String fdnm, int kcal, int fats, int carbs, int prot) {
+    private Integer kcal;       //number of Calories for 100g of food
+    private Integer fats;       //grams of fats for 100g of food
+    private Integer carbs;      //grams of carbs for 100g of food
+    private Integer prot;       //grams of prot for 100g of food
+    public Food(Integer id, String fdnm, Integer kcal, Integer fats, Integer carbs, Integer prot) {
         this.id = id;
         this.fdnm = fdnm;
         this.kcal = kcal;
         this.fats = fats;
         this.carbs = carbs;
         this.prot = prot;
+    }
+
+    public Food(Integer id) {
+        new Food(id, null, null, null, null, null);
     }
 
     public static Food fromJSON(final InputStream in) throws IOException {
@@ -40,7 +44,7 @@ public class Food  extends AbstractResource{
         out.write(json.getBytes(StandardCharsets.UTF_8));
     }
 
-    public int getCarbs() {
+    public Integer getCarbs() {
         return carbs;
     }
 
@@ -48,43 +52,22 @@ public class Food  extends AbstractResource{
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getFdnm() {
         return fdnm;
     }
 
-    public void setFdnm(String fdnm) {
-        this.fdnm = fdnm;
-    }
 
-    public int getKcal() {
+    public Integer getKcal() {
         return kcal;
     }
 
-    public void setKcal(int kcal) {
-        this.kcal = kcal;
-    }
 
-    public int getFats() {
+    public Integer getFats() {
         return fats;
     }
 
-    public void setFats(int fats) {
-        this.fats = fats;
-    }
-
-    public int getProt() {
+    public Integer getProt() {
         return prot;
     }
 
-    public void setProt(int prot) {
-        this.prot = prot;
-    }
-
-    public void setCarbs(int carbs) {
-        this.carbs = carbs;
-    }
 }
