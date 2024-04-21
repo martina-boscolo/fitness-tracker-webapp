@@ -67,12 +67,22 @@ CREATE TABLE exercise_category (
 );
 
 -- Create the exercise table with a foreign key constraint referencing the exercise_category table
-CREATE TABLE exercise (
+CREATE TABLE exercises (
      id                 SERIAL PRIMARY KEY,
      id_category        INTEGER NOT NULL REFERENCES exercise_category(id),
      exercise_name      VARCHAR(100) NOT NULL,
      description        TEXT,
      exercise_equipment VARCHAR(100)
+);
+
+CREATE TABLE user_exercises (
+     id INT PRIMARY KEY,
+     id_user INT,
+     id_exercise INT,
+     weight INT,
+     repetition INT,
+     FOREIGN KEY (id_user) REFERENCES users(id),
+     FOREIGN KEY (id_exercise) REFERENCES exercises(id)
 );
 
 
@@ -175,7 +185,8 @@ VALUES
     ('Cardio'),
     ('Flexibility'),
     ('Balance');
+
 -- insert data to exercise table
-INSERT INTO exercise(exercise_name, description, exercise_equipment, id_category)
+INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
     VALUES
         ('squat','this is a description1','Barbell',1)
