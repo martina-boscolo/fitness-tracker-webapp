@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.ExerciseService.processExercise;
+import static it.unipd.dei.cyclek.service.UserExerciseService.processUserExercise;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 
 
@@ -24,10 +25,15 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
         try {
 
             // if the requested resource was an Employee, delegate its processing and return
+            if(processUserExercise(req, res, getConnection())) {
+                return;
+            }
+
             if (processUser(req, res, getConnection())) {
                 return;
             }
-            else if(processExercise(req, res, getConnection())) {
+
+            if(processExercise(req, res, getConnection())) {
                 return;
             }
 
