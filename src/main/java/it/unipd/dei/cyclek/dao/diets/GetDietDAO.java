@@ -35,7 +35,7 @@ protected final void doAccess() throws SQLException {
             if (diet.getId() != null)
                 sb.append(" and id = ").append(diet.getId());
             if (diet.getIdUser() != null)
-                sb.append(" and idUser = ").append(diet.getDiet());
+                sb.append(" and idUser = ").append(diet.getIdUser());
             if (!diet.getPlanName().isEmpty())
                 sb.append(" and planName = ").append(diet.getPlanName());
             if (diet.getDiet() != null)

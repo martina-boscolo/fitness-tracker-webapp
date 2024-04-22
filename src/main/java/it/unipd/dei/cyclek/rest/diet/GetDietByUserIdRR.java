@@ -1,7 +1,10 @@
 package it.unipd.dei.cyclek.rest.diet;
 
 import it.unipd.dei.cyclek.dao.diets.GetDietDAO;
-import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.Message;
+import it.unipd.dei.cyclek.resources.ResourceList;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,22 +13,24 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListDietRR extends AbstractRR {
+public class GetDietByUserIdRR extends AbstractRR {
 
-    public ListDietRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
-        super(Actions.LIST_DIET, req, res, con);
+    public GetDietByUserIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+        super(Actions.GET_DIET_USER_ID, req, res, con);
     }
+
     @Override
     protected void doServe() throws IOException {
-        List<Diet> dl = null;
-        Message m = null;
+        List<Diet> dl;
+        Message m;
 
         try {
 
-            Diet diet = new Diet(null,"",null);
+            String path = req.getRequestURI();
+            path = path.substring(path.lastIndexOf("idUser") + 6);
+            final int idUser = Integer.parseInt(path.substring(1));
 
-            // creates a new DAO for accessing the database and lists the employee(s)
-            dl = new GetDietDAO(con, diet).access().getOutputParam();
+            dl = new GetDietDAO(con, new Diet(idUser, "", null)).access().getOutputParam();
 
             if (dl != null) {
                 LOGGER.info("Diet(s) successfully listed.");
@@ -46,7 +51,4 @@ public class ListDietRR extends AbstractRR {
             m.toJSON(res.getOutputStream());
         }
     }
-
-
 }
-

@@ -16,6 +16,8 @@ public final class Actions {
     public static final String SAVE_DIET = "SAVE_DIET";
     public static final String UPDATE_DIET = "UPDATE_DIET";
     public static final String GET_DIET_ID = "GET_DIET_ID";
+    public static final String GET_DIET_USER_ID = "GET_DIET_USER_ID";
+
 
     /**
      * This class can be neither instantiated nor sub-classed.
