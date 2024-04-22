@@ -27,7 +27,7 @@ public class GetFoodByIdRR extends AbstractRR {
             path = path.substring(path.lastIndexOf("id") + 2);
             final int id = Integer.parseInt(path.substring(1));
 
-            Food food = new Food(id);
+            Food food = new Food((Integer)id);
             // creates a new DAO for accessing the database and lists the users(s)
             foodList = new GetFoodDao(con, food).access().getOutputParam();
             if (foodList != null && foodList.size() == 1) {

@@ -1,10 +1,9 @@
 package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.rest.ListUserRR;
 import it.unipd.dei.cyclek.rest.meal.ListMealRR;
 import it.unipd.dei.cyclek.rest.meal.MealWithCaloriesRR;
-import it.unipd.dei.cyclek.service.AbstractService;
+import it.unipd.dei.cyclek.rest.meal.RegisterMealRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -27,10 +26,12 @@ public class MealService extends AbstractService {
         if (path.isEmpty() || path.equals("/")){
             switch (method){
                 case "GET":
-                        new ListMealRR(req, res, con).serve();
+                    LOGGER.info("%%%%%%%%%%%%%Inside GET%%%%%%%%%%%%%");
+                    new ListMealRR(req, res, con).serve();
                     break;
                 case "POST":
-                    unsupportedOperation(req, res);
+                    LOGGER.info("%%%%%%%%%%%%%Inside POST%%%%%%%%%%%%%");
+                    new RegisterMealRR(req, res, con).serve();
                     break;
                 default:
                     unsupportedOperation(req, res);

@@ -8,9 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GetMealDao extends AbstractDAO<List<Meal>> {
     /**
@@ -18,13 +20,9 @@ public class GetMealDao extends AbstractDAO<List<Meal>> {
      *
      * @param con the connection to be used for accessing the database.
      */
-    private static final String QUERY="SELECT * FROM meal WHERE 1=1";
+    private static final String QUERY = "SELECT * FROM meal WHERE 1=1";
 
-    private final Integer id;               //meal identificator
-    private final Integer id_user;          //id of user who registered it
-    private final Date date;                //day
-    private final Integer meal_type;        //meal type
-    private final String meal;              //meal
+    private final Meal meal;
 
 
     /**
@@ -34,68 +32,49 @@ public class GetMealDao extends AbstractDAO<List<Meal>> {
      */
     public GetMealDao(Connection con, Meal meal) {
         super(con);
-        this.id=meal.getId();
-        this.id_user= meal.getId_user();
-        this.date=meal.getDate();
-        this.meal_type=meal.getMeal_type();
-        this.meal=meal.getMeal();
+        this.meal = meal;
     }
 
     @Override
     protected void doAccess() throws Exception {
-        PreparedStatement pstmt=null;
-        ResultSet rs=null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         // the results of the search
-        final List<Meal> mealList=new ArrayList<>();
+        final List<Meal> mealList = new ArrayList<>();
 
         try {
-            StringBuilder sb=new StringBuilder(QUERY);
-            if (id != null)
-                sb.append(" and id = ? ");
-            if (id_user != null)
-                sb.append(" and id_user = ? ");
-            if (date != null)
-                sb.append(" and meal_date = ? ");
-            if (meal_type!=null)
-                sb.append(" and meal_type = ?");
-            if (StringUtils.isNotBlank(meal))
-                if(StringUtils.isNotBlank(meal.trim()))
-                   sb.append(" and grams = ?");
+            StringBuilder sb = new StringBuilder(QUERY);
+            if (meal.getId() != null)
+                sb.append(" and id = ").append(meal.getId());
+            if (meal.getIdUser() != null)
+                sb.append(" and id_user = ").append(meal.getIdUser());
+            if (StringUtils.isNotBlank(meal.getDate()))
+                sb.append(" and meal_date = '").append(meal.getDate()).append("' ");
+            if (meal.getMealType() != null)
+                sb.append(" and meal_type = ").append(meal.getMealType());
+            if (StringUtils.isNotBlank(meal.getMeal()))
+                sb.append(" and meal = '").append(meal.getMeal()).append("' ");
 
-            pstmt=con.prepareStatement(sb.toString());
-            int i=1;
+            pstmt = con.prepareStatement(sb.toString());
+            rs = pstmt.executeQuery();
 
-            if (id != null)
-                pstmt.setInt(i++, id);
-            if (id_user != null)
-                pstmt.setInt(i++, id_user);
-            if (date != null)
-                pstmt.setDate(i++, date);
-            if (meal_type!=null)
-                pstmt.setInt(i++, meal_type);
-            if (StringUtils.isNotBlank(meal))
-                if(StringUtils.isNotBlank(meal.trim()))
-                    pstmt.setString(i++, meal.trim());
-
-            rs=pstmt.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 mealList.add(new Meal(
                         rs.getInt("id"),
                         rs.getInt("id_user"),
-                        rs.getDate("meal_date"),
+                        rs.getString("meal_date"),
                         rs.getInt("meal_type"),
                         rs.getString("meal")
                 ));
             }
 
-            LOGGER.info("Users successfully fetched.");
+            LOGGER.info("Meals successfully fetched.");
         } finally {
             if (rs != null)
                 rs.close();
             if (pstmt != null)
                 pstmt.close();
         }
-        this.outputParam=mealList;
+        this.outputParam = mealList;
     }
 }

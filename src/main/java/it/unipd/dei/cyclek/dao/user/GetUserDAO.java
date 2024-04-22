@@ -59,7 +59,7 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
             while (rs.next())
             {
                 users.add(new User(
-                        rs.getInt("id"),
+                        (Integer)rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("surname"),
                         rs.getString("birthday"),

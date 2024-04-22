@@ -3,33 +3,37 @@ package it.unipd.dei.cyclek.resources;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import it.unipd.dei.cyclek.rest.meal.ListMealRR;
 
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class Meal extends AbstractResource{
+public class Meal extends AbstractResource {
     private Integer id;                 //meal identificator
-    private Integer id_user;            //id of user who registered it
-    private Date date;                  //day
-    private Integer meal_type;          //meal type
+    private Integer idUser;            //id of user who registered it
+    private String date;                //day
+    private Integer mealType;          //meal type
     @JsonRawValue
     private String meal;                //meal
 
-    public Meal(Integer id, Integer id_user, Date date, Integer meal_type, String meal) {
-        this.id=id;
-        this.id_user=id_user;
-        this.date=date;
-        this.meal_type=meal_type;
-        this.meal=meal;
+    public Meal(Integer id, Integer idUser, String date, Integer mealType, String meal) {
+        this.id = id;
+        this.idUser = idUser;
+        this.date = date;
+        this.mealType = mealType;
+        this.meal = meal;
+    }
+
+    public Meal(Integer idUser, String date, Integer mealType, String mealJson) {
+        this.idUser = idUser;
+        this.date = date;
+        this.mealType = mealType;
+        this.meal = mealJson;
     }
 
     @Override
@@ -42,11 +46,11 @@ public class Meal extends AbstractResource{
     }
 
     public static Meal fromJSON(final InputStream in) throws IOException {
-        ObjectMapper objectMapper=new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(in, Meal.class);
     }
 
-    public ArrayList<FoodGramsAssociation> fromJsonToMealJava(){
+    public ArrayList<FoodGramsAssociation> fromJsonToFoodGramsAssociation() {
         ArrayList<FoodGramsAssociation> listMealJava = new ArrayList<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -75,38 +79,19 @@ public class Meal extends AbstractResource{
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id=id;
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public Integer getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(Integer id_user) {
-        this.id_user=id_user;
-    }
-
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date=date;
-    }
-
-    public Integer getMeal_type() {
-        return meal_type;
-    }
-
-    public void setMeal_type(Integer meal_type) {
-        this.meal_type=meal_type;
+    public Integer getMealType() {
+        return mealType;
     }
 
     public String getMeal() {
         return meal;
-    }
-    public void setMeal(String meal) {
-        this.meal = meal;
     }
 }

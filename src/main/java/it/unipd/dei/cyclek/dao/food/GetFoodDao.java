@@ -63,12 +63,12 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
             while (rs.next())
             {
                 foodList.add(new Food(
-                        rs.getInt("id"),
+                        (Integer)rs.getInt("id"),
                         rs.getString("fdnm"),
-                        rs.getInt("kcal"),
-                        rs.getInt("fats"),
-                        rs.getInt("carbohydrates"),
-                        rs.getInt("proteins")
+                        (Integer)rs.getInt("kcal"),
+                        (Integer) rs.getInt("fats"),
+                        (Integer)rs.getInt("carbohydrates"),
+                        (Integer)rs.getInt("proteins")
                 ));
             }
             LOGGER.info("Foods successfully fetched.");
