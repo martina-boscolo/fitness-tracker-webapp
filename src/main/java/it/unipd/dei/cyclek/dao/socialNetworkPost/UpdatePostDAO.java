@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Martina Boscolo Bacheto
  */
-public class UpdateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
+public class UpdatePostDAO extends AbstractDAO<Post> {
 
     /**
      * SQL statement to update a social network post in the database.
@@ -24,15 +24,15 @@ public class UpdateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
     /**
      * The post to be updated.
      */
-    private final SocialNetworkPost post;
+    private final Post post;
 
     /**
-     * Constructs a new UpdateSocialNetworkPostDAO object with the given connection and post.
+     * Constructs a new UpdatePostDAO object with the given connection and post.
      *
      * @param con  the connection to the database.
      * @param post the post to be updated.
      */
-    public UpdateSocialNetworkPostDAO(Connection con, final SocialNetworkPost post) {
+    public UpdatePostDAO(Connection con, final Post post) {
         super(con);
         if (post == null) {
             LOGGER.error("The post cannot be null.");
@@ -53,7 +53,7 @@ public class UpdateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        SocialNetworkPost resource = null;
+        Post resource = null;
 
         try {
 
@@ -66,7 +66,7 @@ public class UpdateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                resource = new SocialNetworkPost(
+                resource = new Post(
                         rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getString("text_content"),

@@ -1,7 +1,6 @@
 package it.unipd.dei.cyclek.rest.like;
 
 import it.unipd.dei.cyclek.dao.like.ListLikesByPostIdDAO;
-import it.unipd.dei.cyclek.dao.socialNetworkPost.ListSocialNetworkPostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * A REST resource for listing {@link SocialNetworkPost}s.
+ * A REST resource for listing {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
@@ -22,7 +21,7 @@ import java.util.List;
 
 public class ListLikeRR extends AbstractRR {
     /**
-     * Creates a new REST resource for listing {@code SocialNetworkPost}s.
+     * Creates a new REST resource for listing {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.

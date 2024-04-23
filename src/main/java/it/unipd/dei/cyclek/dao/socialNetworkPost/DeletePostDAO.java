@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  *
  */
-public class DeleteSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
+public class DeletePostDAO extends AbstractDAO<Post> {
 
     /**
      * SQL statement to delete a social network post from the database.
@@ -28,13 +28,13 @@ public class DeleteSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
     private final int postId;
 
     /**
-     * Constructs a new DeleteSocialNetworkPostDAO object with the given connection and post ID.
+     * Constructs a new DeletePostDAO object with the given connection and post ID.
      *
      * @param con the connection to the database.
      * @param postId the post ID to be deleted.
      * @throws IllegalArgumentException if the post ID is less than or equal to 0.
      */
-    public DeleteSocialNetworkPostDAO(Connection con,  int postId) {
+    public DeletePostDAO(Connection con, int postId) {
         super(con);
         if ( postId <= 0) {
             throw new IllegalArgumentException("postId must be greater than 0.");
@@ -55,14 +55,14 @@ public class DeleteSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
         ResultSet rs = null;
 
         // the deleted employee
-        SocialNetworkPost e = null;
+        Post e = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, postId);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                e = new SocialNetworkPost(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
+                e = new Post(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
                         rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
                         rs.getTimestamp("post_date"));
 

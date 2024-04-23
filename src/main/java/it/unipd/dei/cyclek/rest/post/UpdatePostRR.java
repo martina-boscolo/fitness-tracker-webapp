@@ -1,10 +1,10 @@
-package it.unipd.dei.cyclek.rest.socialNetworkPost;
+package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.UpdateSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.UpdatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,22 +15,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for updating {@link SocialNetworkPost}s.
+ * A REST resource for updating {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
  * @since 1.00
  */
-public class UpdateSocialNetworkPostRR extends AbstractRR {
+public class UpdatePostRR extends AbstractRR {
 
     /**
-     * Creates a new REST resource for updating {@code SocialNetworkPost}s.
+     * Creates a new REST resource for updating {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.
      * @param con the connection to the database.
      */
-    public UpdateSocialNetworkPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
+    public UpdatePostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.UPDATE_POST, req, res, con);
     }
 
@@ -38,7 +38,7 @@ public class UpdateSocialNetworkPostRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost e = null;
+        Post e = null;
         Message m = null;
 
         try {
@@ -50,14 +50,14 @@ public class UpdateSocialNetworkPostRR extends AbstractRR {
 
             LogContext.setResource(Integer.toString(postId));
 
-            final SocialNetworkPost socialNetworkPost = SocialNetworkPost.fromJSON(req.getInputStream());
+            final Post post = Post.fromJSON(req.getInputStream());
 
-            if (postId != socialNetworkPost.getPostId()) {
+            if (postId != post.getPostId()) {
                 LOGGER.warn("Cannot update the post: URI request (%d) and post resource (%d) postId differ.",
-                        postId, socialNetworkPost.getPostId());
+                        postId, post.getPostId());
 
                 m = new Message("Cannot update the post: URI request and post resource postId differ.", "E4A8",
-                        String.format("Request URI postId %d; post resource postId %d.", postId, socialNetworkPost.getPostId()));
+                        String.format("Request URI postId %d; post resource postId %d.", postId, post.getPostId()));
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 m.toJSON(res.getOutputStream());
                 return;
@@ -65,7 +65,7 @@ public class UpdateSocialNetworkPostRR extends AbstractRR {
 
 
             // creates a new DAO for accessing the database and updates the employee
-            e = new UpdateSocialNetworkPostDAO(con, socialNetworkPost).access().getOutputParam();
+            e = new UpdatePostDAO(con, post).access().getOutputParam();
 
             if (e != null) {
                 LOGGER.info("Post successfully updated.");

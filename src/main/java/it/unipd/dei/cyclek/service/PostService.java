@@ -7,7 +7,7 @@ import it.unipd.dei.cyclek.rest.comment.ListCommentRR;
 import it.unipd.dei.cyclek.rest.like.CreateLikeRR;
 import it.unipd.dei.cyclek.rest.like.DeleteLikeRR;
 import it.unipd.dei.cyclek.rest.like.ListLikeRR;
-import it.unipd.dei.cyclek.rest.socialNetworkPost.*;
+import it.unipd.dei.cyclek.rest.post.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -17,7 +17,7 @@ import java.sql.Connection;
 import static java.sql.DriverManager.getConnection;
 
 public class PostService extends AbstractService{
-    public static boolean processSocialNetworkPost(final HttpServletRequest req, final HttpServletResponse res, Connection con) throws IOException {
+    public static boolean processPost(final HttpServletRequest req, final HttpServletResponse res, Connection con) throws IOException {
 
         final String method = req.getMethod();
 
@@ -39,10 +39,10 @@ public class PostService extends AbstractService{
 
             switch (method) {
                 case "GET":
-                    new ListSocialNetworkPostRR(req, res, con).serve();
+                    new ListPostRR(req, res, con).serve();
                     break;
                 case "POST":
-                    new CreateSocialNetworkPostRR(req, res, con).serve();
+                    new CreatePostRR(req, res, con).serve();
                     break;
                 default:
                     LOGGER.warn("Unsupported operation for URI /post: %s.", method);
@@ -144,13 +144,13 @@ public class PostService extends AbstractService{
         else  if (path.matches("/\\d+$")) {
             switch (method) {
                 case "GET":
-                    new ReadSocialNetworkPostRR(req, res, con).serve();
+                    new ReadPostRR(req, res, con).serve();
                     break;
                 case "PUT":
-                    new UpdateSocialNetworkPostRR(req, res, con).serve();
+                    new UpdatePostRR(req, res, con).serve();
                     break;
                 case "DELETE":
-                    new DeleteSocialNetworkPostRR(req, res, con).serve();
+                    new DeletePostRR(req, res, con).serve();
                     break;
                 default:
                     LOGGER.warn("Unsupported operation for URI /post/{postId}: %s.", method);

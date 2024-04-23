@@ -1,7 +1,6 @@
 package it.unipd.dei.cyclek.rest.comment;
 
 import it.unipd.dei.cyclek.dao.comment.CreateCommentDAO;
-import it.unipd.dei.cyclek.dao.socialNetworkPost.CreateSocialNetworkPostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for creating {@link SocialNetworkPost}s.
+ * A REST resource for creating {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
@@ -22,7 +21,7 @@ import java.sql.SQLException;
 public class CreateCommentRR extends AbstractRR {
 
     /**
-     * Creates a new REST resource for creating {@code SocialNetworkPost}s.
+     * Creates a new REST resource for creating {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.

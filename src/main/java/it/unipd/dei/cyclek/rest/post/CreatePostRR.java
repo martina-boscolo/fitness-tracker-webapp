@@ -1,10 +1,10 @@
-package it.unipd.dei.cyclek.rest.socialNetworkPost;
+package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.CreateSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,22 +15,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for creating {@link SocialNetworkPost}s.
+ * A REST resource for creating {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
  * @since 1.00
  */
-public class CreateSocialNetworkPostRR extends AbstractRR {
+public class CreatePostRR extends AbstractRR {
 
     /**
-     * Creates a new REST resource for creating {@code SocialNetworkPost}s.
+     * Creates a new REST resource for creating {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.
      * @param con the connection to the database.
      */
-    public CreateSocialNetworkPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
+    public CreatePostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.CREATE_POST, req, res, con);
     }
 
@@ -38,19 +38,19 @@ public class CreateSocialNetworkPostRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost p = null;
+        Post p = null;
         Message m = null;
 
         try {
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("post") + 4);
 
-            final SocialNetworkPost socialNetworkPost = SocialNetworkPost.fromJSON(req.getInputStream());
+            final Post post = Post.fromJSON(req.getInputStream());
 
-            LogContext.setResource(Integer.toString(socialNetworkPost.getPostId()));
+            LogContext.setResource(Integer.toString(post.getPostId()));
 
             // creates a new DAO for accessing the database and stores the employee
-            p = new CreateSocialNetworkPostDAO(con, socialNetworkPost).access().getOutputParam();
+            p = new CreatePostDAO(con, post).access().getOutputParam();
 
             if (p != null) {
                 LOGGER.info("Post successfully created.");

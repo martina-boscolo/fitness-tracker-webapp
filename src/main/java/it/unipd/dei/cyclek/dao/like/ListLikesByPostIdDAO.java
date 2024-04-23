@@ -2,7 +2,6 @@ package it.unipd.dei.cyclek.dao.like;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Like;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

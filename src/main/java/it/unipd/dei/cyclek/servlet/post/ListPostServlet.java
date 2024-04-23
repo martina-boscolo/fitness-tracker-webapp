@@ -1,22 +1,19 @@
-package it.unipd.dei.cyclek.servlet.socialNetwork;
+package it.unipd.dei.cyclek.servlet.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.CreateSocialNetworkPostDAO;
-import it.unipd.dei.cyclek.dao.socialNetworkPost.ListSocialNetworkPostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.ListPostDAO;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListSocialNetworkPostServlet extends AbstractDatabaseServlet {
+public class ListPostServlet extends AbstractDatabaseServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -30,16 +27,16 @@ public class ListSocialNetworkPostServlet extends AbstractDatabaseServlet {
 
 
         // model
-        SocialNetworkPost p = null;
+        Post p = null;
         Message m = null;
 
-        List<SocialNetworkPost> posts = null;
+        List<Post> posts = null;
         try {
             // retrieves the request parameters
             userId = Integer.parseInt(req.getParameter("userId"));
 
             // creates a new object for accessing the database and retrieves the posts
-            new ListSocialNetworkPostDAO(getConnection()).access();
+            new ListPostDAO(getConnection()).access();
 
             m = new Message(String.format("Post list for user %d successfully created.", userId));
 

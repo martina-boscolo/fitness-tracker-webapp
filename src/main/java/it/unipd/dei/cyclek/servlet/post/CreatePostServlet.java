@@ -1,25 +1,21 @@
-package it.unipd.dei.cyclek.servlet.socialNetwork;
+package it.unipd.dei.cyclek.servlet.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.CreateSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
-public class CreateSocialNetworkPostServlet extends AbstractDatabaseServlet {
+public class CreatePostServlet extends AbstractDatabaseServlet {
 
     /**
      * Creates a new employee into the database.
@@ -52,7 +48,7 @@ public class CreateSocialNetworkPostServlet extends AbstractDatabaseServlet {
 
 
         // model
-        SocialNetworkPost p = null;
+        Post p = null;
         Message m = null;
 
         try {
@@ -78,10 +74,10 @@ public class CreateSocialNetworkPostServlet extends AbstractDatabaseServlet {
 
             // creates a new employee from the request parameters
 
-            p = new SocialNetworkPost(postId, userId, textContent, imagePath, likeCount, commentCount, postDate);
+            p = new Post(postId, userId, textContent, imagePath, likeCount, commentCount, postDate);
 
             // creates a new object for accessing the database and stores the employee
-            new CreateSocialNetworkPostDAO(getConnection(), p).access();
+            new CreatePostDAO(getConnection(), p).access();
 
             m = new Message(String.format("Post %d successfully created.", postId));
 
@@ -117,7 +113,7 @@ public class CreateSocialNetworkPostServlet extends AbstractDatabaseServlet {
             req.setAttribute("message", m);
 
             // forwards the control to the create-employee-result JSP
-            req.getRequestDispatcher("/jsp/create-social-network-post-result.jsp").forward(req, res);
+            req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
         } catch(Exception ex) {
             LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %d.", postId), ex);
             throw ex;

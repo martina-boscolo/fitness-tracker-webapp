@@ -1,6 +1,6 @@
-package it.unipd.dei.cyclek.rest.socialNetworkPost;
+package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.ReadSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.GetPostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,23 +11,23 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for reading {@link SocialNetworkPost}s.
+ * A REST resource for reading {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
  * @since 1.00
  */
-public class ReadSocialNetworkPostRR extends AbstractRR {
+public class ReadPostRR extends AbstractRR {
 
 
     /**
-     * Creates a new REST resource for reading {@code SocialNetworkPost}s.
+     * Creates a new REST resource for reading {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.
      * @param con the connection to the database.
      */
-    public ReadSocialNetworkPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
+    public ReadPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.GET_POST_BY_ID, req, res, con);
     }
 
@@ -35,7 +35,7 @@ public class ReadSocialNetworkPostRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost e = null;
+        Post e = null;
         Message m = null;
 
         try {
@@ -48,7 +48,7 @@ public class ReadSocialNetworkPostRR extends AbstractRR {
             LogContext.setResource(Integer.toString(postId));
 
             // creates a new DAO for accessing the database and reads the employee
-            e = new ReadSocialNetworkPostDAO(con, postId).access().getOutputParam();
+            e = new GetPostDAO(con, postId).access().getOutputParam();
 
             if (e != null) {
                 LOGGER.info("Post successfully read.");

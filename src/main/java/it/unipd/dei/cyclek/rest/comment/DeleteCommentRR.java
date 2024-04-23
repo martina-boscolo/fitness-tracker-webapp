@@ -1,7 +1,6 @@
 package it.unipd.dei.cyclek.rest.comment;
 
 import it.unipd.dei.cyclek.dao.comment.DeleteCommentDAO;
-import it.unipd.dei.cyclek.dao.socialNetworkPost.DeleteSocialNetworkPostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for deleting {@link SocialNetworkPost}s.
+ * A REST resource for deleting {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
@@ -21,7 +20,7 @@ import java.sql.SQLException;
 public class DeleteCommentRR extends AbstractRR {
 
     /**
-     * Creates a new REST resource for deleting {@code SocialNetworkPost}s.
+     * Creates a new REST resource for deleting {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.

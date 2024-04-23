@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.UserService.processUser;
-import static it.unipd.dei.cyclek.service.PostService.processSocialNetworkPost;
+import static it.unipd.dei.cyclek.service.PostService.processPost;
 
 
 public class RestDispatcherServlet extends AbstractDatabaseServlet{
@@ -30,7 +30,7 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
 
 
             // if the requested resource was a post, delegate its processing and return
-            if (processSocialNetworkPost(req, res, getConnection())) {
+            if (processPost(req, res, getConnection())) {
                 return;
             }
 

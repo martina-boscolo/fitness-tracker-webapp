@@ -3,7 +3,6 @@ package it.unipd.dei.cyclek.resources;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import jakarta.json.*;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -11,20 +10,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-
-import static it.unipd.dei.cyclek.resources.AbstractResource.JSON_FACTORY;
 
 /**
  * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, comment count, and post date.
  *
  * @author Martina Boscolo Bacheto
  */
-public class SocialNetworkPost extends AbstractResource {
+public class Post extends AbstractResource {
 
     private final int postId;
     private final int userId;
@@ -35,7 +27,7 @@ public class SocialNetworkPost extends AbstractResource {
     private final Timestamp postDate;
 
     /**
-     * Constructs a new SocialNetworkPost with the given attributes.
+     * Constructs a new Post with the given attributes.
      *
      * @param postId       the ID of the post
      * @param userId       the ID of the user who created the post
@@ -45,7 +37,7 @@ public class SocialNetworkPost extends AbstractResource {
      * @param commentCount the number of comments the post has received
      * @param postDate     the date the post was created
      */
-    public SocialNetworkPost(int postId, int userId, String textContent, String imagePath, int likeCount, int commentCount, Timestamp postDate) {
+    public Post(int postId, int userId, String textContent, String imagePath, int likeCount, int commentCount, Timestamp postDate) {
         this.postId = postId;
         this.userId = userId;
         this.textContent = textContent;
@@ -158,7 +150,7 @@ public class SocialNetworkPost extends AbstractResource {
     }
 
 
-    public static SocialNetworkPost fromJSON(final InputStream in) throws IOException {
+    public static Post fromJSON(final InputStream in) throws IOException {
 
         // the fields read from JSON
         int jPostId = -1;
@@ -224,6 +216,6 @@ public class SocialNetworkPost extends AbstractResource {
             LOGGER.error("Unable to parse a Social Network Post object from JSON.", e);
             throw e;
         }
-        return new SocialNetworkPost(jPostId, jUserId, jTextContent, jImagePath, jLikeCount, jCommentCount, jPostDate);
+        return new Post(jPostId, jUserId, jTextContent, jImagePath, jLikeCount, jCommentCount, jPostDate);
     }
 }

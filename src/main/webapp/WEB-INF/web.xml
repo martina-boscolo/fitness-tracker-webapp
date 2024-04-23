@@ -24,24 +24,13 @@
 
 
     <servlet>
-        <servlet-name>CreateSocialNetworkPost</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.socialNetwork.CreateSocialNetworkPostServlet</servlet-class>
+        <servlet-name>CreatePost</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.post.CreatePostServlet</servlet-class>
     </servlet>
 
-
     <servlet-mapping>
-        <servlet-name>CreateSocialNetworkPost</servlet-name>
+        <servlet-name>CreatePost</servlet-name>
         <url-pattern>/create-post</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ListSocialNetworkPost</servlet-name>
-        <servlet-class>it.unipd.dei.cyclek.servlet.socialNetwork.ListSocialNetworkPostServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ListSocialNetworkPost</servlet-name>
-        <url-pattern>/list-post</url-pattern>
     </servlet-mapping>
 
 

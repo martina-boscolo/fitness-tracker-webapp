@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Martina Boscolo Bacheto
  */
-public class ListSocialNetworkPostDAO extends AbstractDAO<List<SocialNetworkPost>> {
+public class ListPostDAO extends AbstractDAO<List<Post>> {
 
     /**
      * SQL statement to list all social network posts from the database.
@@ -25,11 +25,11 @@ public class ListSocialNetworkPostDAO extends AbstractDAO<List<SocialNetworkPost
 
 
     /**
-     * Constructs a new ListSocialNetworkPostDAO object with the given connection.
+     * Constructs a new ListPostDAO object with the given connection.
      *
      * @param con the connection to the database.
      */
-    public ListSocialNetworkPostDAO(final Connection con) {
+    public ListPostDAO(final Connection con) {
         super(con);
     }
 
@@ -45,7 +45,7 @@ public class ListSocialNetworkPostDAO extends AbstractDAO<List<SocialNetworkPost
         ResultSet rs = null;
 
         // the results of the search
-        final List<SocialNetworkPost> socialNetworkPosts = new ArrayList<SocialNetworkPost>();
+        final List<Post> posts = new ArrayList<Post>();
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -53,8 +53,8 @@ public class ListSocialNetworkPostDAO extends AbstractDAO<List<SocialNetworkPost
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                socialNetworkPosts.add(
-                        new SocialNetworkPost(
+                posts.add(
+                        new Post(
                                 rs.getInt("id"),
                                 rs.getInt("id_user"),
                                 rs.getString("text_content"),
@@ -80,7 +80,7 @@ public class ListSocialNetworkPostDAO extends AbstractDAO<List<SocialNetworkPost
 
         }
 
-        outputParam = socialNetworkPosts;
+        outputParam = posts;
     }
 }
 

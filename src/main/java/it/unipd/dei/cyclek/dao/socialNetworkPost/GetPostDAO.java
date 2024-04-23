@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * @author Martina Boscolo Bacheto
  */
 
-public class ReadSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
+public class GetPostDAO extends AbstractDAO<Post> {
 
     /**
      * SQL statement to retrieve a social network post from the database.
@@ -27,12 +27,12 @@ public class ReadSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
     private final int postId;
 
     /**
-     * Constructs a new ReadSocialNetworkPostDAO object with the given connection and post ID.
+     * Constructs a new GetPostDAO object with the given connection and post ID.
      *
      * @param con    the connection to the database.
      * @param postId the post ID to be retrieved.
      */
-    public ReadSocialNetworkPostDAO(final Connection con, final int postId) {
+    public GetPostDAO(final Connection con, final int postId) {
         super(con);
         this.postId = postId;
     }
@@ -48,7 +48,7 @@ public class ReadSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        SocialNetworkPost resource = null;
+        Post resource = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -57,7 +57,7 @@ public class ReadSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                resource = new SocialNetworkPost(
+                resource = new Post(
                         rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getString("text_content"),

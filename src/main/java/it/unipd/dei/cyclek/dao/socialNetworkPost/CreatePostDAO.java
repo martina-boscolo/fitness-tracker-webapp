@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.socialNetworkPost;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,24 +15,24 @@ import java.time.LocalDateTime;
  * @author Martina Boscolo Bacheto
  *
  */
-public class CreateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
+public class CreatePostDAO extends AbstractDAO<Post> {
 
     private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, image_path, like_count, comment_count, post_date) VALUES ( ?, ?, ?, ?, ?, ?) RETURNING * ";
-    private final SocialNetworkPost socialNetworkPost;
+    private final Post post;
 
     /**
      * Constructs a new CreateSocialNetworkPost with the given database connection and social network post.
      *
      * @param con the database connection
-     * @param socialNetworkPost the social network post to be created
+     * @param post the social network post to be created
      */
-    public CreateSocialNetworkPostDAO(Connection con, SocialNetworkPost socialNetworkPost) {
+    public CreatePostDAO(Connection con, Post post) {
         super(con);
-        if (socialNetworkPost == null) {
+        if (post == null) {
             throw new IllegalArgumentException("Social network post must not be null.");
         }
 
-        this.socialNetworkPost = socialNetworkPost;
+        this.post = post;
     }
 
     /**
@@ -46,21 +46,21 @@ public class CreateSocialNetworkPostDAO extends AbstractDAO<SocialNetworkPost> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        SocialNetworkPost e = null;
+        Post e = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
-            pstmt.setInt(1, socialNetworkPost.getUserId());
-            pstmt.setString(2, socialNetworkPost.getTextContent());
-            pstmt.setString(3, socialNetworkPost.getImagePath());
-            pstmt.setInt(4, socialNetworkPost.getLikeCount());
-            pstmt.setInt(5, socialNetworkPost.getCommentCount());
+            pstmt.setInt(1, post.getUserId());
+            pstmt.setString(2, post.getTextContent());
+            pstmt.setString(3, post.getImagePath());
+            pstmt.setInt(4, post.getLikeCount());
+            pstmt.setInt(5, post.getCommentCount());
             pstmt.setTimestamp(6, java.sql.Timestamp.valueOf(LocalDateTime.now()));
 
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                e = new SocialNetworkPost(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
+                e = new Post(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
                         rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
                         rs.getTimestamp("post_date"));
                 LOGGER.info("Post %d successfully stored in the database.", e.getPostId());

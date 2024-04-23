@@ -1,10 +1,10 @@
 package it.unipd.dei.cyclek.rest.like;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.DeleteSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.DeletePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * A REST resource for deleting {@link SocialNetworkPost}s.
+ * A REST resource for deleting {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
@@ -23,7 +23,7 @@ import java.sql.SQLException;
 public class DeleteLikeRR extends AbstractRR {
 
     /**
-     * Creates a new REST resource for deleting {@code SocialNetworkPost}s.
+     * Creates a new REST resource for deleting {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.
@@ -37,7 +37,7 @@ public class DeleteLikeRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost e = null;
+        Post e = null;
         Message m = null;
 
         try {
@@ -49,7 +49,7 @@ public class DeleteLikeRR extends AbstractRR {
             LogContext.setResource(Integer.toString(postId));
 
             // creates a new DAO for accessing the database and deletes the employee
-            e = new DeleteSocialNetworkPostDAO(con, postId).access().getOutputParam();
+            e = new DeletePostDAO(con, postId).access().getOutputParam();
 
             if (e != null) {
                 LOGGER.info("Post successfully deleted.");

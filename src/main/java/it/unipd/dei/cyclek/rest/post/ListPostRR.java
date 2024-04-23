@@ -1,10 +1,10 @@
-package it.unipd.dei.cyclek.rest.socialNetworkPost;
+package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.ListSocialNetworkPostDAO;
+import it.unipd.dei.cyclek.dao.socialNetworkPost.ListPostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
+import it.unipd.dei.cyclek.resources.Post;
 import it.unipd.dei.cyclek.resources.ResourceList;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,23 +15,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * A REST resource for listing {@link SocialNetworkPost}s.
+ * A REST resource for listing {@link Post}s.
  *
  * @author Martina Boscolo Bacheto
  * @version 1.00
  * @since 1.00
  */
 
-public class ListSocialNetworkPostRR extends AbstractRR {
+public class ListPostRR extends AbstractRR {
     /**
-     * Creates a new REST resource for listing {@code SocialNetworkPost}s.
+     * Creates a new REST resource for listing {@code Post}s.
      *
      * @param req the HTTP request.
      * @param res the HTTP response.
      * @param con the connection to the database.
      */
 
-    public ListSocialNetworkPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
+    public ListPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.LIST_POST, req, res, con);
     }
 
@@ -39,13 +39,13 @@ public class ListSocialNetworkPostRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
 
-        List<SocialNetworkPost> el = null;
+        List<Post> el = null;
         Message m = null;
 
         try {
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            el = new ListSocialNetworkPostDAO(con).access().getOutputParam();
+            el = new ListPostDAO(con).access().getOutputParam();
 
             if (el != null) {
                 LOGGER.info("Post(s) successfully listed.");
