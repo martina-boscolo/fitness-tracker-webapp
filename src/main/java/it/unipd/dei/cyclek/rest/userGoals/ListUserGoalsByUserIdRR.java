@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.rest.userGoals;
 
+import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsByUserIdDAO;
 import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.UserGoals;
@@ -30,17 +31,8 @@ public class ListUserGoalsByUserIdRR extends AbstractRR {
             path = path.substring(path.lastIndexOf("user") + 4);
             final int idUser = Integer.parseInt(path.substring(1));
 
-            UserGoals userGoals = new UserGoals(
-                    null,
-                    idUser,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "");
-
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetUserGoalsDAO(con, userGoals).access().getOutputParam();
+            bsl = new GetUserGoalsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Obj successfully listed.");

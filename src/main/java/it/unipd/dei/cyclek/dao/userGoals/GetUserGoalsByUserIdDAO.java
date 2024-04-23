@@ -10,11 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GetUserGoalsDAO extends AbstractDAO<List<UserGoals>>{
-    private static final String QUERY = "SELECT * FROM userGoals ORDER BY user, goalDate DESC";
+public final class GetUserGoalsByUserIdDAO extends AbstractDAO<List<UserGoals>>{
+    private static final String QUERY = "SELECT * FROM userGoals WHERE iduser = ? ORDER BY goalDate DESC";
 
-    public GetUserGoalsDAO(Connection con) {
+    private final Integer idUser;
+    public GetUserGoalsByUserIdDAO(Connection con, Integer idUser) {
         super(con);
+        this.idUser = idUser;
     }
 
     @Override
@@ -28,6 +30,7 @@ public final class GetUserGoalsDAO extends AbstractDAO<List<UserGoals>>{
         try {
 
             pstmt = con.prepareStatement(QUERY);
+            pstmt.setInt(1,idUser);
             rs = pstmt.executeQuery();
 
             while (rs.next())

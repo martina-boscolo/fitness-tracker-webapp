@@ -16,17 +16,17 @@ public class UserGoals extends AbstractResource{
     private Double height;
     private Double fatty;
     private Double lean;
-    private String objDate;
+    private String goalDate;
 
     public UserGoals() {}
-    public UserGoals(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String objDate) {
+    public UserGoals(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String goalDate) {
         this.id = id;
         this.idUser = idUser;
         this.weight = weight;
         this.height = height;
         this.fatty = fatty;
         this.lean = lean;
-        this.objDate = objDate;
+        this.goalDate = goalDate;
     }
 
     public Integer getId() {
@@ -53,8 +53,8 @@ public class UserGoals extends AbstractResource{
         return lean;
     }
 
-    public String getObjDate() {
-        return objDate;
+    public String getGoalDate() {
+        return goalDate;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserGoals extends AbstractResource{
 
         String json = new ObjectMapper()
                 .enable(SerializationFeature.WRAP_ROOT_VALUE)
-                .writer().withRootName("bodyObj")
+                .writer().withRootName("userGoals")
                 .writeValueAsString(this);
         out.write(json.getBytes(StandardCharsets.UTF_8));
     }

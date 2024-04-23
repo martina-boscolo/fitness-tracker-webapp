@@ -11,13 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class GetUserStatsDAO extends AbstractDAO<List<UserStats>>{
-    private static final String QUERY = "SELECT * FROM userStats WHERE 1=1";
-
-    private final UserStats userStats;
-
-    public GetUserStatsDAO(Connection con, UserStats userStats) {
+    private static final String QUERY = "SELECT * FROM userStats ORDER BY users, statsDate DESC";
+        public GetUserStatsDAO(Connection con) {
         super(con);
-        this.userStats = userStats;
     }
 
     @Override
@@ -29,27 +25,8 @@ public final class GetUserStatsDAO extends AbstractDAO<List<UserStats>>{
         final List<UserStats> bsl = new ArrayList<>();
 
         try {
-            StringBuilder sb = new StringBuilder(QUERY);
 
-            if (userStats.getId() != null)
-                sb.append(" and id = ").append(userStats.getId());
-            if (userStats.getIdUser() != null)
-                sb.append(" and idUser = ").append(userStats.getIdUser());
-            if (userStats.getWeight() != null)
-                sb.append(" and weight = ").append(userStats.getWeight());
-            if (userStats.getHeight() != null)
-                sb.append(" and height = ").append(userStats.getHeight());
-            if (userStats.getFatty() != null)
-                sb.append(" and fatty = ").append(userStats.getFatty());
-            if (userStats.getLean() != null)
-                sb.append(" and lean = ").append(userStats.getLean());
-            if (!userStats.getStatsDate().isEmpty())
-                sb.append(" and statsDate = ").append(userStats.getStatsDate());
-
-            sb.append(" ORDER BY statsDate DESC");
-
-            pstmt = con.prepareStatement(sb.toString());
-
+            pstmt = con.prepareStatement(QUERY);
             rs = pstmt.executeQuery();
 
             while (rs.next())

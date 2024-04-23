@@ -36,17 +36,17 @@ public class UserGoalsService extends AbstractService{
         if (path.isEmpty() || path.equals("/")) {
             switch (method) {
                 case "GET":
-                    new ListUserGoalsRR(req, res, con).serve();           // GET  /rest/bodyobj  (list body objective of all users)
+                    new ListUserGoalsRR(req, res, con).serve();           // GET  /rest/goals  (list body objective of all users)
                     break;
                 case "POST":
-                    new CreateUserGoalsRR(req, res, con).serve();         // POST /rest/bodyobj  (insert a new body objective)
+                    new CreateUserGoalsRR(req, res, con).serve();         // POST /rest/goals  (insert a new body objective)
                     break;
                 default:
                     unsupportedOperation(req,res);
                     break;
             }
         } else if (path.contains("user") && method.equals("GET")) {
-            new ListUserGoalsByUserIdRR(req, res, con).serve();           // GET /rest/bodyobj/user/{id}  (list body objective of a user)
+            new ListUserGoalsByUserIdRR(req, res, con).serve();           // GET /rest/goals/user/{id}  (list body objective of a user)
         } else {
             unsupportedOperation(req, res);
         }

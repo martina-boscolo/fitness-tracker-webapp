@@ -36,9 +36,9 @@ CREATE TABLE userGoals
     height      FLOAT NOT NULL,
     fatty       FLOAT NOT NULL,
     lean        FLOAT NOT NULL,
-    objDate     DATE DEFAULT CURRENT_DATE,
+    goalDate     DATE DEFAULT CURRENT_DATE,
 
-    CONSTRAINT unique_daily_obj UNIQUE (idUser, objDate)
+    CONSTRAINT unique_daily_obj UNIQUE (idUser, goalDate)
 );
 
 -- Martina
@@ -140,7 +140,7 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00'),
     (1, 78, 175, 13.6, 23.5, '2024-04-09 09:43:00');
 
-INSERT INTO userGoals (idUser, weight, height, fatty, lean, objDate)
+INSERT INTO userGoals (idUser, weight, height, fatty, lean, goalDate)
 VALUES
     (1, 75, 175, 10, 25, '2024-04-09 09:43:00'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),

@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.rest.userStats;
 
+import it.unipd.dei.cyclek.dao.userStats.GetUserStatsByUserIdDAO;
 import it.unipd.dei.cyclek.dao.userStats.GetUserStatsDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.UserStats;
@@ -31,17 +32,8 @@ public class GetImcByUserIdRR extends AbstractRR {
             path = path.substring(path.lastIndexOf("user") + 4);
             final int idUser = Integer.parseInt(path.substring(1));
 
-            UserStats userStats = new UserStats(
-                    null,
-                    idUser,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "");
-
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetUserStatsDAO(con, userStats).access().getOutputParam();
+            bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Stats successfully listed.");

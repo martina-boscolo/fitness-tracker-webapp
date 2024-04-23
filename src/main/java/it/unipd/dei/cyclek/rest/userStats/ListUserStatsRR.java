@@ -23,17 +23,9 @@ public class ListUserStatsRR extends AbstractRR {
         Message m = null;
 
         try {
-            UserStats userStats = new UserStats(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "");
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetUserStatsDAO(con, userStats).access().getOutputParam();
+            bsl = new GetUserStatsDAO(con).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Stats successfully listed.");

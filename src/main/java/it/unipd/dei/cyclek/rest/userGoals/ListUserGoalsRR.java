@@ -23,17 +23,8 @@ public class ListUserGoalsRR extends AbstractRR {
         Message m = null;
 
         try {
-            UserGoals userGoals = new UserGoals(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "");
-
             // creates a new DAO for accessing the database and lists the employee(s)
-            bol = new GetUserGoalsDAO(con, userGoals).access().getOutputParam();
+            bol = new GetUserGoalsDAO(con).access().getOutputParam();
 
             if (bol != null) {
                 LOGGER.info("Body Objective successfully listed.");

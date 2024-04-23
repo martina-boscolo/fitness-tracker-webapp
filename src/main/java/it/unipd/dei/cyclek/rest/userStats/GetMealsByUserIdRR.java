@@ -1,6 +1,6 @@
 package it.unipd.dei.cyclek.rest.userStats;
 
-import it.unipd.dei.cyclek.dao.userStats.GetMealsByUserIdDAO;
+import it.unipd.dei.cyclek.dao.userStats.GetMealsAndFoodByUserIdDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class GetMealsByUserIdRR extends AbstractRR {
             final int idUser = Integer.parseInt(path.substring(1));
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            mealFoodGroup = new GetMealsByUserIdDAO(con, idUser).access().getOutputParam();
+            mealFoodGroup = new GetMealsAndFoodByUserIdDAO(con, idUser).access().getOutputParam();
             List<Meal> meals = mealFoodGroup.getMeals();
             List<Food> foods = mealFoodGroup.getFoods();
             Map<Integer,Food> foodsMap = new HashMap<>();

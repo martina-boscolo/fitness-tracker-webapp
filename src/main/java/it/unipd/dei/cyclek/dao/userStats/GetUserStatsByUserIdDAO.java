@@ -1,7 +1,7 @@
-package it.unipd.dei.cyclek.dao.userGoals;
+package it.unipd.dei.cyclek.dao.userStats;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.UserGoals;
+import it.unipd.dei.cyclek.resources.UserStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,11 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GetUserGoalsDAO extends AbstractDAO<List<UserGoals>>{
-    private static final String QUERY = "SELECT * FROM userGoals ORDER BY user, goalDate DESC";
+public final class GetUserStatsByUserIdDAO extends AbstractDAO<List<UserStats>>{
+    private static final String QUERY = "SELECT * FROM userstats WHERE iduser = ? ORDER BY statsDate DESC";
+    private final Integer idUser;
 
-    public GetUserGoalsDAO(Connection con) {
+    public GetUserStatsByUserIdDAO(Connection con, Integer idUser) {
         super(con);
+        this.idUser = idUser;
     }
 
     @Override
@@ -23,35 +25,39 @@ public final class GetUserGoalsDAO extends AbstractDAO<List<UserGoals>>{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         // the results of the search
-        final List<UserGoals> bol = new ArrayList<>();
+        final List<UserStats> bsl = new ArrayList<>();
 
         try {
 
             pstmt = con.prepareStatement(QUERY);
+            pstmt.setInt(1,this.idUser);
             rs = pstmt.executeQuery();
 
             while (rs.next())
             {
-                bol.add(new UserGoals(
+                bsl.add(new UserStats(
                         rs.getInt("id"),
                         rs.getInt("idUser"),
                         rs.getDouble("weight"),
                         rs.getDouble("height"),
                         rs.getDouble("fatty"),
                         rs.getDouble("lean"),
-                        rs.getString("objDate")
+                        rs.getString("statsDate")
                 ));
             }
 
-            LOGGER.info("Body Obj successfully fetched.");
+            LOGGER.info("Body Stats successfully fetched.");
         } finally {
             if (rs != null) {
                 rs.close();
             }
+
             if (pstmt != null) {
                 pstmt.close();
             }
+
         }
-        this.outputParam = bol;
+
+        this.outputParam = bsl;
     }
 }

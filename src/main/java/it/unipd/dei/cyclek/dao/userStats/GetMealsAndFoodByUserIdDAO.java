@@ -4,7 +4,6 @@ import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Food;
 import it.unipd.dei.cyclek.resources.Meal;
 import it.unipd.dei.cyclek.resources.MealFoodGroup;
-import it.unipd.dei.cyclek.resources.UserStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +12,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GetMealsByUserIdDAO extends AbstractDAO<MealFoodGroup> {
+public final class GetMealsAndFoodByUserIdDAO extends AbstractDAO<MealFoodGroup> {
 
     private static final String QUERY = "SELECT * FROM meal WHERE id_user = ? order by meal_date desc";
     private static final String QUERY1 = "SELECT * FROM foods";
 
     private final Integer idUser;
 
-    public GetMealsByUserIdDAO(Connection con, Integer idUser) {
+    public GetMealsAndFoodByUserIdDAO(Connection con, Integer idUser) {
         super(con);
         this.idUser = idUser;
     }
