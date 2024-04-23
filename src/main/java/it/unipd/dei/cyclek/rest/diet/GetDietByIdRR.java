@@ -32,20 +32,20 @@ public class GetDietByIdRR extends AbstractRR {
             dl = new GetDietDAO(con, new Diet(id)).access().getOutputParam();
 
             if (dl != null && dl.size() == 1) {
-                LOGGER.info("Diet(s) successfully listed.");
+                LOGGER.info("Diet successfully listed.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 dl.get(0).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing diet(s).");
 
-                m = new Message("Cannot list diet(s): unexpected error.", "E5A1", null);
+                m = new Message("Cannot list diet: unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list diet(s): unexpected database error.", ex);
+            LOGGER.error("Cannot list diet: unexpected database error.", ex);
 
-            m = new Message("Cannot list diet(s): unexpected database error.", "E5A1", ex.getMessage());
+            m = new Message("Cannot list diet: unexpected database error.", "E5A1", ex.getMessage());
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }

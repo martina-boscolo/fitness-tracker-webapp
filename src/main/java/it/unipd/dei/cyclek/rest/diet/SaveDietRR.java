@@ -9,7 +9,6 @@ import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -23,7 +22,7 @@ public class SaveDietRR extends AbstractRR {
 
         @Override
         protected void doServe() throws IOException {
-            Message m = null;
+            Message m;
 
             try {
 

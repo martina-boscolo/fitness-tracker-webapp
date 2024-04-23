@@ -17,8 +17,8 @@ public class ListDietRR extends AbstractRR {
     }
     @Override
     protected void doServe() throws IOException {
-        List<Diet> dl = null;
-        Message m = null;
+        List<Diet> dl;
+        Message m;
 
         try {
 

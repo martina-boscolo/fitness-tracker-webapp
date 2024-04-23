@@ -21,18 +21,18 @@ public class UpdateDietDAO extends AbstractDAO<Boolean> {
     @Override
     protected final void doAccess() throws SQLException {
 
-        try (PreparedStatement pstmt = con.prepareStatement(QUERY)) {
-            pstmt.setString(1, diet.getPlanName());
+        try (PreparedStatement stmt = con.prepareStatement(QUERY)) {
+            stmt.setString(1, diet.getPlanName());
 
 
             PGobject jsonObject = new PGobject();
             jsonObject.setType("json");
             jsonObject.setValue(diet.getDiet());
-            pstmt.setObject(2, jsonObject);
-            pstmt.setInt(3, diet.getId());
+            stmt.setObject(2, jsonObject);
+            stmt.setInt(3, diet.getId());
 
 
-            int rowsAffected = pstmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
 
             this.outputParam = rowsAffected > 0;
         }
