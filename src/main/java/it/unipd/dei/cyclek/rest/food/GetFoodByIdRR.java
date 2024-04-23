@@ -25,10 +25,10 @@ public class GetFoodByIdRR extends AbstractRR {
         try {
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("id") + 2);
-            final int id = Integer.parseInt(path.substring(1));
+            final Integer id = Integer.valueOf(path.substring(1));
 
-            Food food = new Food((Integer)id);
-            // creates a new DAO for accessing the database and lists the users(s)
+            Food food = new Food(id);
+            // creates a new DAO for accessing the database and lists the food(s)
             foodList = new GetFoodDao(con, food).access().getOutputParam();
             if (foodList != null && foodList.size() == 1) {
                 LOGGER.info("Food(s) successfully find.");

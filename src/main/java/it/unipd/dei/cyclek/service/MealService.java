@@ -2,8 +2,8 @@ package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.meal.ListMealRR;
-import it.unipd.dei.cyclek.rest.meal.MealWithCaloriesRR;
 import it.unipd.dei.cyclek.rest.meal.RegisterMealRR;
+import it.unipd.dei.cyclek.rest.meal.GetMealByUserIdRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -37,13 +37,8 @@ public class MealService extends AbstractService {
                     unsupportedOperation(req, res);
                     break;
             }
-        } else if(path.equals("/calories") || path.equals("/calories/")){
-            if(method.equals("GET")){
-                new MealWithCaloriesRR(req, res, con).serve();
-            }else{
-                unsupportedOperation(req, res);
-            }
-        }
+        }else if(path.contains("idUser") && method.equals("GET"))
+            new GetMealByUserIdRR(req, res, con).serve();
         return true;
     }
 

@@ -57,7 +57,7 @@ public class RegisterMealRR extends AbstractRR {
                 LOGGER.info("meal successfully saved.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("meal successfully saved.", "S1A1", null);
+                m = new Message("meal successfully saved.");
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Failed to save meal.");

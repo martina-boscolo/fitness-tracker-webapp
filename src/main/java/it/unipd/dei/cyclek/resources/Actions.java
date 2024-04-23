@@ -17,6 +17,7 @@ public final class Actions {
     public static final String LIST_CALORIES_MEAL = "LIST_CALORIES_MEAL";
     public static final String FOOD_BY_ID = "FOOD_BY_ID";
     public static final String SAVE_MEAL = "SAVE_MEAL";
+    public static final String GET_MEAL_USER_ID = "GET_MEAL_USER_ID";
 
 
     /**

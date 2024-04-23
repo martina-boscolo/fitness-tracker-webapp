@@ -36,6 +36,10 @@ public class Meal extends AbstractResource {
         this.meal = mealJson;
     }
 
+    public Meal(Integer idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
         String json = new ObjectMapper()

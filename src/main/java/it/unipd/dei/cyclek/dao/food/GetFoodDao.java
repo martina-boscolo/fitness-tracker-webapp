@@ -47,8 +47,8 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
         try {
             if (id != null)
                 sql.append(" and id = ").append(id);
-            if (StringUtils.isNotBlank(fdnm) && StringUtils.isNotBlank(fdnm.trim()))
-                sql.append(" and fdnm = ").append(fdnm.trim());
+            if (StringUtils.isNotBlank(fdnm))
+                sql.append(" and fdnm = '").append(fdnm).append("' ");
             if (kcal!=null)
                 sql.append(" and kcal = ").append(kcal);
             if (fats != null)
