@@ -34,17 +34,17 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
 
             if (user.getId() != null)
                 sb.append(" and id = ").append(user.getId());
-            if(!StringUtils.isBlank(user.getName()))
-                sb.append(" and name = ").append(user.getName());
-            if(!StringUtils.isBlank(user.getSurname()))
-                sb.append(" and surname = ").append(user.getSurname());
-            if(!StringUtils.isBlank(user.getBirthday()))
-                sb.append(" and birthday = ").append(user.getBirthday());
-            if(!StringUtils.isBlank(user.getGender()))
-                sb.append(" and gender = ").append(user.getGender());
-            if(!StringUtils.isBlank(user.getUsername()))
+            if(StringUtils.isNotBlank(user.getName()))
+                sb.append(" and name = '").append(user.getName()).append("'");
+            if(StringUtils.isNotBlank(user.getSurname()))
+                sb.append(" and surname = '").append(user.getSurname()).append("'");
+            if(!StringUtils.isNotBlank(user.getBirthday()))
+                sb.append(" and birthday = '").append(user.getBirthday()).append("'");
+            if(!StringUtils.isNotBlank(user.getGender()))
+                sb.append(" and gender = '").append(user.getGender()).append("'");
+            if(!StringUtils.isNotBlank(user.getUsername()))
                 sb.append(" and username = '").append(user.getUsername()).append("'");
-            if(!StringUtils.isBlank(user.getPassword()))
+            if(!StringUtils.isNotBlank(user.getPassword()))
                 sb.append(" and password = '").append(user.getPassword()).append("'");
 
             pstmt = con.prepareStatement(sb.toString());

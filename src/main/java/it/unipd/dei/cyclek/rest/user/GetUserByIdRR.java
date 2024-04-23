@@ -30,13 +30,13 @@ public class GetUserByIdRR extends AbstractRR {
             final int id = Integer.parseInt(path.substring(1));
 
             User user = new User(id,"","","","", "", "");
-            // creates a new DAO for accessing the database and lists the users(s)
             userList = new GetUserDAO(con, user).access().getOutputParam();
             if (userList != null && userList.size() == 1) {
                 LOGGER.info("User(s) successfully find.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 userList.get(0).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            }
+            else { // it should not happen
                 LOGGER.error("Fatal error while finding user(s).");
                 m = new Message("Cannot find user(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
