@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static it.unipd.dei.cyclek.service.ExercisePlanService.processExercisePlan;
 import static it.unipd.dei.cyclek.service.ExerciseService.processExercise;
 import static it.unipd.dei.cyclek.service.UserExerciseService.processUserExercise;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
@@ -36,6 +37,10 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
             if(processExercise(req, res, getConnection())) {
                 return;
             }
+            if(processExercisePlan(req, res, getConnection())){
+                return;
+            }
+
 
             // if none of the above process methods succeeds, it means an unknown resource has been requested
             LOGGER.warn("Unknown resource requested: %s.", req.getRequestURI());
