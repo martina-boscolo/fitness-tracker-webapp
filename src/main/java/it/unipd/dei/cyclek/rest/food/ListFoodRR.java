@@ -32,7 +32,7 @@ public class ListFoodRR extends AbstractRR {
 
             String path = req.getRequestURI();
 
-            Food food = new Food(null,null,null,null,null, null);
+            Food food = new Food(null,null,null,null, null);
             fl = new GetFoodDao(con, food).access().getOutputParam();
             if (fl != null) {
                 LOGGER.info("Food(s) successfully listed.");

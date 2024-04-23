@@ -14,7 +14,7 @@ import java.util.Locale;
 public class RegisterFoodDAO extends AbstractDAO<Food> {
 
     private static final String QUERY = "INSERT INTO foods (fdnm, kcal, fats, carbohydrates, proteins) " +
-            "                            VALUES (?, ?, ?, ?, ?, ?)";
+            "                            VALUES (?, ?, ?, ?, ?)";
 
     private final Food food;
 

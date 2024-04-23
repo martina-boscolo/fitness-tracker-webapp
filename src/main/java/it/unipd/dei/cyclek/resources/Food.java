@@ -25,8 +25,16 @@ public class Food  extends AbstractResource {
         this.prot = prot;
     }
 
+    public Food(String fdnm, Integer kcal, Integer fats, Integer carbs, Integer prot) {
+        this.fdnm = fdnm;
+        this.kcal = kcal;
+        this.fats = fats;
+        this.carbs = carbs;
+        this.prot = prot;
+    }
+
     public Food(Integer id) {
-        new Food(id, null, null, null, null, null);
+        this.id = id;
     }
 
 
