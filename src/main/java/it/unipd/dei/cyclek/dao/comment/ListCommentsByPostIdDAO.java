@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.dao.comment;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Comment;
+import it.unipd.dei.cyclek.resources.Like;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,16 +29,17 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
     protected void doAccess() throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Comment> result = null;
+        final List<Comment> comments = new ArrayList<>();
+
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, postId);
             rs = pstmt.executeQuery();
 
-            result = new ArrayList<>();
+
             while (rs.next()) {
-                result.add( new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content")));
+                comments.add(new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content")));
 
             }
         } finally {
@@ -48,6 +50,6 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
                 pstmt.close();
             }
         }
-
+        outputParam = comments;
     }
 }

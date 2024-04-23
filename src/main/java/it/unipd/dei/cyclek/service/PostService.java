@@ -53,16 +53,14 @@ public class PostService extends AbstractService{
                     m.toJSON(res.getOutputStream());
                     break;
             }
-        } else if (path.matches("/\\d+/like/\\d+")) {
+        } else if (path.matches("/\\d+/like/\\d+$")) {
             // Extract postId and likeId from the path
             String[] parts = path.split("/");
             int postId = Integer.parseInt(parts[1]);
             int likeId = Integer.parseInt(parts[3]);
 
             switch (method) {
-                case "GET":
-                    new ListLikeRR(req, res, con).serve();
-                    break;
+
                 case "DELETE":
                     new DeleteLikeRR(req, res, con).serve();
                     break;
@@ -75,20 +73,22 @@ public class PostService extends AbstractService{
                     m.toJSON(res.getOutputStream());
                     break;
             }
-        } else if (path.matches("/\\d+/like")) {
+        } else if (path.matches("/\\d+/like$")) {
             // Extract postId and likeId from the path
             String[] parts = path.split("/");
             int postId = Integer.parseInt(parts[1]);
-            int likeId = Integer.parseInt(parts[3]);
 
             switch (method) {
+                case "GET":
+                    new ListLikeRR(req, res, con).serve();
+                    break;
                 case "POST":
                     new CreateLikeRR(req, res, con).serve();
                     break;
                 default:
-                    LOGGER.warn("Unsupported operation for URI /post/{postId}/like/{likeId}: %s.", method);
+                    LOGGER.warn("Unsupported operation for URI /post/{postId}/like: %s.", method);
 
-                    m = new Message("Unsupported operation for URI /post/{postId}/like/{likeId}.", "E4A5",
+                    m = new Message("Unsupported operation for URI /post/{postId}/like.", "E4A5",
                             String.format("Requested operation %s.", method));
                     res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                     m.toJSON(res.getOutputStream());
@@ -102,14 +102,12 @@ public class PostService extends AbstractService{
             int commentId = Integer.parseInt(parts[3]);
 
             switch (method) {
-                case "GET":
-                    new ListCommentRR(req, res, con).serve();
-                    break;
+
                 case "DELETE":
                     new DeleteCommentRR(req, res, con).serve();
                     break;
                 default:
-                    LOGGER.warn("Unsupported operation for URI /post/{postId}/comment/{commentId}: %s.", method);
+                    LOGGER.warn("Unsupported operation for URI /post/{postId}/comment/{commentId}: %s %s.", method);
 
                     m = new Message("Unsupported operation for URI /post/{postId}/comment/{commentId}.", "E4A5",
                             String.format("Requested operation %s.", method));
@@ -124,16 +122,18 @@ public class PostService extends AbstractService{
             // Extract postId and likeId from the path
             String[] parts = path.split("/");
             int postId = Integer.parseInt(parts[1]);
-            int commentId = Integer.parseInt(parts[3]);
 
             switch (method) {
+                case "GET":
+                    new ListCommentRR(req, res, con).serve();
+                    break;
                 case "POST":
                     new CreateCommentRR(req, res, con).serve();
                     break;
                 default:
-                    LOGGER.warn("Unsupported operation for URI /post/{postId}/comment/{commentId}: %s.", method);
+                    LOGGER.warn("Unsupported operation for URI /post/{postId}/comment: %s.", method);
 
-                    m = new Message("Unsupported operation for URI /post/{postId}/comment/{commentId}.", "E4A5",
+                    m = new Message("Unsupported operation for URI /post/{postId}/comment.", "E4A5",
                             String.format("Requested operation %s.", method));
                     res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                     m.toJSON(res.getOutputStream());
@@ -141,7 +141,7 @@ public class PostService extends AbstractService{
             }
         }
 
-        else  if (path.matches("/\\d+/")) {
+        else  if (path.matches("/\\d+$")) {
             switch (method) {
                 case "GET":
                     new ReadSocialNetworkPostRR(req, res, con).serve();

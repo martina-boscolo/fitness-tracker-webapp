@@ -41,7 +41,6 @@ public class DeleteLikeRR extends AbstractRR {
         Message m = null;
 
         try {
-            // parse the URI path to extract the badge
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("post") + 4);
 

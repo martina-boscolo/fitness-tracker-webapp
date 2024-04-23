@@ -1,10 +1,8 @@
 package it.unipd.dei.cyclek.rest.comment;
 
+import it.unipd.dei.cyclek.dao.comment.CreateCommentDAO;
 import it.unipd.dei.cyclek.dao.socialNetworkPost.CreateSocialNetworkPostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,57 +29,57 @@ public class CreateCommentRR extends AbstractRR {
      * @param con the connection to the database.
      */
     public CreateCommentRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
-        super(Actions.CREATE_POST, req, res, con);
+        super(Actions.CREATE_COMMENT, req, res, con);
     }
 
 
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost p = null;
+        Comment c = null;
         Message m = null;
 
         try {
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("post") + 4);
 
-            final SocialNetworkPost socialNetworkPost = SocialNetworkPost.fromJSON(req.getInputStream());
+            final Comment comment = Comment.fromJSON(req.getInputStream());
 
-            LogContext.setResource(Integer.toString(socialNetworkPost.getPostId()));
+            LogContext.setResource(Integer.toString(comment.getCommentId()));
 
             // creates a new DAO for accessing the database and stores the employee
-            p = new CreateSocialNetworkPostDAO(con, socialNetworkPost).access().getOutputParam();
+            c = new CreateCommentDAO(con, comment).access().getOutputParam();
 
-            if (p != null) {
-                LOGGER.info("Post successfully created.");
+            if (c != null) {
+                LOGGER.info("Comment successfully created.");
 
                 res.setStatus(HttpServletResponse.SC_CREATED);
-                p.toJSON(res.getOutputStream());
+                c.toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while creating post.");
+                LOGGER.error("Fatal error while creating comment.");
 
-                m = new Message("Cannot create post: unexpected error.", "E5A1", null);
+                m = new Message("Cannot create comment: unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (EOFException ex) {
-            LOGGER.warn("Cannot create post: no Post JSON object found in the request.", ex);
+            LOGGER.warn("Cannot create comment: no Post Comment object found in the request.", ex);
 
-            m = new Message("Cannot create the Post: no Post JSON object found in the request.", "E4A8",
+            m = new Message("Cannot create the comment: no Comment JSON object found in the request.", "E4A8",
                     ex.getMessage());
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
-                LOGGER.warn("Cannot create post: it already exists.");
+                LOGGER.warn("Cannot create comment: it already exists.");
 
-                m = new Message("Cannot create post: it already exists.", "E5A2", ex.getMessage());
+                m = new Message("Cannot create comment: it already exists.", "E5A2", ex.getMessage());
                 res.setStatus(HttpServletResponse.SC_CONFLICT);
                 m.toJSON(res.getOutputStream());
             } else {
-                LOGGER.error("Cannot create post: unexpected database error.", ex);
+                LOGGER.error("Cannot create comment: unexpected database error.", ex);
 
-                m = new Message("Cannot create post: unexpected database error.", "E5A1", ex.getMessage());
+                m = new Message("Cannot create comment: unexpected database error.", "E5A1", ex.getMessage());
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }

@@ -1,10 +1,8 @@
 package it.unipd.dei.cyclek.rest.like;
 
+import it.unipd.dei.cyclek.dao.like.ListLikesByPostIdDAO;
 import it.unipd.dei.cyclek.dao.socialNetworkPost.ListSocialNetworkPostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,37 +30,44 @@ public class ListLikeRR extends AbstractRR {
      */
 
     public ListLikeRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
-        super(Actions.LIST_POST, req, res, con);
+        super(Actions.LIST_LIKE_BY_POST_ID, req, res, con);
     }
 
 
     @Override
     protected void doServe() throws IOException {
 
-        List<SocialNetworkPost> el = null;
+
+        List<Like> el = null;
         Message m = null;
 
         try {
 
+            String path = req.getRequestURI();
+            String[] parts = path.split("/");
+            final int postId = Integer.parseInt(parts[1]);
+
+
+            LogContext.setResource(Integer.toString(postId));
             // creates a new DAO for accessing the database and lists the employee(s)
-            el = new ListSocialNetworkPostDAO(con).access().getOutputParam();
+            el = new ListLikesByPostIdDAO(con, postId ).access().getOutputParam();
 
             if (el != null) {
-                LOGGER.info("Post(s) successfully listed.");
+                LOGGER.info("Like(s) successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList(el).toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while listing post(s).");
+                LOGGER.error("Fatal error while listing Like(s).");
 
-                m = new Message("Cannot list post(s): unexpected error.", "E5A1", null);
+                m = new Message("Cannot list Like(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list post(s): unexpected database error.", ex);
+            LOGGER.error("Cannot list Like(s): unexpected database error.", ex);
 
-            m = new Message("Cannot list post(s): unexpected database error.", "E5A1", ex.getMessage());
+            m = new Message("Cannot list Like(s): unexpected database error.", "E5A1", ex.getMessage());
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }

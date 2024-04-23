@@ -36,6 +36,7 @@ public class CreateLikeRR extends AbstractRR {
     protected void doServe() throws IOException {
 
         Like p = null;
+
         Message m = null;
 
         try {

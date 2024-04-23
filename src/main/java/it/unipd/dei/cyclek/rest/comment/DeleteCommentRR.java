@@ -1,10 +1,8 @@
 package it.unipd.dei.cyclek.rest.comment;
 
+import it.unipd.dei.cyclek.dao.comment.DeleteCommentDAO;
 import it.unipd.dei.cyclek.dao.socialNetworkPost.DeleteSocialNetworkPostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.SocialNetworkPost;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,58 +28,57 @@ public class DeleteCommentRR extends AbstractRR {
      * @param con the connection to the database.
      */
     public DeleteCommentRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
-        super(Actions.DELETE_POST, req, res, con);
+        super(Actions.DELETE_COMMENT, req, res, con);
     }
 
 
     @Override
     protected void doServe() throws IOException {
 
-        SocialNetworkPost e = null;
+        Comment e = null;
         Message m = null;
 
         try {
             // parse the URI path to extract the badge
             String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("post") + 4);
+            String[] parts = path.split("/");
+            final int commentId = Integer.parseInt(parts[1]);
 
-            final int postId = Integer.parseInt(path.substring(1));
+            LogContext.setResource(Integer.toString(commentId));
 
-            LogContext.setResource(Integer.toString(postId));
 
-            // creates a new DAO for accessing the database and deletes the employee
-            e = new DeleteSocialNetworkPostDAO(con, postId).access().getOutputParam();
+            e = new DeleteCommentDAO(con, commentId).access().getOutputParam();
 
             if (e != null) {
-                LOGGER.info("Post successfully deleted.");
+                LOGGER.info("Comment successfully deleted.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 e.toJSON(res.getOutputStream());
             } else {
-                LOGGER.warn("Post not found. Cannot delete it.");
+                LOGGER.warn("Comment not found. Cannot delete it.");
 
-                m = new Message(String.format("Post %d not found. Cannot delete it.", postId), "E5A3", null);
+                m = new Message(String.format("Comment %d not found. Cannot delete it.", commentId), "E5A3", null);
                 res.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
-            LOGGER.warn("Cannot delete the post: wrong format for URI /post/{postId}.", ex);
+            LOGGER.warn("Cannot delete the comment: wrong format for URI /post/{postId}/comment/{commentId}.", ex);
 
-            m = new Message("Cannot delete the post: wrong format for URI /post/{postId}.", "E4A7",
+            m = new Message("Cannot delete the comment: wrong format for URI /post/{postId}/comment/{commentId}.", "E4A7",
                     ex.getMessage());
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23503".equals(ex.getSQLState())) {
-                LOGGER.warn("Cannot delete the post: other resources depend on it.");
+                LOGGER.warn("Cannot delete the comment: other resources depend on it.");
 
-                m = new Message("Cannot delete the post: other resources depend on it.", "E5A4", ex.getMessage());
+                m = new Message("Cannot delete the comment: other resources depend on it.", "E5A4", ex.getMessage());
                 res.setStatus(HttpServletResponse.SC_CONFLICT);
                 m.toJSON(res.getOutputStream());
             } else {
-                LOGGER.error("Cannot delete the post: unexpected database error.", ex);
+                LOGGER.error("Cannot delete the comment: unexpected database error.", ex);
 
-                m = new Message("Cannot delete the post: unexpected database error.", "E5A1", ex.getMessage());
+                m = new Message("Cannot delete the comment: unexpected database error.", "E5A1", ex.getMessage());
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
