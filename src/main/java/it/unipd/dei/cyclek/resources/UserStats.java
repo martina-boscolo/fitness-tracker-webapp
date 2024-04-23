@@ -1,7 +1,6 @@
 package it.unipd.dei.cyclek.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class BodyStats extends AbstractResource{
+public class UserStats extends AbstractResource{
 
     private Integer id;
     private Integer idUser;
@@ -19,8 +18,8 @@ public class BodyStats extends AbstractResource{
     private Double lean;
     private String statsDate;
 
-    public BodyStats() {}
-    public BodyStats(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String statsDate) {
+    public UserStats() {}
+    public UserStats(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String statsDate) {
         this.id = id;
         this.idUser = idUser;
         this.weight = weight;
@@ -68,8 +67,8 @@ public class BodyStats extends AbstractResource{
         out.write(json.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static BodyStats fromJSON(final InputStream in) throws IOException {
+    public static UserStats fromJSON(final InputStream in) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(in, BodyStats.class);
+        return objectMapper.readValue(in, UserStats.class);
     }
 }

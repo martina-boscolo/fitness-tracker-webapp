@@ -1,6 +1,6 @@
-package it.unipd.dei.cyclek.rest.bodyStats;
+package it.unipd.dei.cyclek.rest.userGoals;
 
-import it.unipd.dei.cyclek.dao.bodyStats.GetBodyStatsDAO;
+import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,19 +11,19 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListBodyStatsRR extends AbstractRR {
+public class ListUserGoalsRR extends AbstractRR {
 
-    public ListBodyStatsRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
-        super(Actions.LIST_BODY_STATS, req, res, con);
+    public ListUserGoalsRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+        super(Actions.LIST_BODY_OBJ, req, res, con);
     }
 
     @Override
     protected void doServe() throws IOException {
-        List<BodyStats> bsl = null;
+        List<UserGoals> bol = null;
         Message m = null;
 
         try {
-            BodyStats bodyStats = new BodyStats(
+            UserGoals userGoals = new UserGoals(
                     null,
                     null,
                     null,
@@ -33,24 +33,24 @@ public class ListBodyStatsRR extends AbstractRR {
                     "");
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetBodyStatsDAO(con, bodyStats).access().getOutputParam();
+            bol = new GetUserGoalsDAO(con, userGoals).access().getOutputParam();
 
-            if (bsl != null) {
-                LOGGER.info("Body Stats successfully listed.");
+            if (bol != null) {
+                LOGGER.info("Body Objective successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList<>(bsl).toJSON(res.getOutputStream());
+                new ResourceList<>(bol).toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while listing Body Stats.");
+                LOGGER.error("Fatal error while listing Body Objective.");
 
-                m = new Message("Cannot list Body Stats: unexpected error.", "E5A1", null);
+                m = new Message("Cannot list Body Objective: unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
+            LOGGER.error("Cannot list Body Objective: unexpected database error.", ex);
 
-            m = new Message("Cannot list Body Stats: unexpected database error.", "E5A1", ex.getMessage());
+            m = new Message("Cannot list Body Objective: unexpected database error.", "E5A1", ex.getMessage());
             res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }

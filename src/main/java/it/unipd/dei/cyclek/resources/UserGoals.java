@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class BodyObj extends AbstractResource{
+public class UserGoals extends AbstractResource{
 
     private Integer id;
     private Integer idUser;
@@ -18,8 +18,8 @@ public class BodyObj extends AbstractResource{
     private Double lean;
     private String objDate;
 
-    public BodyObj() {}
-    public BodyObj(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String objDate) {
+    public UserGoals() {}
+    public UserGoals(Integer id, Integer idUser, Double weight, Double height, Double fatty, Double lean, String objDate) {
         this.id = id;
         this.idUser = idUser;
         this.weight = weight;
@@ -67,8 +67,8 @@ public class BodyObj extends AbstractResource{
         out.write(json.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static BodyObj fromJSON(final InputStream in) throws IOException {
+    public static UserGoals fromJSON(final InputStream in) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(in, BodyObj.class);
+        return objectMapper.readValue(in, UserGoals.class);
     }
 }

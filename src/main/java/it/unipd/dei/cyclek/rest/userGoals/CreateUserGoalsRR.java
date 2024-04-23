@@ -1,8 +1,8 @@
-package it.unipd.dei.cyclek.rest.bodyObjective;
+package it.unipd.dei.cyclek.rest.userGoals;
 
-import it.unipd.dei.cyclek.dao.bodyObjective.CreateBodyObjDAO;
+import it.unipd.dei.cyclek.dao.userGoals.CreateUserGoalDAO;
 import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.BodyObj;
+import it.unipd.dei.cyclek.resources.UserGoals;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,21 +13,21 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class CreateBodyObjRR extends AbstractRR {
-    public CreateBodyObjRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+public class CreateUserGoalsRR extends AbstractRR {
+    public CreateUserGoalsRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.CREATE_BODY_OBJ, req, res, con);
     }
 
     @Override
     protected void doServe() throws IOException {
-        BodyObj bs = null;
+        UserGoals bs = null;
         Message m = null;
 
         try {
-            final BodyObj bodyObj = BodyObj.fromJSON(req.getInputStream());
+            final UserGoals userGoals = UserGoals.fromJSON(req.getInputStream());
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bs = new CreateBodyObjDAO(con, bodyObj).access().getOutputParam();
+            bs = new CreateUserGoalDAO(con, userGoals).access().getOutputParam();
 
             if (bs != null) {
                 LOGGER.info("Body Obj successfully created.");

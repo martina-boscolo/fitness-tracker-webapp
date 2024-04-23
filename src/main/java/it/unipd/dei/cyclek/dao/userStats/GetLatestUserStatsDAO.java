@@ -1,7 +1,7 @@
-package it.unipd.dei.cyclek.dao.bodyStats;
+package it.unipd.dei.cyclek.dao.userStats;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.BodyStats;
+import it.unipd.dei.cyclek.resources.UserStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,17 +10,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class GetLatestBodyStatsDAO extends AbstractDAO<List<BodyStats>>{
+public final class GetLatestUserStatsDAO extends AbstractDAO<List<UserStats>>{
     private static final String QUERY = "SELECT *" +
-            "FROM bodyStats bs" +
+            "FROM userStats bs" +
             "         INNER JOIN (" +
             "    SELECT idUser, MAX(statsDate) AS latestStatsDate" +
-            "    FROM bodyStats" +
+            "    FROM userStats" +
             "    GROUP BY idUser" +
             ") latestStats ON bs.idUser = latestStats.idUser AND bs.statsDate = latestStats.latestStatsDate " +
             "ORDER BY bs.idUser";
 
-    public GetLatestBodyStatsDAO(Connection con) {
+    public GetLatestUserStatsDAO(Connection con) {
         super(con);
     }
 
@@ -30,7 +30,7 @@ public final class GetLatestBodyStatsDAO extends AbstractDAO<List<BodyStats>>{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         // the results of the search
-        final List<BodyStats> bsl = new ArrayList<>();
+        final List<UserStats> bsl = new ArrayList<>();
 
         try {
             pstmt = con.prepareStatement(QUERY);
@@ -39,7 +39,7 @@ public final class GetLatestBodyStatsDAO extends AbstractDAO<List<BodyStats>>{
 
             while (rs.next())
             {
-                bsl.add(new BodyStats(
+                bsl.add(new UserStats(
                         rs.getInt("id"),
                         rs.getInt("idUser"),
                         rs.getDouble("weight"),

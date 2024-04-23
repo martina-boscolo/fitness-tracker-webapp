@@ -1,7 +1,6 @@
-package it.unipd.dei.cyclek.rest.bodyStats;
+package it.unipd.dei.cyclek.rest.userStats;
 
-import it.unipd.dei.cyclek.dao.bodyStats.GetBodyStatsDAO;
-import it.unipd.dei.cyclek.dao.bodyStats.GetLatestBodyStatsDAO;
+import it.unipd.dei.cyclek.dao.userStats.GetLatestUserStatsDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetMeanImcRR extends AbstractRR {
@@ -21,19 +19,19 @@ public class GetMeanImcRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        List<BodyStats> bsl = null;
+        List<UserStats> bsl = null;
         Message m = null;
 
         try {
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetLatestBodyStatsDAO(con).access().getOutputParam();
+            bsl = new GetLatestUserStatsDAO(con).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Stats successfully listed.");
 
                 double meanImc = 0.0;
-                for (BodyStats bs : bsl)
+                for (UserStats bs : bsl)
                     meanImc += (bs.getWeight()/(bs.getHeight()*bs.getHeight()/10000));
                 meanImc /= bsl.size();
 

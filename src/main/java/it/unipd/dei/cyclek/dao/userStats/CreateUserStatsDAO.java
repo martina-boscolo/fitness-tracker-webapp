@@ -1,30 +1,27 @@
-package it.unipd.dei.cyclek.dao.bodyStats;
+package it.unipd.dei.cyclek.dao.userStats;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.BodyStats;
+import it.unipd.dei.cyclek.resources.UserStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public final class CreateBodyStatsDAO extends AbstractDAO<BodyStats>{
-    private static final String QUERY = "INSERT INTO bodyStats VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
+public final class CreateUserStatsDAO extends AbstractDAO<UserStats>{
+    private static final String QUERY = "INSERT INTO userStats VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
 
-    private final BodyStats bodyStats;
+    private final UserStats userStats;
 
-    public CreateBodyStatsDAO(final Connection con, final BodyStats bodyStats) {
+    public CreateUserStatsDAO(final Connection con, final UserStats userStats) {
         super(con);
 
-        if (bodyStats.getIdUser() == null || bodyStats.getWeight() == null ||
-                bodyStats.getHeight() == null || bodyStats.getFatty() == null || bodyStats.getLean() == null) {
+        if (userStats.getIdUser() == null || userStats.getWeight() == null ||
+                userStats.getHeight() == null || userStats.getFatty() == null || userStats.getLean() == null) {
             LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate).");
             throw new NullPointerException("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate)");
         }
 
-        this.bodyStats = bodyStats;
+        this.userStats = userStats;
     }
 
     @Override
@@ -32,19 +29,19 @@ public final class CreateBodyStatsDAO extends AbstractDAO<BodyStats>{
 
         PreparedStatement pstmt = null;
         ResultSet rs;
-        BodyStats bs = null;
+        UserStats bs = null;
 
         try {
             pstmt = con.prepareStatement(QUERY);
-            pstmt.setInt(1, bodyStats.getIdUser());
-            pstmt.setDouble(2, bodyStats.getWeight());
-            pstmt.setDouble(3, bodyStats.getHeight());
-            pstmt.setDouble(4, bodyStats.getFatty());
-            pstmt.setDouble(5, bodyStats.getLean());
+            pstmt.setInt(1, userStats.getIdUser());
+            pstmt.setDouble(2, userStats.getWeight());
+            pstmt.setDouble(3, userStats.getHeight());
+            pstmt.setDouble(4, userStats.getFatty());
+            pstmt.setDouble(5, userStats.getLean());
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                bs = new BodyStats(
+                bs = new UserStats(
                         rs.getInt("id"),
                         rs.getInt("idUser"),
                         rs.getDouble("weight"),

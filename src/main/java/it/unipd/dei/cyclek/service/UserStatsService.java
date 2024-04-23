@@ -1,15 +1,15 @@
 package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.rest.bodyStats.*;
+import it.unipd.dei.cyclek.rest.userStats.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
 
-public class BodyStatsService extends AbstractService{
-    private static final String TABLE_NAME = "bodystats";
+public class UserStatsService extends AbstractService{
+    private static final String TABLE_NAME = "stats";
 
     private static void unsupportedOperation(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String method = req.getMethod();
@@ -19,7 +19,7 @@ public class BodyStatsService extends AbstractService{
         res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         m.toJSON(res.getOutputStream());
     }
-    public static boolean processBodyStats(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
+    public static boolean processUserStats(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
 
         final String method = req.getMethod();
         String path = req.getRequestURI();
@@ -31,27 +31,29 @@ public class BodyStatsService extends AbstractService{
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/")) {
+        if (path.contains("body")) {
             switch (method) {
                 case "GET":
-                    new ListBodyStatsRR(req, res, con).serve();         // GET  /rest/bodystats  (list all table bodystats)
+                    new ListUserStatsRR(req, res, con).serve();         // GET  /rest/stats/body  (list all table bodystats)
                     break;
                 case "POST":
-                    new CreateBodyStatsRR(req, res, con).serve();       // POST /rest/bodystats  (insert a new bodystats)
+                    new CreateUserStatsRR(req, res, con).serve();       // POST /rest/stats/body  (insert a new bodystats)
                     break;
                 default:
                     unsupportedOperation(req, res);
                     break;
             }
         } else if (path.contains("imc")) {
-            if (path.contains("mean") && method.equals("GET"))          // GET  /rest/bodystats/imc/mean      (get global mean of IMC)
+            if (path.contains("mean") && method.equals("GET"))          // GET  /rest/stats/imc/mean      (get global mean of IMC)
                 new GetMeanImcRR(req, res, con).serve();
-            else if (path.contains("user") && method.equals("GET"))     // GET  /rest/bodystats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
+            else if (path.contains("user") && method.equals("GET"))     // GET  /rest/stats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
                 new GetImcByUserIdRR(req, res, con).serve();
             else
                 unsupportedOperation(req, res);
-        } else if (path.contains("user") && method.equals("GET")) {     // GET  /rest/bodystats/user/{id}  (get all measures of a single user)
-            new ListBodyStatsByUserIdRR(req, res, con).serve();
+        } else if (path.contains("meals") && method.equals("GET")) {    // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
+            new GetMealsByUserIdRR(req, res, con).serve();
+        } else if (path.contains("user") && method.equals("GET")) {     // GET  /rest/stats/user/{id}  (get all measures of a single user)
+            new ListUserStatsByUserIdRR(req, res, con).serve();
         } else {
             unsupportedOperation(req, res);
         }

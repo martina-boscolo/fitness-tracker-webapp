@@ -1,8 +1,8 @@
-package it.unipd.dei.cyclek.rest.bodyStats;
+package it.unipd.dei.cyclek.rest.userStats;
 
-import it.unipd.dei.cyclek.dao.bodyStats.GetBodyStatsDAO;
+import it.unipd.dei.cyclek.dao.userStats.GetUserStatsDAO;
 import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.BodyStats;
+import it.unipd.dei.cyclek.resources.UserStats;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.ResourceList;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -14,15 +14,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListBodyStatsByUserIdRR extends AbstractRR {
+public class ListUserStatsByUserIdRR extends AbstractRR {
 
-    public ListBodyStatsByUserIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public ListUserStatsByUserIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_BODY_STATS_BY_IDUSER, req, res, con);
     }
 
     @Override
     protected void doServe() throws IOException {
-        List<BodyStats> bsl = null;
+        List<UserStats> bsl = null;
         Message m = null;
 
         try {
@@ -30,7 +30,7 @@ public class ListBodyStatsByUserIdRR extends AbstractRR {
             path = path.substring(path.lastIndexOf("user") + 4);
             final int idUser = Integer.parseInt(path.substring(1));
 
-            BodyStats bodyStats = new BodyStats(
+            UserStats userStats = new UserStats(
                     null,
                     idUser,
                     null,
@@ -40,7 +40,7 @@ public class ListBodyStatsByUserIdRR extends AbstractRR {
                     "");
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetBodyStatsDAO(con, bodyStats).access().getOutputParam();
+            bsl = new GetUserStatsDAO(con, userStats).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Stats successfully listed.");

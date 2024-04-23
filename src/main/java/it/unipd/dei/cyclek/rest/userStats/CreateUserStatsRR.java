@@ -1,7 +1,6 @@
-package it.unipd.dei.cyclek.rest.bodyStats;
+package it.unipd.dei.cyclek.rest.userStats;
 
-import it.unipd.dei.cyclek.dao.bodyStats.CreateBodyStatsDAO;
-import it.unipd.dei.cyclek.dao.bodyStats.GetBodyStatsDAO;
+import it.unipd.dei.cyclek.dao.userStats.CreateUserStatsDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,23 +10,22 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-public class CreateBodyStatsRR extends AbstractRR {
-    public CreateBodyStatsRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+public class CreateUserStatsRR extends AbstractRR {
+    public CreateUserStatsRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.CREATE_BODY_STATS, req, res, con);
     }
 
     @Override
     protected void doServe() throws IOException {
-        BodyStats bs = null;
+        UserStats bs = null;
         Message m = null;
 
         try {
-            final BodyStats bodyStats = BodyStats.fromJSON(req.getInputStream());
+            final UserStats userStats = UserStats.fromJSON(req.getInputStream());
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bs = new CreateBodyStatsDAO(con, bodyStats).access().getOutputParam();
+            bs = new CreateUserStatsDAO(con, userStats).access().getOutputParam();
 
             if (bs != null) {
                 LOGGER.info("Body Stats successfully created.");

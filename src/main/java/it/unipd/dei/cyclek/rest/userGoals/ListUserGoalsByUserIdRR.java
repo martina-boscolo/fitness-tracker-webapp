@@ -1,8 +1,8 @@
-package it.unipd.dei.cyclek.rest.bodyObjective;
+package it.unipd.dei.cyclek.rest.userGoals;
 
-import it.unipd.dei.cyclek.dao.bodyObjective.GetBodyObjDAO;
+import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsDAO;
 import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.BodyObj;
+import it.unipd.dei.cyclek.resources.UserGoals;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.ResourceList;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -14,15 +14,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ListBodyObjByUserIdRR extends AbstractRR {
+public class ListUserGoalsByUserIdRR extends AbstractRR {
 
-    public ListBodyObjByUserIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
+    public ListUserGoalsByUserIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.LIST_BODY_OBJ_BY_IDUSER, req, res, con);
     }
 
     @Override
     protected void doServe() throws IOException {
-        List<BodyObj> bsl = null;
+        List<UserGoals> bsl = null;
         Message m = null;
 
         try {
@@ -30,7 +30,7 @@ public class ListBodyObjByUserIdRR extends AbstractRR {
             path = path.substring(path.lastIndexOf("user") + 4);
             final int idUser = Integer.parseInt(path.substring(1));
 
-            BodyObj bodyObj = new BodyObj(
+            UserGoals userGoals = new UserGoals(
                     null,
                     idUser,
                     null,
@@ -40,7 +40,7 @@ public class ListBodyObjByUserIdRR extends AbstractRR {
                     "");
 
             // creates a new DAO for accessing the database and lists the employee(s)
-            bsl = new GetBodyObjDAO(con, bodyObj).access().getOutputParam();
+            bsl = new GetUserGoalsDAO(con, userGoals).access().getOutputParam();
 
             if (bsl != null) {
                 LOGGER.info("Body Obj successfully listed.");

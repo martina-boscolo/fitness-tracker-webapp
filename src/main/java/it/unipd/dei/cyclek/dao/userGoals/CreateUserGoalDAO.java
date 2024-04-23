@@ -1,27 +1,27 @@
-package it.unipd.dei.cyclek.dao.bodyObjective;
+package it.unipd.dei.cyclek.dao.userGoals;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.BodyObj;
+import it.unipd.dei.cyclek.resources.UserGoals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public final class CreateBodyObjDAO extends AbstractDAO<BodyObj>{
-    private static final String QUERY = "INSERT INTO bodyobjective VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
+public final class CreateUserGoalDAO extends AbstractDAO<UserGoals>{
+    private static final String QUERY = "INSERT INTO userGoals VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
 
-    private final BodyObj bodyObj;
+    private final UserGoals userGoals;
 
-    public CreateBodyObjDAO(final Connection con, final BodyObj bodyObj) {
+    public CreateUserGoalDAO(final Connection con, final UserGoals userGoals) {
         super(con);
 
-        if (bodyObj.getIdUser() == null || bodyObj.getWeight() == null ||
-                bodyObj.getHeight() == null || bodyObj.getFatty() == null || bodyObj.getLean() == null) {
+        if (userGoals.getIdUser() == null || userGoals.getWeight() == null ||
+                userGoals.getHeight() == null || userGoals.getFatty() == null || userGoals.getLean() == null) {
             LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate).");
             throw new NullPointerException("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate)");
         }
 
-        this.bodyObj = bodyObj;
+        this.userGoals = userGoals;
     }
 
     @Override
@@ -29,19 +29,19 @@ public final class CreateBodyObjDAO extends AbstractDAO<BodyObj>{
 
         PreparedStatement pstmt = null;
         ResultSet rs;
-        BodyObj bo = null;
+        UserGoals bo = null;
 
         try {
             pstmt = con.prepareStatement(QUERY);
-            pstmt.setInt(1, bodyObj.getIdUser());
-            pstmt.setDouble(2, bodyObj.getWeight());
-            pstmt.setDouble(3, bodyObj.getHeight());
-            pstmt.setDouble(4, bodyObj.getFatty());
-            pstmt.setDouble(5, bodyObj.getLean());
+            pstmt.setInt(1, userGoals.getIdUser());
+            pstmt.setDouble(2, userGoals.getWeight());
+            pstmt.setDouble(3, userGoals.getHeight());
+            pstmt.setDouble(4, userGoals.getFatty());
+            pstmt.setDouble(5, userGoals.getLean());
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                bo = new BodyObj(
+                bo = new UserGoals(
                         rs.getInt("id"),
                         rs.getInt("idUser"),
                         rs.getDouble("weight"),
