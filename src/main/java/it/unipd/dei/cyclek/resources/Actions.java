@@ -14,6 +14,11 @@ public final class Actions {
     public static final String LIST_Exercise = "LIST_Exercise";
     public static final String GET_Exercise_Id = "GET_Exercise_Id";
     public static final String Add_User_Exercise = "Add_User_Exercise";
+    public static final String Delete_User_Exercise = "Delete_User_Exercise";
+    public static final String LIST_ExercisePlan = "LIST_ExercisePlan";
+    public static final String ADD_Exercise_Plan = "ADD_Exercise_Plan";
+    public static final String DELETE_Exercise_Plan = "DELETE_Exercise_Plan";
+    public static final String Get_ExercisePlan_Id = "GET_ExercisePlan_Id";
     /**
      * This class can be neither instantiated nor sub-classed.
      */
