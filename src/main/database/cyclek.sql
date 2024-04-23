@@ -76,13 +76,21 @@ CREATE TABLE exercises (
 );
 
 CREATE TABLE user_exercises (
-     id INT PRIMARY KEY,
+     id SERIAL PRIMARY KEY,
      id_user INT,
      id_exercise INT,
      weight INT,
      repetition INT,
      FOREIGN KEY (id_user) REFERENCES users(id),
      FOREIGN KEY (id_exercise) REFERENCES exercises(id)
+);
+
+CREATE TABLE exercise_plan(
+  id      SERIAL PRIMARY KEY,
+  idUser  INTEGER NOT NULL REFERENCES users(id),
+  planName VARCHAR(50) NOT NULL ,
+  plan      JSON NOT NULL ,
+  planDate  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 
