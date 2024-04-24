@@ -1,6 +1,6 @@
 package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.GetPostDAO;
+import it.unipd.dei.cyclek.dao.post.GetPostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;

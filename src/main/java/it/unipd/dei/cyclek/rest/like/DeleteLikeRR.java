@@ -1,6 +1,6 @@
 package it.unipd.dei.cyclek.rest.like;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.DeletePostDAO;
+import it.unipd.dei.cyclek.dao.post.DeletePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;

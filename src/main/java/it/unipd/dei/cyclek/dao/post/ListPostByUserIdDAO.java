@@ -1,4 +1,4 @@
-package it.unipd.dei.cyclek.dao.socialNetworkPost;
+package it.unipd.dei.cyclek.dao.post;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Post;
@@ -10,45 +10,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class is responsible for listing all social network posts from the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
- *
- * @author Martina Boscolo Bacheto
- */
-public class ListPostDAO extends AbstractDAO<List<Post>> {
-
-    /**
-     * SQL statement to list all social network posts from the database.
-     */
-    private static final String STATEMENT = "SELECT * FROM posts ";
+public class ListPostByUserIdDAO extends AbstractDAO<List<Post>> {
 
 
-    /**
-     * Constructs a new ListPostDAO object with the given connection.
-     *
-     * @param con the connection to the database.
-     */
-    public ListPostDAO(final Connection con) {
+    private static final String STATEMENT = "SELECT * FROM posts WHERE id_user = ?";
+
+    private final int userId;
+    public ListPostByUserIdDAO(final Connection con, int userId) {
         super(con);
+        if ( userId <= 0) {
+            throw new IllegalArgumentException("postId must be greater than 0.");
+        }
+
+        this.userId = userId;
     }
 
-    /**
-     * Lists all the social network posts from the database.
-     *
-     * @throws SQLException if any SQL error occurs while listing the posts.
-     */
     @Override
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        // the results of the search
         final List<Post> posts = new ArrayList<Post>();
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
+            pstmt.setInt(1, userId);
 
             rs = pstmt.executeQuery();
 
@@ -62,13 +49,13 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
                                 rs.getInt("like_count"),
                                 rs.getInt("comment_count"),
                                 rs.getTimestamp("post_date")
-
-
                         )
                 );
             }
 
+
             LOGGER.info("Posts successfully listed.");
+
         } finally {
             if (rs != null) {
                 rs.close();
@@ -79,8 +66,6 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
             }
 
         }
-
         outputParam = posts;
     }
 }
-

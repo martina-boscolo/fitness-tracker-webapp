@@ -1,4 +1,4 @@
-package it.unipd.dei.cyclek.dao.socialNetworkPost;
+package it.unipd.dei.cyclek.dao.post;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Post;

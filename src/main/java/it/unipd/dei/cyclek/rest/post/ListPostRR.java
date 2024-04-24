@@ -1,6 +1,6 @@
 package it.unipd.dei.cyclek.rest.post;
 
-import it.unipd.dei.cyclek.dao.socialNetworkPost.ListPostDAO;
+import it.unipd.dei.cyclek.dao.post.ListPostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.Post;
