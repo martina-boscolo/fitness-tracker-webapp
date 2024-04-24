@@ -20,6 +20,7 @@ public final class Actions {
     public static final String DELETE_Exercise_Plan = "DELETE_Exercise_Plan";
     public static final String Get_ExercisePlan_Id = "GET_ExercisePlan_Id";
     public static final String Update_Exercise_Plan = "Update_Exercise_Plan";
+    public static final String Get_ExercisePlan_UserId = "GET_Exercise_Plan_Id";
     /**
      * This class can be neither instantiated nor sub-classed.
      */

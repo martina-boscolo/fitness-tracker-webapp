@@ -40,7 +40,15 @@ public class ExercisePlanService extends AbstractService {
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }
-        } else if (method.equals("GET") && pattern.matcher(path).matches()) {
+        }
+        else if (method.equals("GET") && path.contains("idUser") && pattern.matcher(path).matches()) {
+            Matcher matcher = pattern.matcher(path);
+            if (matcher.find()) {
+                // Extract the ID from the matched group
+                String id = matcher.group(1);
+                new GetExercisePlanByUserIdRR(req, res, con, Integer.parseInt(id)).serve();
+             }
+            }else if (method.equals("GET") && pattern.matcher(path).matches()) {
             Matcher matcher = pattern.matcher(path);
             if (matcher.find()) {
                 // Extract the ID from the matched group
