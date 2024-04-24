@@ -38,13 +38,13 @@ public final class GetUserDAO extends AbstractDAO<List<User>>{
                 sb.append(" and name = '").append(user.getName()).append("'");
             if(StringUtils.isNotBlank(user.getSurname()))
                 sb.append(" and surname = '").append(user.getSurname()).append("'");
-            if(!StringUtils.isNotBlank(user.getBirthday()))
+            if(StringUtils.isNotBlank(user.getBirthday()))
                 sb.append(" and birthday = '").append(user.getBirthday()).append("'");
-            if(!StringUtils.isNotBlank(user.getGender()))
+            if(StringUtils.isNotBlank(user.getGender()))
                 sb.append(" and gender = '").append(user.getGender()).append("'");
-            if(!StringUtils.isNotBlank(user.getUsername()))
+            if(StringUtils.isNotBlank(user.getUsername()))
                 sb.append(" and username = '").append(user.getUsername()).append("'");
-            if(!StringUtils.isNotBlank(user.getPassword()))
+            if(StringUtils.isNotBlank(user.getPassword()))
                 sb.append(" and password = '").append(user.getPassword()).append("'");
 
             pstmt = con.prepareStatement(sb.toString());

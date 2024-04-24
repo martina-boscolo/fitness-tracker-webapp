@@ -22,6 +22,16 @@ public class User extends AbstractResource{
 
     public User() {}
 
+    //used for the search by id
+    public User(Integer id) {
+        this.id = id;
+    }
+    //used for the login
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     public User(Integer id, String name, String surname, String birthday, String gender, String username, String password) {
         this.id = id;
         this.name = name;
@@ -32,11 +42,7 @@ public class User extends AbstractResource{
         this.password = password;
     }
 
-    //used for the login
-    public User(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
+
     public Integer getId() {
         return id;
     }

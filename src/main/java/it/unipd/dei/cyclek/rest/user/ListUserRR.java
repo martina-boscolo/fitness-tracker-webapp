@@ -26,7 +26,7 @@ public class ListUserRR extends AbstractRR {
         Message m;
 
         try {
-            User user = new User(null,"","","","", "", "");
+            User user = new User();
             // creates a new DAO for accessing the database and lists the user(s)
             ul = new GetUserDAO(con, user).access().getOutputParam();
 
@@ -34,7 +34,7 @@ public class ListUserRR extends AbstractRR {
                 LOGGER.info("User(s) successfully listed.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ul).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Fatal error while listing user(s).");
                 m = new Message("Cannot list user(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

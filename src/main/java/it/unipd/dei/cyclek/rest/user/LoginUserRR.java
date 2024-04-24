@@ -34,9 +34,8 @@ public class LoginUserRR extends AbstractRR {
             BufferedReader reader = req.getReader();
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null)
                 sb.append(line);
-            }
             String requestBody = sb.toString();
             String username = null;
             String password = null;
@@ -46,6 +45,7 @@ public class LoginUserRR extends AbstractRR {
             if (node.has("password"))
                 password = node.get("password").textValue();
             LOGGER.info("student {} is trying to login", username);
+
             User user = new User(username, password);
             ul = new GetUserDAO(con, user).access().getOutputParam();
             if (ul == null) {
