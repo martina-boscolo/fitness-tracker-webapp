@@ -15,13 +15,10 @@ public class UserService extends AbstractService{
         final String method = req.getMethod();
         String path = req.getRequestURI();
 
-
-
         // the requested resource was not a user
         if (path.lastIndexOf("rest/".concat(TABLE_NAME)) <= 0)
             return false;
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
-        // /login
 
         if (path.isEmpty() || path.equals("/") && method.equals("GET"))
                 new ListUserRR(req, res, con).serve();

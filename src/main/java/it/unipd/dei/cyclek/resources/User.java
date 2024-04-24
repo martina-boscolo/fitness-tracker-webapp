@@ -2,10 +2,12 @@ package it.unipd.dei.cyclek.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
 public class User extends AbstractResource{
@@ -65,4 +67,10 @@ public class User extends AbstractResource{
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(in, User.class);
     }
+
+    public boolean isValid()  {
+        return StringUtils.isNotBlank(name) && StringUtils.isNotBlank(surname) && StringUtils.isNotBlank(birthday)
+            && StringUtils.isNotBlank(gender) && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password);
+    }
+
 }
