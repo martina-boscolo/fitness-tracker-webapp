@@ -31,18 +31,19 @@ public class ListUserStatsByUserIdRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
-            if (bsl != null) {
-                LOGGER.info("User Stats successfully listed.");
-
-                res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList<>(bsl).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            if (bsl == null) {
                 LOGGER.error("Fatal error while listing User Stats.");
 
                 m = ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getMessage();
                 res.setStatus(ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
+
+            LOGGER.info("User Stats successfully listed.");
+            res.setStatus(HttpServletResponse.SC_OK);
+            new ResourceList<>(bsl).toJSON(res.getOutputStream());
+
         } catch (SQLException ex) {
             LOGGER.error("Cannot list User Stats: unexpected database error.", ex);
 

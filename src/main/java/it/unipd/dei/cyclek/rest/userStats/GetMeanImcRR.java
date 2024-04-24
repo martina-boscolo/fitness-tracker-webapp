@@ -27,22 +27,22 @@ public class GetMeanImcRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bsl = new GetLatestUserStatsDAO(con).access().getOutputParam();
 
-            if (bsl != null) {
-                LOGGER.info("Mean IMC successfully listed.");
-
-                double meanImc = 0.0;
-                for (UserStats bs : bsl)
-                    meanImc += (bs.getWeight()/(bs.getHeight()*bs.getHeight()/10000));
-                meanImc /= bsl.size();
-
-                res.setStatus(HttpServletResponse.SC_OK);
-                new Imc(meanImc).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            if (bsl == null) {
                 LOGGER.error("Fatal error while listing Body Stats.");
                 m = ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getMessage();
                 res.setStatus(ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
+
+            LOGGER.info("Mean IMC successfully listed.");
+            double meanImc = 0.0;
+            for (UserStats bs : bsl)
+                meanImc += (bs.getWeight()/(bs.getHeight()*bs.getHeight()/10000));
+            meanImc /= bsl.size();
+            res.setStatus(HttpServletResponse.SC_OK);
+            new Imc(meanImc).toJSON(res.getOutputStream());
+
         } catch (SQLException ex) {
             LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
             m = ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getMessage();

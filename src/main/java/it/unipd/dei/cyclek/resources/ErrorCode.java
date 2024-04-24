@@ -40,14 +40,23 @@ public enum ErrorCode {
     // General Code     -900 -> -999
     INTERNAL_ERROR("-900", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Error","Unexpected Error"),
     REST_NOT_FOUND("-901", HttpServletResponse.SC_NOT_FOUND, "Unknown resource requested.", "Unknown resource requested."),
-    UNSUPPORTED_OPERATION("-902", HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unsupported operation", "Unsupported operation for requested uri");
+    UNSUPPORTED_OPERATION("-902", HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Unsupported operation", "Unsupported operation for requested uri"),
+    MEDIA_TYPE_NOT_SPECIFIED("-903", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "Output media type not specified. Accept request header missing."),
+    UNSUPPORTED_MEDIA_TYPE("-904", HttpServletResponse.SC_NOT_ACCEPTABLE, "Not Acceptable", "Unsupported output media type. Resources are represented only in application/json."),
+    CONTENT_TYPE_MISSING("-905", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "Input media type not specified. Content-Type request header missing."),
+    UNABLE_TO_SERVE_REQUEST("-906", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Error", "Unable to serve the REST request. "),
+    ;
+
+    private final String errorCode;
     private final int httpCode;
+    private final String msg;
+    private final String msgDet;
 
-    private final Message message;
-
-    ErrorCode(String ErrorCode, int HttpCode, String msg, String msgDet) {
-        this.httpCode = HttpCode;
-        this.message = new Message(msg,ErrorCode,msgDet);
+    ErrorCode(String errorCode, int httpCode, String msg, String msgDet) {
+        this.errorCode = errorCode;
+        this.httpCode = httpCode;
+        this.msg = msg;
+        this.msgDet = msgDet;
     }
 
     public int getHttpCode() {
@@ -55,6 +64,9 @@ public enum ErrorCode {
     }
 
     public Message getMessage() {
-        return message;
+        return new Message(this.msg,this.errorCode,this.msgDet);
+    }
+    public Message getMessageWithParam(String param) {
+        return new Message(this.msg,this.errorCode,this.msgDet.concat(param));
     }
 }

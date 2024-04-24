@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.rest;
 
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.Actions;
@@ -105,9 +106,8 @@ public abstract class AbstractRR implements RestResource {
         } catch (Throwable t) {
             LOGGER.error("Unable to serve the REST request.", t);
 
-            final Message m = new Message(String.format("Unable to serve the REST request: %s.", action), "E5A1",
-                    t.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            final Message m = ErrorCode.UNABLE_TO_SERVE_REQUEST.getMessageWithParam(action);
+            res.setStatus(ErrorCode.UNABLE_TO_SERVE_REQUEST.getHttpCode());
             m.toJSON(res.getOutputStream());
         } finally {
             LogContext.removeAction();
@@ -148,19 +148,16 @@ public abstract class AbstractRR implements RestResource {
 
         if (accept == null) {
             LOGGER.error("Output media type not specified. Accept request header missing.");
-            m = new Message("Output media type not specified.", "E4A1", "Accept request header missing.");
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.MEDIA_TYPE_NOT_SPECIFIED.getMessage();
+            res.setStatus(ErrorCode.MEDIA_TYPE_NOT_SPECIFIED.getHttpCode());
             m.toJSON(out);
             return false;
         }
 
         if (!accept.contains(JSON_MEDIA_TYPE) && !accept.equals(ALL_MEDIA_TYPE)) {
-            LOGGER.error(
-                    "Unsupported output media type. Resources are represented only in application/json. Requested representation is %s.",
-                    accept);
-            m = new Message("Unsupported output media type. Resources are represented only in application/json.",
-                    "E4A2", String.format("Requested representation is %s.", accept));
-            res.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            LOGGER.error("Unsupported output media type. Resources are represented only in application/json.");
+            m = ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage();
+            res.setStatus(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getHttpCode());
             m.toJSON(out);
             return false;
         }
@@ -176,28 +173,25 @@ public abstract class AbstractRR implements RestResource {
             case "PUT":
                 if (contentType == null) {
                     LOGGER.error("Input media type not specified. Content-Type request header missing.");
-                    m = new Message("Input media type not specified.", "E4A3", "Content-Type request header missing.");
-                    res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    m = ErrorCode.CONTENT_TYPE_MISSING.getMessage();
+                    res.setStatus(ErrorCode.CONTENT_TYPE_MISSING.getHttpCode());
                     m.toJSON(out);
                     return false;
                 }
 
                 if (!contentType.contains(JSON_MEDIA_TYPE)) {
-                    LOGGER.error(
-                            "Unsupported input media type. Resources are represented only in application/json. Submitted representation is %s.",
-                            contentType);
-                    m = new Message("Unsupported input media type. Resources are represented only in application/json.",
-                            "E4A4", String.format("Submitted representation is %s.", contentType));
-                    res.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+                    LOGGER.error("Unsupported input media type. Resources are represented only in application/json.");
+                    m = ErrorCode.UNSUPPORTED_MEDIA_TYPE.getMessage();
+                    res.setStatus(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getHttpCode());
                     m.toJSON(out);
                     return false;
                 }
 
                 break;
             default:
-                LOGGER.error("Unsupported operation. Requested operation %s.", method);
-                m = new Message("Unsupported operation.", "E4A5", String.format("Requested operation %s.", method));
-                res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                LOGGER.error("Unsupported operation.");
+                m = ErrorCode.UNSUPPORTED_OPERATION.getMessage();
+                res.setStatus(ErrorCode.UNSUPPORTED_OPERATION.getHttpCode());
                 m.toJSON(out);
                 return false;
         }

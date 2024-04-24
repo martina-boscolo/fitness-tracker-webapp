@@ -32,24 +32,25 @@ public class GetImcByUserIdRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
-            if (bsl != null) {
-                LOGGER.info("IMC by user ID successfully listed.");
-
-                Integer userId = bsl.get(0).getIdUser();
-                double imc = bsl.get(0).getWeight() / (bsl.get(0).getHeight() * bsl.get(0).getHeight() / 10000);
-                double userMeanImc = 0.0;
-                for (UserStats bs : bsl)
-                    userMeanImc += (bs.getWeight()/(bs.getHeight()*bs.getHeight()/10000));
-                userMeanImc /= bsl.size();
-
-                res.setStatus(HttpServletResponse.SC_OK);
-                new Imc(userId, userMeanImc, imc).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            if (bsl == null) {
                 LOGGER.error("Fatal error while listing IMC.");
                 m = ErrorCode.GET_IMC_INTERNAL_SERVER_ERROR.getMessage();
                 res.setStatus(ErrorCode.GET_IMC_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
+
+            LOGGER.info("IMC by user ID successfully listed.");
+            Integer userId = bsl.get(0).getIdUser();
+            double imc = bsl.get(0).getWeight() / (bsl.get(0).getHeight() * bsl.get(0).getHeight() / 10000);
+            double userMeanImc = 0.0;
+            for (UserStats bs : bsl)
+                userMeanImc += (bs.getWeight()/(bs.getHeight()*bs.getHeight()/10000));
+            userMeanImc /= bsl.size();
+
+            res.setStatus(HttpServletResponse.SC_OK);
+            new Imc(userId, userMeanImc, imc).toJSON(res.getOutputStream());
+
         } catch (SQLException ex) {
             LOGGER.error("Cannot list IMC: unexpected database error.", ex);
             m = ErrorCode.GET_IMC_INTERNAL_SERVER_ERROR.getMessage();
