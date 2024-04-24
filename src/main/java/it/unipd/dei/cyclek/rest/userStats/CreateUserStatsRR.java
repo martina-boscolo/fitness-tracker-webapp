@@ -27,44 +27,41 @@ public class CreateUserStatsRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bs = new CreateUserStatsDAO(con, userStats).access().getOutputParam();
 
-            if (bs != null) {
-                LOGGER.info("Body Stats successfully created.");
-
-                res.setStatus(HttpServletResponse.SC_CREATED);
-                bs.toJSON(res.getOutputStream());
-            } else { // it should not happen
+            if (bs == null) {
                 LOGGER.error("Fatal error while creating Body Stats.");
-
-                m = new Message("Cannot create Body Stats: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_STATS_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
+
+            LOGGER.info("Body Stats successfully created.");
+            res.setStatus(HttpServletResponse.SC_CREATED);
+            bs.toJSON(res.getOutputStream());
+
         } catch (EOFException ex) {
             LOGGER.warn("Cannot create the Body Stats: no Body Stats JSON object found in the request.", ex);
-
-            m = new Message("Cannot create the Body Stats: no Body Stats JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.CREATE_STATS_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.CREATE_STATS_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
+
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot create the Body Stats: it already exists.");
-
-                m = new Message("Cannot create the Body Stats: it already exists.", "E5A2", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.CREATE_STATS_DB_CONFLICT.getMessage();
+                res.setStatus(ErrorCode.CREATE_STATS_DB_CONFLICT.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot create the Body Stats: unexpected database error.", ex);
-
-                m = new Message("Cannot create the Body Stats: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_STATS_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
+
         } catch (NullPointerException ex) {
             LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate).", ex);
-
-            m = new Message("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate).", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.CREATE_STATS_NULL_POINTER.getMessage();
+            res.setStatus(ErrorCode.CREATE_STATS_NULL_POINTER.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

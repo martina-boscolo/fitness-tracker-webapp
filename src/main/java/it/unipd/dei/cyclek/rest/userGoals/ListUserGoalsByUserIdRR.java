@@ -2,10 +2,7 @@ package it.unipd.dei.cyclek.rest.userGoals;
 
 import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsByUserIdDAO;
 import it.unipd.dei.cyclek.dao.userGoals.GetUserGoalsDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.UserGoals;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,23 +31,24 @@ public class ListUserGoalsByUserIdRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bsl = new GetUserGoalsByUserIdDAO(con, idUser).access().getOutputParam();
 
-            if (bsl != null) {
-                LOGGER.info("Body Obj successfully listed.");
+            if (bsl == null) {
+                LOGGER.error("Fatal error while listing User Goals.");
 
-                res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList<>(bsl).toJSON(res.getOutputStream());
-            } else { // it should not happen
-                LOGGER.error("Fatal error while listing Body Obj.");
-
-                m = new Message("Cannot list Body Obj: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
-        } catch (SQLException ex) {
-            LOGGER.error("Cannot list Body Obj: unexpected database error.", ex);
 
-            m = new Message("Cannot list Body Obj: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            LOGGER.info("User Goals successfully listed.");
+            res.setStatus(HttpServletResponse.SC_OK);
+            new ResourceList<>(bsl).toJSON(res.getOutputStream());
+
+        } catch (SQLException ex) {
+            LOGGER.error("Cannot list User Goals: unexpected database error.", ex);
+
+            m = ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

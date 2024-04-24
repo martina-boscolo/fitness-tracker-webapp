@@ -26,23 +26,24 @@ public class ListUserGoalsRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bol = new GetUserGoalsDAO(con).access().getOutputParam();
 
-            if (bol != null) {
-                LOGGER.info("Body Objective successfully listed.");
+            if (bol == null) {
+                LOGGER.error("Fatal error while listing Goals.");
 
-                res.setStatus(HttpServletResponse.SC_OK);
-                new ResourceList<>(bol).toJSON(res.getOutputStream());
-            } else { // it should not happen
-                LOGGER.error("Fatal error while listing Body Objective.");
-
-                m = new Message("Cannot list Body Objective: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.GET_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
-        } catch (SQLException ex) {
-            LOGGER.error("Cannot list Body Objective: unexpected database error.", ex);
 
-            m = new Message("Cannot list Body Objective: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            LOGGER.info("Goals successfully listed.");
+            res.setStatus(HttpServletResponse.SC_OK);
+            new ResourceList<>(bol).toJSON(res.getOutputStream());
+
+        } catch (SQLException ex) {
+            LOGGER.error("Cannot list Goals: unexpected database error.", ex);
+
+            m = ErrorCode.GET_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

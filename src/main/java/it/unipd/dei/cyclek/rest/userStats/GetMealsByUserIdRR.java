@@ -39,7 +39,7 @@ public class GetMealsByUserIdRR extends AbstractRR {
                 foodsMap.put(food.getId(),food);
 
             if (meals != null) {
-                LOGGER.info("Body Stats successfully listed.");
+                LOGGER.info("Meals successfully listed.");
 
                 Integer userId = meals.get(0).getIdUser();
                 double avg_kcal = 0.0;
@@ -84,16 +84,14 @@ public class GetMealsByUserIdRR extends AbstractRR {
                 new FoodStats(avg_kcal,avg_fats,avg_carb,avg_prot,favoriteFoodName,favoriteFoodCount).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing Body Stats.");
-
-                m = new Message("Cannot list Body Stats: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
-
-            m = new Message("Cannot list Body Stats: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

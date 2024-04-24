@@ -2,10 +2,7 @@ package it.unipd.dei.cyclek.rest.userStats;
 
 import it.unipd.dei.cyclek.dao.userStats.GetUserStatsByUserIdDAO;
 import it.unipd.dei.cyclek.dao.userStats.GetUserStatsDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.UserStats;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,22 +32,22 @@ public class ListUserStatsByUserIdRR extends AbstractRR {
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl != null) {
-                LOGGER.info("Body Stats successfully listed.");
+                LOGGER.info("User Stats successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(bsl).toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while listing Body Stats.");
+                LOGGER.error("Fatal error while listing User Stats.");
 
-                m = new Message("Cannot list Body Stats: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
+            LOGGER.error("Cannot list User Stats: unexpected database error.", ex);
 
-            m = new Message("Cannot list Body Stats: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

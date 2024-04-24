@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.rest.userGoals;
 
 import it.unipd.dei.cyclek.dao.userGoals.CreateUserGoalDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.UserGoals;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -29,44 +30,38 @@ public class CreateUserGoalsRR extends AbstractRR {
             // creates a new DAO for accessing the database and lists the employee(s)
             bs = new CreateUserGoalDAO(con, userGoals).access().getOutputParam();
 
-            if (bs != null) {
-                LOGGER.info("Body Obj successfully created.");
-
-                res.setStatus(HttpServletResponse.SC_CREATED);
-                bs.toJSON(res.getOutputStream());
-            } else { // it should not happen
-                LOGGER.error("Fatal error while creating Body Obj.");
-
-                m = new Message("Cannot create Body Obj: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            if (bs == null) {
+                LOGGER.error("Fatal error while creating User Goal.");
+                m = ErrorCode.CREATE_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
+                return;
             }
-        } catch (EOFException ex) {
-            LOGGER.warn("Cannot create the Body Obj: no Body Obj JSON object found in the request.", ex);
+            LOGGER.info("User Goal successfully created.");
+            res.setStatus(HttpServletResponse.SC_CREATED);
+            bs.toJSON(res.getOutputStream());
 
-            m = new Message("Cannot create the Body Obj: no Body Obj JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (EOFException ex) {
+            LOGGER.warn("Cannot create the User Goal: no Body Obj JSON object found in the request.", ex);
+            m = ErrorCode.CREATE_GOAL_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.CREATE_GOAL_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
-                LOGGER.warn("Cannot create the Body Obj: it already exists.");
-
-                m = new Message("Cannot create the Body Obj: it already exists.", "E5A2", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                LOGGER.warn("Cannot create the User Goal: it already exists.");
+                m = ErrorCode.CREATE_GOAL_DB_CONFLICT.getMessage();
+                res.setStatus(ErrorCode.CREATE_GOAL_DB_CONFLICT.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
-                LOGGER.error("Cannot create the Body Obj: unexpected database error.", ex);
-
-                m = new Message("Cannot create the Body Obj: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                LOGGER.error("Cannot create the User Goal: unexpected database error.", ex);
+                m = ErrorCode.CREATE_GOAL_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (NullPointerException ex) {
-            LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,ObjDate).", ex);
-
-            m = new Message("Body must contains all parameters (idUser,weight,height,fatty,lean,ObjDate).", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,goalDate).", ex);
+            m = ErrorCode.CREATE_GOAL_NULL_POINTER.getMessage();
+            res.setStatus(ErrorCode.CREATE_GOAL_NULL_POINTER.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

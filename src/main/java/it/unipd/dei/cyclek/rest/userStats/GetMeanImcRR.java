@@ -28,7 +28,7 @@ public class GetMeanImcRR extends AbstractRR {
             bsl = new GetLatestUserStatsDAO(con).access().getOutputParam();
 
             if (bsl != null) {
-                LOGGER.info("Body Stats successfully listed.");
+                LOGGER.info("Mean IMC successfully listed.");
 
                 double meanImc = 0.0;
                 for (UserStats bs : bsl)
@@ -39,16 +39,14 @@ public class GetMeanImcRR extends AbstractRR {
                 new Imc(meanImc).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing Body Stats.");
-
-                m = new Message("Cannot list Body Stats: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
-
-            m = new Message("Cannot list Body Stats: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_MEAN_IMC_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

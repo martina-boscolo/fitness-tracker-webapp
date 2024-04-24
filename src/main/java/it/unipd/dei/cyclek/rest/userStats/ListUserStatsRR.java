@@ -28,22 +28,20 @@ public class ListUserStatsRR extends AbstractRR {
             bsl = new GetUserStatsDAO(con).access().getOutputParam();
 
             if (bsl != null) {
-                LOGGER.info("Body Stats successfully listed.");
+                LOGGER.info("Stats successfully listed.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(bsl).toJSON(res.getOutputStream());
             } else { // it should not happen
-                LOGGER.error("Fatal error while listing Body Stats.");
-
-                m = new Message("Cannot list Body Stats: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                LOGGER.error("Fatal error while listing Stats.");
+                m = ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list Body Stats: unexpected database error.", ex);
-
-            m = new Message("Cannot list Body Stats: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            LOGGER.error("Cannot list Stats: unexpected database error.", ex);
+            m = ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

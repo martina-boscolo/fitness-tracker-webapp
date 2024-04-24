@@ -1,5 +1,6 @@
 package it.unipd.dei.cyclek.service;
 
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.userGoals.CreateUserGoalsRR;
 import it.unipd.dei.cyclek.rest.userGoals.ListUserGoalsByUserIdRR;
@@ -17,8 +18,8 @@ public class UserGoalsService extends AbstractService{
         String method = req.getMethod();
         String msg = String.format("Unsupported operation for URI /%s: %s.",TABLE_NAME,method);
         LOGGER.warn(msg);
-        Message m = new Message(msg,"E4A5",String.format("Method %s,",method));
-        res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        Message m = ErrorCode.UNSUPPORTED_OPERATION.getMessage();
+        res.setStatus(ErrorCode.UNSUPPORTED_OPERATION.getHttpCode());
         m.toJSON(res.getOutputStream());
     }
     public static boolean processUserGoals(HttpServletRequest req, HttpServletResponse res, Connection con) throws IOException {
