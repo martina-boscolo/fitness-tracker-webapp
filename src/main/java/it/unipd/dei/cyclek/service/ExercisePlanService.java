@@ -2,10 +2,7 @@ package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.ExercisePlan;
 import it.unipd.dei.cyclek.rest.exercise.GetExerciseByIdRR;
-import it.unipd.dei.cyclek.rest.exercisePlan.AddExercisePlanRR;
-import it.unipd.dei.cyclek.rest.exercisePlan.DeleteExercisePlanRR;
-import it.unipd.dei.cyclek.rest.exercisePlan.GetExercisePlanByIdRR;
-import it.unipd.dei.cyclek.rest.exercisePlan.ListExercisePlanRR;
+import it.unipd.dei.cyclek.rest.exercisePlan.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -38,6 +35,8 @@ public class ExercisePlanService extends AbstractService {
                 case "POST":
                     new AddExercisePlanRR(req, res, con).serve();
                     break;
+                case "PUT":
+                    new UpdateExercisePlanRR(req, res, con).serve();
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }
