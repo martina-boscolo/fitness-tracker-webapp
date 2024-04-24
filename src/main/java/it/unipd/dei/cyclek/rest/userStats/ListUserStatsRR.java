@@ -28,9 +28,9 @@ public class ListUserStatsRR extends AbstractRR {
             bsl = new GetUserStatsDAO(con).access().getOutputParam();
 
             if (bsl == null) {
-                LOGGER.error("Fatal error while listing Stats.");
-                m = ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getMessage();
-                res.setStatus(ErrorCode.GET_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
+                LOGGER.error("No stats found.");
+                m = ErrorCode.GET_STATS_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_STATS_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }

@@ -26,7 +26,6 @@ public class UserGoalsService extends AbstractService{
 
         final String method = req.getMethod();
         String path = req.getRequestURI();
-        Message m = null;
 
         // the requested resource was not a user
         if (path.lastIndexOf("rest/".concat(TABLE_NAME)) <= 0)
@@ -34,23 +33,15 @@ public class UserGoalsService extends AbstractService{
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/")) {
-            switch (method) {
-                case "GET":
-                    new ListUserGoalsRR(req, res, con).serve();           // GET  /rest/goals  (list body objective of all users)
-                    break;
-                case "POST":
-                    new CreateUserGoalsRR(req, res, con).serve();         // POST /rest/goals  (insert a new body objective)
-                    break;
-                default:
-                    unsupportedOperation(req,res);
-                    break;
-            }
-        } else if (path.contains("user") && method.equals("GET")) {
-            new ListUserGoalsByUserIdRR(req, res, con).serve();           // GET /rest/goals/user/{id}  (list body objective of a user)
-        } else {
+        if ((path.isEmpty() || path.equals("/")) && (method.equals("GET") || method.equals("POST")))
+            if (method.equals("GET"))
+                new ListUserGoalsRR(req, res, con).serve();           // GET  /rest/goals  (list user goals of all users)
+            else
+                new CreateUserGoalsRR(req, res, con).serve();         // POST /rest/goals  (insert a new user goal)
+        else if (path.matches("/user/\\d+$") && method.equals("GET"))
+            new ListUserGoalsByUserIdRR(req, res, con).serve();       // GET /rest/goals/user/{id}  (list user goals of a user)
+        else
             unsupportedOperation(req, res);
-        }
 
         return true;
     }

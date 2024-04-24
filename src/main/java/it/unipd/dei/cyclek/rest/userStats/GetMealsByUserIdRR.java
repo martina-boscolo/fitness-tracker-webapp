@@ -39,9 +39,9 @@ public class GetMealsByUserIdRR extends AbstractRR {
                 foodsMap.put(food.getId(),food);
 
             if (meals == null) {
-                LOGGER.error("Fatal error while listing Body Stats.");
-                m = ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getMessage();
-                res.setStatus(ErrorCode.GET_MEALS_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
+                LOGGER.error("No stats found for searched user.");
+                m = ErrorCode.GET_MEALS_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_MEALS_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }

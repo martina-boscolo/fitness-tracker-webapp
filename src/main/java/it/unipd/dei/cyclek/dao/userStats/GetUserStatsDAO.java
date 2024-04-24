@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class GetUserStatsDAO extends AbstractDAO<List<UserStats>>{
-    private static final String QUERY = "SELECT * FROM userStats ORDER BY users, statsDate DESC";
+    private static final String QUERY = "SELECT * FROM userStats ORDER BY iduser, statsDate DESC";
         public GetUserStatsDAO(Connection con) {
         super(con);
     }

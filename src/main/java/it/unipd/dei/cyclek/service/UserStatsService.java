@@ -24,7 +24,6 @@ public class UserStatsService extends AbstractService{
 
         final String method = req.getMethod();
         String path = req.getRequestURI();
-        Message m = null;
 
         // the requested resource was not a user
         if (path.lastIndexOf("rest/".concat(TABLE_NAME)) <= 0)
@@ -32,32 +31,21 @@ public class UserStatsService extends AbstractService{
 
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.contains("body")) {
-            switch (method) {
-                case "GET":
-                    new ListUserStatsRR(req, res, con).serve();         // GET  /rest/stats/body  (list all table bodystats)
-                    break;
-                case "POST":
-                    new CreateUserStatsRR(req, res, con).serve();       // POST /rest/stats/body  (insert a new bodystats)
-                    break;
-                default:
-                    unsupportedOperation(req, res);
-                    break;
-            }
-        } else if (path.contains("imc")) {
-            if (path.contains("mean") && method.equals("GET"))          // GET  /rest/stats/imc/mean      (get global mean of IMC)
-                new GetMeanImcRR(req, res, con).serve();
-            else if (path.contains("user") && method.equals("GET"))     // GET  /rest/stats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
-                new GetImcByUserIdRR(req, res, con).serve();
-            else
-                unsupportedOperation(req, res);
-        } else if (path.contains("meals") && method.equals("GET")) {    // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
-            new GetMealsByUserIdRR(req, res, con).serve();
-        } else if (path.contains("user") && method.equals("GET")) {     // GET  /rest/stats/user/{id}  (get all measures of a single user)
+        if (path.matches("/body") && (method.equals("GET") || method.equals("POST")))
+            if (method.equals("GET"))                                                 // GET  /rest/stats/body  (list all table bodystats)
+                new ListUserStatsRR(req, res, con).serve();
+            else                                                                      // POST /rest/stats/body  (insert a new bodystats)
+                new CreateUserStatsRR(req, res, con).serve();
+        else if (path.matches("/body/user/\\d+$") && method.equals("GET"))      // GET  /rest/stats/body/user/{id}  (get all measures of a single user)
             new ListUserStatsByUserIdRR(req, res, con).serve();
-        } else {
+        else if (path.matches("/imc/mean") && method.equals("GET"))             // GET  /rest/stats/imc/mean      (get global mean of IMC)
+                new GetMeanImcRR(req, res, con).serve();
+        else if (path.matches("/imc/user/\\d+$") && method.equals("GET"))       // GET  /rest/stats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
+                new GetImcByUserIdRR(req, res, con).serve();
+        else if (path.matches("/meals/user/\\d+$") && method.equals("GET"))     // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
+            new GetMealsByUserIdRR(req, res, con).serve();
+        else
             unsupportedOperation(req, res);
-        }
 
         return true;
     }

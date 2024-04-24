@@ -32,10 +32,10 @@ public class ListUserStatsByUserIdRR extends AbstractRR {
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl == null) {
-                LOGGER.error("Fatal error while listing User Stats.");
+                LOGGER.error("No stats found for searched user.");
 
-                m = ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getMessage();
-                res.setStatus(ErrorCode.GET_USER_STATS_INTERNAL_SERVER_ERROR.getHttpCode());
+                m = ErrorCode.GET_USER_STATS_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_USER_STATS_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }

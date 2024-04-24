@@ -33,9 +33,9 @@ public class GetImcByUserIdRR extends AbstractRR {
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl == null) {
-                LOGGER.error("Fatal error while listing IMC.");
-                m = ErrorCode.GET_IMC_INTERNAL_SERVER_ERROR.getMessage();
-                res.setStatus(ErrorCode.GET_IMC_INTERNAL_SERVER_ERROR.getHttpCode());
+                LOGGER.error("No stats found for searched user.");
+                m = ErrorCode.GET_IMC_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_IMC_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }

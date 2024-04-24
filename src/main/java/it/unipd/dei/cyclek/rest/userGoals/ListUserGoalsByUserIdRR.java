@@ -32,10 +32,10 @@ public class ListUserGoalsByUserIdRR extends AbstractRR {
             bsl = new GetUserGoalsByUserIdDAO(con, idUser).access().getOutputParam();
 
             if (bsl == null) {
-                LOGGER.error("Fatal error while listing User Goals.");
+                LOGGER.error("No goals found.");
 
-                m = ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getMessage();
-                res.setStatus(ErrorCode.GET_USER_GOAL_INTERNAL_SERVER_ERROR.getHttpCode());
+                m = ErrorCode.GET_USER_GOAL_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_USER_GOAL_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }
