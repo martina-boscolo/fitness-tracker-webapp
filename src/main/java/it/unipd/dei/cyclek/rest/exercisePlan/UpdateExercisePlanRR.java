@@ -41,17 +41,12 @@ public class UpdateExercisePlanRR extends AbstractRR {
             String planJson = rootNode.get("plan").toString();
 
 
+
             boolean saved = new UpdateExercisePlanDao(con, new ExercisePlan(id, idUser, planName, planJson, "")).access().getOutputParam();
             if (saved) {
                 LOGGER.info("ExercisePlan successfully updated.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("ExercisePlan successfully updated.", "S1A1", null);
-                m.toJSON(res.getOutputStream());
-            }
-            else{
-                LOGGER.info("ExercisePlan cant be modified, 24 hours has passed.");
-                res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("ExercisePlan cant be modified, 24 hours has passed.", "S1A1", null);
+                m = new Message("ExercisePlan successfully updated.");
                 m.toJSON(res.getOutputStream());
             }
         } catch (IOException | SQLException ex) {

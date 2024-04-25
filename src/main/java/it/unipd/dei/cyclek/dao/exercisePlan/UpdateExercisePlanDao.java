@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UpdateExercisePlanDao extends AbstractDAO<Boolean> {
-    public static final String STATEMENT = "UPDATE exercise_plan SET planName = ?, plan = ? WHERE id = ? AND planDate > NOW() - INTERVAL '24 hours'";
+    public static final String STATEMENT = "UPDATE exercise_plan SET planName = ?, plan = ?, plandate = CURRENT_TIMESTAMP WHERE id = ?";
 
     private final ExercisePlan plan;
 
