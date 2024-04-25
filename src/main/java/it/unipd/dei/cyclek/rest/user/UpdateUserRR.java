@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.dao.user.UpdateUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -40,37 +41,33 @@ public class UpdateUserRR extends AbstractRR {
             }
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonBody.toString());
-            String name = rootNode.get("name").asText();
-            String surname = rootNode.get("surname").asText();
-            String birthday = rootNode.get("birthday").asText();
-            String gender = rootNode.get("gender").asText();
-            String username = rootNode.get("username").asText();
-            String password = rootNode.get("password").asText();
-            String[] fields = {name, surname, birthday, gender, username, password};
-            for(String field : fields)
-                if(StringUtils.isBlank(field)) {
-                    LOGGER.error("some fields are null or empty.");
-                    m = new Message("Fields cant be null or empty", "E5A1", null);
-                    res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    m.toJSON(res.getOutputStream());
-                }
-            User user = new User(id, name, surname, birthday, gender, username, password);
+            User user = new User(id, rootNode.get("name").asText(),
+                                     rootNode.get("surname").asText(),
+                                     rootNode.get("birthday").asText(),
+                                     rootNode.get("gender").asText(),
+                                     rootNode.get("username").asText(),
+                                     rootNode.get("password").asText());
+            if (!user.isValid()) {
+                LOGGER.error("Cannot update the user: missing User fields.");
+                m = ErrorCode.REGISTER_USER_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.REGISTER_USER_BAD_REQUEST.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
             boolean saved = new UpdateUserDAO(con, user).access().getOutputParam();
             if (saved) {
-                LOGGER.info("User(s) successfully updated.");
+                LOGGER.info("User successfully updated.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("User(s) successfully updated.", "S1A1", null);
-                m.toJSON(res.getOutputStream());
-            } else { // it should not happen
-                LOGGER.error("Fatal error while updating user(s).");
-                m = new Message("Cannot find user(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                user.toJSON(res.getOutputStream());
+            } else {
+                m = ErrorCode.UPDATE_USER_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.UPDATE_USER_DB_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot update user(s): unexpected database error.", ex);
-            m = new Message("Cannot update user(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.UPDATE_USER_DB_ERROR.getMessage();
+            res.setStatus(ErrorCode.UPDATE_USER_DB_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
