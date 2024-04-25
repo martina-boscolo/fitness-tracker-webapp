@@ -52,6 +52,6 @@ public final class GetUserGoalsDAO extends AbstractDAO<List<UserGoals>>{
                 pstmt.close();
             }
         }
-        this.outputParam = bol;
+        this.outputParam = bol.isEmpty() ? null : bol;
     }
 }

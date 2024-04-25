@@ -54,6 +54,6 @@ public final class GetUserStatsDAO extends AbstractDAO<List<UserStats>>{
 
         }
 
-        this.outputParam = bsl;
+        this.outputParam = bsl.isEmpty() ? null : bsl;
     }
 }

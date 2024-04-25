@@ -81,6 +81,6 @@ public final class GetMealsAndFoodByUserIdDAO extends AbstractDAO<MealFoodGroup>
 
         }
 
-        this.outputParam = new MealFoodGroup(ml,fl);
+        this.outputParam = ml.isEmpty() ? new MealFoodGroup(null,null) : new MealFoodGroup(ml,fl);
     }
 }
