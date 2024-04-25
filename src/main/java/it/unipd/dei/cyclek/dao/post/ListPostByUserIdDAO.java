@@ -46,13 +46,10 @@ public class ListPostByUserIdDAO extends AbstractDAO<List<Post>> {
                                 rs.getInt("id_user"),
                                 rs.getString("text_content"),
                                 rs.getString("image_path"),
-                                rs.getInt("like_count"),
-                                rs.getInt("comment_count"),
                                 rs.getTimestamp("post_date")
                         )
                 );
             }
-
 
             LOGGER.info("Posts successfully listed.");
 

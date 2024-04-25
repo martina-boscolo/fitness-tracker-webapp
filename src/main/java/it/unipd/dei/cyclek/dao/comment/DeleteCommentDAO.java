@@ -20,7 +20,7 @@ public class DeleteCommentDAO extends AbstractDAO<Comment> {
     /**
      * SQL statement to delete a comment from the database.
      */
-    private static final String STATEMENT = "DELETE FROM comments WHERE id = ? ";
+    private static final String STATEMENT = "DELETE FROM comments WHERE id = ? RETURNING * ";
 
     /**
      * The comment ID to be deleted.

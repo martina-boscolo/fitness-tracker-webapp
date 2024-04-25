@@ -40,8 +40,6 @@ public class CreateLikeRR extends AbstractRR {
         Message m = null;
 
         try {
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("like") + 4);
 
             final Like like = Like.fromJSON(req.getInputStream());
 

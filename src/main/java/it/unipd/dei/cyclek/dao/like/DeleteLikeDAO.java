@@ -20,34 +20,28 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
     /**
      * SQL statement to delete a like from the database.
      */
-    private static final String STATEMENT = "DELETE FROM likes WHERE id_user = ? AND id_post = ? RETURNING *  ";
+    private static final String STATEMENT = "DELETE FROM likes WHERE id = ?  RETURNING *  ";
 
     /**
      * The user ID of the like to be deleted.
      */
-    private final int userId;
+    private final int likeId;
 
-    /**
-     * The post ID of the like to be deleted.
-     */
-    private final int postId;
+
 
     /**
      * Constructs a new DeleteLikeDAO object with the given connection, user ID and post ID.
      *
      * @param con the connection to the database.
-     * @param userId the user ID of the like to be deleted.
-     * @param postId the post ID of the like to be deleted.
      * @throws IllegalArgumentException if the user ID or post ID is less than or equal to 0.
      */
-    public DeleteLikeDAO(Connection con, int userId, int postId) {
+    public DeleteLikeDAO(Connection con, int likeId) {
         super(con);
-        if (userId <= 0 || postId <= 0) {
+        if (likeId <= 0 ) {
             throw new IllegalArgumentException("userId and postId must be greater than 0.");
         }
 
-        this.userId = userId;
-        this.postId = postId;
+        this.likeId = likeId;
     }
 
     /**
@@ -66,12 +60,13 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
         try {
             pstmt = con.prepareStatement(STATEMENT);
 
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, postId);
+            pstmt.setInt(1, likeId);
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                l = new Like(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getBoolean("is_like") );
+                l = new Like(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getInt("id_post"));
 
                 LOGGER.info("Like %d successfully deleted from the database.", l.getPostId());
             }

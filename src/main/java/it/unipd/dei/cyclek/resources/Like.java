@@ -19,7 +19,6 @@ public class Like extends AbstractResource {
     private final int likeId;
     private final int userId;
     private final int postId;
-    private final boolean isLike;
 
     /**
      * Constructs a new LikeOrDislike with the given attributes.
@@ -27,13 +26,11 @@ public class Like extends AbstractResource {
      * @param likeDislikeId the ID of the like/dislike
      * @param userId        the ID of the user who made the like/dislike
      * @param postId        the ID of the post that was liked/disliked
-     * @param isLike        whether the action was a like
      */
-    public Like(int likeDislikeId, int userId, int postId, boolean isLike) {
+    public Like(int likeDislikeId, int userId, int postId) {
         this.likeId = likeDislikeId;
         this.userId = userId;
         this.postId = postId;
-        this.isLike = isLike;
     }
 
     /**
@@ -66,15 +63,6 @@ public class Like extends AbstractResource {
     }
 
 
-    /**
-     * Returns whether the action was a like.
-     *
-     * @return true if the action was a like
-     */
-    public boolean isLike() {
-        return isLike;
-    }
-
     @Override
     protected final void writeJSON(final OutputStream out) throws IOException {
 
@@ -82,17 +70,16 @@ public class Like extends AbstractResource {
 
         jg.writeStartObject();
 
-        jg.writeFieldName("socialNetworkPost");
+        jg.writeFieldName("like");
 
         jg.writeStartObject();
 
         jg.writeNumberField("likeId", likeId);
 
-        jg.writeNumberField("postId", postId);
-
         jg.writeNumberField("userId", userId);
 
-        jg.writeBooleanField("isLike", isLike);
+        jg.writeNumberField("postId", postId);
+
 
         jg.writeEndObject();
 
@@ -106,9 +93,9 @@ public class Like extends AbstractResource {
 
         // the fields read from JSON
         int jLikeId = -1;
-        int jPostId = -1;
         int jUserId = -1;
-        boolean jIsLike = false;
+        int jPostId = -1;
+
 
 
 
@@ -135,17 +122,13 @@ public class Like extends AbstractResource {
                             jp.nextToken();
                             jLikeId = jp.getIntValue();
                             break;
-                        case "postId":
-                            jp.nextToken();
-                            jPostId = jp.getIntValue();
-                            break;
                         case "userId":
                             jp.nextToken();
                             jUserId = jp.getIntValue();
                             break;
-                        case "isLike":
+                        case "postId":
                             jp.nextToken();
-                            jIsLike = jp.getBooleanValue();
+                            jPostId = jp.getIntValue();
                             break;
 
 
@@ -156,7 +139,7 @@ public class Like extends AbstractResource {
             LOGGER.error("Unable to parse a Like object from JSON.", e);
             throw e;
         }
-        return new Like(jLikeId, jPostId, jUserId, jIsLike);
+        return new Like(jLikeId,jUserId, jPostId );
     }
 
 

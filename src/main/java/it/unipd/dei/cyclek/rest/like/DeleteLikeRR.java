@@ -1,10 +1,8 @@
 package it.unipd.dei.cyclek.rest.like;
 
+import it.unipd.dei.cyclek.dao.like.DeleteLikeDAO;
 import it.unipd.dei.cyclek.dao.post.DeletePostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,41 +28,43 @@ public class DeleteLikeRR extends AbstractRR {
      * @param con the connection to the database.
      */
     public DeleteLikeRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
-        super(Actions.DELETE_POST, req, res, con);
+        super(Actions.DELETE_LIKE, req, res, con);
     }
 
 
     @Override
     protected void doServe() throws IOException {
 
-        Post e = null;
+        Like e = null;
         Message m = null;
 
         try {
             String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("post") + 4);
+            String id = path.substring(path.lastIndexOf('/') + 1);
 
-            final int postId = Integer.parseInt(path.substring(1));
+            int likeId = Integer.parseInt(id);
 
-            LogContext.setResource(Integer.toString(postId));
+
+
+            LogContext.setResource(Integer.toString(likeId));
 
             // creates a new DAO for accessing the database and deletes the employee
-            e = new DeletePostDAO(con, postId).access().getOutputParam();
+            e = new DeleteLikeDAO(con, likeId).access().getOutputParam();
 
             if (e != null) {
-                LOGGER.info("Post successfully deleted.");
+                LOGGER.info("Like successfully deleted.");
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 e.toJSON(res.getOutputStream());
             } else {
-                LOGGER.warn("Post not found. Cannot delete it.");
+                LOGGER.warn("Like not found. Cannot delete it.");
 
-                m = new Message(String.format("Post %d not found. Cannot delete it.", postId), "E5A3", null);
+                m = new Message(String.format("Like %d not found. Cannot delete it.", likeId), "E5A3", null);
                 res.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
-            LOGGER.warn("Cannot delete the post: wrong format for URI /post/{postId}.", ex);
+            LOGGER.warn("Cannot delete the like: wrong format for URI /post/{postId}.", ex);
 
             m = new Message("Cannot delete the post: wrong format for URI /post/{postId}.", "E4A7",
                     ex.getMessage());

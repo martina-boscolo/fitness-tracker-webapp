@@ -39,12 +39,8 @@ public class CreateCommentRR extends AbstractRR {
         Message m = null;
 
         try {
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("post") + 4);
 
             final Comment comment = Comment.fromJSON(req.getInputStream());
-
-            LogContext.setResource(Integer.toString(comment.getCommentId()));
 
             // creates a new DAO for accessing the database and stores the employee
             c = new CreateCommentDAO(con, comment).access().getOutputParam();

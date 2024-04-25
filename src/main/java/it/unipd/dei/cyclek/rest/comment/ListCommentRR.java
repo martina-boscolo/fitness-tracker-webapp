@@ -29,7 +29,7 @@ public class ListCommentRR extends AbstractRR {
      */
 
     public ListCommentRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
-        super(Actions.LIST_COMMENT_BY_ID, req, res, con);
+        super(Actions.LIST_COMMENT_BY_POST_ID, req, res, con);
     }
 
 
@@ -43,7 +43,8 @@ public class ListCommentRR extends AbstractRR {
 
             String path = req.getRequestURI();
             String[] parts = path.split("/");
-            final int postId = Integer.parseInt(parts[1]);
+            final int postId = Integer.parseInt(parts[4]);
+
             el = new ListCommentsByPostIdDAO(con, postId).access().getOutputParam();
 
             if (el != null) {
@@ -51,7 +52,7 @@ public class ListCommentRR extends AbstractRR {
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList(el).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Fatal error while listing comment(s).");
 
                 m = new Message("Cannot list comment(s): unexpected error.", "E5A1", null);

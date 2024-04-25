@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 public class CreatePostDAO extends AbstractDAO<Post> {
 
-    private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, image_path, like_count, comment_count, post_date) VALUES ( ?, ?, ?, ?, ?, ?) RETURNING * ";
+    private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, image_path, post_date) VALUES ( ?, ?, ?, ?) RETURNING * ";
     private final Post post;
 
     /**
@@ -53,15 +53,13 @@ public class CreatePostDAO extends AbstractDAO<Post> {
             pstmt.setInt(1, post.getUserId());
             pstmt.setString(2, post.getTextContent());
             pstmt.setString(3, post.getImagePath());
-            pstmt.setInt(4, post.getLikeCount());
-            pstmt.setInt(5, post.getCommentCount());
-            pstmt.setTimestamp(6, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setTimestamp(4, java.sql.Timestamp.valueOf(LocalDateTime.now()));
 
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 e = new Post(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
-                        rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
+                        rs.getString("image_path"),
                         rs.getTimestamp("post_date"));
                 LOGGER.info("Post %d successfully stored in the database.", e.getPostId());
             }

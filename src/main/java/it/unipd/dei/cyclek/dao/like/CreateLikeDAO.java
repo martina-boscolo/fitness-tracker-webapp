@@ -20,7 +20,7 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
     /**
      * SQL statement to insert a new like into the database.
      */
-    private static final String STATEMENT = "INSERT INTO likes (id_user, id_post, is_like) VALUES (?, ?, ?)";
+    private static final String STATEMENT = "INSERT INTO likes (id_user, id_post) VALUES (?, ?) RETURNING * ";
 
     /**
      * The like to be inserted into the database.
@@ -34,7 +34,7 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
      * @param like the like to be inserted into the database.
      * @throws IllegalArgumentException if the like is null.
      */
-    public CreateLikeDAO(Connection con, Like like) {
+    public CreateLikeDAO(Connection con, Like like ) {
         super(con);
         if (like == null) {
             throw new IllegalArgumentException("like must not be null.");
@@ -62,12 +62,12 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
 
             pstmt.setInt(1, like.getUserId());
             pstmt.setInt(2, like.getPostId());
-            pstmt.setBoolean(3, like.isLike());
-            pstmt.executeUpdate();
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                e = new Like(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getBoolean("is_like"));
+                e = new Like(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getInt("id_post"));
 
                 LOGGER.info("Like %d successfully stored in the database.", e.getLikeId());
             }

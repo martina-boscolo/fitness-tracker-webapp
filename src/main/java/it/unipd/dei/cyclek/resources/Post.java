@@ -22,8 +22,6 @@ public class Post extends AbstractResource {
     private final int userId;
     private final String textContent;
     private final String imagePath;
-    private final int likeCount;
-    private final int commentCount;
     private final Timestamp postDate;
 
     /**
@@ -33,17 +31,13 @@ public class Post extends AbstractResource {
      * @param userId       the ID of the user who created the post
      * @param textContent  the text content of the post
      * @param imagePath    the path to the image of the post
-     * @param likeCount    the number of likes the post has received
-     * @param commentCount the number of comments the post has received
      * @param postDate     the date the post was created
      */
-    public Post(int postId, int userId, String textContent, String imagePath, int likeCount, int commentCount, Timestamp postDate) {
+    public Post(int postId, int userId, String textContent, String imagePath, Timestamp postDate) {
         this.postId = postId;
         this.userId = userId;
         this.textContent = textContent;
         this.imagePath = imagePath;
-        this.likeCount = likeCount;
-        this.commentCount = commentCount;
         this.postDate = postDate;
     }
 
@@ -87,24 +81,6 @@ public class Post extends AbstractResource {
     }
 
 
-    /**
-     * Returns the number of likes the post has received.
-     *
-     * @return the number of likes
-     */
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-
-    /**
-     * Returns the number of comments the post has received.
-     *
-     * @return the number of comments
-     */
-    public int getCommentCount() {
-        return commentCount;
-    }
 
 
     /**
@@ -136,10 +112,6 @@ public class Post extends AbstractResource {
 
         jg.writeStringField("imagePath", imagePath);
 
-        jg.writeNumberField("likeCount", likeCount);
-
-        jg.writeNumberField("commentCount", commentCount);
-
         jg.writeStringField("postDate", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(postDate));
 
         jg.writeEndObject();
@@ -157,8 +129,6 @@ public class Post extends AbstractResource {
         int jUserId = -1;
         String jTextContent = null;
         String jImagePath = null;
-        int jLikeCount = 0; //default value
-        int jCommentCount = 0; //default value
         Timestamp jPostDate = null;
 
 
@@ -197,14 +167,6 @@ public class Post extends AbstractResource {
                             jp.nextToken();
                             jImagePath = jp.getText();
                             break;
-                        case "likeCount":
-                            jp.nextToken();
-                            jLikeCount = jp.getIntValue();
-                            break;
-                        case "commentCount":
-                            jp.nextToken();
-                            jCommentCount = jp.getIntValue();
-                            break;
                         case "postDate":
                             jp.nextToken();
                             jPostDate = Timestamp.valueOf(jp.getText());
@@ -213,9 +175,9 @@ public class Post extends AbstractResource {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to parse a Social Network Post object from JSON.", e);
+            LOGGER.error("Unable to parse a Post object from JSON.", e);
             throw e;
         }
-        return new Post(jPostId, jUserId, jTextContent, jImagePath, jLikeCount, jCommentCount, jPostDate);
+        return new Post(jPostId, jUserId, jTextContent, jImagePath, jPostDate);
     }
 }

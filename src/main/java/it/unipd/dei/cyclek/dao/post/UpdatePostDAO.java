@@ -19,7 +19,7 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
     /**
      * SQL statement to update a social network post in the database.
      */
-    private static final String STATEMENT = "UPDATE posts SET text_content = ?, image_path = ? , like_count = ?, comment_count = ? WHERE id = ? RETURNING *";
+    private static final String STATEMENT = "UPDATE posts SET text_content = ?, image_path = ? WHERE id = ? RETURNING *";
 
     /**
      * The post to be updated.
@@ -60,9 +60,7 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setString(1, post.getTextContent());
             pstmt.setString(2, post.getImagePath());
-            pstmt.setInt(3, post.getLikeCount());
-            pstmt.setInt(4, post.getCommentCount());
-            pstmt.setInt(5, post.getPostId());
+            pstmt.setInt(3, post.getPostId());
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -71,8 +69,6 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
                         rs.getInt("id_user"),
                         rs.getString("text_content"),
                         rs.getString("image_path"),
-                        rs.getInt("like_count"),
-                        rs.getInt("comment_count"),
                         rs.getTimestamp("post_date")
 
                 );

@@ -10,13 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
+public class CountLikesByPostIdDAO extends AbstractDAO<Integer> {
 
-    private static final String STATEMENT = "SELECT * FROM likes WHERE id_post = ? ";
+    private static final String STATEMENT = "SELECT COUNT(*) FROM likes WHERE id_post = ? ";
 
     private final int postId;
 
-    public ListLikesByPostIdDAO(Connection con, int postId) {
+    public CountLikesByPostIdDAO(Connection con, int postId) {
         super(con);
         if (postId <= 0) {
             throw new IllegalArgumentException("postId must be greater than 0.");
@@ -30,8 +30,7 @@ public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        final List<Like> likes = new ArrayList<>();
-
+        int likeCount = -1;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -39,13 +38,10 @@ public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
             rs = pstmt.executeQuery();
 
 
-            while (rs.next()) {
-                likes.add(new Like(rs.getInt("id"),
-                        rs.getInt("id_user"),
-                        rs.getInt("id_post")));
-
+            if (rs.next()) {
+                likeCount = rs.getInt(1);
+                LOGGER.info("Likes successfully counted por post %d.", postId);
             }
-            LOGGER.info("Likes successfully listed.");
         } finally {
             if (rs != null) {
                 rs.close();
@@ -54,6 +50,6 @@ public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
                 pstmt.close();
             }
         }
-        outputParam = likes;
+        outputParam = likeCount;
     }
 }

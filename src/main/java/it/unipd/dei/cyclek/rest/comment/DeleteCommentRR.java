@@ -38,13 +38,12 @@ public class DeleteCommentRR extends AbstractRR {
         Message m = null;
 
         try {
-            // parse the URI path to extract the badge
             String path = req.getRequestURI();
-            String[] parts = path.split("/");
-            final int commentId = Integer.parseInt(parts[1]);
+            String id = path.substring(path.lastIndexOf('/') + 1);
+
+            int commentId = Integer.parseInt(id);
 
             LogContext.setResource(Integer.toString(commentId));
-
 
             e = new DeleteCommentDAO(con, commentId).access().getOutputParam();
 

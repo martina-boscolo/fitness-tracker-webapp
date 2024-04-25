@@ -13,7 +13,6 @@ import java.sql.SQLException;
  * It extends the AbstractDAO class and overrides the doAccess method.
  *
  * @author Martina Boscolo Bacheto
- *
  */
 public class DeletePostDAO extends AbstractDAO<Post> {
 
@@ -30,13 +29,13 @@ public class DeletePostDAO extends AbstractDAO<Post> {
     /**
      * Constructs a new DeletePostDAO object with the given connection and post ID.
      *
-     * @param con the connection to the database.
+     * @param con    the connection to the database.
      * @param postId the post ID to be deleted.
      * @throws IllegalArgumentException if the post ID is less than or equal to 0.
      */
     public DeletePostDAO(Connection con, int postId) {
         super(con);
-        if ( postId <= 0) {
+        if (postId <= 0) {
             throw new IllegalArgumentException("postId must be greater than 0.");
         }
 
@@ -62,8 +61,10 @@ public class DeletePostDAO extends AbstractDAO<Post> {
             pstmt.setInt(1, postId);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                e = new Post(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
-                        rs.getString("image_path"), rs.getInt("like_count"), rs.getInt("comment_count"),
+                e = new Post(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getString("text_content"),
+                        rs.getString("image_path"),
                         rs.getTimestamp("post_date"));
 
                 LOGGER.info("Post %d successfully deleted from the database.", e.getPostId());

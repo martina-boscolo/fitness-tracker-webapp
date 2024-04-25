@@ -44,7 +44,8 @@ public class ListLikeRR extends AbstractRR {
 
             String path = req.getRequestURI();
             String[] parts = path.split("/");
-            final int postId = Integer.parseInt(parts[1]);
+
+            final int postId = Integer.parseInt(parts[4]);
 
 
             LogContext.setResource(Integer.toString(postId));

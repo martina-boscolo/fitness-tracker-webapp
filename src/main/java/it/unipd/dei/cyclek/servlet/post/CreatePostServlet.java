@@ -37,12 +37,10 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         LogContext.setAction(Actions.CREATE_POST);
 
         // request parameters
-        int postId = 21;
-        int userId = 1;
-        String textContent = "Ciao questa è una prova!";
+        int postId = -1;
+        int userId = -1;
+        String textContent = "Ciao quest a è una prova!";
         String imagePath = "";
-        int likeCount = 3;
-        int commentCount = 0;
         Timestamp postDate = new Timestamp(System.currentTimeMillis());
 
 
@@ -57,8 +55,6 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             userId = Integer.parseInt(req.getParameter("userId"));
             textContent = req.getParameter("textContent");
             imagePath = req.getParameter("imagePath");
-            likeCount = Integer.parseInt(req.getParameter("likeCount"));
-            commentCount = Integer.parseInt(req.getParameter("commentCount"));
             if (req.getParameter("postDate") == null || req.getParameter("postDate").isEmpty())
                 postDate = new Timestamp(System.currentTimeMillis());
             else
@@ -74,7 +70,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
             // creates a new employee from the request parameters
 
-            p = new Post(postId, userId, textContent, imagePath, likeCount, commentCount, postDate);
+            p = new Post(postId, userId, textContent, imagePath, postDate);
 
             // creates a new object for accessing the database and stores the employee
             new CreatePostDAO(getConnection(), p).access();

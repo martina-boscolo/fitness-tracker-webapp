@@ -84,7 +84,7 @@ public class Comment extends AbstractResource {
 
         jg.writeStartObject();
 
-        jg.writeFieldName("socialNetworkPost");
+        jg.writeFieldName("comment");
 
         jg.writeStartObject();
 
@@ -145,7 +145,7 @@ public class Comment extends AbstractResource {
                             jp.nextToken();
                             jUserId = jp.getIntValue();
                             break;
-                        case "isLike":
+                        case "commentText":
                             jp.nextToken();
                             jCommentText = jp.getText();
                             break;

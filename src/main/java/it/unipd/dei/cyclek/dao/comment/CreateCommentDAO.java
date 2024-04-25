@@ -20,7 +20,7 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
     /**
      * SQL statement to insert a new comment into the database.
      */
-    private static final String STATEMENT = "INSERT INTO comments (id_user, id_post, text_content) VALUES (?, ?, ?)";
+    private static final String STATEMENT = "INSERT INTO comments (id_user, id_post, text_content) VALUES (?, ?, ?) RETURNING * ";
     /**
      * The comment to be inserted into the database.
      */
@@ -65,7 +65,10 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
 
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                c = new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content"));
+                c = new Comment(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getInt("id_post"),
+                        rs.getString("text_content"));
                 LOGGER.info("Comment %d successfully stored in the database.", c.getCommentId());
             }
         } finally {

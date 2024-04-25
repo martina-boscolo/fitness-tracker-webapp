@@ -62,8 +62,6 @@ public class GetPostDAO extends AbstractDAO<Post> {
                         rs.getInt("id_user"),
                         rs.getString("text_content"),
                         rs.getString("image_path"),
-                        rs.getInt("like_count"),
-                        rs.getInt("comment_count"),
                         rs.getTimestamp("post_date")
 
                 );
