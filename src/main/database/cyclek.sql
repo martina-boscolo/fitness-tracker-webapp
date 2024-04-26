@@ -47,9 +47,8 @@ CREATE TABLE posts
     id              SERIAL PRIMARY KEY,
     id_user         INTEGER NOT NULL REFERENCES users (id),
     text_content    TEXT NOT NULL,
-    image_path      TEXT, -- images should be stored in the filesystem
-    like_count      INTEGER NOT NULL DEFAULT 0,
-    comment_count   INTEGER NOT NULL DEFAULT 0,
+    photo           BYTEA,
+    photoMediaType  TEXT,
     post_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -58,7 +57,6 @@ CREATE TABLE likes
     id          SERIAL PRIMARY KEY,
     id_user     INTEGER NOT NULL REFERENCES users (id),
     id_post     INTEGER NOT NULL REFERENCES posts (id),
-    is_like     BOOLEAN NOT NULL,
 
     CONSTRAINT unique_post_user_combination UNIQUE (id_post, id_user) -- only one like on the same post by the same user
 );
@@ -147,24 +145,23 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00');
 
 -- Martina
-INSERT INTO posts (id_user, text_content, image_path, like_count, comment_count, post_date)
+INSERT INTO posts (id_user, text_content, photo, photoMediaType, post_date)
 VALUES
-    (1, 'Just finished a 5-mile run! Feeling great!', '/fitness/images/run.jpg', 10, 2, '2024-04-07 08:30:00'),
-    (2, 'Leg day at the gym was intense!', '/fitness/images/legday.jpg', 15, 1, '2024-04-06 17:45:00'),
-    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, 20, 0, '2024-04-05 09:00:00'),
-    (1, 'Completed my first marathon! What an achievement!', '/fitness/images/marathon.jpg', 50, 3, '2024-04-04 11:20:00'),
-    (2, 'Back to the gym after a long break 💪', '/fitness/images/gym.jpg', 30, 5, '2024-04-03 18:00:00');
+    (1, 'Just finished a 5-mile run! Feeling great!', NULL, 'image/png',  '2024-04-07 08:30:00'),
+    (2, 'Leg day at the gym was intense!', NULL, 'image/png' ,'2024-04-06 17:45:00'),
+    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, 'image/png', '2024-04-05 09:00:00'),
+    (1, 'Completed my first marathon! What an achievement!', NULL, 'image/png',   '2024-04-04 11:20:00'),
+    (2, 'Back to the gym after a long break 💪',NULL, NULL,  '2024-04-03 18:00:00');
 
-
-INSERT INTO likes (id_user, id_post, is_like)
+INSERT INTO likes (id_user, id_post)
 VALUES
-    (1, 1, TRUE),
-    (2, 1, TRUE),
-    (3, 1, TRUE),
-    (1, 2, TRUE),
-    (3, 3, TRUE),
-    (1, 3, FALSE),
-    (2, 3, FALSE);
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (1, 2),
+    (3, 3),
+    (1, 3),
+    (2, 3);
 
 INSERT INTO comments (id_user, id_post, text_content)
 VALUES

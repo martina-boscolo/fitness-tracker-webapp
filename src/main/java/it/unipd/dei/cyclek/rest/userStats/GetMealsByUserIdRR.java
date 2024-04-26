@@ -32,12 +32,8 @@ public class GetMealsByUserIdRR extends AbstractRR {
 
             // creates a new DAO for accessing the database and lists the employee(s)
             mealFoodGroup = new GetMealsAndFoodByUserIdDAO(con, idUser).access().getOutputParam();
-            List<Meal> meals = mealFoodGroup.getMeals();
-            List<Food> foods = mealFoodGroup.getFoods();
-            Map<Integer,Food> foodsMap = new HashMap<>();
-            for (Food food : foods)
-                foodsMap.put(food.getId(),food);
 
+            List<Meal> meals = mealFoodGroup.getMeals();
             if (meals == null) {
                 LOGGER.error("No stats found for searched user.");
                 m = ErrorCode.GET_MEALS_NOT_FOUND.getMessage();
@@ -45,6 +41,11 @@ public class GetMealsByUserIdRR extends AbstractRR {
                 m.toJSON(res.getOutputStream());
                 return;
             }
+
+            List<Food> foods = mealFoodGroup.getFoods();
+            Map<Integer,Food> foodsMap = new HashMap<>();
+            for (Food food : foods)
+                foodsMap.put(food.getId(),food);
 
             LOGGER.info("Meals successfully listed.");
 

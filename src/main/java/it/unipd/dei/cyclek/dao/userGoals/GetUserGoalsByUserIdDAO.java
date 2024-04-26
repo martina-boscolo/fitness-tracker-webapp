@@ -42,7 +42,7 @@ public final class GetUserGoalsByUserIdDAO extends AbstractDAO<List<UserGoals>>{
                         rs.getDouble("height"),
                         rs.getDouble("fatty"),
                         rs.getDouble("lean"),
-                        rs.getString("objDate")
+                        rs.getString("goalDate")
                 ));
             }
 

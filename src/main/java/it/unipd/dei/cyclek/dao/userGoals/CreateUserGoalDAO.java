@@ -18,7 +18,7 @@ public final class CreateUserGoalDAO extends AbstractDAO<UserGoals>{
         if (userGoals.getIdUser() == null || userGoals.getWeight() == null ||
                 userGoals.getHeight() == null || userGoals.getFatty() == null || userGoals.getLean() == null) {
             LOGGER.error("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate).");
-            throw new NullPointerException("Body must contains all parameters (idUser,weight,height,fatty,lean,statsDate)");
+            throw new NullPointerException("Body must contains all parameters (idUser,weight,height,fatty,lean,goalDate)");
         }
 
         this.userGoals = userGoals;
@@ -48,7 +48,7 @@ public final class CreateUserGoalDAO extends AbstractDAO<UserGoals>{
                         rs.getDouble("height"),
                         rs.getDouble("fatty"),
                         rs.getDouble("lean"),
-                        rs.getString("objDate")
+                        rs.getString("goalDate")
                 );
                 LOGGER.info("Body Stats registered {}.", bo.getId());
             }
