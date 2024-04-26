@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.DietService.processDiet;
+import static it.unipd.dei.cyclek.service.FoodService.processFood;
+import static it.unipd.dei.cyclek.service.MealService.processMeal;
 import static it.unipd.dei.cyclek.service.PostService.processPost;
 import static it.unipd.dei.cyclek.service.UserGoalsService.processUserGoals;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
@@ -46,6 +48,13 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
                 return;
             }
 
+            if(processFood(req, res, getConnection())){
+                return;
+            }
+
+            if(processMeal(req, res, getConnection())){
+                return;
+            }
             // if none of the above process methods succeeds, it means an unknown resource has been requested
             LOGGER.warn("Unknown resource requested: %s.", req.getRequestURI());
             final Message m = ErrorCode.REST_NOT_FOUND.getMessage();
