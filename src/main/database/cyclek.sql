@@ -15,7 +15,7 @@ CREATE TABLE users (
 );
 
 -- Alessio
-CREATE TABLE bodyStats
+CREATE TABLE userStats
 (
     id          SERIAL PRIMARY KEY,
     idUser      INTEGER NOT NULL REFERENCES users (id),
@@ -28,7 +28,7 @@ CREATE TABLE bodyStats
     CONSTRAINT unique_daily_stats UNIQUE (idUser, statsDate)
 );
 
-CREATE TABLE bodyObjective
+CREATE TABLE userGoals
 (
     id          SERIAL PRIMARY KEY,
     idUser      INTEGER NOT NULL REFERENCES users (id),
@@ -36,9 +36,9 @@ CREATE TABLE bodyObjective
     height      FLOAT NOT NULL,
     fatty       FLOAT NOT NULL,
     lean        FLOAT NOT NULL,
-    objDate     DATE DEFAULT CURRENT_DATE,
+    goalDate     DATE DEFAULT CURRENT_DATE,
 
-    CONSTRAINT unique_daily_obj UNIQUE (idUser, objDate)
+    CONSTRAINT unique_daily_obj UNIQUE (idUser, goalDate)
 );
 
 -- Martina
@@ -130,7 +130,7 @@ VALUES
     ('Lucia', 'Rossi', '1995-10-08', 'F', 'user3', '1234');
 
 -- Alessio
-INSERT INTO bodyStats (idUser, weight, height, fatty, lean, statsDate)
+INSERT INTO userStats (idUser, weight, height, fatty, lean, statsDate)
 VALUES
     (1, 82, 175, 14.8, 20, '2024-01-02 08:30:00'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),
@@ -138,7 +138,7 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00'),
     (1, 78, 175, 13.6, 23.5, '2024-04-09 09:43:00');
 
-INSERT INTO bodyObjective (idUser, weight, height, fatty, lean, objDate)
+INSERT INTO userGoals (idUser, weight, height, fatty, lean, goalDate)
 VALUES
     (1, 75, 175, 10, 25, '2024-04-09 09:43:00'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),
@@ -187,7 +187,7 @@ VALUES
 
 INSERT INTO meal(id_user, meal_date, meal_type, meal)
 VALUES
-    (1, '2024-10-04', 3, '{"meal":[{"id_food":1, "grams":80},{"id_food":2, "grams":100},{"id_food":3, "grams":300}]}');
+    (1, '2024-10-04', 3, '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}');
 
 -- Kimia
 INSERT INTO exercise_category (category_name)

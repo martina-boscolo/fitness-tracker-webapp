@@ -38,4 +38,6 @@ public abstract class AbstractResource implements Resource{
     }
 
     protected abstract void writeJSON(OutputStream out) throws Exception;
+
+
 }
