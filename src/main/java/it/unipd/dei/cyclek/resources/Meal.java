@@ -1,13 +1,12 @@
 package it.unipd.dei.cyclek.resources;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class Meal extends AbstractResource {
@@ -31,6 +30,10 @@ public class Meal extends AbstractResource {
         this.date = date;
         this.mealType = mealType;
         this.meal = mealJson;
+    }
+
+    public Meal(Integer idUser) {
+        this.idUser = idUser;
     }
 
     @Override

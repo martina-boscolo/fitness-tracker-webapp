@@ -24,7 +24,6 @@ public class ListDietRR extends AbstractRR {
 
             Diet diet = new Diet(null,"",null);
 
-            // creates a new DAO for accessing the database and lists the employee(s)
             dl = new GetDietDAO(con, diet).access().getOutputParam();
 
             if (dl != null) {
@@ -33,16 +32,14 @@ public class ListDietRR extends AbstractRR {
                 new ResourceList<>(dl).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing diet(s).");
-
-                m = new Message("Cannot list diet(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.LIST_ALL_DIET_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.LIST_ALL_DIET_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list diet(s): unexpected database error.", ex);
-
-            m = new Message("Cannot list diet(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.LIST_ALL_DIET_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_ALL_DIET_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

@@ -1,0 +1,19 @@
+{
+  "firstWeek": [
+    {
+      "exercise_id": 1,
+      "repetition": 10,
+      "weight": 20
+    },
+    {
+      "exercise_id": 2,
+      "repetition": 8,
+      "weight": 25
+    },
+    {
+      "exercise_id": 3,
+      "repetition": 12,
+      "weight": 15
+    }
+  ]
+}
