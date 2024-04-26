@@ -49,35 +49,30 @@ public class DeleteCommentRR extends AbstractRR {
 
             if (e != null) {
                 LOGGER.info("Comment successfully deleted.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 e.toJSON(res.getOutputStream());
             } else {
                 LOGGER.warn("Comment not found. Cannot delete it.");
-
-                m = new Message(String.format("Comment %d not found. Cannot delete it.", commentId), "E5A3", null);
-                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                m =ErrorCode.DELETE_COMMENT_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.DELETE_COMMENT_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
             LOGGER.warn("Cannot delete the comment: wrong format for URI /post/{postId}/comment/{commentId}.", ex);
 
-            m = new Message("Cannot delete the comment: wrong format for URI /post/{postId}/comment/{commentId}.", "E4A7",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.DELETE_COMMENT_WRONG_FORMAT.getMessage();
+            res.setStatus(ErrorCode.DELETE_COMMENT_WRONG_FORMAT.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23503".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot delete the comment: other resources depend on it.");
-
-                m = new Message("Cannot delete the comment: other resources depend on it.", "E5A4", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.DELETE_COMMENT_CONFLICT.getMessage();
+                res.setStatus(ErrorCode.DELETE_COMMENT_CONFLICT.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot delete the comment: unexpected database error.", ex);
-
-                m = new Message("Cannot delete the comment: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.DELETE_COMMENT_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.DELETE_COMMENT_DB_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         }

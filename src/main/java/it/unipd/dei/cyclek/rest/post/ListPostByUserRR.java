@@ -40,15 +40,16 @@ public class ListPostByUserRR extends AbstractRR {
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing post(s).");
 
-                m = new Message("Cannot list post(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+              m = ErrorCode.LIST_POST_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.LIST_POST_INTERNAL_SERVER_ERROR.getHttpCode());
+
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list post(s): unexpected database error.", ex);
 
-            m = new Message("Cannot list post(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.LIST_POST_DB_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_POST_DB_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

@@ -10,27 +10,20 @@ import java.sql.SQLException;
 
 /**
  * This class is responsible for updating a social network post in the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
- *
  * @author Martina Boscolo Bacheto
  */
 public class UpdatePostDAO extends AbstractDAO<Post> {
 
-    /**
-     * SQL statement to update a social network post in the database.
-     */
     private static final String STATEMENT = "UPDATE posts SET text_content = ?  WHERE id = ? RETURNING *";
 
-    /**
-     * The post to be updated.
-     */
     private final Post post;
 
     /**
-     * Constructs a new UpdatePostDAO object with the given connection and post.
+     * Creates a new object for updating a social network post in the database.
      *
      * @param con  the connection to the database.
      * @param post the post to be updated.
+     * @throws NullPointerException if the post is null.
      */
     public UpdatePostDAO(Connection con, final Post post) {
         super(con);
@@ -46,7 +39,7 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
     /**
      * Updates the social network post in the database.
      *
-     * @throws SQLException if any SQL error occurs while updating the post.
+     * @throws SQLException if any error occurs while updating the social network post in the database.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -72,7 +65,7 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
                         rs.getTimestamp("post_date")
 
                 );
-                LOGGER.info("Post %d successfully updated in the database.", resource.getPostId());
+                LOGGER.info("Post {} successfully updated in the database.", resource.getPostId());
 
             }
 

@@ -41,10 +41,6 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.CREATE_POST);
 
-        // request parameters
-
-
-
 
         // model
         Post p = null;
@@ -57,17 +53,13 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             LogContext.setResource(Integer.toString(p.getPostId()));
 
 
-
-
-
-            // creates a new object for accessing the database and stores the employee
             CreatePostDAO dao =  new CreatePostDAO(getConnection(), p);
             dao.access();
              p = dao.getOutputParam();
 
             m = new Message(String.format("Post %d successfully created.", p.getPostId()));
 
-            LOGGER.info("Post %d successfully created in the database.", p.getPostId());
+            LOGGER.info("Post {} successfully created in the database.", p.getPostId());
 
         } catch (NumberFormatException ex) {
             m = new Message(
@@ -96,7 +88,6 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                     String.format("Unsupported MIME media type for post photo. Expected: image/png or image/jpeg."),
                     "E400", e.getMessage());
         }
-
         try {
             // stores the employee and the message as a request attribute
             req.setAttribute("post", p);
@@ -105,14 +96,13 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             // forwards the control to the create-employee-result JSP
             req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
         } catch(Exception ex) {
-            LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %d.", p.getPostId()), ex);
+            LOGGER.error(new StringFormattedMessage("Unable to send response when creating post {}.", p.getPostId()), ex);
             throw ex;
         } finally {
             LogContext.removeIPAddress();
             LogContext.removeAction();
             LogContext.removeResource();
         }
-
     }
 
     private Post parseRequest(HttpServletRequest req) throws ServletException, IOException, MimeTypeParseException {
@@ -162,7 +152,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                             break;
 
                         default:
-                            LOGGER.error("Unsupported MIME media type %s for employee photo.", photoMediaType);
+                            LOGGER.error("Unsupported MIME media type {} for employee photo.", photoMediaType);
 
                             throw new MimeTypeParseException(
                                     String.format("Unsupported MIME media type %s for employee photo.",

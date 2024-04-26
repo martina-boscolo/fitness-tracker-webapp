@@ -49,21 +49,19 @@ public class ListCommentRR extends AbstractRR {
 
             if (el != null) {
                 LOGGER.info("Comment(s) successfully listed.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList(el).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing comment(s).");
-
                 m = new Message("Cannot list comment(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list comment(s): unexpected database error.", ex);
+            m = ErrorCode.LIST_COMMENT_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_COMMENT_INTERNAL_SERVER_ERROR.getHttpCode());
 
-            m = new Message("Cannot list comment(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }
     }

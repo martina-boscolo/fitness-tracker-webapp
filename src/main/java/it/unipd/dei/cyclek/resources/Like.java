@@ -13,7 +13,6 @@ import java.io.OutputStream;
  * Represents a like action on a social network post
  *
  * @author Martina Boscolo Bacheto
- *
  */
 public class Like extends AbstractResource {
     private final int likeId;
@@ -21,11 +20,11 @@ public class Like extends AbstractResource {
     private final int postId;
 
     /**
-     * Constructs a new LikeOrDislike with the given attributes.
+     * Creates a new like.
      *
-     * @param likeDislikeId the ID of the like/dislike
-     * @param userId        the ID of the user who made the like/dislike
-     * @param postId        the ID of the post that was liked/disliked
+     * @param likeDislikeId the like ID
+     * @param userId        the user ID of the user who made the like
+     * @param postId        the post ID of the post that was liked
      */
     public Like(int likeDislikeId, int userId, int postId) {
         this.likeId = likeDislikeId;
@@ -63,6 +62,12 @@ public class Like extends AbstractResource {
     }
 
 
+    /**
+     * Writes this like as a JSON object to the given output stream.
+     *
+     * @param out the output stream
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected final void writeJSON(final OutputStream out) throws IOException {
 
@@ -88,7 +93,13 @@ public class Like extends AbstractResource {
         jg.flush();
     }
 
-
+    /**
+     * Creates a {@code Like} object from its JSON representation.
+     *
+     * @param in the input stream containing the JSON document
+     * @return the {@code Like} object created from the JSON representation
+     * @throws IOException if an I/O error occurs
+     */
     public static Like fromJSON(final InputStream in) throws IOException {
 
         // the fields read from JSON
@@ -97,14 +108,12 @@ public class Like extends AbstractResource {
         int jPostId = -1;
 
 
-
-
         try {
             final JsonParser jp = JSON_FACTORY.createParser(in);
 
             // while we are not on the start of an element or the element is not
             // a token element, advance to the next element (if any)
-            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"like".equals(jp.getCurrentName())) {
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"like".equals(jp.currentName())) {
 
                 // there are no more events
                 if (jp.nextToken() == null) {
@@ -117,7 +126,7 @@ public class Like extends AbstractResource {
 
                 if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
 
-                    switch (jp.getCurrentName()) {
+                    switch (jp.currentName()) {
                         case "likeId":
                             jp.nextToken();
                             jLikeId = jp.getIntValue();
@@ -136,11 +145,10 @@ public class Like extends AbstractResource {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to parse a Like object from JSON.", e);
+            LOGGER.error("Unable to parse a like object from JSON.", e);
             throw e;
         }
-        return new Like(jLikeId,jUserId, jPostId );
+        return new Like(jLikeId, jUserId, jPostId);
     }
-
 
 }

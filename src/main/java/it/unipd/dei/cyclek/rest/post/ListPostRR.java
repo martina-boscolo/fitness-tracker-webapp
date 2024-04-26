@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.post;
 
 import it.unipd.dei.cyclek.dao.post.ListPostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,18 +49,18 @@ public class ListPostRR extends AbstractRR {
 
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList(el).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Fatal error while listing post(s).");
 
-                m = new Message("Cannot list post(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+               m = ErrorCode.LIST_POST_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.LIST_POST_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list post(s): unexpected database error.", ex);
 
-            m = new Message("Cannot list post(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.LIST_POST_DB_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_POST_DB_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

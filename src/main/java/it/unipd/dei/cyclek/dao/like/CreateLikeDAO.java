@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 /**
  * This class is responsible for creating a new like in the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
  *
  * @author Martina Boscolo Bacheto
  *
@@ -18,21 +17,22 @@ import java.sql.SQLException;
 public class CreateLikeDAO extends AbstractDAO<Like> {
 
     /**
-     * SQL statement to insert a new like into the database.
+     * The SQL statement to be executed.
      */
     private static final String STATEMENT = "INSERT INTO likes (id_user, id_post) VALUES (?, ?) RETURNING * ";
 
     /**
-     * The like to be inserted into the database.
+     * The like to be created.
      */
     private final Like like;
 
+
     /**
-     * Constructs a new CreateLikeDAO object with the given connection and like.
+     * Creates a new object for creating a like in the database.
      *
      * @param con  the connection to the database.
-     * @param like the like to be inserted into the database.
-     * @throws IllegalArgumentException if the like is null.
+     * @param like the like to be created.
+     * @throws IllegalArgumentException if like is null.
      */
     public CreateLikeDAO(Connection con, Like like ) {
         super(con);
@@ -44,9 +44,9 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
     }
 
     /**
-     * Inserts the like into the database.
+     * Creates a new like in the database.
      *
-     * @throws SQLException if any SQL error occurs while inserting the like.
+     * @throws SQLException if any error occurs while creating the like.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -55,21 +55,21 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
 
         ResultSet rs = null;
 
-        Like e = null;
+        Like like = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
 
-            pstmt.setInt(1, like.getUserId());
-            pstmt.setInt(2, like.getPostId());
+            pstmt.setInt(1, this.like.getUserId());
+            pstmt.setInt(2, this.like.getPostId());
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                e = new Like(rs.getInt("id"),
+                like = new Like(rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getInt("id_post"));
 
-                LOGGER.info("Like %d successfully stored in the database.", e.getLikeId());
+                LOGGER.info("Like {} successfully stored in the database.", like.getLikeId());
             }
         } finally {
 
@@ -81,7 +81,7 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
             }
         }
 
-        outputParam = e;
+        outputParam = like;
 
     }
 }

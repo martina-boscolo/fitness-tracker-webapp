@@ -42,40 +42,35 @@ public class CreateCommentRR extends AbstractRR {
 
             final Comment comment = Comment.fromJSON(req.getInputStream());
 
-            // creates a new DAO for accessing the database and stores the employee
             c = new CreateCommentDAO(con, comment).access().getOutputParam();
 
             if (c != null) {
                 LOGGER.info("Comment successfully created.");
-
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 c.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while creating comment.");
-
-                m = new Message("Cannot create comment: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_COMMENT_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_COMMENT_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (EOFException ex) {
             LOGGER.warn("Cannot create comment: no Post Comment object found in the request.", ex);
 
-            m = new Message("Cannot create the comment: no Comment JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.CREATE_COMMENT_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.CREATE_COMMENT_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot create comment: it already exists.");
-
-                m = new Message("Cannot create comment: it already exists.", "E5A2", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.CREATE_COMMENT_ALREADY_EXISTS.getMessage();
+                res.setStatus(ErrorCode.CREATE_COMMENT_ALREADY_EXISTS.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot create comment: unexpected database error.", ex);
 
-                m = new Message("Cannot create comment: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_COMMENT_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_COMMENT_DB_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         }
