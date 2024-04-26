@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.diets.UpdateDietDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,19 +47,17 @@ public class UpdateDietRR extends AbstractRR {
             if (saved) {
                 LOGGER.info("Diet successfully updated.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("Diet successfully updated.", "S1A1", null);
-                m.toJSON(res.getOutputStream());
             }
             else{
                 LOGGER.info("Diet cant be modified, 24 hours has passed.");
-                res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("Diet cant be modified, 24 hours has passed.", "S1A1", null);
+                m = ErrorCode.UPDATE_DIET_CONSTRAINT_VIOLATION.getMessage();
+                res.setStatus(ErrorCode.UPDATE_DIET_CONSTRAINT_VIOLATION.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (IOException | SQLException ex) {
             LOGGER.error("Cannot update diet: unexpected error.", ex);
-            m = new Message("Cannot update diet: unexpected error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.UPDATE_DIET_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.UPDATE_DIET_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
