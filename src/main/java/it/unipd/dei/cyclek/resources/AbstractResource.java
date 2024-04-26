@@ -3,12 +3,14 @@ package it.unipd.dei.cyclek.resources;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 public abstract class AbstractResource implements Resource{
     protected static final Logger LOGGER = LogManager.getLogger(AbstractResource.class,
@@ -38,4 +40,6 @@ public abstract class AbstractResource implements Resource{
     }
 
     protected abstract void writeJSON(OutputStream out) throws Exception;
+
+
 }
