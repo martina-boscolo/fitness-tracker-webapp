@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 /**
- * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, comment count, and post date.
+ * Represents a post in the social network.
  *
  * @author Martina Boscolo Bacheto
  */
@@ -27,14 +27,16 @@ public class Post extends AbstractResource {
     private final Timestamp postDate;
 
     /**
-     * Constructs a new Post with the given attributes.
+     * Creates a new post.
      *
-     * @param postId       the ID of the post
-     * @param userId       the ID of the user who created the post
-     * @param textContent  the text content of the post
-     * @param postDate     the date the post was created
+     * @param postId         the post ID
+     * @param userId         the user ID of the user who created the post
+     * @param textContent    the text content of the post
+     * @param photo          the photo of the post
+     * @param photoMediaType the media type of the photo of the post
+     * @param postDate       the date the post was created
      */
-    public Post(int postId, int userId, String textContent, final byte[] photo, final String photoMediaType , Timestamp postDate) {
+    public Post(int postId, int userId, String textContent, final byte[] photo, final String photoMediaType, Timestamp postDate) {
         this.postId = postId;
         this.userId = userId;
         this.textContent = textContent;
@@ -43,10 +45,11 @@ public class Post extends AbstractResource {
         this.postDate = postDate;
     }
 
+
     /**
-     * Returns the ID of the post.
+     * Returns the post ID.
      *
-     * @return the ID of the post
+     * @return the post ID
      */
     public int getPostId() {
         return postId;
@@ -54,9 +57,9 @@ public class Post extends AbstractResource {
 
 
     /**
-     * Returns the ID of the user who created the post.
+     * Returns the user ID of the user who created the post.
      *
-     * @return the ID of the user
+     * @return the user ID of the user who created the post
      */
     public int getUserId() {
         return userId;
@@ -73,10 +76,20 @@ public class Post extends AbstractResource {
     }
 
 
+    /**
+     * Returns the photo of the post.
+     *
+     * @return the photo of the post
+     */
     public byte[] getPhoto() {
         return photo;
     }
 
+    /**
+     * Returns the media type of the photo of the post.
+     *
+     * @return the media type of the photo of the post
+     */
     public String getPhotoMediaType() {
         return photoMediaType;
     }
@@ -91,14 +104,22 @@ public class Post extends AbstractResource {
     }
 
 
+    /**
+     * Returns whether the post has a photo.
+     *
+     * @return {@code true} if the post has a photo, {@code false} otherwise
+     */
     public final boolean hasPhoto() {
         return photo != null && photo.length > 0 && photoMediaType != null && !photoMediaType.isBlank();
     }
+
     public final int getPhotoSize() {
         return photo != null ? photo.length : Integer.MIN_VALUE;
     }
 
-
+    /**
+     * Returns a string representation of the post.
+     */
     @Override
     protected final void writeJSON(final OutputStream out) throws IOException {
 
@@ -118,6 +139,7 @@ public class Post extends AbstractResource {
 
         if (hasPhoto()) {
             jg.writeStringField("photo", Base64.getEncoder().encodeToString(photo)); //not the best
+
             jg.writeStringField("photoMediaType", photoMediaType);
         }
 
@@ -130,7 +152,13 @@ public class Post extends AbstractResource {
         jg.flush();
     }
 
-
+    /**
+     * Creates a {@code Post} object from its JSON representation.
+     *
+     * @param in the input stream containing the JSON document
+     * @return the {@code Post} object created from the JSON representation
+     * @throws IOException if an I/O error occurs
+     */
     public static Post fromJSON(final InputStream in) throws IOException {
 
         // the fields read from JSON
@@ -145,12 +173,12 @@ public class Post extends AbstractResource {
 
             // while we are not on the start of an element or the element is not
             // a token element, advance to the next element (if any)
-            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"post".equals(jp.getCurrentName())) {
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"post".equals(jp.currentName())) {
 
                 // there are no more events
                 if (jp.nextToken() == null) {
-                    LOGGER.error("No Social Network Post object found in the stream.");
-                    throw new EOFException("Unable to parse JSON: no Social Network Post object found.");
+                    LOGGER.error("No post object found in the stream.");
+                    throw new EOFException("Unable to parse JSON: no post object found.");
                 }
             }
 
@@ -158,7 +186,7 @@ public class Post extends AbstractResource {
 
                 if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
 
-                    switch (jp.getCurrentName()) {
+                    switch (jp.currentName()) {
                         case "postId":
                             jp.nextToken();
                             jPostId = jp.getIntValue();
@@ -179,9 +207,9 @@ public class Post extends AbstractResource {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to parse a Post object from JSON.", e);
+            LOGGER.error("Unable to parse a post object from JSON.", e);
             throw e;
         }
-        return new Post(jPostId, jUserId, jTextContent,null, null,  jPostDate);
+        return new Post(jPostId, jUserId, jTextContent, null, null, jPostDate);
     }
 }

@@ -3,8 +3,6 @@ package it.unipd.dei.cyclek.resources;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -12,11 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Represents a comment on a social network post with various attributes such as comment ID, post ID, user ID, comment text, and comment date.
+ * Represents a comment in the social network.
  *
  * @author Martina Boscolo Bacheto
- *
  */
+
 public class Comment extends AbstractResource {
     private final int commentId;
     private final int postId;
@@ -77,6 +75,12 @@ public class Comment extends AbstractResource {
         return commentText;
     }
 
+    /**
+     * Writes this Comment as a JSON object to the given output stream.
+     *
+     * @param out the output stream
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected final void writeJSON(final OutputStream out) throws IOException {
 
@@ -104,6 +108,13 @@ public class Comment extends AbstractResource {
     }
 
 
+    /**
+     * Creates a {@code Comment} object from its JSON representation.
+     *
+     * @param in the input stream containing the JSON document
+     * @return the {@code Comment} object created from the JSON representation
+     * @throws IOException if an I/O error occurs
+     */
     public static Comment fromJSON(final InputStream in) throws IOException {
 
         // the fields read from JSON
@@ -113,13 +124,12 @@ public class Comment extends AbstractResource {
         String jCommentText = null;
 
 
-
         try {
             final JsonParser jp = JSON_FACTORY.createParser(in);
 
             // while we are not on the start of an element or the element is not
             // a token element, advance to the next element (if any)
-            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"comment".equals(jp.getCurrentName())) {
+            while (jp.getCurrentToken() != JsonToken.FIELD_NAME || !"comment".equals(jp.currentName())) {
 
                 // there are no more events
                 if (jp.nextToken() == null) {
@@ -132,7 +142,7 @@ public class Comment extends AbstractResource {
 
                 if (jp.getCurrentToken() == JsonToken.FIELD_NAME) {
 
-                    switch (jp.getCurrentName()) {
+                    switch (jp.currentName()) {
                         case "likeId":
                             jp.nextToken();
                             jCommentId = jp.getIntValue();
@@ -155,7 +165,7 @@ public class Comment extends AbstractResource {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to parse a Comment object from JSON.", e);
+            LOGGER.error("Unable to parse a comment object from JSON.", e);
             throw e;
         }
         return new Comment(jCommentId, jPostId, jUserId, jCommentText);
