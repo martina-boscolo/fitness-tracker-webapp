@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.post;
 
 import it.unipd.dei.cyclek.dao.post.UpdatePostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,15 +52,14 @@ public class UpdatePostRR extends AbstractRR {
                 LOGGER.warn("Cannot update the post: URI request (%d) and post resource (%d) postId differ.",
                         postId, post.getPostId());
 
-                m = new Message("Cannot update the post: URI request and post resource postId differ.", "E4A8",
-                        String.format("Request URI postId %d; post resource postId %d.", postId, post.getPostId()));
-                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                m = ErrorCode.UPDATE_POST_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.UPDATE_POST_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
             }
 
 
-            // creates a new DAO for accessing the database and updates the employee
+
             e = new UpdatePostDAO(con, post).access().getOutputParam();
 
             if (e != null) {
@@ -74,36 +70,34 @@ public class UpdatePostRR extends AbstractRR {
             } else {
                 LOGGER.warn("Post not found. Cannot update it.");
 
-                m = new Message(String.format("Post %d not found. Cannot update it.", postId), "E5A3", null);
-                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                m = ErrorCode.UPDATE_POST_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.UPDATE_POST_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
             LOGGER.warn("Cannot delete post: wrong format for URI /post/{postId}.", ex);
 
-            m = new Message("Cannot delete post: wrong format for URI /post/{PostId}.", "E4A7",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.UPDATE_POST_BAD_FORMAT.getMessage();
+            res.setStatus(ErrorCode.UPDATE_POST_BAD_FORMAT.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (EOFException ex) {
             LOGGER.warn("Cannot updated post: no Post JSON object found in the request.", ex);
 
-            m = new Message("Cannot update post: no Post JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.UPDATE_POST_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.UPDATE_POST_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23503".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot delete post: other resources depend on it.");
 
-                m = new Message("Cannot delete post: other resources depend on it.", "E5A4", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.DELETE_POST_CONFLICT.getMessage();
+                res.setStatus(ErrorCode.DELETE_POST_CONFLICT.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot delete post: unexpected database error.", ex);
 
-                m = new Message("Cannot delete post: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.UPDATE_POST_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.UPDATE_POST_DB_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         }

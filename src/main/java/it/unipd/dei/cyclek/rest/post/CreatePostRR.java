@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.post;
 
 import it.unipd.dei.cyclek.dao.post.CreatePostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,32 +54,30 @@ public class CreatePostRR extends AbstractRR {
 
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 p.toJSON(res.getOutputStream());
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Fatal error while creating post.");
+                m = ErrorCode.CREATE_POST_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_POST_INTERNAL_SERVER_ERROR.getHttpCode());
 
-                m = new Message("Cannot create post: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         } catch (EOFException ex) {
             LOGGER.warn("Cannot create post: no Post JSON object found in the request.", ex);
 
-            m = new Message("Cannot create the Post: no Post JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.CREATE_POST_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.CREATE_POST_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot create post: it already exists.");
-
-                m = new Message("Cannot create post: it already exists.", "E5A2", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.CREATE_POST_ALREADY_EXISTS.getMessage();
+                res.setStatus(ErrorCode.CREATE_POST_ALREADY_EXISTS.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot create post: unexpected database error.", ex);
 
-                m = new Message("Cannot create post: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_POST_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_POST_DB_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         }

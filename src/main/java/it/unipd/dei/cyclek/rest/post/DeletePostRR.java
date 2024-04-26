@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.post;
 
 import it.unipd.dei.cyclek.dao.post.DeletePostDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,30 +56,30 @@ public class DeletePostRR extends AbstractRR {
                 e.toJSON(res.getOutputStream());
             } else {
                 LOGGER.warn("Post not found. Cannot delete it.");
+                m = ErrorCode.DELETE_POST_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.DELETE_POST_NOT_FOUND.getHttpCode());
 
-                m = new Message(String.format("Post %d not found. Cannot delete it.", postId), "E5A3", null);
-                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
             LOGGER.warn("Cannot delete the post: wrong format for URI /post/{postId}.", ex);
 
-            m = new Message("Cannot delete the post: wrong format for URI /post/{postId}.", "E4A7",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.DELETE_POST_BAD_REQUEST.getMessage();
+            res.setStatus(ErrorCode.DELETE_POST_BAD_REQUEST.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23503".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot delete the post: other resources depend on it.");
 
-                m = new Message("Cannot delete the post: other resources depend on it.", "E5A4", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.DELETE_POST_CONFLICT.getMessage();
+                res.setStatus(ErrorCode.DELETE_POST_CONFLICT.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot delete the post: unexpected database error.", ex);
 
-                m = new Message("Cannot delete the post: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.DELETE_POST_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.DELETE_POST_DB_ERROR.getHttpCode());
+
                 m.toJSON(res.getOutputStream());
             }
         }

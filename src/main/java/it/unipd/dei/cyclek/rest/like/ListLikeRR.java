@@ -32,10 +32,8 @@ public class ListLikeRR extends AbstractRR {
         super(Actions.LIST_LIKE_BY_POST_ID, req, res, con);
     }
 
-
     @Override
     protected void doServe() throws IOException {
-
 
         List<Like> el = null;
         Message m = null;
@@ -44,9 +42,7 @@ public class ListLikeRR extends AbstractRR {
 
             String path = req.getRequestURI();
             String[] parts = path.split("/");
-
             final int postId = Integer.parseInt(parts[4]);
-
 
             LogContext.setResource(Integer.toString(postId));
             // creates a new DAO for accessing the database and lists the employee(s)
@@ -54,21 +50,20 @@ public class ListLikeRR extends AbstractRR {
 
             if (el != null) {
                 LOGGER.info("Like(s) successfully listed.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList(el).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing Like(s).");
 
-                m = new Message("Cannot list Like(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.LIST_LIKE_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.LIST_LIKE_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list Like(s): unexpected database error.", ex);
+            m = ErrorCode.LIST_LIKE_DB_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_LIKE_DB_ERROR.getHttpCode());
 
-            m = new Message("Cannot list Like(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             m.toJSON(res.getOutputStream());
         }
     }

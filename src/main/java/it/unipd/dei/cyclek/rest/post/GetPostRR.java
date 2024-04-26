@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @version 1.00
  * @since 1.00
  */
-public class ReadPostRR extends AbstractRR {
+public class GetPostRR extends AbstractRR {
 
 
     /**
@@ -27,7 +27,7 @@ public class ReadPostRR extends AbstractRR {
      * @param res the HTTP response.
      * @param con the connection to the database.
      */
-    public ReadPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
+    public GetPostRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.GET_POST_BY_ID, req, res, con);
     }
 
@@ -58,22 +58,22 @@ public class ReadPostRR extends AbstractRR {
             } else {
                 LOGGER.warn("Post not found. Cannot read it.");
 
-                m = new Message(String.format("Post %d not found. Cannot read it.", postId), "E5A3", null);
-                res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                m = ErrorCode.GET_POST_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.GET_POST_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (IndexOutOfBoundsException | NumberFormatException ex) {
             LOGGER.warn("Cannot read post: wrong format for URI /post/{postId}.", ex);
 
-            m = new Message("Cannot read post: wrong format for URI /post/{postId}.", "E4A7",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.GET_POST_BAD_REQUEST.getMessage();
+            res.setStatus(ErrorCode.GET_POST_BAD_REQUEST.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             LOGGER.error("Cannot read post: unexpected database error.", ex);
 
-            m = new Message("Cannot read post: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_POST_DB_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_POST_DB_ERROR.getHttpCode());
+
             m.toJSON(res.getOutputStream());
         }
     }

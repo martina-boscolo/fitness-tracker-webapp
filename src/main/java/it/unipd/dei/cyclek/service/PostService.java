@@ -1,6 +1,5 @@
 package it.unipd.dei.cyclek.service;
 
-import it.unipd.dei.cyclek.dao.like.CountLikesByPostIdDAO;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.comment.CountCommentRR;
 import it.unipd.dei.cyclek.rest.comment.CreateCommentRR;
@@ -184,7 +183,7 @@ public class PostService extends AbstractService {
         } else if (path.matches("/\\d+")) {
             switch (method) {
                 case "GET":
-                    new ReadPostRR(req, res, con).serve();
+                    new GetPostRR(req, res, con).serve();
                     System.out.println("GET post");
                     break;
                 case "PUT":

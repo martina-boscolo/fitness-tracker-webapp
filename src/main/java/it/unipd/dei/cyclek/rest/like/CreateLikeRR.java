@@ -45,24 +45,20 @@ public class CreateLikeRR extends AbstractRR {
 
             LogContext.setResource(Integer.toString(like.getLikeId()));
 
-            // creates a new DAO for accessing the database and stores the employee
             p = new CreateLikeDAO(con, like).access().getOutputParam();
 
             if (p != null) {
                 LOGGER.info("Like successfully created.");
-
                 res.setStatus(HttpServletResponse.SC_CREATED);
                 p.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while creating like.");
-
-                m = new Message("Cannot create like: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.CREATE_LIKE_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_LIKE_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (EOFException ex) {
             LOGGER.warn("Cannot create like: no Like JSON object found in the request.", ex);
-
             m = new Message("Cannot create the Like: no Like JSON object found in the request.", "E4A8",
                     ex.getMessage());
             res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -70,15 +66,14 @@ public class CreateLikeRR extends AbstractRR {
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot create like: it already exists.");
-
-                m = new Message("Cannot create like: it already exists.", "E5A2", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                m = ErrorCode.CREATE_LIKE_JSON_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_LIKE_JSON_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot create like: unexpected database error.", ex);
+                m = ErrorCode.CREATE_LIKE_DB_ERROR.getMessage();
+                res.setStatus(ErrorCode.CREATE_LIKE_DB_ERROR.getHttpCode());
 
-                m = new Message("Cannot create like: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
             }
         }
