@@ -58,7 +58,8 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
                                 rs.getInt("id"),
                                 rs.getInt("id_user"),
                                 rs.getString("text_content"),
-                                rs.getString("image_path"),
+                                rs.getBytes("photo"),
+                                rs.getString("photoMediaType"),
                                 rs.getTimestamp("post_date")
 
                         )

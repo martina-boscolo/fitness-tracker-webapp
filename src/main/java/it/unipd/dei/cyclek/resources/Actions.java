@@ -19,6 +19,9 @@ public final class Actions {
     public static final String UPDATE_POST = "UPDATE_POST";
     public static final String LIST_POST = "LIST_POST";
     public static final String LIST_POST_BY_USER_ID = "LIST_POST_BY_USER_ID";
+    public static final String LOAD_POST_PHOTO = "LOAD_POST_PHOTO";
+
+
 
     //LIKE ACTIONS
     public static final String CREATE_LIKE = "LIST_POST";

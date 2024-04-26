@@ -1,36 +1,52 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Martina
-  Date: 13/04/2024
-  Time: 19:47
-  To change this template use File | Settings | File Templates.
---%>
+
+
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Post Creation Result</title>
+	<title>Create Post</title>
 </head>
+
 <body>
-<h1>Post Creation Result</h1>
+<h1>Create Post</h1>
+<hr/>
+
 <!-- display the message -->
 <c:import url="/jsp/include/show-message.jsp"/>
 
-<c:if test='${not empty post && !message.error}'>
-    <ul>
+<!-- display the just created employee, if any and no errors -->
+<c:if test="${not empty post && !message.error}">
+	<ul>
+		<li>postId: <c:out value="${post.postId}"/></li>
+		<li>userId: <c:out value="${post.userId}"/></li>
+		<li>textContent: <c:out value="${post.textContent}"/></li>
 
 
-        <li> postId :<c:out value="${post.postId       }"/></li>
-        <li> userId :<c:out value="${post.userId       }"/></li>
-        <li> textContent :<c:out value="${post.textContent  }"/></li>
-        <li> imagePath :<c:out value="${post.imagePath    }"/></li>
-        <li> likeCount :<c:out value="${post.likeCount    }"/></li>
-        <li> commentCount :<c:out value="${post.commentCount }"/></li>
-        <li> postDate :<c:out value="${post.postDate     }"/></li>
+		<c:choose>
+			<c:when test="${post.hasPhoto()}">
 
+				<li>photo:
+					<ul>
+						<li>MIME media type: <c:out value="${post.photoMediaType}"/> </li>
+						<li>size: <c:out value="${post.photoSize}"/> </li>
+						<li>image: <br/>
+							<img
+									src="<c:url value="/load-post-photo"><c:param name="postId" value="${post.postId}"/></c:url>"/>
+						</li>
+					</ul>
+				</li>
 
-    </ul>
+			</c:when>
+
+			<c:otherwise>
+				<li>photo: not available</li>
+			</c:otherwise>
+		</c:choose>
+		<li>postDate: <c:out value="${post.postDate}"/></li>
+
+	</ul>
 </c:if>
-
 </body>
 </html>

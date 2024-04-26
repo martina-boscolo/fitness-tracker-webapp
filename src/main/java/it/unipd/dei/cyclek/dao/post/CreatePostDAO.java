@@ -3,10 +3,7 @@ package it.unipd.dei.cyclek.dao.post;
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Post;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 /**
@@ -17,7 +14,7 @@ import java.time.LocalDateTime;
  */
 public class CreatePostDAO extends AbstractDAO<Post> {
 
-    private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, image_path, post_date) VALUES ( ?, ?, ?, ?) RETURNING * ";
+    private static final String STATEMENT = "INSERT INTO posts ( id_user, text_content, photo, photoMediaType, post_date) VALUES ( ?, ?, ?,?, ?) RETURNING * ";
     private final Post post;
 
     /**
@@ -52,14 +49,15 @@ public class CreatePostDAO extends AbstractDAO<Post> {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, post.getUserId());
             pstmt.setString(2, post.getTextContent());
-            pstmt.setString(3, post.getImagePath());
-            pstmt.setTimestamp(4, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setBytes(3, post.getPhoto());
+            pstmt.setString(4, post.getPhotoMediaType());
+            pstmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 e = new Post(rs.getInt("id"), rs.getInt("id_user"), rs.getString("text_content"),
-                        rs.getString("image_path"),
+                        rs.getBytes("photo"), rs.getString("photoMediaType"),
                         rs.getTimestamp("post_date"));
                 LOGGER.info("Post %d successfully stored in the database.", e.getPostId());
             }
@@ -75,4 +73,6 @@ public class CreatePostDAO extends AbstractDAO<Post> {
 
         outputParam = e;
     }
+
+
 }

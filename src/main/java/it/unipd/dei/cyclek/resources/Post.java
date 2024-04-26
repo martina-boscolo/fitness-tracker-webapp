@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 
 /**
  * Represents a social network post with various attributes such as post ID, user ID, text content, image path, like count, comment count, and post date.
@@ -21,7 +22,8 @@ public class Post extends AbstractResource {
     private final int postId;
     private final int userId;
     private final String textContent;
-    private final String imagePath;
+    private final byte[] photo;
+    private final String photoMediaType;
     private final Timestamp postDate;
 
     /**
@@ -30,14 +32,14 @@ public class Post extends AbstractResource {
      * @param postId       the ID of the post
      * @param userId       the ID of the user who created the post
      * @param textContent  the text content of the post
-     * @param imagePath    the path to the image of the post
      * @param postDate     the date the post was created
      */
-    public Post(int postId, int userId, String textContent, String imagePath, Timestamp postDate) {
+    public Post(int postId, int userId, String textContent, final byte[] photo, final String photoMediaType , Timestamp postDate) {
         this.postId = postId;
         this.userId = userId;
         this.textContent = textContent;
-        this.imagePath = imagePath;
+        this.photo = photo;
+        this.photoMediaType = photoMediaType;
         this.postDate = postDate;
     }
 
@@ -71,17 +73,13 @@ public class Post extends AbstractResource {
     }
 
 
-    /**
-     * Returns the path to the image of the post.
-     *
-     * @return the path to the image of the post
-     */
-    public String getImagePath() {
-        return imagePath;
+    public byte[] getPhoto() {
+        return photo;
     }
 
-
-
+    public String getPhotoMediaType() {
+        return photoMediaType;
+    }
 
     /**
      * Returns the date the post was created.
@@ -90,6 +88,14 @@ public class Post extends AbstractResource {
      */
     public Timestamp getPostDate() {
         return postDate;
+    }
+
+
+    public final boolean hasPhoto() {
+        return photo != null && photo.length > 0 && photoMediaType != null && !photoMediaType.isBlank();
+    }
+    public final int getPhotoSize() {
+        return photo != null ? photo.length : Integer.MIN_VALUE;
     }
 
 
@@ -110,7 +116,10 @@ public class Post extends AbstractResource {
 
         jg.writeStringField("textContent", textContent);
 
-        jg.writeStringField("imagePath", imagePath);
+        if (hasPhoto()) {
+            jg.writeStringField("photo", Base64.getEncoder().encodeToString(photo)); //not the best
+            jg.writeStringField("photoMediaType", photoMediaType);
+        }
 
         jg.writeStringField("postDate", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(postDate));
 
@@ -128,7 +137,6 @@ public class Post extends AbstractResource {
         int jPostId = -1;
         int jUserId = -1;
         String jTextContent = null;
-        String jImagePath = null;
         Timestamp jPostDate = null;
 
 
@@ -163,10 +171,6 @@ public class Post extends AbstractResource {
                             jp.nextToken();
                             jTextContent = jp.getText();
                             break;
-                        case "imagePath":
-                            jp.nextToken();
-                            jImagePath = jp.getText();
-                            break;
                         case "postDate":
                             jp.nextToken();
                             jPostDate = Timestamp.valueOf(jp.getText());
@@ -178,6 +182,6 @@ public class Post extends AbstractResource {
             LOGGER.error("Unable to parse a Post object from JSON.", e);
             throw e;
         }
-        return new Post(jPostId, jUserId, jTextContent, jImagePath, jPostDate);
+        return new Post(jPostId, jUserId, jTextContent,null, null,  jPostDate);
     }
 }

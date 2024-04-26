@@ -76,14 +76,14 @@ CREATE TABLE exercise (
 );
 
 
---Drop table posts, comments, likes;
 --create the posts table
 CREATE TABLE posts
 (
     id              SERIAL PRIMARY KEY,
     id_user         INTEGER NOT NULL REFERENCES users (id),
     text_content    TEXT NOT NULL,
-    image_path      TEXT, -- images should be stored in the filesystem
+    photo           BYTEA,
+    photoMediaType  TEXT,
     post_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -136,13 +136,13 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00'),
     (1, 78, 175, 13.6, 23.5, '2024-04-09 09:43:00');
 
-INSERT INTO posts (id_user, text_content, image_path, post_date)
+INSERT INTO posts (id_user, text_content, photo, photoMediaType, post_date)
 VALUES
-    (1, 'Just finished a 5-mile run! Feeling great!', '/fitness/images/run.jpg',  '2024-04-07 08:30:00'),
-    (2, 'Leg day at the gym was intense!', '/fitness/images/legday.jpg','2024-04-06 17:45:00'),
-    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, '2024-04-05 09:00:00'),
-    (1, 'Completed my first marathon! What an achievement!', '/fitness/images/marathon.jpg',   '2024-04-04 11:20:00'),
-    (2, 'Back to the gym after a long break 💪', '/fitness/images/gym.jpg',  '2024-04-03 18:00:00');
+    (1, 'Just finished a 5-mile run! Feeling great!', NULL, 'image/png',  '2024-04-07 08:30:00'),
+    (2, 'Leg day at the gym was intense!', NULL, 'image/png' ,'2024-04-06 17:45:00'),
+    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, 'image/png', '2024-04-05 09:00:00'),
+    (1, 'Completed my first marathon! What an achievement!', NULL, 'image/png',   '2024-04-04 11:20:00'),
+    (2, 'Back to the gym after a long break 💪',NULL, NULL,  '2024-04-03 18:00:00');
 
 
 INSERT INTO likes (id_user, id_post)
