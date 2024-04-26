@@ -1,17 +1,13 @@
 package it.unipd.dei.cyclek.resources;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class Meal extends AbstractResource {
     private Integer id;                 //meal identificator
@@ -52,31 +48,6 @@ public class Meal extends AbstractResource {
     public static Meal fromJSON(final InputStream in) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(in, Meal.class);
-    }
-
-    public ArrayList<FoodGramsAssociation> fromJsonToFoodGramsAssociation() {
-        ArrayList<FoodGramsAssociation> listMealJava = new ArrayList<>();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(this.getMeal());
-            JsonNode mealsNode = rootNode.get("meal");
-
-            if (mealsNode != null && mealsNode.isArray()) {
-                for (JsonNode mealNode : mealsNode) {
-                    if (mealNode.isObject()) {
-                        mealNode.fields().forEachRemaining(entry -> {
-                            Integer id_food = Integer.parseInt(entry.getKey()); // Nome del campo (id_food o grams)
-                            Integer grams = entry.getValue().asInt(); // Valore del campo
-
-                            listMealJava.add(new FoodGramsAssociation(id_food, grams));
-                        });
-                    }
-                }
-            }
-            return listMealJava;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Integer getId() {
