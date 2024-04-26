@@ -59,15 +59,14 @@ public class CreateLikeRR extends AbstractRR {
             }
         } catch (EOFException ex) {
             LOGGER.warn("Cannot create like: no Like JSON object found in the request.", ex);
-            m = new Message("Cannot create the Like: no Like JSON object found in the request.", "E4A8",
-                    ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            m = ErrorCode.CREATE_LIKE_JSON_ERROR.getMessage();
+            res.setStatus(ErrorCode.CREATE_LIKE_JSON_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         } catch (SQLException ex) {
             if ("23505".equals(ex.getSQLState())) {
                 LOGGER.warn("Cannot create like: it already exists.");
-                m = ErrorCode.CREATE_LIKE_JSON_ERROR.getMessage();
-                res.setStatus(ErrorCode.CREATE_LIKE_JSON_ERROR.getHttpCode());
+                m = ErrorCode.CREATE_LIKE_ALREADY_EXISTS.getMessage();
+                res.setStatus(ErrorCode.CREATE_LIKE_ALREADY_EXISTS.getHttpCode());
                 m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Cannot create like: unexpected database error.", ex);

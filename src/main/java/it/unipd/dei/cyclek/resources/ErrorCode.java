@@ -80,6 +80,7 @@ public enum ErrorCode {
     LIST_LIKE_INTERNAL_SERVER_ERROR("-338", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected error while listing likes"),
     LIST_LIKE_DB_ERROR("-339", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected db error while listing likes"),
 
+    CREATE_LIKE_ALREADY_EXISTS("-340", HttpServletResponse.SC_CONFLICT, "Conflict", "Like already exists"),
 
     // Diet Code        -400 -> -499
     ID_DIET_NOT_FOUND("-400", HttpServletResponse.SC_NOT_FOUND, "Not Found", "Id not found for searched diet"),
