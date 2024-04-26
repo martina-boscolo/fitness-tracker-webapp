@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import static it.unipd.dei.cyclek.service.DietService.processDiet;
+import static it.unipd.dei.cyclek.service.ExercisePlanService.processExercisePlan;
+import static it.unipd.dei.cyclek.service.ExerciseService.processExercise;
 import static it.unipd.dei.cyclek.service.FoodService.processFood;
 import static it.unipd.dei.cyclek.service.MealService.processMeal;
 import static it.unipd.dei.cyclek.service.PostService.processPost;
@@ -53,6 +55,12 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
             }
 
             if(processMeal(req, res, getConnection())){
+                return;
+            }
+            if(processExercise(req,res, getConnection())){
+                return;
+            }
+            if(processExercisePlan(req,res, getConnection())){
                 return;
             }
             // if none of the above process methods succeeds, it means an unknown resource has been requested

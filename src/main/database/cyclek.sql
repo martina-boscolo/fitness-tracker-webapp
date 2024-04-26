@@ -104,7 +104,7 @@ CREATE TABLE exercise_category (
     category_name   VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE exercise (
+CREATE TABLE exercises (
     id                 SERIAL PRIMARY KEY,
     id_category        INTEGER NOT NULL REFERENCES exercise_category(id),
     exercise_name      VARCHAR(100) NOT NULL,
@@ -197,7 +197,7 @@ VALUES
     ('Flexibility'),
     ('Balance');
 
-INSERT INTO exercise(exercise_name, description, exercise_equipment, id_category)
+INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
 VALUES
     ('squat','this is a description1','Barbell',1);
 

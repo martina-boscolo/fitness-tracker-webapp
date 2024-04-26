@@ -2,7 +2,6 @@ package it.unipd.dei.cyclek.service;
 
 import it.unipd.dei.cyclek.resources.Exercise;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.rest.ListUserRR;
 import it.unipd.dei.cyclek.rest.exercise.GetExerciseByIdRR;
 import it.unipd.dei.cyclek.rest.exercise.ListExerciseRR;
 import jakarta.servlet.http.HttpServletRequest;
