@@ -12,20 +12,15 @@ import java.util.List;
 
 /**
  * This class is responsible for listing all social network posts from the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
  *
  * @author Martina Boscolo Bacheto
  */
 public class ListPostDAO extends AbstractDAO<List<Post>> {
 
-    /**
-     * SQL statement to list all social network posts from the database.
-     */
     private static final String STATEMENT = "SELECT * FROM posts ";
 
-
     /**
-     * Constructs a new ListPostDAO object with the given connection.
+     * Creates a new object for listing all the social network posts from the database.
      *
      * @param con the connection to the database.
      */
@@ -36,7 +31,7 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
     /**
      * Lists all the social network posts from the database.
      *
-     * @throws SQLException if any SQL error occurs while listing the posts.
+     * @throws SQLException if any error occurs while listing the social network posts from the database.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -44,7 +39,6 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        // the results of the search
         final List<Post> posts = new ArrayList<Post>();
 
         try {
@@ -53,17 +47,14 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                posts.add(
-                        new Post(
-                                rs.getInt("id"),
-                                rs.getInt("id_user"),
-                                rs.getString("text_content"),
-                                rs.getBytes("photo"),
-                                rs.getString("photoMediaType"),
-                                rs.getTimestamp("post_date")
+                posts.add(new Post(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getString("text_content"),
+                        rs.getBytes("photo"),
+                        rs.getString("photoMediaType"),
+                        rs.getTimestamp("post_date")
 
-                        )
-                );
+                ));
             }
 
             LOGGER.info("Posts successfully listed.");
@@ -71,13 +62,10 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
             if (rs != null) {
                 rs.close();
             }
-
             if (pstmt != null) {
                 pstmt.close();
             }
-
         }
-
         outputParam = posts;
     }
 }

@@ -10,10 +10,8 @@ import java.sql.SQLException;
 
 /**
  * This class is responsible for creating a new comment in the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
  *
  * @author Martina Boscolo Bacheto
- *
  */
 public class CreateCommentDAO extends AbstractDAO<Comment> {
 
@@ -27,11 +25,11 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
     private final Comment comment;
 
     /**
-     * Constructs a new CreateCommentDAO object with the given connection and comment.
+     * Creates a new object for creating a new comment in the database.
      *
-     * @param con the connection to the database.
-     * @param comment the comment to be inserted into the database.
-     * @throws IllegalArgumentException if the comment is null.
+     * @param con     the connection to the database
+     * @param comment the comment to be inserted into the database
+     * @throws IllegalArgumentException if comment is null
      */
     public CreateCommentDAO(Connection con, Comment comment) {
         super(con);
@@ -43,9 +41,9 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
     }
 
     /**
-     * Inserts the comment into the database.
+     * Creates a new comment in the database.
      *
-     * @throws SQLException if any SQL error occurs while inserting the comment.
+     * @throws SQLException if an error occurs while executing the query
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -69,7 +67,7 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
                         rs.getInt("id_user"),
                         rs.getInt("id_post"),
                         rs.getString("text_content"));
-                LOGGER.info("Comment %d successfully stored in the database.", c.getCommentId());
+                LOGGER.info("Comment {} successfully stored in the database.", c.getCommentId());
             }
         } finally {
 

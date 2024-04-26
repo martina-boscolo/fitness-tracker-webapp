@@ -9,17 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * This class is responsible for retrieving a social network post from the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
+ * This class is responsible for retrieving a post from the database.
  *
  * @author Martina Boscolo Bacheto
  */
 
 public class GetPostDAO extends AbstractDAO<Post> {
 
-    /**
-     * SQL statement to retrieve a social network post from the database.
-     */
     private static final String STATEMENT = "SELECT * FROM posts WHERE id = ? ";
     /**
      * The post ID to be retrieved.
@@ -27,10 +23,11 @@ public class GetPostDAO extends AbstractDAO<Post> {
     private final int postId;
 
     /**
-     * Constructs a new GetPostDAO object with the given connection and post ID.
+     * Creates a new object for retrieving a social network post from the database.
      *
      * @param con    the connection to the database.
-     * @param postId the post ID to be retrieved.
+     * @param postId the ID of the post to be retrieved.
+     * @throws IllegalArgumentException if postId is less than or equal to 0.
      */
     public GetPostDAO(final Connection con, final int postId) {
         super(con);
@@ -40,7 +37,7 @@ public class GetPostDAO extends AbstractDAO<Post> {
     /**
      * Retrieves the social network post from the database.
      *
-     * @throws SQLException if any SQL error occurs while retrieving the post.
+     * @throws SQLException if any error occurs while retrieving the social network post from the database.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -48,7 +45,7 @@ public class GetPostDAO extends AbstractDAO<Post> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        Post resource = null;
+        Post post = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
@@ -57,7 +54,7 @@ public class GetPostDAO extends AbstractDAO<Post> {
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                resource = new Post(
+                post = new Post(
                         rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getString("text_content"),
@@ -66,7 +63,7 @@ public class GetPostDAO extends AbstractDAO<Post> {
                         rs.getTimestamp("post_date")
 
                 );
-                LOGGER.info("Post %d successfully read from the database.", resource.getPostId());
+                LOGGER.info("Post {} successfully read from the database.", post.getPostId());
 
             }
 
@@ -79,6 +76,6 @@ public class GetPostDAO extends AbstractDAO<Post> {
                 pstmt.close();
             }
         }
-        outputParam = resource;
+        outputParam = post;
     }
 }

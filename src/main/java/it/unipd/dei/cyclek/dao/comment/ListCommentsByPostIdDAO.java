@@ -2,7 +2,6 @@ package it.unipd.dei.cyclek.dao.comment;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Comment;
-import it.unipd.dei.cyclek.resources.Like;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +10,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * List all comments for a given post.
+ *
+ * @author Martina Boscolo Bacheto
+ */
 public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
+    /**
+     * The SQL statement to be executed
+     */
     private static final String STATEMENT = "SELECT * FROM comments WHERE id_post = ?";
 
+    /**
+     * The post id
+     */
     private final int postId;
 
+    /**
+     * Creates a new object for listing all comments for a given post.
+     *
+     * @param con    the connection to the database
+     * @param postId the post id
+     * @throws IllegalArgumentException if postId is less than or equal to 0
+     */
     public ListCommentsByPostIdDAO(Connection con, int postId) {
         super(con);
         if (postId <= 0) {
@@ -25,6 +42,11 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
         this.postId = postId;
     }
 
+    /**
+     * Lists all comments for a given post.
+     *
+     * @throws SQLException if an error occurs while executing the query
+     */
     @Override
     protected void doAccess() throws SQLException {
         PreparedStatement pstmt = null;
@@ -39,7 +61,11 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
 
 
             while (rs.next()) {
-                comments.add(new Comment(rs.getInt("id"), rs.getInt("id_user"), rs.getInt("id_post"), rs.getString("text_content")));
+                comments.add(new Comment(rs.getInt("id"),
+                        rs.getInt("id_user"),
+                        rs.getInt("id_post"),
+                        rs.getString("text_content"))
+                );
 
             }
         } finally {

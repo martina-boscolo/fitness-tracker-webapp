@@ -10,44 +10,43 @@ import java.sql.SQLException;
 
 /**
  * This class is responsible for deleting a like from the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
  *
  * @author Martina Boscolo Bacheto
  *
  */
 public class DeleteLikeDAO extends AbstractDAO<Like> {
 
+
     /**
-     * SQL statement to delete a like from the database.
+     * The SQL statement to be executed.
      */
     private static final String STATEMENT = "DELETE FROM likes WHERE id = ?  RETURNING *  ";
 
     /**
-     * The user ID of the like to be deleted.
+     * The id of the like to be deleted.
      */
     private final int likeId;
 
-
-
     /**
-     * Constructs a new DeleteLikeDAO object with the given connection, user ID and post ID.
+     * Creates a new object for deleting a like from the database.
      *
-     * @param con the connection to the database.
-     * @throws IllegalArgumentException if the user ID or post ID is less than or equal to 0.
+     * @param con    the connection to the database.
+     * @param likeId the id of the like to be deleted.
+     * @throws IllegalArgumentException if likeId is less than or equal to 0.
      */
     public DeleteLikeDAO(Connection con, int likeId) {
         super(con);
         if (likeId <= 0 ) {
-            throw new IllegalArgumentException("userId and postId must be greater than 0.");
+            throw new IllegalArgumentException("likeId must be greater than 0.");
         }
 
         this.likeId = likeId;
     }
 
     /**
-     * Deletes the like from the database.
+     * Deletes a like from the database.
      *
-     * @throws SQLException if any SQL error occurs while deleting the like.
+     * @throws SQLException if any error occurs while deleting the like.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -68,7 +67,7 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
                         rs.getInt("id_user"),
                         rs.getInt("id_post"));
 
-                LOGGER.info("Like %d successfully deleted from the database.", l.getPostId());
+                LOGGER.info("Like {} successfully deleted from the database.", l.getLikeId());
             }
         } finally {
             if (rs != null) {

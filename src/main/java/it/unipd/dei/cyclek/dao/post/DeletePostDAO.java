@@ -9,29 +9,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * This class is responsible for deleting a social network post from the database.
- * It extends the AbstractDAO class and overrides the doAccess method.
+ * This class is responsible for deleting a post from the database.
  *
  * @author Martina Boscolo Bacheto
  */
 public class DeletePostDAO extends AbstractDAO<Post> {
 
-    /**
-     * SQL statement to delete a social network post from the database.
-     */
     private static final String STATEMENT = "DELETE FROM posts WHERE id = ? RETURNING * ";
 
-    /**
-     * The post ID to be deleted.
-     */
     private final int postId;
 
     /**
-     * Constructs a new DeletePostDAO object with the given connection and post ID.
+     * Creates a new object for deleting a social network post from the database.
      *
      * @param con    the connection to the database.
-     * @param postId the post ID to be deleted.
-     * @throws IllegalArgumentException if the post ID is less than or equal to 0.
+     * @param postId the ID of the post to be deleted.
+     * @throws IllegalArgumentException if postId is less than or equal to 0.
      */
     public DeletePostDAO(Connection con, int postId) {
         super(con);
@@ -45,7 +38,7 @@ public class DeletePostDAO extends AbstractDAO<Post> {
     /**
      * Deletes the social network post from the database.
      *
-     * @throws SQLException if any SQL error occurs while deleting the post.
+     * @throws SQLException if any error occurs while deleting the social network post from the database.
      */
     @Override
     protected void doAccess() throws SQLException {
@@ -53,22 +46,21 @@ public class DeletePostDAO extends AbstractDAO<Post> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        // the deleted employee
-        Post e = null;
+        Post post = null;
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, postId);
             rs = pstmt.executeQuery();
             if (rs.next()) {
-                e = new Post(rs.getInt("id"),
+                post = new Post(rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getString("text_content"),
                         rs.getBytes("photo"),
                         rs.getString("photoMediaType"),
                         rs.getTimestamp("post_date"));
 
-                LOGGER.info("Post %d successfully deleted from the database.", e.getPostId());
+                LOGGER.info("Post {} successfully deleted from the database.", post.getPostId());
             }
         } finally {
             if (rs != null) {
@@ -81,6 +73,6 @@ public class DeletePostDAO extends AbstractDAO<Post> {
 
         }
 
-        outputParam = e;
+        outputParam = post;
     }
 }
