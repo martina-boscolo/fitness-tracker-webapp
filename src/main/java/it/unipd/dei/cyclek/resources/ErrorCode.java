@@ -43,15 +43,15 @@ public enum ErrorCode {
 
     // Diet Code        -400 -> -499
     ID_DIET_NOT_FOUND("-400", HttpServletResponse.SC_NOT_FOUND, "Not Found", "Id not found for searched diet"),
-    GET_DIET_INTERNAL_SERVER_ERROR("-401", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected error while retrieving diet"),
+    GET_DIET_INTERNAL_SERVER_ERROR("-401", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while retrieving diet"),
     ID_USER_DIET_NOT_FOUND("-402", HttpServletResponse.SC_NOT_FOUND, "Not Found", "idUser not found for searched diet"),
-    GET_ID_USER_DIET_INTERNAL_SERVER_ERROR("-403", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected error while retrieving diet"),
+    GET_ID_USER_DIET_INTERNAL_SERVER_ERROR("-403", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while retrieving diet"),
     LIST_ALL_DIET_NOT_FOUND("-404", HttpServletResponse.SC_NOT_FOUND, "Not Found", "There are no diets to list"),
-    LIST_ALL_DIET_INTERNAL_SERVER_ERROR("-405", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected error while listing diets"),
-    SAVE_DIET_INTERNAL_SERVER_ERROR("-406", HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal server error", "Error while saving diet"),
+    LIST_ALL_DIET_INTERNAL_SERVER_ERROR("-405", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while listing diets"),
+    SAVE_DIET_INTERNAL_SERVER_ERROR("-406", HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal server error", "Unexpected Error while saving diet"),
     SAVE_DIET_BAD_REQUEST("-407", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "No idUser JSON object found in the request"),
     UPDATE_DIET_CONSTRAINT_VIOLATION("-408", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "Cannot modify a diet, 24 hours has passed"),
-    UPDATE_DIET_INTERNAL_SERVER_ERROR("-409", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected error while updating a diet"),
+    UPDATE_DIET_INTERNAL_SERVER_ERROR("-409", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while updating a diet"),
 
     // Meal Code        -500 -> -599
 
