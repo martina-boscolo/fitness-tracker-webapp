@@ -3,7 +3,6 @@ package it.unipd.dei.cyclek.rest.user;
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
 import it.unipd.dei.cyclek.resources.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.util.List;
 
 public class GetUserByIdRR extends AbstractRR {
     public GetUserByIdRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
-        super(Actions.LIST_USER, req, res, con);
+        super(Actions.GET_USER_BY_ID, req, res, con);
     }
 
     @Override

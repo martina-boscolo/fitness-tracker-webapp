@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UpdateUserRR extends AbstractRR {
     public UpdateUserRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
-        super(Actions.LIST_USER, req, res, con);
+        super(Actions.UPDATE_USER, req, res, con);
     }
 
     @Override
