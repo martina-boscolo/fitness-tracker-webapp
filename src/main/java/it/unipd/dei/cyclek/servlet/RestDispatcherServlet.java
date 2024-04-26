@@ -25,10 +25,7 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
 
         try {
 
-            // if the requested resource was an Employee, delegate its processing and return
-            if(processUserExercise(req, res, getConnection())) {
-                return;
-            }
+
 
             if (processUser(req, res, getConnection())) {
                 return;
