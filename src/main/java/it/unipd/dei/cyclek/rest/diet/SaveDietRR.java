@@ -47,7 +47,6 @@ public class SaveDietRR extends AbstractRR {
                 if (saved) {
                     LOGGER.info("Diet successfully saved.");
                     res.setStatus(HttpServletResponse.SC_CREATED);
-
                 } else {
                     LOGGER.error("Failed to save diet.");
                     m = ErrorCode.SAVE_DIET_BAD_REQUEST.getMessage();

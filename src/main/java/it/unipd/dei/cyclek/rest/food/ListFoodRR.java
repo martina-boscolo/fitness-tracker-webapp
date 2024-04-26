@@ -25,8 +25,8 @@ public class ListFoodRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        List<Food> fl = null;
-        Message m = null;
+        List<Food> fl;
+        Message m;
 
         try {
 
@@ -43,14 +43,14 @@ public class ListFoodRR extends AbstractRR {
                 LOGGER.error("Fatal error while listing food(s).");
 
                 m = new Message("Cannot list food(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                res.setStatus(ErrorCode.FOOD_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list food(s): unexpected database error.", ex);
 
             m = new Message("Cannot list food(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            res.setStatus(ErrorCode.FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

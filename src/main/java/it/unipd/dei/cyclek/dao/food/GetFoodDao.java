@@ -2,28 +2,19 @@ package it.unipd.dei.cyclek.dao.food;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Food;
+import org.apache.commons.lang3.StringUtils;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
-
 public final class GetFoodDao extends AbstractDAO<List<Food>> {
-    /**
-     * Creates a new DAO object.
-     *
-     * @param con the connection to be used for accessing the database.
-     */
     private static final String QUERY = "SELECT * FROM foods WHERE 1=1";
 
     private final Integer id;         //food identificator
-    private final String fdnm;    //food name
+    private final String fdnm;        //food name
     private final Integer kcal;       //number of Calories for 100g of food
     private final Integer fats;       //grams of fats for 100g of food
     private final Integer carbs;      //grams of carbs for 100g of food
@@ -63,12 +54,12 @@ public final class GetFoodDao extends AbstractDAO<List<Food>> {
             while (rs.next())
             {
                 foodList.add(new Food(
-                        (Integer)rs.getInt("id"),
+                        rs.getInt("id"),
                         rs.getString("fdnm"),
-                        (Integer)rs.getInt("kcal"),
-                        (Integer) rs.getInt("fats"),
-                        (Integer)rs.getInt("carbohydrates"),
-                        (Integer)rs.getInt("proteins")
+                        rs.getInt("kcal"),
+                        rs.getInt("fats"),
+                        rs.getInt("carbohydrates"),
+                        rs.getInt("proteins")
                 ));
             }
             LOGGER.info("Foods successfully fetched.");

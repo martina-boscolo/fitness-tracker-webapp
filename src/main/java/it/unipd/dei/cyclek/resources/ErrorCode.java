@@ -53,7 +53,20 @@ public enum ErrorCode {
     UPDATE_DIET_CONSTRAINT_VIOLATION("-408", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "Cannot modify a diet, 24 hours has passed"),
     UPDATE_DIET_INTERNAL_SERVER_ERROR("-409", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while updating a diet"),
 
-    // Meal Code        -500 -> -599
+    // Food and Meal Code        -500 -> -599
+    GET_FOOD_NOT_FOUND("-500", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "No food found for the id"),
+    GET_FOOD_INTERNAL_SERVER_ERROR("-501",  HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while retrieving food for this id"),
+    FOOD_NOT_FOUND("-502", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Found", "Food not found in database"),
+    FOOD_INTERNAL_SERVER_ERROR("-503",  HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while retrieving food"),
+    REGISTER_FOOD_BAD_REQUEST("-504", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "No JSON object found in the request"),
+    REGISTER_FOOD_INTERNAL_SERVER_ERROR("-505", HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal server error", "Unexpected Error while saving food"),
+
+    ID_USER_MEAL_NOT_FOUND("-506", HttpServletResponse.SC_NOT_FOUND, "Not Found", "idUser not found for searched meals"),
+    GET_ID_USER_FOOD_INTERNAL_SERVER_ERROR("-507", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while retrieving meals"),
+    LIST_ALL_MEALS_NOT_FOUND("-508", HttpServletResponse.SC_NOT_FOUND, "Not Found", "There are no meals to list"),
+    LIST_ALL_MEAL_INTERNAL_SERVER_ERROR("-509", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error", "Unexpected Error while listing meals"),
+    SAVE_MEAL_BAD_REQUEST("-510", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "No JSON object found in the request"),
+    SAVE_MEAL_INTERNAL_SERVER_ERROR("-511", HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal server error", "Unexpected Error while saving meal"),
 
 
     // Exercise Code    -600 -> -699
