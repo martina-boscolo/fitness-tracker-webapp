@@ -21,6 +21,32 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CreatePost</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.post.CreatePostServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>1048576</max-file-size> <!-- 1 Mbyte -->
+            <max-request-size>1049600</max-request-size> <!-- 1 Mbyte + 1 Kbyte -->
+            <file-size-threshold>524288</file-size-threshold> <!-- 500 Kbyte -->
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadPostPhoto</servlet-name>
+        <servlet-class>it.unipd.dei.cyclek.servlet.post.LoadPostPhotoServlet</servlet-class>
+    </servlet>
+
+
+
+    <servlet-mapping>
+        <servlet-name>CreatePost</servlet-name>
+        <url-pattern>/create-post</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadPostPhoto</servlet-name>
+        <url-pattern>/load-post-photo</url-pattern>
+    </servlet-mapping>
+
+
     <resource-ref>
         <description>Connection pool to the database</description>
         <res-ref-name>jdbc/cyclek</res-ref-name>
