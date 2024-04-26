@@ -19,7 +19,7 @@ package it.unipd.dei.cyclek.servlet.post;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Post;
-import it.unipd.dei.cyclek.rest.post.LoadPostPhotoDAO;
+import it.unipd.dei.cyclek.dao.post.LoadPostPhotoDAO;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

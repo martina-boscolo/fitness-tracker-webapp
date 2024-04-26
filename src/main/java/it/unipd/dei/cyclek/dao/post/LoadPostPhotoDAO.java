@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package it.unipd.dei.cyclek.rest.post;
+package it.unipd.dei.cyclek.dao.post;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.Post;
