@@ -25,7 +25,7 @@ import java.util.List;
 public class LoginUserRR extends AbstractRR {
 
     public LoginUserRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
-        super(Actions.ADD_USER, req, res, con);
+        super(Actions.LOGIN_USER, req, res, con);
     }
 
     @Override

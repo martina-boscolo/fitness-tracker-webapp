@@ -9,6 +9,9 @@ public final class Actions {
     /**
      * The search of users by their id
      */
+    public static final String GET_USER_BY_ID = "GET_USER_BY_ID";
+    public static final String LOGIN_USER = "LOGIN_USER";
+    public static final String UPDATE_USER = "UPDATE_USER";
     public static final String ADD_USER = "ADD_USER";
     public static final String LIST_USER = "LIST_USER";
     public static final String LIST_BODY_STATS = "LIST_BODY_STATS";
