@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.diets.SaveDietDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,22 +46,18 @@ public class SaveDietRR extends AbstractRR {
 
                 if (saved) {
                     LOGGER.info("Diet successfully saved.");
+                    res.setStatus(HttpServletResponse.SC_CREATED);
 
-                    res.setStatus(HttpServletResponse.SC_OK);
-                    m = new Message("Diet successfully saved.", "S1A1", null);
-                    m.toJSON(res.getOutputStream());
                 } else {
                     LOGGER.error("Failed to save diet.");
-
-                    m = new Message("Failed to save diet.", "E5A1", null);
-                    res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    m = ErrorCode.SAVE_DIET_BAD_REQUEST.getMessage();
+                    res.setStatus(ErrorCode.SAVE_DIET_BAD_REQUEST.getHttpCode());
                     m.toJSON(res.getOutputStream());
                 }
             } catch (SQLException ex) {
                 LOGGER.error("Cannot save diet: unexpected database error.", ex);
-
-                m = new Message("Cannot save diet: unexpected database error.", "E5A1", ex.getMessage());
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.SAVE_DIET_INTERNAL_SERVER_ERROR.getMessage();
+                res.setStatus(ErrorCode.SAVE_DIET_INTERNAL_SERVER_ERROR.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         }

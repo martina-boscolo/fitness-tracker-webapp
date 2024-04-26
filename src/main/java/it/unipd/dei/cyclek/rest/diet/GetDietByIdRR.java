@@ -3,6 +3,7 @@ package it.unipd.dei.cyclek.rest.diet;
 import it.unipd.dei.cyclek.dao.diets.GetDietDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,16 +38,14 @@ public class GetDietByIdRR extends AbstractRR {
                 dl.get(0).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing diet(s).");
-
-                m = new Message("Cannot list diet: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.ID_DIET_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.ID_DIET_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list diet: unexpected database error.", ex);
-
-            m = new Message("Cannot list diet: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_DIET_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_DIET_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
