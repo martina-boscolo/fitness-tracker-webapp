@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static it.unipd.dei.cyclek.service.DietService.processDiet;
 import static it.unipd.dei.cyclek.service.UserGoalsService.processUserGoals;
 import static it.unipd.dei.cyclek.service.UserService.processUser;
 import static it.unipd.dei.cyclek.service.UserStatsService.processUserStats;
@@ -34,6 +35,9 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
                 return;
             }
             if (processUserGoals(req, res, getConnection())) {
+                return;
+            }
+            if (processDiet(req, res, getConnection())){
                 return;
             }
 
