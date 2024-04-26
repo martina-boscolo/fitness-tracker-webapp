@@ -20,7 +20,7 @@ public class UserService extends AbstractService{
             return false;
         path = path.substring(path.lastIndexOf(TABLE_NAME) + TABLE_NAME.length());
 
-        if (path.isEmpty() || path.equals("/") && method.equals("GET"))
+        if ((path.isEmpty() || path.equals("/")) && method.equals("GET"))
                 new ListUserRR(req, res, con).serve();
 
         else if (path.equals("/signup") || path.equals("/signup/") && method.equals("POST"))
