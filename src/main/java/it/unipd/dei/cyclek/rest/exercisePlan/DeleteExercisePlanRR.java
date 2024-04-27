@@ -3,6 +3,7 @@ package it.unipd.dei.cyclek.rest.exercisePlan;
 import it.unipd.dei.cyclek.dao.exercisePlan.DeleteExercisePlanDao;
 import it.unipd.dei.cyclek.dao.exercisePlan.GetExercisePlanDao;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.ExercisePlan;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -32,21 +33,18 @@ public class DeleteExercisePlanRR extends AbstractRR {
 
             if (el != null) {
                 LOGGER.info("Exercise successfully deleted.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 el.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while deleting exercise.");
-
-                m = new Message("Cannot delete exercise: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.DELETE_EXERCISE_PLAN_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.DELETE_EXERCISE_PLAN_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot delete exercisePlan: unexpected database error.", ex);
-
-            m = new Message("Cannot delete exercisePlan: unexpected database error.", "E5A1", "");
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.DELETE_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.DELETE_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

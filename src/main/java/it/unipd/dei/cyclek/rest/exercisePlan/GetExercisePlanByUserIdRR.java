@@ -33,16 +33,14 @@ public class GetExercisePlanByUserIdRR extends AbstractRR {
                 new ResourceList<>(dl).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing exercisePlan(s).");
-
-                m = new Message("Cannot list exercisePlan(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.ID_USER_EXERCISE_PLAN_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.ID_USER_EXERCISE_PLAN_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list exercisePlan(s): unexpected database error.", ex);
-
-            m = new Message("Cannot list exercisePlan(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_ID_USER_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_ID_USER_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.exercisePlan.AddExercisePlanDao;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.ExercisePlan;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -45,18 +46,16 @@ public class AddExercisePlanRR extends AbstractRR {
             if (saved) {
                 LOGGER.info("ExercisePlan successfully saved.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("ExercisePlan successfully saved.", "S1A1", null);
-                m.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Failed to save ExercisePlan.");
-                m = new Message("Failed to save ExercisePlan.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot save ExercisePlan: unexpected database error.", ex);
-            m = new Message("Cannot save ExercisePlan: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.ADD_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
