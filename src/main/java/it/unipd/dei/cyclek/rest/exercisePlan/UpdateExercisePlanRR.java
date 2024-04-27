@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.exercisePlan.UpdateExercisePlanDao;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.ExercisePlan;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -46,13 +47,11 @@ public class UpdateExercisePlanRR extends AbstractRR {
             if (saved) {
                 LOGGER.info("ExercisePlan successfully updated.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("ExercisePlan successfully updated.");
-                m.toJSON(res.getOutputStream());
             }
         } catch (IOException | SQLException ex) {
             LOGGER.error("Cannot update ExercisePlan: unexpected error.", ex);
-            m = new Message("Cannot update ExercisePlan: unexpected error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.UPDATE_EXERCISE_PLAN_INTERNAL_ERROR.getMessage();
+            res.setStatus(ErrorCode.UPDATE_EXERCISE_PLAN_INTERNAL_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
