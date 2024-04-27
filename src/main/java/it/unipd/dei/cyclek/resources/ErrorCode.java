@@ -111,6 +111,23 @@ public enum ErrorCode {
 
 
     // Exercise Code    -600 -> -699
+    ID_EXERCISE_NOT_FOUND("-600", HttpServletResponse.SC_NOT_FOUND, "Not Found", "id exercise not found "),
+    GET_EXERCISE_INTERNAL_SERVER_ERROR("-601",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while retrieving exercise"),
+    LIST_ALL_EXERCISES_NOT_FOUND("-602",HttpServletResponse.SC_NOT_FOUND, "Not Found", "There are no exercises to list"),
+    LIST_ALL_EXERCISES_INTERNAL_SERVER_ERROR("-603",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while listing exercises"),
+    ADD_EXERCISE_PLAN_BAD_REQUEST("-604", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "No JSON object found in the request"),
+    ADD_EXERCISE_PLAN_INTERNAL_SERVER_ERROR("-605",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while adding exercise plan"),
+    GET_EXERCISE_PLAN_INTERNAL_ERROR("-606",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while getting exercise plan"),
+    ID_EXERCISE_PLAN_NOT_FOUND("-607", HttpServletResponse.SC_NOT_FOUND, "Not Found", "id exercise plan not found"),
+    LIST_ALL_EXERCISE_PLANS_NOT_FOUND("-608",HttpServletResponse.SC_NOT_FOUND,"Not Found", "There are no exercise plans to list"),
+    LIST_ALL_EXERCISE_PLANS_INTERNAL_SERVER_ERROR("-609",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while listing exercise plans"),
+    UPDATE_EXERCISE_PLAN_INTERNAL_ERROR("-610",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while updating exercise plan"),
+    ID_USER_EXERCISE_PLAN_NOT_FOUND("-611", HttpServletResponse.SC_NOT_FOUND, "Not Found", "id user not found for searched exercise plan"),
+    GET_ID_USER_EXERCISE_PLAN_INTERNAL_SERVER_ERROR("-612",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while getting user's exercise plans"),
+    DELETE_EXERCISE_PLAN_INTERNAL_SERVER_ERROR("-613",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error","Unexpected Error while deleting exercise plan"),
+    DELETE_EXERCISE_PLAN_BAD_REQUEST("-614",HttpServletResponse.SC_BAD_REQUEST,"Internal Server Error","we can't find this exercise plan to delete"),
+
+
 
 
 

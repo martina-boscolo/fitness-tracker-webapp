@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.exercise;
 
 import it.unipd.dei.cyclek.dao.exercise.GetExerciseDao;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Exercise;
-import it.unipd.dei.cyclek.resources.LogContext;
-import it.unipd.dei.cyclek.resources.Message;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,21 +30,18 @@ public class GetExerciseByIdRR extends AbstractRR {
 
             if (el != null) {
                 LOGGER.info("Exercise successfully fetch.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 el.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while fetching exercise.");
-
-                m = new Message("Cannot fetch exercise: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.ID_EXERCISE_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.ID_EXERCISE_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot fetch exercise: unexpected database error.", ex);
-
-            m = new Message("Cannot fetch exercise: unexpected database error.", "E5A1", "");
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.GET_EXERCISE_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_EXERCISE_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
