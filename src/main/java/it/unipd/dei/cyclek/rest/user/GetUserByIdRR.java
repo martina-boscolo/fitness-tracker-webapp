@@ -40,6 +40,7 @@ public class GetUserByIdRR extends AbstractRR {
                 m = new Message("Cannot find user(s): unexpected error.", "E5A1", null);
                 res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 m.toJSON(res.getOutputStream());
+
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot find user(s): unexpected database error.", ex);

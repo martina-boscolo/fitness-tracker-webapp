@@ -36,9 +36,12 @@ public class GetFoodByIdRR extends AbstractRR {
                 LOGGER.info("Food(s) successfully find.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 foodList.get(0).toJSON(res.getOutputStream());
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Fatal error while finding Food(s).");
                 m = new Message("Cannot find Food(s): unexpected error.", "E5A1", null);
+                res.setStatus(ErrorCode.GET_FOOD_NOT_FOUND.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                m = ErrorCode.GET_FOOD_NOT_FOUND.getMessage();
                 res.setStatus(ErrorCode.GET_FOOD_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }

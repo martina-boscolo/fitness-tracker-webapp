@@ -27,7 +27,7 @@ public class GetMealByUserIdRR extends AbstractRR {
             final int idUser = Integer.parseInt(path.substring(1));
             ml = new GetMealDao(con, new Meal(idUser)).access().getOutputParam();
 
-            if (ml != null) {
+            if (ml != null && !ml.isEmpty()) {
                 LOGGER.info("meal(s) successfully listed.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ml).toJSON(res.getOutputStream());

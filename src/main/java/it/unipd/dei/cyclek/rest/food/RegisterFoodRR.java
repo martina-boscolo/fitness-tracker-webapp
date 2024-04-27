@@ -10,7 +10,6 @@ import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.postgresql.util.PSQLException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,13 +17,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class RegisterFoodRR extends AbstractRR {
-    /**
-     * Creates a new REST resource.
-     *
-     * @param req    the HTTP request.
-     * @param res    the HTTP response.
-     * @param con    the connection to the database.
-     */
     public RegisterFoodRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.REGISTER_FOOD, req, res, con);
     }
@@ -63,20 +55,14 @@ public class RegisterFoodRR extends AbstractRR {
                 LOGGER.info("Food(s) successfully added to database.");
                 res.setStatus(HttpServletResponse.SC_CREATED);
 
-            } else { // it should not happen
+            } else {
                 LOGGER.error("Failed to save food.");
                 m = ErrorCode.REGISTER_FOOD_BAD_REQUEST.getMessage();
                 res.setStatus(ErrorCode.REGISTER_FOOD_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
 
-        } catch (PSQLException ex) {
-            LOGGER.error("Cannot add the food", ex);
-            m = new Message("Cannot add food.", "E5A1", ex.getMessage());
-            res.setStatus(ErrorCode.REGISTER_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
-            m.toJSON(res.getOutputStream());
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             LOGGER.error("Cannot save food: unexpected database error.", ex);
             m = ErrorCode.REGISTER_FOOD_INTERNAL_SERVER_ERROR.getMessage();
             res.setStatus(ErrorCode.REGISTER_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
