@@ -1,0 +1,107 @@
+\subsection{REST API Summary}
+
+%describe the REST API. If needed, add a few lines of text here, describing the content of the table.
+\renewcommand{\arraystretch}{1.5}
+
+% User
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+rest/user & GET & Return a JSON containing all the users present in the user table.\\\hline
+rest/user/id/* & GET & Return a JSON containing the user filtered by user id.\\\hline
+rest/user/signup & POST & Insert a new user into the table users, checking that it is not already present. It takes as input a JSON containing all user's information.\\\hline
+rest/user/login & POST & Return the authentication token if the user is present into the table users, otherwise return an error JSON format message. It takes as input a JSON containing the username and the password of the user\\\hline
+rest/user/id/* & PUT & Update information about the given user. It takes a JSON containing all users's information.\\\hline
+\caption{users REST API}
+\label{tab:termGlossary}
+\end{longtable}
+
+%Stats
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+stats/body & GET & Return a list containing all rows of the table stats\\\hline
+stats/body & POST & Insert a new user stats into the table stats\\\hline
+stats/user/\{id\} & GET & Return a list containing all rows of the table stats filtered by user id\\\hline
+stats/imc/mean & GET & Return the global mean IMC, computed among all latest body measures for each user\\\hline
+stats/imc/user/\{id\} & GET & Return the actual IMC value and the mean among all measures of a single user\\\hline
+stats/meal/user/\{id\} & GET & Return stats computed from table meals for a single user\\\hline
+goals & GET & Return a list containing all rows of the table goal\\\hline
+goals & POST & Insert a new body objective into the table goal\\\hline
+goals/user/\{id\} & GET & Return a list containing all body goal of a single user\\\hline
+
+\caption{stats REST API}
+\label{tab:termGlossary}
+\end{longtable}
+
+%Social
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+rest/post & GET & Return a JSON containing all the posts present in the posts table.\\\hline
+rest/post & POST & Create a new post using the JSON passed in the request body\\\hline
+rest/post/\{id\} & DELETE & Delete the post with given id from the posts table \\\hline
+rest/post/\{id\} & PUT & Update the post with given id and parameters passed and the request body \\\hline
+rest/post/user/\{userId\} & GET & Return a JSON containing all the posts for a specific user present in the posts table \\\hline
+rest/post/\{id\}/like & GET & Return a JSON containing all the likes for the post \\\hline
+rest/post/like & POST & Create a new like associated to that post \\\hline
+rest/post/like/\{likeId\} & DELETE & Delete the like associated to that post \\\hline
+rest/post/\{id\}/like/count & GET & Return the number of like for that post\\\hline
+rest/post/comment & POST & Create a new comment associated to that post \\\hline
+rest/post/\{id\}/comment & GET & Return a JSON containing all the comments for the post \\\hline
+rest/post/comment/\{commentId\} & DELETE & Delete the comment associated to that post \\\hline
+rest/post/\{id\}/comment/count & GET & Return the number of comments for that post \\\hline
+
+\caption{posts REST API}
+\label{tab:termGlossary}
+\end{longtable}
+%Diet
+\newpage
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+rest/diet & GET & Return a JSON containing all the diets present in the dietplans table.\\\hline
+rest/diet/id/* & GET & Return a JSON containing the diet filtered by user id.\\\hline
+rest/diet/idUser/* & GET & Return a JSON containing all the diets filtered by idUser\\\hline
+rest/diet & POST & Insert a new diet into dietplans. It takes as input a JSON containing all information about the diet.\\\hline
+rest/diet & PUT & Update a diet based on id passed in the JSON file. Diets can be modified for the first 24 hours after creating them\\\hline
+\caption{dietplans REST API}
+\label{tab:termGlossary}
+\end{longtable}
+
+%Food
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+rest/foods & GET & Return a JSON containing all the foods with the relative properties of 100g present in the foods table.\\\hline
+rest/foods/id/* & GET & Return a JSON containing the nutritional properties by food id.\\\hline
+rest/foods & POST & Insert a new food into foods table. It takes as input a JSON containing all information about the food.\\\hline
+\caption{foods REST API}
+\label{tab:termGlossary}
+\end{longtable}
+
+%Meal
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+
+rest/foods & GET & Return a JSON containing all the foods with the relative properties of 100g present in the foods table.\\\hline
+rest/foods/id/* & GET & Return a JSON containing the nutritional properties by food id.\\\hline
+rest/foods & POST & Insert a new food into foods table. It takes as input a JSON containing all information about the food.\\\hline
+\caption{meals REST API}
+\label{tab:termGlossary}
+\end{longtable}
+
+%Exercise
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.4\columnwidth}|} 
+\hline
+\textbf{URI} & \textbf{Method} & \textbf{Description} \\\hline
+rest/exercises & GET & Return a Json containing all of the exercises in the exercise table \\\hline rest/exercises/{id} & GET & Return a Json containing the exercise of the specific id in the exercise table \\\hline rest/exercise\_plan & GET & Return a Json containing all of the exercise plans in the exercise\_plan table \\\hline rest/exercise\_plan/{id} & GET & Return a Json containing the exercise plan of the specific id in the exercise\_plan table \\\hline rest/exercise\_plan & POST & Insert a new plan into exercise\_plan table. It takes as input a JSON containing all information about the exercise plan.\\\hline rest/exercise\_plan/id & PUT & Update a plan based on id passed in the JSON file.\\\hline rest/exercise\_plan/id & DELETE & DELETE a plan based on id passed in the path.\\\hline 
+\caption{exercise REST API}
+\label{tab:termGlossary}
+\end{longtable}

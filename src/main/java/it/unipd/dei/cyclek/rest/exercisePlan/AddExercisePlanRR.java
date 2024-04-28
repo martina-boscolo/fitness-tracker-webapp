@@ -48,14 +48,19 @@ public class AddExercisePlanRR extends AbstractRR {
                 res.setStatus(HttpServletResponse.SC_OK);
             } else {
                 LOGGER.error("Failed to save ExercisePlan.");
-                m = ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getMessage();
-                res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getHttpCode());
+                m = ErrorCode.ADD_EXERCISE_PLAN_INSERT_FAIL.getMessage();
+                res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_INSERT_FAIL.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot save ExercisePlan: unexpected database error.", ex);
             m = ErrorCode.ADD_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getMessage();
             res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_INTERNAL_SERVER_ERROR.getHttpCode());
+            m.toJSON(res.getOutputStream());
+        } catch (NullPointerException ex) {
+            LOGGER.error("Failed to save ExercisePlan.");
+            m = ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getMessage();
+            res.setStatus(ErrorCode.ADD_EXERCISE_PLAN_BAD_REQUEST.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

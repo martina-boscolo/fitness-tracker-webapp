@@ -1,0 +1,249 @@
+\subsection{REST API Details}
+
+%user -------------------------
+\subsubsection*{User}
+\begin{itemize}
+\item URL: http:localhost:8080/cycleK-1.0.0/rest/user/id/*
+\item Method: PUT
+\item URL Parameters: \{id\} - the user id
+\item Data Parameters (request body): 
+\begin{lstlisting}[language=json,firstnumber=1]
+    {"id": 1, "name": "name, "surname": "surname", "birthday": "birthday", "gender": "gender", "username": "username", "password": "password"}
+\end{lstlisting}
+\item Success Response: 
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK  &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"user":{"id": 1, "name": "name", "surname": "surname", "birthday": "birthday", "gender": "gender", "username": "username", "password": "password"}}
+\end{lstlisting}\\\hline
+\end{longtable}
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+400 &  Missing some values in the body &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Bad Request", "errorCode": "-107", "errorDetails": "Cannot update the user, body must contains all parameters.", "error": true}
+}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-108", "errorDetails": "Internal Server Error", "Unexpected Error while updating user.", "error": true}
+}
+\end{lstlisting}\\\hline
+\end{longtable}
+\end{itemize}
+\newpage
+%user -------------------------
+
+%stats ------------------------
+\subsubsection*{Stats}
+\begin{itemize}
+\item URL: http:localhost:8080/cycleK-1.0.0/rest/stats/user/\{id\}
+\item Method: GET
+\item URL Parameters: \{id\} - the user id
+\item Data Parameters: No Data Parameters Needed
+\item Success Response: 
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK  &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"resource-list": [
+    {"bodyStats": {
+        "id": 5, "idUser": 1, "weight": 78.0, "height": 175.0, "fatty": 13.6, "lean": 23.5, "statsDate": "2024-04-09"}
+    }]
+}
+\end{lstlisting}\\\hline
+\end{longtable}
+
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+404 &  User do not have any body measure registered &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Not Found", "errorCode": "-215", "errorDetails": "No stat found for searched user.", "error": true}
+}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-214", "errorDetails": "Unexpected Error while retrieving user stats.", "error": true}
+}
+\end{lstlisting}\\\hline
+\end{longtable}
+\end{itemize}
+\newpage
+%stats ------------------------
+
+%post -------------------------
+\subsubsection*{Social Network}
+\textbf{Description: Delete a comment}
+\begin{itemize}
+\item URL: http:localhost:8080/cycleK-1.0.0/post/comment/\{commentId\}
+\item Method: DELETE
+\item URL Parameters: \{id\} - the comment id
+\item Data Parameters: No Data Parameters Needed
+\item Success Response: 
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK  &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"comment":{"commentId":1,"postId":1,"userId":1,"commentText":"Great job!"}}
+\end{lstlisting}\\\hline
+\end{longtable}
+
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+404 &  Comment to delete not found. &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{"message":"Not Found","errorCode":"-324","errorDetails":"Comment not found","error":true}}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-327", "errorDetails": "Unexpected Error while deleting comment.", "error": true}
+}
+\end{lstlisting}\\\hline
+405 &  Unsupported operation. Id of comment to delete not specified. &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{"message":"Unsupported operation","errorCode":"-902","errorDetails":"Unsupported operation for requested URI","error":true}}
+\end{lstlisting}\\\hline
+\end{longtable}
+\end{itemize}
+\newpage
+%post -------------------------
+
+%diet -------------------------
+\subsubsection*{Diet}
+\textbf{Description: SaveDiet}
+\begin{itemize}
+    \item URL: \texttt{http://localhost:8080/cycleK-1.0.0/rest/diet}
+    \item Method: \texttt{POST}
+    \item URL Parameters: No parameters are required in the URL
+    \item Data Parameters (request body) : 
+    \begin{lstlisting}[language=json,firstnumber=1]
+    {"idUser": 1, "planName": "High Carbs", "diet": {
+    "Monday": {"Breakfast": {"Scrambled eggs": 150,"Spinach": 50,"Whole grain toast": 50},"Lunch": {"Quinoa": 100,"Mixed vegetables": {"bell peppers": 50,"cucumber": 50,"tomato": 50},"Grilled chicken": 150},"Dinner": {"Salmon": 150,"Broccoli": 100,"Brown rice": 100}},
+    "Tuesday": {"Breakfast": {"Greek yogurt": 150,"Strawberries": 100,"Granola": 30},"Lunch": {"Turkey": 100,"Avocado": 50,"Lettuce": 50,"Tomato": 50,"Carrot sticks": 100},"Dinner": {"Kidney beans": 100,"Corn": 100,"Bell peppers": 50,"Whole grain garlic bread": 50}}}}
+\end{lstlisting}
+\item Success Response:
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK & No content \\\hline
+\end{longtable}
+
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+400 &  Missing value idUser in the body &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Bad Request", "errorCode": "-107", "errorDetails": "No idUser JSON object found in the request.", "error": true}
+}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-214", "errorDetails": "Unexpected error while saving diet.", "error": true}
+}
+\end{lstlisting}\\\hline
+\end{longtable}    
+\end{itemize}
+\newpage
+%diet -------------------------
+
+%meal -------------------------
+\subsubsection*{Meal}
+
+\textbf{Description: List meals for a user}
+
+\begin{itemize}
+\item URL: http:localhost:8080/cycleK-1.0.0/rest/meal/idUser/*
+\item Method: GET
+\item URL Parameters: \{idUser\} - the user id
+\item Data Parameters (request body): No Data Parameters Nee
+\item Success Response: 
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK  &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"resource-list":[{"meal":{"id":1,"idUser":1,"date":"2024-10-04","mealType":3,"meal":{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}}}]}
+\end{lstlisting}\\\hline
+\end{longtable}
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+404 &  Missing id in database &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{"message":"Not Found","errorCode":"-506","errorDetails":"idUser not found for searched meals","error":true}}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{"message":"Internal Server Error","errorCode":"-507","errorDetails":"Unexpected Error while retrieving meals","error":true}}
+\end{lstlisting}\\\hline
+\end{longtable}
+\end{itemize}
+\newpage
+%meal -------------------------
+
+%exercise ---------------------
+\subsubsection*{Exercise}
+\textbf{Description: AddExercisePlan}
+\begin{itemize}
+    \item URL: \texttt{http://localhost:8080/cycleK-1.0.0/rest/exercise\_plan}
+    \item Method: \texttt{POST}
+    \item URL Parameters: No parameters are required in the URL
+    \item Data Parameters (request body) : 
+    \begin{lstlisting}[language=json,firstnumber=1]
+ {"idUser": 1, "planName": 1, 
+  "plan": [
+    {"exercise_id": 1, "weight": 20, "repetition":12},
+    {"exercise_id": 2, "weight": 25, "repetition":10}]}
+\end{lstlisting}
+\item Success Response:
+\begin{longtable}{|c|p{13.5cm}|}
+\hline
+\textbf{Http Code} & \textbf{Content} \\\hline
+200 OK & No content \\\hline
+\end{longtable}
+
+\item Error Response:
+\begin{longtable}{|c|p{4cm}|p{9cm}|}
+\hline
+\textbf{Http Code} & \textbf{When} & \textbf{Content} \\\hline
+400 &  Some exercise plan values is missing in the body &
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Bad Requenst", "errorCode": "-604", "errorDetails": "No JSON object found in the request", "error": true}
+}
+\end{lstlisting}\\\hline
+500 & When nothing is inserted into the database & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-615", "errorDetails": "failed to insert plan into db", "error": true}
+}
+\end{lstlisting}\\\hline
+500 & Unexpected DB error. & 
+\begin{lstlisting}[language=json,firstnumber=1]
+{"message":{
+    "message": "Internal Error", "errorCode": "-605", "errorDetails": "Unexpected Error while adding exercise plan", "error": true}
+}
+\end{lstlisting}\\\hline
+\end{longtable}    
+\end{itemize}
+\newpage
+%exercise ---------------------

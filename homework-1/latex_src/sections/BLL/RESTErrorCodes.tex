@@ -1,0 +1,144 @@
+\subsection{REST Error Codes}
+
+We reserved a slot of 100 Error code for each service:
+
+
+%If needed, add few lines of text, describing the error codes table
+\renewcommand{\arraystretch}{1}
+\begin{longtable}{ | c | l | p{.6\columnwidth} | }
+\hline
+\textbf{Error Code} & \textbf{HTTP Status Code} & \textbf{Description} \\\hline
+-100 & 400: Bad Request & Missing some user's fields
+\\
+-101 & 500: Internal Server Error & Error creating user
+\\
+-102 & 400: Bad Request & Username already used
+\\
+-103 & 500: Internal Server Error & Unexpected Error while registering user
+\\
+-104 & 400: Bad Request & Missing username or password
+\\
+-105 & 404: Not Found & User Not Found
+\\
+-106 & 500: Internal Server Error & Unexpected Error while login user 
+\\
+-107 & 400: Bad Request & Cannot update the user, body must contains all parameters
+\\
+-108 & 500: Internal Server Error & Unexpected Error while updating user \\\hline
+
+-200 & 500: Internal Server Error & Unexpected Error while creating a user goal \\
+-201 & 409: Conflict & Cannot create a user goal, already exist \\
+-202 & 400: Bad Request & Cannot create a user goal, body must contains all parameters \\
+-203 & 400: Bad Request & No User Goal JSON object found in the request \\
+-204 & 500: Internal Server Error & Unexpected Error while retrieving goals \\
+-205 & 404: Not Found & No goal found \\
+-206 & 500: Internal Server Error & Unexpected Error while retrieving a user goal \\
+-207 & 404: Not Found & No goal found for searched user \\
+-208 & 500: Internal Server Error & Unexpected Error while creating a user stats \\
+-209 & 409: Conflict & Cannot create a user stats, already exist \\
+-210 & 400: Bad Request & Cannot create a user stats, body must contains all parameters \\
+-211 & 400: Bad Request & No User Stats JSON object found in the request \\
+-212 & 500: Internal Server Error & Unexpected Error while retrieving stats \\
+-213 & 404: Not Found & No stat found \\
+-214 & 500: Internal Server Error & Unexpected Error while retrieving user stats \\
+-215 & 404: Not Found & No stat found for searched user \\
+-216 & 500: Internal Server Error & Unexpected Error while retrieving IMC \\
+-217 & 404: Not Found & IMC cannot be computed, no stats found for searched user \\
+-218 & 500: Internal Server Error & Unexpected Error while retrieving mean IMC \\
+-219 & 404: Not Found & Mean IMC cannot be computed, no stats found \\
+-220 & 500: Internal Server Error & Unexpected Error while retrieving meal stats \\
+-221 & 404: Not Found & Cannot compute meal stats, no meal registered for searched user \\\hline
+
+-300 & 409 : Conflict               & Post already exists \\
+-301 & 500 : Internal Server Error  & Unexpected error while creating post \\
+-302 & 400 : Bad Request            & No Post JSON object found in the request \\
+-303 & 500 : Internal Server Error  & Unexpected db error while creating post \\
+-304 & 404 : Not Found              & Post not found \\
+-305 & 400 : Bad Request            & Cannot delete the post, wrong format for URI /post/\{postId\} \\
+-306 & 409 : Conflict               & Cannot delete the post, other resources depend on it \\
+-307 & 500 : Internal Server Error  & Unexpected db error while deleting post \\
+-308 & 500 : Internal Server Error  & Unexpected error while listing posts \\
+-309 & 500 : Internal Server Error  & Unexpected db error while listing posts \\
+-310 & 404 : Not Found              & Post not found \\
+-311 & 400 : Bad Request            & Cannot get the post, wrong format for URI /post/\{postId\} \\
+-312 & 500 : Internal Server Error  & Unexpected db error while getting post \\\
+-313 & 400 : Bad Request            & Cannot update the post, URI request and post resource postId differ \\
+-314 & 404 : Not Found              & Post not found \\
+-315 & 400 : Bad Request            & Cannot update the post, wrong format for URI /post/\{postId\} \\
+-316 & 400 : Bad Request            & Cannot update the post, no Post JSON object found in the request \\
+-317 & 500 : Internal Server Error  & Unexpected db error while updating post \\
+-318 & 500 : Internal Server Error  & Unexpected error while counting comments \\
+-319 & 500 : Internal Server Error  & Unexpected db error while counting comments \\
+-320 & 500 : Internal Server Error  & Unexpected error while creating comment \\
+-321 & 400 : Bad Request            & No Comment JSON object found in the request \\
+-322 & 409 : Conflict               & Comment already exists \\
+-323 & 500 : Internal Server Error  & Unexpected db error while creating comment \\
+-324 & 404 : Not Found              & Comment not found \\
+-325 & 400 : Bad Request            & Cannot delete the comment, wrong format for URI /post/comment/\{commentId\} \\
+-326 & 409 : Conflict               & Cannot delete the comment, other resources depend on it \\
+-327 & 500 : Internal Server Error  & Unexpected error while deleting comment \\
+-328 & 500 : Internal Server Error  & Unexpected error while listing comments \\
+-329 & 500 : Internal Server Error  & Unexpected error while counting likes \\
+-330 & 500 : Internal Server Error  & Unexpected db error while counting likes \\
+-331 & 500 : Internal Server Error  & Unexpected error while creating like \\
+-332 & 400 : Bad Request            & No Like JSON object found in the request \\
+-333 & 500 : Internal Server Error  & Unexpected db error while creating like \\
+-334 & 500 : Internal Server Error  & Unexpected error while deleting like \\
+-335 & 400 : Bad Request            & Cannot delete the like, wrong format for URI /post/like/\{likeId\} \\
+-336 & 409 : Conflict               & Cannot delete the like, other resources depend on it \\
+-337 & 500 : Internal Server Error  & Unexpected db error while deleting like \\
+-338 & 500 : Internal Server Error  & Unexpected error while listing likes \\
+-339 & 500 : Internal Server Error  & Unexpected db error while listing likes \\\hline
+
+-400 & 404: Not Found & Id not found for searched diet\\
+-401 & 500: Internal Server Error & Unexpected error while retrieving diet\\
+-402 & 404: Not Found & idUser not found for searched diet\\
+-403 & 500: Internal Server Error & Unexpected error while retrieving diet\\
+-404 & 404: Not Found & There are no diets to list\\
+-405 & 500: Internal Server Error & Unexpected error while listing diets\\
+-406 & 500: Internal Server Error & Error while saving diet\\
+-407 & 400: Bad Request & No idUser JSON object found in the request\\
+-408 & 400: Bad Request & Cannot modify a diet, 24 hours has passed\\
+-409 & 500: Internal Server Error & Unexpected error while updating a diet  \\\hline
+
+-500 & 404: Not Found & No food found for the id\\
+-501 & 500: Internal Server Error & Unexpected Error while retrieving food for this id \\
+-502 & 404: Not Found & Food not found in database\\
+-503 & 500: Internal Server Error & Unexpected Error while retrieving food\\
+-504 & 400: Bad Request & No JSON object found in the request \\
+-505 & 500: Internal Server Error & Unexpected Error while saving food \\
+-506 & 404: Not Found & idUser not found for searched meals\\
+-507 & 500: Internal Server Error& Unexpected Error while retrieving meals\\
+-508 & 404: Not Found & There are no meals to list\\
+-509 & 500: Internal Server Error & Unexpected Error while listing meals\\
+-510 & 400: Bad Request & No JSON object found in the request\\
+-511 & 500: Internal Server Error & Unexpected Error while saving meal \\\hline
+\newpage\hline
+-600 & 404: Not Found & id exercise not found \\
+-601 & 500: Internal Server Error & Unexpected Error while retrieving exercise\\
+-602 & 404: Not Found & There are no exercises to list.\\
+-603 & 500: Internal Server Error & Unexpected Error while listing exercises.\\
+-604 & 400: Bad Request & No JSON object found in the request. \\
+-605 & 500: Internal Server Error & Unexpected Error while adding exercise plan.\\
+-606 &  500: Internal Server Error & Unexpected Error while getting exercise plan.\\
+-607 & 404: Not Found & id exercise plan not found.\\
+-608 & 404: Not Found & There are no exercise plans to list.\\
+-609 & 500: Internal Server Error & Unexpected Error while listing exercise plans.\\
+-610 & 500: Internal Server Error & Unexpected Error while updating exercise plan.\\
+-611 & 404: Not Found & id user not found for searched exercise plan.\\
+-612 & 500: Internal Server Error & Unexpected Error while getting user's exercise plans.\\
+-613 & 500: Internal Server Error &  Unexpected Error while deleting exercise plan.\\
+-614 & 500: Internal Server Error & we can't find this exercise plan to delete.\\
+-615 & 500: Internal Server Error & failed to insert plan into db.
+\\\hline
+
+-900 & 500: Internal Server Error & Unexpected Error \\
+-901 & 404: Not Found & Unknown resource requested \\
+-902 & 405: Method Not Allowed & Unsupported operation for requested URI \\
+-903 & 400: Bad Request & Output media type not specified. Accept request header missing \\
+-904 & 406: Not Acceptable & Unsupported output media type. Resources are represented only in application/json \\
+-905 & 400: Bad Request & Input media type not specified. Content-Type request header missing \\
+-906 & 500: Internal Server Error & Unable to serve the REST request \\\hline
+\caption{REST Error Code}
+\label{tab:termGlossary}
+\end{longtable}

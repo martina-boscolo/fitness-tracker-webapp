@@ -1,0 +1,68 @@
+\section{Group Members Contribution}
+
+% For each group member, describe in detail the contribution to the project.
+
+\begin{description}
+\item[Kimia Abedini] Implementation of all features related to the exercise part.
+    \begin{itemize}
+        \item DAOs: GetExerciseDao.java, ListAllExercisesDAO.java, AddExercisePlanDAO.java, DeleteExercisePlanDAO.java,
+       GetExercisePlanByUserIdDAO.java, GetExercisePlanDAO.java, ListExercisePlanDAO.java, UpdateExercisePlanDAO.java
+        \item Resources: Exercise.java, ExercisePlan.java
+        \item Rest: GetExerciseByIdRR.java, ListExerciseRR.java, AddExersicePlanRR.java, DeleteExercisePlanRR.java, GetExercisePlanByUserIdRR.java, GetExercisePlanByIdRR.java, ListExercisePlanRR.java, UpdateExericisePlanRR.java
+        \item Service: ExerciseService.java, ExercisePlanService.java
+    \end{itemize}
+ 
+\item[Martina Boscolo Bacheto] Implementation of all the features related to Posts, Likes and Comments tables:
+    \begin{itemize}
+        \item DAOs: CreatePostDAO.java, DeletePostDAO.java, GetPostDAO.java, ListPostByUserIdDAO.java, \\
+        ListPostDAO.java,  LoadPostPhotoDAO.java, UpdatePostDAO.java, \\\ CountCommentByPostIdDAO.java, CreateCommentsDAO.java DeleteCommentDAO.java, \\ ListCommentsByPostIdDAO.java, CountLikesByPostIdDAO.java, CreateLikeDAO.java, \\ DeleteLikeDAO.java, ListLikesByPostIdDAO.java
+        \item Resources: Post.java, Like.java, Comment.java 
+        \item Rest: CountLikeRR.java, CreateLikeRR.java, DeleteLikeRR.java, ListLikeRR.java,\\
+        CountCommentRR.java, CreateCommentRR.java, DeleteCommentRR.java, ListCommentRR.java, \\ CreatePostRR.java, 
+        DeletePostRR.java, GetPostRR.java, 
+        ListPostByUserRR.java, ListPostRR.java, \\
+        UpdatePostRR.java.
+        \item Service: PostService.java
+        \item Servlets: CreatePostServlet.java, LoadPostPhotoServlet.java
+        \item Jsp pages: create-post-form.jsp, create-post-result.jsp    
+    \end{itemize}
+    
+\item[Alessio Cocco] Initial contribution on the project structure setup. Implementation of common functions classes and interfaces (DAO, Dispatcher, Resources).
+    \begin{itemize}
+        \item ER Schema.
+        \item DAOs: bodyObjective and bodyStats packages.
+        \item Resources: UserGoals.java, UserStats.java, Imc.java, FoodStats.java and MealAdapter.java.
+        \item Rest: userGoals and userStats packages.
+        \item Service: UserGoalService.java and UserStatsService.java.
+    \end{itemize}
+    
+\item[Giacomo Munerotto] Initial contribution on the project structure setup; Implementation of the all the features related to Dietplans table:
+    \begin{itemize}
+        \item Class Diagram.
+        \item Sequence Diagram.
+        \item DAOs: GetDietDAO.java, SaveDietDAO.java, UpdateDietDAO.java
+        \item Resources: Diet.java
+        \item Rest: ListDietRR.java, GetDietByIdRR.java, GetDietByUserIdRR.java, SaveDietRR.java, UpdateDietRR.java
+        \item Service: DietService.java
+    \end{itemize}
+    
+\item[Marco Tomaiuoli] Initial contribution on the project structure setup. 
+ Implementation of the all the features related to Users table:
+    \begin{itemize}
+        \item DAOs: GetUserDAO.java, LoginUserDAO.java, RegisterUserDAO, UpdateUserDAO.java
+        \item Resources: User.java
+        \item Rest: GetUserByIdRR.java, ListUserRR.java, LoginUserRR.java, RegisterUserRR.java, UpdateUserRR.java
+        \item Service: UserService.java
+        \item Utils: PassWordHashing.java, TokenJWT.java
+    \end{itemize}
+    
+\item[Riccardo Trevisiol] Implementation of all features related to the Meal part.
+    \begin{itemize}
+        \item DAOs: GetFoodDao.java, RegisterFoodDAO.java, GetMealDao.java, RegisterMealDao.java
+        \item Resources: Food.java, Meal.java
+        \item Rest: GetFoodByIdRR.java, ListFoodRR.java, RegisterFoodRR.java, GetMealByUserIdRR.java, ListMealRR.java, RegisterMealRR.java
+        \item Service: FoodService.java, MealService.java
+    \end{itemize}
+
+\end{description}
+\textbf{Note:} During the drafting of the report, each member contributed to their respective section in accordance with the specified code divisions listed above.

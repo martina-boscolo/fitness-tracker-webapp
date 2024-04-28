@@ -126,7 +126,7 @@ public enum ErrorCode {
     GET_ID_USER_EXERCISE_PLAN_INTERNAL_SERVER_ERROR("-612",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error", "Unexpected Error while getting user's exercise plans"),
     DELETE_EXERCISE_PLAN_INTERNAL_SERVER_ERROR("-613",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error","Unexpected Error while deleting exercise plan"),
     DELETE_EXERCISE_PLAN_BAD_REQUEST("-614",HttpServletResponse.SC_BAD_REQUEST,"Internal Server Error","we can't find this exercise plan to delete"),
-
+    ADD_EXERCISE_PLAN_INSERT_FAIL("-615",HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"Internal Server Error","failed to insert plan into db"),
 
 
 

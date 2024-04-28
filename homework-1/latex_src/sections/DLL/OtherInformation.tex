@@ -1,0 +1,13 @@
+\subsection{Other Information}
+
+%if needed write here other details about your Data Logic Layer that cannot be expressed directly through the ER schema
+
+We have followed some rules during the implementation of the Database:
+\begin{itemize}
+\item Every Table must have the ID as the primary key.
+\item If a table need to reference to another table should have an ID key that point to that table.\\
+\textit{E.g.: The User Stats table that contains users entries for body measures must keep track the user who inserted the measure. The UserId refers as foreign key the User table.}
+\item Other constraints can be made during the table creation.\\
+\textit{E.g: In the User Stats Table an user can insert only a measure per day}
+\end{itemize}
+
