@@ -1,10 +1,7 @@
 package it.unipd.dei.cyclek.rest.meal;
 
 import it.unipd.dei.cyclek.dao.meal.GetMealDao;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Meal;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,22 +27,20 @@ public class GetMealByUserIdRR extends AbstractRR {
             final int idUser = Integer.parseInt(path.substring(1));
             ml = new GetMealDao(con, new Meal(idUser)).access().getOutputParam();
 
-            if (ml != null) {
+            if (ml != null && !ml.isEmpty()) {
                 LOGGER.info("meal(s) successfully listed.");
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ml).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing meal(s).");
-
-                m = new Message("Cannot list meal(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.ID_USER_MEAL_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.ID_USER_MEAL_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
-            LOGGER.error("Cannot list meal(s): unexpected database error.", ex);
-
-            m = new Message("Cannot list meal(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            LOGGER.error("Cannot list food(s): unexpected database error.", ex);
+            m = ErrorCode.GET_ID_USER_FOOD_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.GET_ID_USER_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

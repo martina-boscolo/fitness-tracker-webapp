@@ -2,10 +2,7 @@ package it.unipd.dei.cyclek.rest.exercisePlan;
 
 import it.unipd.dei.cyclek.dao.exercisePlan.GetExercisePlanDao;
 import it.unipd.dei.cyclek.dao.exercisePlan.ListExercisePlanDao;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.ExercisePlan;
-import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.ResourceList;
+import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,16 +35,14 @@ public class ListExercisePlanRR extends AbstractRR {
                 new ResourceList<>(dl).toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Fatal error while listing ExercisePlan(s).");
-
-                m = new Message("Cannot list ExercisePlan(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.LIST_ALL_EXERCISE_PLANS_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.LIST_ALL_EXERCISE_PLANS_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list ExercisePlan(s): unexpected database error.", ex);
-
-            m = new Message("Cannot list ExercisePlan(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.LIST_ALL_EXERCISE_PLANS_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_ALL_EXERCISE_PLANS_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

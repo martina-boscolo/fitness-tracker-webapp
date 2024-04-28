@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.meal.RegisterMealDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Meal;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
@@ -14,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -26,7 +26,7 @@ public class RegisterMealRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        Message m = null;
+        Message m;
 
         try {
 
@@ -53,23 +53,18 @@ public class RegisterMealRR extends AbstractRR {
             boolean saved = new RegisterMealDAO(con, meal).access().getOutputParam();
 
             if (saved) {
-                LOGGER.info("meal successfully saved.");
-
-                res.setStatus(HttpServletResponse.SC_OK);
-                m = new Message("meal successfully saved.");
-                m.toJSON(res.getOutputStream());
+                LOGGER.info("Meal successfully saved.");
+                res.setStatus(HttpServletResponse.SC_CREATED);
             } else {
                 LOGGER.error("Failed to save meal.");
-
-                m = new Message("Failed to save meal.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.SAVE_MEAL_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.SAVE_MEAL_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot save meal: unexpected database error.", ex);
-
-            m = new Message("Cannot save meal: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.SAVE_MEAL_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.SAVE_MEAL_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

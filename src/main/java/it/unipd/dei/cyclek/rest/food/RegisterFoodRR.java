@@ -3,31 +3,20 @@ package it.unipd.dei.cyclek.rest.food;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.food.RegisterFoodDAO;
-import it.unipd.dei.cyclek.dao.meal.RegisterMealDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Food;
-import it.unipd.dei.cyclek.resources.Meal;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.postgresql.util.PSQLException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class RegisterFoodRR extends AbstractRR {
-    /**
-     * Creates a new REST resource.
-     *
-     * @param req    the HTTP request.
-     * @param res    the HTTP response.
-     * @param con    the connection to the database.
-     */
     public RegisterFoodRR(HttpServletRequest req, HttpServletResponse res, Connection con) {
         super(Actions.REGISTER_FOOD, req, res, con);
     }
@@ -63,26 +52,20 @@ public class RegisterFoodRR extends AbstractRR {
             f = new RegisterFoodDAO(con, food).access().getOutputParam();
 
             if (f != null) {
-                LOGGER.info("User(s) successfully added to database.");
-                res.setStatus(HttpServletResponse.SC_OK);
+                LOGGER.info("Food(s) successfully added to database.");
+                res.setStatus(HttpServletResponse.SC_CREATED);
 
-            } else { // it should not happen
-                LOGGER.error("Fatal error while adding user(s).");
-                m = new Message("Cannot add user(s): unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } else {
+                LOGGER.error("Failed to save food.");
+                m = ErrorCode.REGISTER_FOOD_BAD_REQUEST.getMessage();
+                res.setStatus(ErrorCode.REGISTER_FOOD_BAD_REQUEST.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
 
-        } catch (PSQLException ex) {
-            LOGGER.error("Cannot add the user(s): duplicate usernames.", ex);
-            m = new Message("Cannot add user(s): duplicate usernames.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            m.toJSON(res.getOutputStream());
-        }
-        catch (SQLException ex) {
-            LOGGER.error("Cannot add the user(s): unexpected database error.", ex);
-            m = new Message("Cannot add user(s): unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (SQLException ex) {
+            LOGGER.error("Cannot save food: unexpected database error.", ex);
+            m = ErrorCode.REGISTER_FOOD_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.REGISTER_FOOD_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }

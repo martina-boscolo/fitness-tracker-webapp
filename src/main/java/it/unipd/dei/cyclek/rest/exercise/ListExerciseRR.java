@@ -34,16 +34,14 @@ public class ListExerciseRR extends AbstractRR {
                 new ResourceList<>(ul).toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing Exercises.");
-
-                m = new Message("Cannot list Exercises: unexpected error.", "E5A1", null);
-                res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                m = ErrorCode.LIST_ALL_EXERCISES_NOT_FOUND.getMessage();
+                res.setStatus(ErrorCode.LIST_ALL_EXERCISES_NOT_FOUND.getHttpCode());
                 m.toJSON(res.getOutputStream());
             }
         } catch (SQLException ex) {
             LOGGER.error("Cannot list Exercises: unexpected database error.", ex);
-
-            m = new Message("Cannot list Exercises: unexpected database error.", "E5A1", ex.getMessage());
-            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            m = ErrorCode.LIST_ALL_EXERCISES_INTERNAL_SERVER_ERROR.getMessage();
+            res.setStatus(ErrorCode.LIST_ALL_EXERCISES_INTERNAL_SERVER_ERROR.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
     }
