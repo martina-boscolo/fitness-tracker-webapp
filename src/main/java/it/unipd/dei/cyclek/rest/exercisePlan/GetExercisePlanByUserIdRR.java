@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.rest.exercisePlan;
 
 import it.unipd.dei.cyclek.dao.exercisePlan.GetExercisePlanByUserIdDao;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.entity.ExercisePlan;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
 
 import static it.unipd.dei.cyclek.service.DietService.processDiet;
 import static it.unipd.dei.cyclek.service.ExercisePlanService.processExercisePlan;
@@ -20,7 +21,7 @@ import static it.unipd.dei.cyclek.service.UserService.processUser;
 import static it.unipd.dei.cyclek.service.UserStatsService.processUserStats;
 
 
-public class RestDispatcherServlet extends AbstractDatabaseServlet{
+public class RestDispatcherServlet extends AbstractDatabaseServlet {
     private static final String JSON_UTF_8_MEDIA_TYPE = "application/json; charset=utf-8";
 
     @Override
@@ -31,38 +32,27 @@ public class RestDispatcherServlet extends AbstractDatabaseServlet{
         final OutputStream out = res.getOutputStream();
 
         try {
+            Connection con = getConnection();
 
-            // if the requested resource was a user, delegate its processing and return
-            if (processUser(req, res, getConnection())) {
-                return;
-            }
-            if (processUserStats(req, res, getConnection())) {
-                return;
-            }
-            if (processUserGoals(req, res, getConnection())) {
-                return;
-            }
-            if (processDiet(req, res, getConnection())){
-                return;
-            }
-            // if the requested resource was a post, delegate its processing and return
-            if (processPost(req, res, getConnection())) {
-                return;
-            }
+            if (processUser(req, res, con)) return;
 
-            if(processFood(req, res, getConnection())){
-                return;
-            }
+            if (processUserStats(req, res, con)) return;
 
-            if(processMeal(req, res, getConnection())){
-                return;
-            }
-            if(processExercise(req,res, getConnection())){
-                return;
-            }
-            if(processExercisePlan(req,res, getConnection())){
-                return;
-            }
+            if (processUserGoals(req, res, con)) return;
+
+            if (processDiet(req, res, con)) return;
+
+            if (processPost(req, res, con)) return;
+
+            if (processFood(req, res, con)) return;
+
+            if (processMeal(req, res, con)) return;
+
+            if (processExercise(req, res, con)) return;
+
+            if (processExercisePlan(req, res, con)) return;
+
+
             // if none of the above process methods succeeds, it means an unknown resource has been requested
             LOGGER.warn("Unknown resource requested: %s.", req.getRequestURI());
             final Message m = ErrorCode.REST_NOT_FOUND.getMessage();

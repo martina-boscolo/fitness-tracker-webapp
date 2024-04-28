@@ -1,9 +1,9 @@
 package it.unipd.dei.cyclek.dao.userStats;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Food;
-import it.unipd.dei.cyclek.resources.Meal;
-import it.unipd.dei.cyclek.resources.MealFoodGroup;
+import it.unipd.dei.cyclek.resources.entity.Food;
+import it.unipd.dei.cyclek.resources.entity.Meal;
+import it.unipd.dei.cyclek.resources.stats.MealFoodGroup;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.resources.entity.User;
 
 public class LoginUserDAO extends AbstractDAO<User> {
 

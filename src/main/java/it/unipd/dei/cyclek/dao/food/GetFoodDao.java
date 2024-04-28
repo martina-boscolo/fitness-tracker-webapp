@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.food;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Food;
+import it.unipd.dei.cyclek.resources.entity.Food;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;

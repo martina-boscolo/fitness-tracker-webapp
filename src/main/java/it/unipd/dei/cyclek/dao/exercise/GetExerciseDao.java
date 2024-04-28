@@ -1,15 +1,12 @@
 package it.unipd.dei.cyclek.dao.exercise;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Exercise;
-import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.resources.entity.Exercise;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GetExerciseDao extends AbstractDAO<Exercise> {
     private static final String STATEMENT = "SELECT * FROM exercises WHERE id = ?";

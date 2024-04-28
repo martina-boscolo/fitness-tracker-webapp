@@ -2,6 +2,11 @@ package it.unipd.dei.cyclek.rest.userStats;
 
 import it.unipd.dei.cyclek.dao.userStats.GetMealsAndFoodByUserIdDAO;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.entity.Food;
+import it.unipd.dei.cyclek.resources.entity.Meal;
+import it.unipd.dei.cyclek.resources.stats.FoodStats;
+import it.unipd.dei.cyclek.resources.stats.MealAdapter;
+import it.unipd.dei.cyclek.resources.stats.MealFoodGroup;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,8 +1,9 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.entity;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.EOFException;
 import java.io.IOException;

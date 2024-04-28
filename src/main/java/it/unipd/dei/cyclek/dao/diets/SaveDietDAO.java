@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.diets;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.entity.Diet;
 import org.postgresql.util.PGobject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

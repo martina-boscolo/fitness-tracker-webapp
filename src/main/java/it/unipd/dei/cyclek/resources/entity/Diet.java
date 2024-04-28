@@ -1,49 +1,47 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.entity;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import jakarta.json.Json;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class ExercisePlan extends AbstractResource {
+public class Diet extends AbstractResource {
 
     private final Integer id;
     private final Integer idUser;
     private final String planName;
     @JsonRawValue
-    private final String plan;
-    private final String planDate;
+    private final String diet;
+    private final String dietDate;
 
-    public ExercisePlan(Integer id){
+    public Diet(Integer id){
 
         this.id = id;
         this.idUser = null;
         this.planName = "";
-        this.plan = null;
-        this.planDate = "";
+        this.diet = null;
+        this.dietDate = "";
 
     }
-    public ExercisePlan(Integer idUser, String planName, String plan) {
+    public Diet(Integer idUser, String planName, String diet) {
 
         this.idUser = idUser;
         this.planName = planName;
-        this.plan = plan;
-        this.planDate = "";
+        this.diet = diet;
+        this.dietDate = "";
         this.id = null;
 
     }
-    public ExercisePlan(Integer id, Integer idUser, String planName, String plan, String planDate) {
+    public Diet(Integer id, Integer idUser, String planName, String diet, String dietDate) {
 
         this.id = id;
         this.idUser = idUser;
         this.planName = planName;
-        this.plan = plan;
-        this.planDate = planDate;
+        this.diet = diet;
+        this.dietDate = dietDate;
 
 
     }
@@ -60,19 +58,19 @@ public class ExercisePlan extends AbstractResource {
         return planName;
     }
 
-    public String getPlan() {
-        return plan;
+    public String getDiet() {
+        return diet;
     }
 
-    public String getPlanDate() {
-        return planDate;
+    public String getDietDate() {
+        return dietDate;
     }
 
     @Override
     protected void writeJSON(OutputStream out) throws Exception {
         String json = new ObjectMapper()
                 .enable(SerializationFeature.WRAP_ROOT_VALUE)
-                .writer().withRootName("exercise_plan")
+                .writer().withRootName("diet")
                 .writeValueAsString(this);
         out.write(json.getBytes(StandardCharsets.UTF_8));
     }

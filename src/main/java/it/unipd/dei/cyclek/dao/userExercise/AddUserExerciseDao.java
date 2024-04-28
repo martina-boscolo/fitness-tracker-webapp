@@ -1,15 +1,12 @@
 package it.unipd.dei.cyclek.dao.userExercise;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Exercise;
 import it.unipd.dei.cyclek.resources.UserExercise;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddUserExerciseDao extends AbstractDAO<UserExercise> {
 

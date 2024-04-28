@@ -1,12 +1,13 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.stats;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class FoodStats extends AbstractResource{
+public class FoodStats extends AbstractResource {
     private final double avg_kcal;
 
     private final double avg_fats;

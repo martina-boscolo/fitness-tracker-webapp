@@ -1,15 +1,12 @@
 package it.unipd.dei.cyclek.dao.meal;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Meal;
+import it.unipd.dei.cyclek.resources.entity.Meal;
 import org.postgresql.util.PGobject;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;

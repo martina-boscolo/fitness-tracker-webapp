@@ -4,11 +4,10 @@ import it.unipd.dei.cyclek.dao.user.RegisterUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.resources.entity.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.StringUtils;
 import org.postgresql.util.PSQLException;
 
 import java.io.IOException;

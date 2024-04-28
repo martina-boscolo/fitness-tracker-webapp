@@ -1,20 +1,12 @@
 package it.unipd.dei.cyclek.dao.exercisePlan;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Exercise;
-import it.unipd.dei.cyclek.resources.ExercisePlan;
-import jakarta.json.Json;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import it.unipd.dei.cyclek.resources.entity.ExercisePlan;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GetExercisePlanDao extends AbstractDAO<ExercisePlan> {
     public static final String STATEMENT = "SELECT * FROM exercise_plan WHERE id = ?";

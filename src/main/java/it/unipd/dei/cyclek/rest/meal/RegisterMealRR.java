@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.cyclek.dao.meal.RegisterMealDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.ErrorCode;
-import it.unipd.dei.cyclek.resources.Meal;
+import it.unipd.dei.cyclek.resources.entity.Meal;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;

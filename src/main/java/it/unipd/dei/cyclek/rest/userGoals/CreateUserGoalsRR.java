@@ -3,7 +3,7 @@ package it.unipd.dei.cyclek.rest.userGoals;
 import it.unipd.dei.cyclek.dao.userGoals.CreateUserGoalDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.ErrorCode;
-import it.unipd.dei.cyclek.resources.UserGoals;
+import it.unipd.dei.cyclek.resources.entity.UserGoals;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;

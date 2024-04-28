@@ -1,18 +1,14 @@
 package it.unipd.dei.cyclek.dao.meal;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Food;
-import it.unipd.dei.cyclek.resources.Meal;
+import it.unipd.dei.cyclek.resources.entity.Meal;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class GetMealDao extends AbstractDAO<List<Meal>> {
     /**

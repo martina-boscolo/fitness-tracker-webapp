@@ -1,15 +1,10 @@
 package it.unipd.dei.cyclek.dao.food;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Food;
-import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.resources.entity.Food;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class RegisterFoodDAO extends AbstractDAO<Food> {
 

@@ -1,7 +1,5 @@
 package it.unipd.dei.cyclek.service;
 
-import it.unipd.dei.cyclek.resources.ExercisePlan;
-import it.unipd.dei.cyclek.rest.exercise.GetExerciseByIdRR;
 import it.unipd.dei.cyclek.rest.exercisePlan.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

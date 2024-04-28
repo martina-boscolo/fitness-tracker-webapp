@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.exercisePlan;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.ExercisePlan;
+import it.unipd.dei.cyclek.resources.entity.ExercisePlan;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

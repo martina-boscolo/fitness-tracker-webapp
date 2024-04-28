@@ -1,7 +1,8 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.stats;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MealAdapter extends AbstractResource{
+public class MealAdapter extends AbstractResource {
     private final String json;
     public MealAdapter(String json) { this.json = json; }
 

@@ -1,8 +1,8 @@
 package it.unipd.dei.cyclek.rest.exercise;
 
 import it.unipd.dei.cyclek.dao.exercise.ListAllExercisesDao;
-import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.entity.Exercise;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

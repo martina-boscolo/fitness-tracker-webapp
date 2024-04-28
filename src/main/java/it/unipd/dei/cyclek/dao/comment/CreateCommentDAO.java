@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.comment;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.Comment;
+import it.unipd.dei.cyclek.resources.entity.Comment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

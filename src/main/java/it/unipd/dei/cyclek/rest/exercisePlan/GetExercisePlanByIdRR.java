@@ -1,10 +1,9 @@
 package it.unipd.dei.cyclek.rest.exercisePlan;
 
-import it.unipd.dei.cyclek.dao.exercise.GetExerciseDao;
 import it.unipd.dei.cyclek.dao.exercisePlan.GetExercisePlanDao;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.ErrorCode;
-import it.unipd.dei.cyclek.resources.ExercisePlan;
+import it.unipd.dei.cyclek.resources.entity.ExercisePlan;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 public class GetExercisePlanByIdRR extends AbstractRR {
     public Integer id;

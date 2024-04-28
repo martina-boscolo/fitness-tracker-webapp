@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.user;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.User;
+import it.unipd.dei.cyclek.resources.entity.User;
 
 import java.sql.Connection;
 import java.sql.Date;

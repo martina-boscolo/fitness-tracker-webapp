@@ -1,7 +1,8 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;

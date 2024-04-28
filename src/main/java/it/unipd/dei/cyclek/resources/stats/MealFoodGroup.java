@@ -1,4 +1,7 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.stats;
+
+import it.unipd.dei.cyclek.resources.entity.Food;
+import it.unipd.dei.cyclek.resources.entity.Meal;
 
 import java.util.List;
 

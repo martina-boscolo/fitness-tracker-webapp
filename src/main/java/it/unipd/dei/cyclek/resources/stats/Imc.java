@@ -1,12 +1,13 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.stats;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class Imc extends AbstractResource{
+public class Imc extends AbstractResource {
     private final Integer idUser;
     private final Double userMeanImc;
     private final double imc;

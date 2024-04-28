@@ -1,7 +1,7 @@
 package it.unipd.dei.cyclek.dao.userGoals;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
-import it.unipd.dei.cyclek.resources.UserGoals;
+import it.unipd.dei.cyclek.resources.entity.UserGoals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

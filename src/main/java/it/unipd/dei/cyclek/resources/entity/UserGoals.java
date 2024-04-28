@@ -1,14 +1,15 @@
-package it.unipd.dei.cyclek.resources;
+package it.unipd.dei.cyclek.resources.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import it.unipd.dei.cyclek.resources.AbstractResource;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class UserGoals extends AbstractResource{
+public class UserGoals extends AbstractResource {
 
     private Integer id;
     private Integer idUser;

@@ -2,6 +2,8 @@ package it.unipd.dei.cyclek.rest.like;
 
 import it.unipd.dei.cyclek.dao.like.ListLikesByPostIdDAO;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.entity.Like;
+import it.unipd.dei.cyclek.resources.entity.Post;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.rest.diet;
 
 import it.unipd.dei.cyclek.dao.diets.GetDietDAO;
 import it.unipd.dei.cyclek.resources.*;
+import it.unipd.dei.cyclek.resources.entity.Diet;
 import it.unipd.dei.cyclek.rest.AbstractRR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -2,7 +2,7 @@ package it.unipd.dei.cyclek.rest.diet;
 
 import it.unipd.dei.cyclek.dao.diets.GetDietDAO;
 import it.unipd.dei.cyclek.resources.Actions;
-import it.unipd.dei.cyclek.resources.Diet;
+import it.unipd.dei.cyclek.resources.entity.Diet;
 import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;

@@ -1,11 +1,10 @@
 package it.unipd.dei.cyclek.servlet.post;
 
-import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.dao.post.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
-import it.unipd.dei.cyclek.resources.Post;
+import it.unipd.dei.cyclek.resources.entity.Post;
 import it.unipd.dei.cyclek.servlet.AbstractDatabaseServlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
