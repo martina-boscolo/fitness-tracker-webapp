@@ -1,4 +1,4 @@
-# Web Applications Project - TITLE
+# Web Applications Project - CYCLEK
 
 A univeristy of Padua Homework for Web Applications course 2023-24
 
@@ -16,17 +16,16 @@ with graphs to show your progress(weight loss or gain) and the possibility of co
 with the aim of helping and bringing closer to this world the novices.
 
 In particular, our Web Application is divided in 6 main parts:
-- User Management: *Users can register, login and visualize/modify his personal information.*
-- Statistics Management: *Userâ€™s Collected data are used to generate an overview of their progress in both
-Gym and Diet areas.*
-- Social Network Management: *User can make a post, made of text and eventually an image, expressing his
-gym progress, his current diet or anything else he want. User can also like and comment other users post.
-An home page will show all the posts with related likes and comments.*
-- Diets Management: *Users can view their diet plans or add multiple ones ensuring the possibility of keeping
-track of what you have to eat each day.*
-- Meals Management: *Users can view what they ate, can register their meals and can register new foods.*
-- Exercises Management: *Users can see their exercise plans or add their own exercise plans , modify them or
-remove them.*
+
+- **User Management:** Users can register, login and visualize/modify his personal information.
+- **Statistics Management:** User’s Collected data are used to generate an overview of their progress in both Gym and Diet areas.
+- **Social Network Management:** User can make a post, made of text and eventually an image, expressing his gym progress, his current diet or anything else he want. User can also like and comment other users post. An home page will show all the posts with related likes and comments.
+- **Diets Management:** Users can view their diet plans or add multiple ones ensuring the possibility of keeping track of what you have to eat each day.
+- **Meals Management:** Users can view what they ate, can register their meals and can register new foods.
+- **Exercises Management:** Users can see their exercise plans or add their own exercise plans , modify them or remove them.
+
+## Instructions
+There is an [Instruction file](INSTRUCTIONS.md) that explain the process we used to create the docker and run the application.
 
 ## Contributors
 - Alessio Cocco
