@@ -60,7 +60,7 @@ public class DeletePostDAO extends AbstractDAO<Post> {
                         rs.getString("photoMediaType"),
                         rs.getTimestamp("post_date"));
 
-                LOGGER.info("Post {} successfully deleted from the database.", post.getPostId());
+                LOGGER.info("Post %s successfully deleted from the database.", post.getPostId());
             }
         } finally {
             if (rs != null) {

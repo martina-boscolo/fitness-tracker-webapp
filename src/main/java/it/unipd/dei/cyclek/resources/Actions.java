@@ -29,7 +29,6 @@ public final class Actions {
     public static final String GET_DIET_ID = "GET_DIET_ID";
     public static final String GET_DIET_USER_ID = "GET_DIET_USER_ID";
 
-
     //POST ACTIONS
     public static final String CREATE_POST = "CREATE_POST";
     public static final String DELETE_POST = "DELETE_POST";
@@ -39,10 +38,8 @@ public final class Actions {
     public static final String LIST_POST_BY_USER_ID = "LIST_POST_BY_USER_ID";
     public static final String LOAD_POST_PHOTO = "LOAD_POST_PHOTO";
 
-
-
     //LIKE ACTIONS
-    public static final String CREATE_LIKE = "LIST_POST";
+    public static final String CREATE_LIKE = "CREATE_LIKE";
     public static final String DELETE_LIKE = "DELETE_LIKE";
     public static final String LIST_LIKE_BY_POST_ID = "LIST_LIKE_BY_POST_ID";
     public static final String COUNT_LIKE_BY_POST_ID = "COUNT_LIKE_BY_POST_ID";
@@ -52,6 +49,7 @@ public final class Actions {
     public static final String DELETE_COMMENT = "DELETE_COMMENT";
     public static final String LIST_COMMENT_BY_POST_ID = "LIST_COMMENT_BY_POST_ID";
     public static final String COUNT_COMMENT_BY_POST_ID = "COUNT_COMMENT_BY_POST_ID";
+
     public static final String LIST_FOOD ="LIST_FOOD";
     public static final String REGISTER_FOOD = "REGISTER_FOOD";
     public static final String LIST_MEAL = "LIST_MEAL";

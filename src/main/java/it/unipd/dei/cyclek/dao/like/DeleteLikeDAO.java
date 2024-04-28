@@ -67,7 +67,7 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
                         rs.getInt("id_user"),
                         rs.getInt("id_post"));
 
-                LOGGER.info("Like {} successfully deleted from the database.", l.getLikeId());
+                LOGGER.info("Like %s successfully deleted from the database.", l.getLikeId());
             }
         } finally {
             if (rs != null) {

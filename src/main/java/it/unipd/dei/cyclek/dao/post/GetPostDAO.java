@@ -63,7 +63,7 @@ public class GetPostDAO extends AbstractDAO<Post> {
                         rs.getTimestamp("post_date")
 
                 );
-                LOGGER.info("Post {} successfully read from the database.", post.getPostId());
+                LOGGER.info("Post %s successfully read from the database.", post.getPostId());
 
             }
 

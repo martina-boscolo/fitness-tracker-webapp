@@ -46,7 +46,7 @@ public class CreatePostRR extends AbstractRR {
 
             LogContext.setResource(Integer.toString(post.getPostId()));
 
-            // creates a new DAO for accessing the database and stores the employee
+            // creates a new DAO for accessing the database and stores the post
             p = new CreatePostDAO(con, post).access().getOutputParam();
 
             if (p != null) {

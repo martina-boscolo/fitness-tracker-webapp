@@ -22,18 +22,15 @@ import java.sql.Timestamp;
 
 public class CreatePostServlet extends AbstractDatabaseServlet {
 
+
     /**
-     * Creates a new employee into the database.
+     * Creates a new post into the database.
      *
-     * @param req
-     *            the HTTP request from the client.
-     * @param res
-     *            the HTTP response from the server.
+     * @param req the HTTP request from the client.
+     * @param res the HTTP response from the server.
      *
-     * @throws ServletException
-     *             if any error occurs while executing the servlet.
-     * @throws IOException
-     *             if any error occurs in the client/server communication.
+     * @throws ServletException if any error occurs while executing the servlet.
+     * @throws IOException      if any error occurs in the client/server communication.
      */
     public void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -59,7 +56,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
             m = new Message(String.format("Post %d successfully created.", p.getPostId()));
 
-            LOGGER.info("Post {} successfully created in the database.", p.getPostId());
+            LOGGER.info("Post %s successfully created in the database.", p.getPostId());
 
         } catch (NumberFormatException ex) {
             m = new Message(
@@ -89,14 +86,14 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                     "E400", e.getMessage());
         }
         try {
-            // stores the employee and the message as a request attribute
+            // stores the post and the message as a request attribute
             req.setAttribute("post", p);
             req.setAttribute("message", m);
 
-            // forwards the control to the create-employee-result JSP
+            // forwards the control to the create-post-result JSP
             req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
         } catch(Exception ex) {
-            LOGGER.error(new StringFormattedMessage("Unable to send response when creating post {}.", p.getPostId()), ex);
+            LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %s.", p.getPostId()), ex);
             throw ex;
         } finally {
             LogContext.removeIPAddress();
@@ -152,10 +149,10 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                             break;
 
                         default:
-                            LOGGER.error("Unsupported MIME media type {} for employee photo.", photoMediaType);
+                            LOGGER.error("Unsupported MIME media type %s for post photo.", photoMediaType);
 
                             throw new MimeTypeParseException(
-                                    String.format("Unsupported MIME media type %s for employee photo.",
+                                    String.format("Unsupported MIME media type %s for post photo.",
                                             photoMediaType));
                     }
 
@@ -173,7 +170,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
         }
 
-        // creates a new employee from the request parameters
+        // creates a new post from the request parameters
         return new Post( postId, userId, textContent, photo, photoMediaType, postDate);
     }
 

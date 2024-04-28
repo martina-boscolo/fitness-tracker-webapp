@@ -45,7 +45,7 @@ public class ListLikeRR extends AbstractRR {
             final int postId = Integer.parseInt(parts[4]);
 
             LogContext.setResource(Integer.toString(postId));
-            // creates a new DAO for accessing the database and lists the employee(s)
+            // creates a new DAO for accessing the database and lists the post(s)
             el = new ListLikesByPostIdDAO(con, postId ).access().getOutputParam();
 
             if (el != null) {

@@ -72,11 +72,11 @@ public final class LoadPostPhotoDAO extends AbstractDAO<Post> {
                         rs.getString("photoMediaType"),
                         Timestamp.valueOf(LocalDateTime.now()));
 
-                LOGGER.info("Photo for post {} successfully loaded.", postId);
+                LOGGER.info("Photo for post %s successfully loaded.", postId);
 
             } else {
 
-                LOGGER.warn("Post {} not found.", postId);
+                LOGGER.warn("Post %s not found.", postId);
                 throw new SQLException(String.format("Post %d not found.", postId), "NOT_FOUND");
             }
 

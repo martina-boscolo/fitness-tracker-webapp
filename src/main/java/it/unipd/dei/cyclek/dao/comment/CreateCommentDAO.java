@@ -67,7 +67,7 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
                         rs.getInt("id_user"),
                         rs.getInt("id_post"),
                         rs.getString("text_content"));
-                LOGGER.info("Comment {} successfully stored in the database.", c.getCommentId());
+                LOGGER.info("Comment %s successfully stored in the database.", c.getCommentId());
             }
         } finally {
 

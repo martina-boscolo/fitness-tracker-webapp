@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-import static java.sql.DriverManager.getConnection;
 
 public class PostService extends AbstractService {
 
@@ -57,7 +56,6 @@ public class PostService extends AbstractService {
                 new DeleteLikeRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/{postId}/like/{likeId}: %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/like/{likeId}.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
@@ -68,7 +66,6 @@ public class PostService extends AbstractService {
                 new CountLikeRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/{postId}/like/count: %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/like/count.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
@@ -84,7 +81,6 @@ public class PostService extends AbstractService {
                     break;
                 default:
                     LOGGER.warn("Unsupported operation for URI /post/{postId}/like: %s.", method);
-
                     m = new Message("Unsupported operation for URI /post/{postId}/like.", "-902", String.format("Requested operation %s.", method));
                     res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                     m.toJSON(res.getOutputStream());
@@ -96,19 +92,15 @@ public class PostService extends AbstractService {
                 new CreateLikeRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/like: %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/like.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
             }
         } else if (path.matches("/\\d+/comment/count$")) {
-            ;
-
             if (method.equals("GET")) {
                 new CountCommentRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/{postId}/comment/count: %s %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/comment/count.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
@@ -119,9 +111,8 @@ public class PostService extends AbstractService {
             if (method.equals("DELETE")) {
                 new DeleteCommentRR(req, res, con).serve();
             } else {
-                LOGGER.warn("Unsupported operation for URI /post/{postId}/comment/{commentId}: %s %s.", method);
-
-                m = new Message("Unsupported operation for URI /post/{postId}/comment/{commentId}.", "-902", String.format("Requested operation %s.", method));
+                LOGGER.warn("Unsupported operation for URI /post/comment/{commentId}: %s %s.", method);
+                m = new Message("Unsupported operation for URI /post/comment/{commentId}.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
             }
@@ -131,7 +122,6 @@ public class PostService extends AbstractService {
                 new ListCommentRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/{postId}/comment: %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/comment.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
@@ -142,7 +132,6 @@ public class PostService extends AbstractService {
                 new CreateCommentRR(req, res, con).serve();
             } else {
                 LOGGER.warn("Unsupported operation for URI /post/{postId}/comment: %s.", method);
-
                 m = new Message("Unsupported operation for URI /post/{postId}/comment.", "-902", String.format("Requested operation %s.", method));
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
@@ -160,7 +149,6 @@ public class PostService extends AbstractService {
                     break;
                 default:
                     LOGGER.warn("Unsupported operation for URI /post/{postId}: %s.", method);
-
                     m = new Message("Unsupported operation for URI /post/{postId}.", "-902", String.format("Requested operation %s.", method));
                     res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                     m.toJSON(res.getOutputStream());
@@ -177,17 +165,14 @@ public class PostService extends AbstractService {
                 res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 m.toJSON(res.getOutputStream());
             }
-        }else{
-           // String method = req.getMethod();
-            String msg = String.format("Unsupported operation for URI /%s: %s.",path,method);
+        } else {
+            String msg = String.format("Unsupported operation for URI %s: %s.", path, method);
             LOGGER.warn(msg);
             m = ErrorCode.UNSUPPORTED_OPERATION.getMessage();
             res.setStatus(ErrorCode.UNSUPPORTED_OPERATION.getHttpCode());
             m.toJSON(res.getOutputStream());
         }
-
         return true;
-
     }
 }
 

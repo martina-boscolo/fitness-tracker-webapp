@@ -59,7 +59,7 @@ public class CountCommentsByPostIdDAO extends AbstractDAO<Integer> {
 
             if (rs.next()) {
                 commentCount = rs.getInt(1);
-                LOGGER.info("Comments successfully counted for post {}.", postId);
+                LOGGER.info("Comments successfully counted for post %s.", postId);
             }
         } finally {
             if (rs != null) {

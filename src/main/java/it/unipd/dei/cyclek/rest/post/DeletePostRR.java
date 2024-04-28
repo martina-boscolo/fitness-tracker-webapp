@@ -46,7 +46,7 @@ public class DeletePostRR extends AbstractRR {
 
             LogContext.setResource(Integer.toString(postId));
 
-            // creates a new DAO for accessing the database and deletes the employee
+            // creates a new DAO for accessing the database and deletes the post
             e = new DeletePostDAO(con, postId).access().getOutputParam();
 
             if (e != null) {

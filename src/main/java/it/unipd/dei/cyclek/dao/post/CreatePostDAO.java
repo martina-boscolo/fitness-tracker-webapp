@@ -63,7 +63,7 @@ public class CreatePostDAO extends AbstractDAO<Post> {
                         rs.getString("photoMediaType"),
                         rs.getTimestamp("post_date"));
 
-                LOGGER.info("Post {} successfully stored in the database.", post.getPostId());
+                LOGGER.info("Post %s successfully stored in the database.", post.getPostId());
             }
         } finally {
 

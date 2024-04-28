@@ -69,7 +69,7 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
                         rs.getInt("id_user"),
                         rs.getInt("id_post"));
 
-                LOGGER.info("Like {} successfully stored in the database.", like.getLikeId());
+                LOGGER.info("Like %s successfully stored in the database.", like.getLikeId());
             }
         } finally {
 

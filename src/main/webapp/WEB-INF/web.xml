@@ -30,22 +30,21 @@
             <file-size-threshold>524288</file-size-threshold> <!-- 500 Kbyte -->
         </multipart-config>
     </servlet>
+
     <servlet>
         <servlet-name>LoadPostPhoto</servlet-name>
         <servlet-class>it.unipd.dei.cyclek.servlet.post.LoadPostPhotoServlet</servlet-class>
     </servlet>
 
-
-
     <servlet-mapping>
         <servlet-name>CreatePost</servlet-name>
         <url-pattern>/create-post</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>LoadPostPhoto</servlet-name>
         <url-pattern>/load-post-photo</url-pattern>
     </servlet-mapping>
-
 
     <resource-ref>
         <description>Connection pool to the database</description>

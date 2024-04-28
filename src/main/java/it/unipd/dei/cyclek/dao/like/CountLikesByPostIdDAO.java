@@ -59,7 +59,7 @@ public class CountLikesByPostIdDAO extends AbstractDAO<Integer> {
 
             if (rs.next()) {
                 likeCount = rs.getInt(1);
-                LOGGER.info("Likes successfully counted for post {}.", postId);
+                LOGGER.info("Likes successfully counted for post %s.", postId);
             }
         } finally {
             if (rs != null) {

@@ -41,7 +41,7 @@ public class ListPostRR extends AbstractRR {
 
         try {
 
-            // creates a new DAO for accessing the database and lists the employee(s)
+            // creates a new DAO for accessing the database and lists the post(s)
             el = new ListPostDAO(con).access().getOutputParam();
 
             if (el != null) {

@@ -56,7 +56,7 @@ CREATE TABLE likes
 (
     id          SERIAL PRIMARY KEY,
     id_user     INTEGER NOT NULL REFERENCES users (id),
-    id_post     INTEGER NOT NULL REFERENCES posts (id),
+    id_post     INTEGER NOT NULL REFERENCES posts (id) ON DELETE CASCADE,
 
     CONSTRAINT unique_post_user_combination UNIQUE (id_post, id_user) -- only one like on the same post by the same user
 );
@@ -65,7 +65,7 @@ CREATE TABLE comments
 (
     id           SERIAL PRIMARY KEY,
     id_user      INTEGER NOT NULL REFERENCES users (id),
-    id_post      INTEGER NOT NULL REFERENCES posts (id),
+    id_post      INTEGER NOT NULL REFERENCES posts (id) ON DELETE CASCADE,
     text_content TEXT NOT NULL
 );
 

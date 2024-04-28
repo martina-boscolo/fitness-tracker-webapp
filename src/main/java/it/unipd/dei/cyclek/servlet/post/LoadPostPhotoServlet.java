@@ -49,7 +49,7 @@ public final class LoadPostPhotoServlet extends AbstractDatabaseServlet {
 
 			LogContext.setResource(req.getParameter("postId"));
 
-			// creates a new object for accessing the database and loading the photo of an employees
+			// creates a new object for accessing the database and loading the photo of an posts
 			e = new LoadPostPhotoDAO(getConnection(), postId).access().getOutputParam();
 
 			if (e.hasPhoto()) {

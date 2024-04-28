@@ -65,7 +65,7 @@ public class UpdatePostDAO extends AbstractDAO<Post> {
                         rs.getTimestamp("post_date")
 
                 );
-                LOGGER.info("Post {} successfully updated in the database.", resource.getPostId());
+                LOGGER.info("Post %s successfully updated in the database.", resource.getPostId());
 
             }
 
