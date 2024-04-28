@@ -18,7 +18,7 @@ with the aim of helping and bringing closer to this world the novices.
 In particular, our Web Application is divided in 6 main parts:
 
 - **User Management:** Users can register, login and visualize/modify his personal information.
-- **Statistics Management:** User’s Collected data are used to generate an overview of their progress in both Gym and Diet areas.
+- **Statistics Management:** User's Collected data are used to generate an overview of their progress in both Gym and Diet areas.
 - **Social Network Management:** User can make a post, made of text and eventually an image, expressing his gym progress, his current diet or anything else he want. User can also like and comment other users post. An home page will show all the posts with related likes and comments.
 - **Diets Management:** Users can view their diet plans or add multiple ones ensuring the possibility of keeping track of what you have to eat each day.
 - **Meals Management:** Users can view what they ate, can register their meals and can register new foods.
