@@ -44,6 +44,8 @@ public class UserStatsService extends AbstractService{
                 new GetImcByUserIdRR(req, res, con).serve();
         else if (path.matches("/meals/user/\\d+$") && method.equals("GET"))     // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
             new GetMealsByUserIdRR(req, res, con).serve();
+        else if (path.matches("/exercises/user/\\d+$") && method.equals("GET")) // GET  /rest/stats/exercises/user/{id} (get stats about exercises for a single user)
+            new GetExerciseStatsByUserIdRR(req, res, con).serve();
         else
             unsupportedOperation(req, res);
 
