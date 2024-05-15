@@ -1,10 +1,3 @@
-@import url(colors/dark.css);
-@import url(colors/dark-hc.css);
-@import url(colors/dark-mc.css);
-@import url(colors/light.css);
-@import url(colors/light-hc.css);
-@import url(colors/light-mc.css);
-
 :root * {
     /*border: 1px solid green;*/
     box-sizing: border-box;
@@ -14,19 +7,10 @@ body {
     display: grid;
     grid-template: auto 1fr auto / auto 1fr;
     grid-template-areas:
-    "nav    header"
-    "nav    main"
+    "nav    nav"
+    "main    main"
     "footer footer";
     height: 100vh;
-}
-
-button {
-    padding: 0.4rem 0.8rem;
-    border: thin solid var(--md-sys-color-outline);
-    border-radius: 0.6rem;
-
-    background-color: var(--md-sys-color-surface-container);
-    color: var(--md-sys-color-on-surface);
 }
 
 /* Header */
@@ -37,21 +21,6 @@ header {
     padding: 0.6rem;
     justify-content: end;
     gap: 1rem;
-    border-bottom: thin solid var(--md-sys-color-outline);
-
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
-}
-
-header button {
-
-}
-
-header button:hover {
-    cursor: pointer;
-
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
 }
 
 /* Nav */
@@ -62,52 +31,16 @@ nav {
     align-items: center;
     padding: 0.6rem 0.8rem;
     gap: 1rem;
-    border-right: thin solid var(--md-sys-color-outline);
-
-    background-color: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
-}
-
-nav h1 {
-    font-size: x-large;
-    font-weight: bold;
-    color: var(--md-sys-color-primary);
-}
-
-nav h1:hover {
-    cursor: pointer;
-}
-
-nav ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.6rem;
-}
-
-nav li {
-    display: flex;
-}
-
-nav button {
-    flex: auto;
-}
-
-nav button:hover {
-    cursor: pointer;
-
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
 }
 
 /* Main */
 main {
     grid-area: main;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
-    align-items: center;
-
-    background-color: var(--md-sys-color-surface);
+    gap: 1rem;
+    padding: 1rem;
 }
 
 /* Footer */
@@ -118,9 +51,5 @@ footer {
     justify-content: space-between;
     padding: 0.6rem;
     align-items: center;
-    border-top: thin solid var(--md-sys-color-outline);
-
-    background-color: var(--md-sys-color-tertiary);
-    color: var(--md-sys-color-on-tertiary);
 }
 
