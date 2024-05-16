@@ -5,11 +5,11 @@
 
 body {
     display: grid;
-    grid-template: auto 1fr auto / auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
-    "nav    nav"
-    "main    main"
-    "footer footer";
+    "nav"
+    "main"
+    "footer";
     height: 100vh;
 }
 
@@ -36,11 +36,6 @@ nav {
 /* Main */
 main {
     grid-area: main;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
 }
 
 /* Footer */
