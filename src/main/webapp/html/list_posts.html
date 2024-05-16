@@ -2,35 +2,99 @@
 <html>
 <head>
     <title>List of Posts</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/0c02fb7b66.js" crossorigin="anonymous"></script>
     <script src="../js/list_posts.js"></script>
+    <link rel="stylesheet" href="../css/list_posts.css">
 
 </head>
 <body>
-<h1>List of Posts</h1>
-<div id="postsContainer"  >
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="container">
+    <div id="newPostArea" class="sticky-element">
+        <h1>Welcome to SocialK!</h1>
+        <h6> Here you can view posts from other users or publish your own post. Have fun!</h6>
+        <div id="social-header">
+
+            <div id="user-menu">
+                <ul class="list-group">
+                    <button type="button" class="btn btn-light head-button">All posts <i class="fa-solid fa-users"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-light head-button">My posts <i class="fa-solid fa-user"></i>
+                    </button>
+                </ul>
+
+            </div>
+            <div id="newPostCard" class="card text-bg mb-3">
+                <div class="card-header">Create a new post!</div>
+                <div class="card-body">
+                    <div class="input-group">
+
+                    <textarea class="form-control" aria-label="With textarea"
+                              placeholder="Write your post..."></textarea>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    No comments yet!
+                <div class="card-footer">
+                    <button type="button" class="btn btn-light" style="align-items: end"><i
+                            class="fa-solid fa-plus"></i></button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+            </div>
+            <div id="social-menu">
+                <ul class="list-group">
+                    <button type="button" class="btn btn-light head-button">Notifications <i
+                            class="fa-solid fa-bell"></i></button>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div id="body-post" class="content">
+
+
+        <div id="postsContainer">
+
+
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <div class="input-group">
+                                <span class="input-group-text">Add a comment:</span>
+                                <textarea class="form-control" aria-label="With textarea"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="likeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Likes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-
-
 
 </body>
 </html>

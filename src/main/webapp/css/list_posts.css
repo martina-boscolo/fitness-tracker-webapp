@@ -1,0 +1,58 @@
+body {
+    background: linear-gradient(to right, #ffffff, #9bc47e);
+}
+
+
+
+.sticky-element {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to left,#ffffff, #9bc47e);
+    padding: 10px;
+    z-index: 100; /* Ensures it stays on top of other content */
+    border-radius: 30px; /* Makes the corners rounded */
+
+    }
+
+#social-header{
+    display: flex;
+    flex: 3;
+    flex-direction: row; /* Change to column direction */
+
+
+}
+.content {
+    margin-top: 50px; /* Adjust this value to match the height of your sticky element */
+    padding: 10px;
+    display: flex;
+    flex: 3;
+    flex-direction: row; /* Change to column direction */
+
+
+}
+
+.list-group {
+    margin: 10px;
+}
+
+.head-button{
+    border-color: #9bc47e
+}
+
+#newPostCard{
+    margin: 0 auto;
+    max-width: 40rem;
+    flex: 2;
+}
+#social-header{
+        margin: 0 auto;
+}
+
+#newPostArea{
+    margin: 0 auto;
+    text-align: center;
+}
+#postsContainer{
+    flex: 2;
+}
+
