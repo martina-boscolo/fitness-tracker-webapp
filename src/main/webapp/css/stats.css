@@ -1,0 +1,66 @@
+/*:root * {
+    border: 1px solid red;
+    box-sizing: border-box;
+}*/
+
+main {
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+    grid-template-areas: 
+    "user imc"
+    "diet exercise";
+    padding: 2rem;
+    gap: 2rem;
+}
+
+main > * {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* User */
+.user {
+    grid-area: user;
+    display: flex;
+    flex-direction: column;
+}
+
+.user .buttons {
+    display: flex;
+    margin: 4rem;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* IMC */
+.imc {
+    grid-area: imc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.imc hr {
+    border: 1px solid black;
+    width: 15rem;
+}
+
+#imc-mean, #imc-global {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#imc-comparison {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+#imc-title, #imc-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
