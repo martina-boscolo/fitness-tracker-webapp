@@ -1,82 +1,96 @@
-// Creazione di un nuovo oggetto XMLHttpRequest
-const xhr = new XMLHttpRequest();
 
-// Impostazione del metodo HTTP e dell'URL di destinazione per la richiesta
-xhr.open('GET', 'http://localhost:8080/cycleK-1.0.0/rest/diet', true);
-
-// Impostazione dell'intestazione Content-Type della richiesta
-xhr.setRequestHeader('Content-Type', 'application/json');
-
-// Impostazione della funzione di callback per la gestione della risposta
-xhr.onload = function () {
-    // Verifica lo stato della richiesta
-    if (xhr.status >= 200 && xhr.status < 300) {
-        // Parsing della risposta JSON e accesso alla "resource-list"
-        const data = JSON.parse(xhr.responseText)["resource-list"];
-
-        // Verifica se data non è undefined o null
+fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
+    .then(response => response.json())
+    .then(data => {
         console.log(data);
-        if (data) {
-            // Una volta ricevuti i dati JSON, costruisci la rappresentazione della dieta
-            const dataContainer = document.getElementById('dataContainer');
-            dataContainer.innerHTML = ''; // Pulisci il contenuto precedente
 
-            // Itera su ciascun oggetto dieta nella resource list
-            data.forEach(resource => {
-                const diet = resource.diet; // Accesso al piano dietetico all'interno di ciascun elemento
-                const dietDate = resource.dietDate; // Accesso alla data della dieta
+        // Assuming only one diet plan is needed
+        let dietPlan = data['resource-list'][0];
+        let planName = dietPlan['diet']['planName'];
+        let dietDate = dietPlan['diet']['dietDate'];
+        let diet = dietPlan['diet']['diet'];
 
-                // Creare un oggetto per contenere i pasti di ogni giorno
-                const mealsByDay = {};
+        // Display the plan name and diet date
+        const dataContainer = document.getElementById('dataContainer');
+        dataContainer.innerHTML = `<h1 class="mb-4">Diet Plan: ${planName}</h1>`;
 
-                // Itera sui giorni della settimana nel piano dietetico
-                Object.keys(diet).forEach(day => {
-                    // Inizializza l'array per i pasti di questo giorno
-                    mealsByDay[day] = [];
+        // Iterate through the days in the diet
+        for (let day in diet) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day', 'mb-4'); // Add both "day" and "mb-4" for spacing
+            dayElement.innerHTML = `<h2 class="text-primary">${day}</h2>`;
 
-                    // Itera sui pasti del giorno e aggiungi ogni pasto all'array dei pasti
-                    Object.keys(diet[day]).forEach(meal => {
-                        const foodItems = diet[day][meal];
-                        mealsByDay[day].push({ meal: meal, foods: foodItems });
-                    });
-                });
+            // Iterate through the meals of the day
+            for (let meal in diet[day]) {
+                const mealElement = document.createElement('div');
+                mealElement.classList.add('meal', 'mb-3');
+                mealElement.innerHTML = `<h3 class="text-secondary">${meal}</h3>`;
 
-                // Ora che hai separato i pasti per giorno, puoi crearne l'HTML
-                Object.keys(mealsByDay).forEach(day => {
-                    const dayElement = document.createElement('div');
-                    dayElement.classList.add('day'); // Aggiungi una classe CSS per la formattazione
-                    dayElement.innerHTML = `<h2>${day}</h2>`;
+                // Create a list group for the food items
+                const foodList = document.createElement('ul');
+                foodList.classList.add('list-group');
 
-                    // Itera sui pasti di questo giorno e crea la lista degli alimenti
-                    mealsByDay[day].forEach(mealObj => {
-                        const mealElement = document.createElement('ul');
-                        mealElement.innerHTML = `<h3>${mealObj.meal}</h3>`;
+                // Iterate through the foods in the meal
+                for (let food in diet[day][meal]) {
+                    const foodItemElement = document.createElement('li');
+                    foodItemElement.classList.add('list-group-item');
 
-                        // Itera sugli alimenti del pasto
-                        Object.entries(mealObj.foods).forEach((food, quantity) => {
-                            const foodItemElement = document.createElement('li');
-                            foodItemElement.textContent = `${food}: ${quantity}`;
-                            mealElement.appendChild(foodItemElement);
-                        });
+                    if (typeof diet[day][meal][food] === 'object') {
+                        // If the food item is an object, iterate through its properties
+                        foodItemElement.textContent = `${food}:`;
+                        const nestedList = document.createElement('ul');
+                        nestedList.classList.add('list-group', 'list-group-flush');
+                        for (let subFood in diet[day][meal][food]) {
+                            const subFoodItemElement = document.createElement('li');
+                            subFoodItemElement.classList.add('list-group-item');
+                            subFoodItemElement.textContent = `${subFood}: ${diet[day][meal][food][subFood]} grams`;
+                            nestedList.appendChild(subFoodItemElement);
+                        }
+                        foodItemElement.appendChild(nestedList);
+                    } else {
+                        // If the food item is not an object, display it directly
+                        foodItemElement.textContent = `${food}: ${diet[day][meal][food]} grams`;
+                    }
 
-                        dayElement.appendChild(mealElement);
-                    });
+                    foodList.appendChild(foodItemElement);
+                }
 
-                    dataContainer.appendChild(dayElement);
-                });
-            });
-        } else {
-            console.error('I dati non sono nel formato atteso: "resource-list" non è definito.');
+                mealElement.appendChild(foodList);
+                dayElement.appendChild(mealElement);
+            }
+
+            dataContainer.appendChild(dayElement);
         }
-    } else {
-        console.error('Errore nella richiesta:', xhr.statusText);
-    }
-};
+    })
+    .catch(error => console.error('Error:', error));
 
-// Gestione degli errori di rete
-xhr.onerror = function () {
-    console.error('Errore di rete durante la richiesta.');
-};
 
-// Invia la richiesta
-xhr.send();
+
+
+/*const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        let name = data['resource-list'][0]['diet']['planName'];
+        let date = data['resource-list'][0]['diet']['dietDate'];
+        let diet = data['resource-list'][0]['diet']['diet'];
+        console.log(name);
+        console.log(date);
+        for (let day in diet) {
+            console.log(day);
+            for (let meal in diet[day]) {
+                console.log(meal);
+                for (let food in diet[day][meal]) {
+                    console.log(food);
+                    console.log(diet[day][meal][food]);
+                }
+            }
+        }
+    })
+    .catch(error => console.error('Error:', error));
+
+
+Promise.all([fetchDiet]).then(() => {
+
+});
+*/
