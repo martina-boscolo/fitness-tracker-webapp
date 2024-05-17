@@ -108,13 +108,13 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
     });
 
     document.getElementById('bodyChartType').addEventListener('change', function(event) {
-        const selectedType = document.querySelector('#bodyChartType input[name="bodyType"]:checked').getAttribute('id');
+        const selectedType = document.querySelector('#bodyChartType input[name="bodyType"]:checked').value;
         bodychart.config.type = selectedType;
         bodychart.update();
     });
 
     document.getElementById('bodyChartFill').addEventListener('change', function(event) {
-        const selectedType = document.querySelector('#bodyChartFill input[name="bodyFill"]:checked').getAttribute('id');
+        const selectedType = document.querySelector('#bodyChartFill input[name="bodyFill"]:checked').value;
         bodychart.data.datasets.forEach(dataset => {
             dataset.fill = selectedType === 'true';
         });

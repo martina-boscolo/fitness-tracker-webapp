@@ -47,32 +47,60 @@
 
 <main>
     <div class="user">
+        <h2>Body Stats</h2>
         <canvas id="bodyChart">Loading...</canvas>
         <div class="buttons">
-            <div class="btn-group" id="bodyChartMetric">
-                <input type="radio" class="btn-check" name="bodyMetric" id="weight" autocomplete="off" checked />
-                <label class="btn btn-secondary" for="weight" data-mdb-ripple-init>Weight</label>
-            
-                <input type="radio" class="btn-check" name="bodyMetric" id="fatty" autocomplete="off" />
-                <label class="btn btn-secondary" for="fatty" data-mdb-ripple-init>Fatty</label>
-            
-                <input type="radio" class="btn-check" name="bodyMetric" id="lean" autocomplete="off" />
-                <label class="btn btn-secondary" for="lean" data-mdb-ripple-init>Lean</label>
+            <div>
+                <div class="btn-group" id="bodyChartMetric">
+                    <input type="radio" class="btn-check" name="bodyMetric" id="weight" autocomplete="off" checked />
+                    <label class="btn btn-primary" for="weight" data-mdb-ripple-init>Weight</label>
+                
+                    <input type="radio" class="btn-check" name="bodyMetric" id="fatty" autocomplete="off" />
+                    <label class="btn btn-primary" for="fatty" data-mdb-ripple-init>Fatty</label>
+                
+                    <input type="radio" class="btn-check" name="bodyMetric" id="lean" autocomplete="off" />
+                    <label class="btn btn-primary" for="lean" data-mdb-ripple-init>Lean</label>
+                </div>
+                <div class="btn-group" id="bodyChartType">
+                    <input type="radio" class="btn-check" name="bodyType" id="body_line" value="line" autocomplete="off" checked />
+                    <label class="btn btn-primary" for="body_line" data-mdb-ripple-init>Line</label>
+                
+                    <input type="radio" class="btn-check" name="bodyType" id="body_bar" value="bar" autocomplete="off" />
+                    <label class="btn btn-primary" for="body_bar" data-mdb-ripple-init>Bars</label>
+                </div>
+                <div class="btn-group" id="bodyChartFill">
+                    <input type="radio" class="btn-check" name="bodyFill" id="body_true" value="true" autocomplete="off" checked />
+                    <label class="btn btn-primary" for="body_true" data-mdb-ripple-init>Fill</label>
+                
+                    <input type="radio" class="btn-check" name="bodyFill" id="body_false" value="false" autocomplete="off" />
+                    <label class="btn btn-primary" for="body_false" data-mdb-ripple-init>No Fill</label>
+                </div>
             </div>
-            <div class="btn-group" id="bodyChartType">
-                <input type="radio" class="btn-check" name="bodyType" id="line" autocomplete="off" checked />
-                <label class="btn btn-secondary" for="line" data-mdb-ripple-init>Line</label>
-            
-                <input type="radio" class="btn-check" name="bodyType" id="bar" autocomplete="off" />
-                <label class="btn btn-secondary" for="bar" data-mdb-ripple-init>Bars</label>
-            </div>
-            <div class="btn-group" id="bodyChartFill">
-                <input type="radio" class="btn-check" name="bodyFill" id="true" autocomplete="off" checked />
-                <label class="btn btn-secondary" for="true" data-mdb-ripple-init>Fill</label>
-            
-                <input type="radio" class="btn-check" name="bodyFill" id="false" autocomplete="off" />
-                <label class="btn btn-secondary" for="false" data-mdb-ripple-init>No Fill</label>
-            </div>
+            <button type="button" class="btn btn-primary" id="newBodyStats" data-bs-toggle="modal" data-bs-target="#statsModal">
+                +
+            </button>
+              
+              <!-- Modal -->
+              <div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="statsModalLabel">New Body Stats</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Your form goes here -->
+                      <form>
+                        <!-- Form fields -->
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
     <div class="imc">
@@ -90,8 +118,53 @@
             </div>
         </div>
     </div>
-    <div>Chart3</div>
-    <div>Chart4</div>
+    <div class="diet">
+        <div id="diet-fav">
+            <div>
+                <h5>Favourite Food</h5>
+                <div id="fav-food"></div>
+            </div>
+            <div>
+                <h5>Times Eaten</h5>
+                <div id="fav-count"></div>
+            </div>
+        </div>
+        <canvas id="dietChart">Loading...</canvas>
+        <div class="buttons">
+            <div class="btn-group" id="dietChartType">
+                <input type="radio" class="btn-check" name="dietType" id="diet_bar" value="bar" autocomplete="off" checked />
+                <label class="btn btn-primary" for="diet_bar" data-mdb-ripple-init>Bars</label>
+            
+                <input type="radio" class="btn-check" name="dietType" id="diet_doughnut" value="doughnut" autocomplete="off" />
+                <label class="btn btn-primary" for="diet_doughnut" data-mdb-ripple-init>Doughnut</label>
+            </div>
+        </div>
+    </div>
+    <div class="exercises">
+        <div id="exercise-fav">
+            <h4>Favourite Exercise</h4>
+            <div>
+                <div id="fav-ex">Nome</div>
+                <div id="fav-ex-count">Volte</div>
+            </div>
+        </div>
+        <div id="exercise-best-worst">
+            <div id="exercise-best">
+                <h5>Best</h5>
+                <div>
+                    <div id="best-ex">Nome</div>
+                    <div id="best-ex-weight">Volte</div>
+                </div>
+            </div>
+            <div id="exercise-worst">
+                <h5>Worst</h5>
+                <div>
+                    <div id="worst-ex">Nome</div>
+                    <div id="worst-ex-weight">Volte</div>
+                </div>
+            </div>  
+        </div>
+    </div>
 </main>
 
 <footer class="bg-dark text-white pt-4 pb-2">
@@ -109,5 +182,7 @@
 
 <script src="../js/stats/bodyChart.js"></script>
 <script src="../js/stats/imcChart.js"></script>
+<script src="../js/stats/dietChart.js"></script>
+<script src="../js/stats/exerciseChart.js"></script>
 
 </body>
