@@ -24,8 +24,9 @@
 
 /* Nested list group styles */
 .list-group-flush .list-group-item {
+    border: hidden;
     padding-left: 2rem; /* Indent nested items */
-    background-color: #e9ecef; /* Slightly darker background for nested items */
+    background-color: #d9e4f1; /* Slightly darker background for nested items */
 }
 
 /* Container spacing */
