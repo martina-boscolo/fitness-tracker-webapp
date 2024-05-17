@@ -24,6 +24,17 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         .then(data => {
             // Handle the response data
             console.log("Success:", data);
+            const token = data.token;
+            console.log(token)
+            if (token) {
+                setCookie('authToken', token, 1); // Set the token as a cookie
+                console.log("Login successful!");
+                window.location.href = "stats.html";
+
+                // Optionally, redirect the user or perform other actions
+            } else {
+                alert("Login failed: Token not found in response.");
+            }
             alert("Login successful!");
             // Optionally, redirect the user or perform other actions
         })
@@ -32,3 +43,25 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             alert("Login failed!");
         });
 });
+
+function setCookie(name, value, minutes, path = '/', domain = window.location.hostname, secure = true) {
+    let cookie = `${name}=${encodeURIComponent(value)};`;
+
+    if (minutes) {
+        const date = new Date();
+        date.setTime(date.getTime() + (minutes * 60 * 1000));
+        cookie += `expires=${date.toUTCString()};`;
+    }
+
+    cookie += `path=${path};`;
+
+    if (domain) {
+        cookie += `domain=${domain};`;
+    }
+
+    if (secure) {
+        cookie += `secure;`;
+    }
+
+    document.cookie = cookie;
+}
