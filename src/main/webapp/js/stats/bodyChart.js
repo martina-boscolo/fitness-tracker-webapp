@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stats = {
         dates: [],
         weights: [],
+        height: [],
         fatty: [],
         lean: []
     };
@@ -9,9 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const goals = {
         dates: [],
         weights: [],
+        height: [],
         fatty: [],
         lean: []
     };
+
+    let height = document.getElementById('height');
 
     const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/1')
         .then(response => response.json())
@@ -20,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const bodyStats = item['bodyStats'];
                 stats.dates.push(bodyStats['statsDate']);
                 stats.weights.push(bodyStats['weight']);
+                stats.height.push(bodyStats['height']);
                 stats.fatty.push(bodyStats['fatty']);
                 stats.lean.push(bodyStats['lean']);
             });
@@ -33,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userGoals = item['userGoals'];
                 goals.dates.push(userGoals['goalDate']);
                 goals.weights.push(userGoals['weight']);
+                goals.height.push(userGoals['height']);
                 goals.fatty.push(userGoals['fatty']);
                 goals.lean.push(userGoals['lean']);
             });
@@ -51,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const l_stats = getValues(stats.dates, stats.lean);
         const l_goals = getValues(goals.dates, goals.lean);
 
+        height.value = stats.height[0];
         weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goals)
     })
 });

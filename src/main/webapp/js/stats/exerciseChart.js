@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/exercises/user/1')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             dietStats.bestEx = data['ExercisePlanStats']['bestEx'];
             dietStats.bestExWeight = data['ExercisePlanStats']['bestExWeight'];
             dietStats.worstEx = data['ExercisePlanStats']['worstEx'];
