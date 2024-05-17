@@ -133,5 +133,3 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet')
         navContainer.appendChild(nextButton);
     })
     .catch(error => console.error('Error:', error));
-
-

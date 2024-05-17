@@ -2,35 +2,73 @@
 
 /* Style the day headers */
 .day h2 {
-    color: #007bff; /* Bootstrap primary color */
+    color: #007bff;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
-
 /* Style the meal headers */
 .meal h3 {
-    color: #6c757d; /* Bootstrap secondary color */
+    color: #6c757d;
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
 }
-
 /* Style the list group items */
 .list-group-item {
-    border: none; /* Remove borders for a cleaner look */
-    padding: 0.75rem 1.25rem; /* Adjust padding */
-    background-color: #f8f9fa; /* Light background color */
-    margin-bottom: 0.5rem; /* Space between items */
+    border: none;
+    padding: 0.75rem 1.25rem;
+    background-color: #f8f9fa;
+    margin-bottom: 0.5rem;
 }
-
 /* Nested list group styles */
 .list-group-flush .list-group-item {
     border: hidden;
-    padding-left: 2rem; /* Indent nested items */
-    background-color: #d9e4f1; /* Slightly darker background for nested items */
+    padding-left: 2rem;
+    background-color: #d9e4f1;
 }
-
 /* Container spacing */
 .container {
     margin-top: 2rem;
-    max-width: 800px; /* Limit the width for better readability */
+    max-width: 800px;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+#navigation {
+    position: absolute;
+    top: 500px;
+    left: 950px;
+}
+#content-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+#content {
+    width: 80%;
+}
+#content-container {
+    max-height: 80vh;
+    overflow-y: hidden; /* scrollable vertically */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#content h1 {
+    position: sticky;
+    top: 0;
+    background: transparent;
+    z-index: 10;
+    padding: 10px 0;
+}
+.nav-tabs {
+    position: sticky;
+    top: 50px;
+    background: transparent;
+    z-index: 10;
+    padding: 10px 0;
+}
+.tab-content {
+    max-height: calc(80vh - 100px);
+    overflow-y: auto; /* scrollable meals */
 }
