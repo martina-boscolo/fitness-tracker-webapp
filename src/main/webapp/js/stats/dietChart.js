@@ -11,8 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let favFood = document.getElementById('fav-food');
     let favCount = document.getElementById('fav-count');
 
-    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/meals/user/1')
-        .then(response => response.json())
+    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/meals/user/', {
+        credentials: 'include'
+    })
+        .then(response => {
+            if (!response.ok) {
+                // Check for 401 Unauthorized
+                if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                }
+                // Throw an error for other non-success statuses
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             dietStats.carb = data['MealStats']['avg_carb'];
             dietStats.fats = data['MealStats']['avg_fats'];
@@ -21,7 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
             dietStats.fav = data['MealStats']['fav_food'];
             dietStats.coun = data['MealStats']['fav_food_count'];
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            if (error.message === 'Unauthorized') {
+                console.error('Error 401: Unauthorized - Redirecting to login page.');
+                // Redirect to login page
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+            } else {
+                console.error('Error:', error);
+            }
+        });
 
     Promise.all([fetchDiet]).then(() => {
         favFood.innerHTML = dietStats.fav;

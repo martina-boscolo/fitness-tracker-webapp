@@ -20,7 +20,7 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
 
     console.log(JSON.stringify(user))
     // Make the API call
-    fetch("http://localhost:8080/cycleK_war_exploded/rest/user/signup", {
+    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/signup", {
         method: "POST",
         mode: "cors",
         headers: {

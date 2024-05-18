@@ -12,7 +12,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
 
     console.log(JSON.stringify(user))
     // Make the API call
-    fetch("http://localhost:8080/cycleK_war_exploded/rest/user/login", {
+    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/login", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -27,7 +27,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             const token = data.token;
             console.log(token)
             if (token) {
-                setCookie('authToken', token, 1); // Set the token as a cookie
+                setCookie('authToken', token, 5); // Set the token as a cookie
                 console.log("Login successful!");
                 window.location.href = "stats.html";
 

@@ -17,8 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let height = document.getElementById('height');
 
-    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/1')
-        .then(response => response.json())
+    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/', {
+        credentials: 'include'
+    })
+        .then(response => {
+            if (!response.ok) {
+                // Check for 401 Unauthorized
+                if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                }
+                // Throw an error for other non-success statuses
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             data['resource-list'].forEach(item => {
                 const bodyStats = item['bodyStats'];
@@ -29,10 +41,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 stats.lean.push(bodyStats['lean']);
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            if (error.message === 'Unauthorized') {
+                console.error('Error 401: Unauthorized - Redirecting to login page.');
+                // Redirect to login page
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+            } else {
+                console.error('Error:', error);
+            }
+        });
 
-    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/goals/user/1')
-        .then(response => response.json())
+    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/goals/user/', {
+        credentials: 'include'
+    })
+        .then(response => {
+            if (!response.ok) {
+                // Check for 401 Unauthorized
+                if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                }
+                // Throw an error for other non-success statuses
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             data['resource-list'].forEach(item => {
                 const userGoals = item['userGoals'];
@@ -43,7 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 goals.lean.push(userGoals['lean']);
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            if (error.message === 'Unauthorized') {
+                console.error('Error 401: Unauthorized - Redirecting to login page.');
+                // Redirect to login page
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+            } else {
+                console.error('Error:', error);
+            }
+        });
 
     Promise.all([fetchStats, fetchGoals]).then(() => {
         const labels = Array.from(new Set([...stats.dates, ...goals.dates])).sort((a, b) => new Date(a) - new Date(b));
@@ -171,4 +211,3 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
         
     
 }
-
