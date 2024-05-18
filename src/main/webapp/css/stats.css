@@ -12,42 +12,57 @@ main {
     padding: 2rem;
     gap: 2rem;
 
-    overflow: hidden;
+    /*overflow: hidden; Sarebbe bello ma rompe il layout */
 }
 @media screen and (max-width: 991px) {
     main {
-        grid-template: 1fr 1fr 1fr / 1fr;
+        grid-template: 1fr 1fr 1fr / 1fr 1fr;
         grid-template-areas: 
-        "user"
-        "imc"
-        "diet"
-        "exercise";
+        "user user"
+        "imc  exercise"
+        "diet diet";
         overflow: visible;
     }
 }
 
-main > * {
+main > div {
+    display: flex;
+    flex-direction: column;
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-
     overflow: hidden;
 }
 
-/* Canvas */
+.cardTitle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
+
+.cardTitle hr {
+    border: 1px solid black;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Canvas
 canvas {
     width: min(90%, auto) !important;
     height: min(90%, auto) !important;
 }
+*/
 
 /* User */
 .user {
     grid-area: user;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
 }
 
 .user .buttons {
@@ -60,16 +75,6 @@ canvas {
 /* IMC */
 .imc {
     grid-area: imc;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-}
-
-.imc hr {
-    border: 1px solid black;
-    width: 15rem;
 }
 
 #imc-mean, #imc-global {
@@ -92,11 +97,6 @@ canvas {
 /* Diet */
 .diet {
     grid-area: diet;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
 }
 
 .diet .buttons {
@@ -117,11 +117,6 @@ canvas {
 /* Exercise */
 .exercises {
     grid-area: exercise;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
 }
 
 #exercise-fav{
