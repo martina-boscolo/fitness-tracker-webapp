@@ -35,8 +35,8 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
 
         })
         .catch(error => {
-            console.error("Error:", error);
             alert("registration failed!");
+            console.error("Error:", error);
         });
 });
 
