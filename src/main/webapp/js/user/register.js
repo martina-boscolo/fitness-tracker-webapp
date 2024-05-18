@@ -12,10 +12,10 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
     const user = {
         name: name,
         surname: surname,
+        birthday: date,
+        gender: gender,
         username: username,
-        password: password,
-        date: date,
-        gender: gender
+        password: password
     };
 
     console.log(JSON.stringify(user))
@@ -36,7 +36,7 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Login failed!");
+            alert("registration failed!");
         });
 });
 
