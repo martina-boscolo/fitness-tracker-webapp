@@ -135,6 +135,7 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
             ]
         },
         options: {
+            spanGaps: true,
             scales: {
                 y: {
                     min: min,

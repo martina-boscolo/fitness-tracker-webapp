@@ -76,6 +76,7 @@ function dietChart(dietStats) {
             }]
         },
         options: {
+            spanGaps: true,
             scales: {
                 y: {
                     beginAtZero: true

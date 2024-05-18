@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const formData = new FormData(form);
 
             const bodyStats = {
-                idUser: 1,
                 height: formData.get('height'),
                 weight: formData.get('weight'),
                 fatty: formData.get('fatty'),
@@ -26,7 +25,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 body: JSON.stringify(bodyStats)
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(
+                    data => {
+                        console.log(data);
+                        $('#statsModal').modal('hide');
+                        location.reload();
+                    }
+                )
                 .catch(error => console.error('Error:', error));
 
         } else {

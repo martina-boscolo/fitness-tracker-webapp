@@ -4,6 +4,8 @@ import it.unipd.dei.cyclek.dao.userStats.CreateUserStatsDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.resources.entity.UserStats;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -23,7 +25,28 @@ public class CreateUserStatsRR extends AbstractRR {
         Message m = null;
 
         try {
-            final UserStats userStats = UserStats.fromJSON(req.getInputStream());
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
+            UserStats userStats = UserStats.fromJSON(req.getInputStream());
+            userStats.setIdUser(idUser);
 
             // creates a new DAO for accessing the database and lists the employee(s)
             bs = new CreateUserStatsDAO(con, userStats).access().getOutputParam();
