@@ -7,7 +7,7 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const date = document.getElementById("date").value;
-    const gender = document.getElementById("gender").value;
+    const gender = document.getElementById("gender").value.charAt(0);
 
     const user = {
         name: name,
@@ -32,8 +32,7 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
         .then(data => {
             // Handle the response data
             console.log("Success:", data);
-            alert("Login successful!");
-            // Optionally, redirect the user or perform other actions
+
         })
         .catch(error => {
             console.error("Error:", error);
