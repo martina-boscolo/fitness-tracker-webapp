@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let bestExWeight = document.getElementById('best-ex-weight');
     let worstEx = document.getElementById('worst-ex');
     let worstExWeight = document.getElementById('worst-ex-weight');
+    let exercises = [];
 
     const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/exercises/user/1')
         .then(response => response.json())
@@ -30,13 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchExercises = fetch('http://localhost:8080/cycleK-1.0.0/rest/exercises')
         .then(response => response.json())
         .then(data => {
-            dietStats.bestEx = data['resource-list'].find(ex => ex.exercise.id === dietStats.bestEx).exercise.exercise_name
-            dietStats.worstEx = data['resource-list'].find(ex => ex.exercise.id === dietStats.worstEx).exercise.exercise_name
-            dietStats.favEx = data['resource-list'].find(ex => ex.exercise.id === dietStats.favEx).exercise.exercise_name
-        })
+            exercises = data['resource-list'];
+            })
         .catch(error => console.error('Error:', error));
 
     Promise.all([fetchDiet, fetchExercises]).then(() => {
+        dietStats.bestEx = exercises.find(ex => ex.exercise.id === dietStats.bestEx).exercise.exercise_name
+        dietStats.worstEx = exercises.find(ex => ex.exercise.id === dietStats.worstEx).exercise.exercise_name
+        dietStats.favEx = exercises.find(ex => ex.exercise.id === dietStats.favEx).exercise.exercise_name
+        
         favEx.innerHTML = dietStats.favEx;
         favExCount.innerHTML = dietStats.favExCount;
         bestEx.innerHTML = dietStats.bestEx;

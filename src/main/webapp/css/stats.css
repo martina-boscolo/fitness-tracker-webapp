@@ -11,12 +11,33 @@ main {
     "diet exercise";
     padding: 2rem;
     gap: 2rem;
+
+    overflow: hidden;
+}
+@media screen and (max-width: 991px) {
+    main {
+        grid-template: 1fr 1fr 1fr / 1fr;
+        grid-template-areas: 
+        "user"
+        "imc"
+        "diet"
+        "exercise";
+        overflow: visible;
+    }
 }
 
 main > * {
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+
+    overflow: hidden;
+}
+
+/* Canvas */
+canvas {
+    width: min(90%, auto) !important;
+    height: min(90%, auto) !important;
 }
 
 /* User */
@@ -73,6 +94,8 @@ main > * {
     grid-area: diet;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
 }
 
