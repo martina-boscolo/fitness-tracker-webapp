@@ -9,7 +9,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
         function displayDietPlan(planIndex) {
             const dietPlan = data['resource-list'][planIndex];
             let planName = dietPlan['diet']['planName'];
-            let dietDate = dietPlan['diet']['dietDate'];
             let diet = dietPlan['diet']['diet'];
 
             // Clear existing content except for navigation buttons
@@ -116,7 +115,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
             displayDietPlan(currentPlanIndex);
         }
 
-        // Bootstrap buttons for navigation
         const prevButton = document.createElement('button');
         prevButton.classList.add('btn', 'btn-primary', 'me-2');
         prevButton.textContent = 'Previous';
@@ -127,8 +125,8 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
         nextButton.textContent = 'Next';
         nextButton.addEventListener('click', nextDietPlan);
 
-        // Append navigation buttons to the document body
         const navContainer = document.getElementById('navigation');
+        navContainer.innerHTML = '';
         navContainer.appendChild(prevButton);
         navContainer.appendChild(nextButton);
     })
