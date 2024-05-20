@@ -4,21 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Custom diet.css -->
     <link href="../css/diet.css" rel="stylesheet">
     <!-- Add jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
     <title>Homepage</title>
     <script src="../jsp/diets/dietPlans.js" defer></script>
+    <script src="../jsp/diets/createNewDiet.js" defer></script>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">CycleK</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,6 +58,177 @@
         <div id="content"></div>
     </div>
     <div id="navigation"></div>
+    <button id="createNewDietPlanBtn" class="btn btn-primary mt-2" data-bs-toggle="modal"
+            data-bs-target="#addDietModal">Create new DietPlan
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addDietModal" tabindex="-1" aria-labelledby="addDietModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDietModalLabel">Create new Diet Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDietForm">
+                        <div class="mb-3">
+                            <label for="planName" class="form-label">Plan Name</label>
+                            <input type="text" class="form-control" id="planName" required>
+                        </div>
+                        <!-- Monday -->
+                        <div class="mb-3">
+                            <label class="form-label">Monday</label>
+                            <div class="row" id="mondayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('mondayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!-- Tuesday -->
+                        <div class="mb-3">
+                            <label class="form-label">Tuesday</label>
+                            <div class="row" id="tuesdayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('tuesdayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!--Wednesday-->
+                        <div class="mb-3">
+                            <label class="form-label">Wednesday</label>
+                            <div class="row" id="wednesdayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('wednesdayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!--Thursday-->
+                        <div class="mb-3">
+                            <label class="form-label">Thursday</label>
+                            <div class="row" id="thursdayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('thursdayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!--Friday-->
+                        <div class="mb-3">
+                            <label class="form-label">Friday</label>
+                            <div class="row" id="fridayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('fridayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!--Saturday-->
+                        <div class="mb-3">
+                            <label class="form-label">Saturday</label>
+                            <div class="row" id="saturdayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('saturdayInputs')">Add Food
+                            </button>
+                        </div>
+                        <!--Sunday-->
+                        <div class="mb-3">
+                            <label class="form-label">Sunday</label>
+                            <div class="row" id="sundayInputs">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Food">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
+                                </div>
+                                <div class="col">
+                                    <select class="form-select">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="addFoodInput('sundayInputs')">Add Food
+                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Diet Plan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer class="bg-dark text-white pt-4 pb-2">
@@ -64,8 +240,3 @@
         </div>
     </div>
 </footer>
-
-<!-- Bootstrap Icons (if not already included) -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-
-</body>
