@@ -9,6 +9,9 @@ function populateForm() {
             document.getElementById("gender").value = mapGender(user.gender) || '';
             document.getElementById("username").value = user.username || '';
             document.getElementById("password").value = user.password || '';
+
+            // Store the initial form state
+            storeInitialFormState();
         })
         .catch(error => {
             console.error("Error fetching data:", error);
@@ -28,26 +31,45 @@ function mapGender(gender) {
     }
 }
 
-function enableChangeButton() {
-    const formInputs = document.querySelectorAll("#ProfileForm input, #ProfileForm select");
-    let isModified = false;
+function returnDefault() {
+    location.reload();
+}
 
-    formInputs.forEach(input => {
-        if (input.value !== input.defaultValue) {
-            isModified = true;
-        }
-    });
+let initialFormState = {};
 
-    document.getElementById("changeButton").disabled = !isModified;
+function storeInitialFormState() {
+    initialFormState = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        date: document.getElementById("date").value,
+        gender: document.getElementById("gender").value,
+    };
+}
+
+function checkFormChanges() {
+    const currentFormState = {
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        date: document.getElementById("date").value,
+        gender: document.getElementById("gender").value,
+    };
+
+    const hasChanged = Object.keys(initialFormState).some(key => initialFormState[key] !== currentFormState[key]);
+    document.getElementById("changeButton").disabled = !hasChanged;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     populateForm();
-    enableChangeButton()
 
-    const formInputs = document.querySelectorAll("#ProfileForm input, #ProfileForm select");
+    document.getElementById("changeButton").disabled = true;
+    // Add event listeners to all form inputs to detect changes
+    const formInputs = document.querySelectorAll("#ProfileForm input");
     formInputs.forEach(input => {
-        input.addEventListener("change", enableChangeButton);
+        input.addEventListener("input", checkFormChanges);
     });
 
     document.getElementById("ProfileForm").addEventListener("submit", function (event) {
@@ -69,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
             username: username,
             password: password
         };
-
         console.log(JSON.stringify(user))
         // Make the API call
         fetch("http://localhost:8080/cycleK_war_exploded/rest/user/id/1", {
@@ -84,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 // Handle the response data
                 console.log("Success:", data);
+                location.reload();
 
             })
             .catch(error => {
