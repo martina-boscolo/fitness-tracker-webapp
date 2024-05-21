@@ -1,4 +1,3 @@
-// Gestisci l'invio del modulo
 document.getElementById('addDietForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -34,7 +33,7 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
         newDiet.diet[day] = dayMeals;
     });
 
-    // Invia il nuovo piano alimentare al backend
+
     fetch('http://localhost:8080/cycleK-1.0.0/rest/diet', {
         method: 'POST',
         headers: {
@@ -46,7 +45,6 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
         .then(addedDiet => {
             console.log('Piano alimentare aggiunto:', addedDiet);
 
-            // Aggiorna i dati locali e visualizza il nuovo piano alimentare
             data['resource-list'].push({ diet: addedDiet });
             displayDietPlan(data['resource-list'].length - 1); // Mostra il nuovo piano alimentare aggiunto
             showNotification('Piano alimentare aggiunto con successo!', 'success');
@@ -94,46 +92,17 @@ function showNotification(message, type) {
                 </button>
             `;
 
-    // Add the element to the notification container
+
     notificationContainer.appendChild(alertDiv);
 
-    // Automatically remove the notification after 3 seconds
+
     setTimeout(() => {
         $(alertDiv).alert('close');
     }, 3000);
 }
 
-document.querySelector('[onclick="addFoodInput(\'mondayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('mondayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'tuesdayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('tuesdayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'wednesdayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('wednesdayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'thursdayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('thursdayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'fridayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('fridayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'saturdayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('saturdayInputs');
-});
-document.querySelector('[onclick="addFoodInput(\'sundayInputs\')"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    addFoodInput('sundayInputs');
-});
-
 const createNewDietPlanBtn = document.getElementById('createNewDietPlanBtn');
-const addDietFormContainer = document.getElementById('addDietFormContainer');
+const addDietModal = document.getElementById('addDietModal');
 createNewDietPlanBtn.addEventListener('click', function () {
-    addDietFormContainer.style.display = 'block';
+    addDietModal.style.display = 'block';
 });

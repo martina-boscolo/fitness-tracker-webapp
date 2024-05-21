@@ -117,12 +117,12 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
 
         const prevButton = document.createElement('button');
         prevButton.classList.add('btn', 'btn-primary', 'me-2');
-        prevButton.textContent = 'Previous';
+        prevButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
         prevButton.addEventListener('click', previousDietPlan);
 
         const nextButton = document.createElement('button');
         nextButton.classList.add('btn', 'btn-primary');
-        nextButton.textContent = 'Next';
+        nextButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
         nextButton.addEventListener('click', nextDietPlan);
 
         const navContainer = document.getElementById('navigation');

@@ -38,7 +38,15 @@ html, body {
     position: absolute;
     top: 150px;
     left: 930px;
-
+}
+#prevBtn.btn-arrow, #nextBtn.btn-arrow {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #17a2b8;
+    background: #e83e8c;
 }
 #content-container {
     display: flex;
@@ -81,6 +89,13 @@ html, body {
     width: 2.5rem;
     height: 2.5rem;
     position: fixed;
-    bottom: 650px;
-    right: 1050px;
+    bottom: 831px;
+    right: 1060px;
+    color: #343a40;
+    background: #ffc107;
+    border: #f8f9fa;
+}
+.wide-modal .modal-dialog {
+    max-width: 50%;
+    margin: 1.75rem auto;
 }
