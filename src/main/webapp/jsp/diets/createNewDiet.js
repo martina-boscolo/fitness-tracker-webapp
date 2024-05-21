@@ -31,6 +31,7 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
         });
 
         newDiet.diet[day] = dayMeals;
+        console.log(newDiet)
     });
 
 
@@ -51,6 +52,7 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
         })
         .catch(error => console.error('Errore:', error));
 });
+
 
 function addFoodInput(containerId) {
     const container = document.getElementById(containerId);
