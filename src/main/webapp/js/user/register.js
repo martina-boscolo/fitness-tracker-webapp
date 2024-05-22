@@ -32,6 +32,7 @@ document.getElementById("RegisterForm").addEventListener("submit", function (eve
         .then(data => {
             // Handle the response data
             console.log("Success:", data);
+            window.location.href = "login.html";
 
         })
         .catch(error => {
