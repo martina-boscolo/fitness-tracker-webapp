@@ -34,7 +34,7 @@ main > div {
     flex-direction: column;
     padding: 2rem;
     border-radius: 0.5rem;
-
+    box-shadow: 0.5rem 0.5rem #1f1e1e;
     background: #292727;
 
     overflow: hidden;
@@ -65,6 +65,10 @@ main > div {
     flex-grow: 1;
     align-items: center;
     justify-content: space-around;
+}
+
+button, .btn-group, hr {
+    box-shadow: 0.25rem 0.25rem #1f1e1e;
 }
 
 /* Canvas
