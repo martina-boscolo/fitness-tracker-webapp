@@ -209,14 +209,6 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
         bodychart.update();
     });
 
-    document.getElementById('bodyChartFill').addEventListener('change', function(event) {
-        const selectedType = document.querySelector('#bodyChartFill input[name="bodyFill"]:checked').value;
-        bodychart.data.datasets.forEach(dataset => {
-            dataset.fill = selectedType === 'true';
-        });
-        bodychart.update();
-    });
-
     document.getElementById('bodyChartMetric').addEventListener('change', function(event) {
         const selectedMetric = document.querySelector('#bodyChartMetric input[name="bodyMetric"]:checked').getAttribute('id');
             var newstats = [];
