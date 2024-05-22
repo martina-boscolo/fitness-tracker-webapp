@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if authToken cookie is present
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === 1) {
+    if (Cookies.indexOf('authToken') === -1) {
         console.error('Error: Unauthorized - Redirecting to login page.');
         // Redirect to login page
         window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
@@ -40,7 +40,7 @@ function fetchBodyStats() {
         lean: []
     };
 
-    let height = document.getElementById('height');
+    let height = document.getElementById('form-height');
 
     const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/', {
         credentials: 'include'
@@ -204,8 +204,7 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
     });
 
     document.getElementById('bodyChartType').addEventListener('change', function(event) {
-        const selectedType = document.querySelector('#bodyChartType input[name="bodyType"]:checked').value;
-        bodychart.config.type = selectedType;
+        bodychart.config.type = document.querySelector('#bodyChartType input[name="bodyType"]:checked').value;
         bodychart.update();
     });
 
@@ -458,8 +457,7 @@ function dietChart(dietStats) {
     });
 
     document.getElementById('dietChartType').addEventListener('change', function(event) {
-        const selectedType = document.querySelector('#dietChartType input[name="dietType"]:checked').value;
-        dietChart.config.type = selectedType;
+        dietChart.config.type = document.querySelector('#dietChartType input[name="dietType"]:checked').value;
         dietChart.update();
     });
 
