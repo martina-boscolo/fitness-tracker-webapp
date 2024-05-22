@@ -1,5 +1,5 @@
 function populateForm() {
-    fetch("http://localhost:8080/cycleK_war_exploded/rest/user/id/1") //modify with token
+    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id/1") //modify with token
         .then(response => response.json())
         .then(data => {
             const user = data.user;
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         console.log(JSON.stringify(user))
         // Make the API call
-        fetch("http://localhost:8080/cycleK_war_exploded/rest/user/id/1", {
+        fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id/1", {
             method: "PUT",
             mode: "cors",
             headers: {
