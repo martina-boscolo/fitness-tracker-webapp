@@ -1,5 +1,19 @@
+document.addEventListener("DOMContentLoaded", function () {
+    let Cookies = document.cookie;
+    if (Cookies.indexOf('authToken') === -1) {
+        console.error('Error: Unauthorized - Redirecting to login page.');
+        // Redirect to login page
+        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+    }
+    else {
+        process();
+    }
+});
+
 function populateForm() {
-    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id/1") //modify with token
+    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id", {
+        credentials: 'include'
+    }) //modify with token
         .then(response => response.json())
         .then(data => {
             const user = data.user;
@@ -62,7 +76,7 @@ function checkFormChanges() {
     document.getElementById("changeButton").disabled = !hasChanged;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function process() {
     populateForm();
 
     document.getElementById("changeButton").disabled = true;
@@ -93,7 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         console.log(JSON.stringify(user))
         // Make the API call
-        fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id/1", {
+        fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id", {
+            credentials: "include",
             method: "PUT",
             mode: "cors",
             headers: {
@@ -113,4 +128,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error:", error);
             });
     });
-});
+}

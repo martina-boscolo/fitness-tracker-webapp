@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if authToken cookie is present
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === 1) {
+    if (Cookies.indexOf('authToken') === -1) {
         console.error('Error: Unauthorized - Redirecting to login page.');
         // Redirect to login page
         window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
@@ -167,13 +167,36 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                     max: max,
                     title: {
                         display: true,
-                        text: 'Weight (Kg)'
+                        text: 'Weight (Kg)',
+                        color: '#f6f6f6'
+                    },
+                    ticks: {
+                        color: '#f6f6f6' // Colore delle etichette dell'asse x
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Colore della griglia dell'asse x
+                        borderColor: '#f6f6f6' // Colore del bordo dell'asse x
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: 'Date'
+                        text: 'Date',
+                        color: '#f6f6f6'
+                    },
+                    ticks: {
+                        color: '#f6f6f6' // Colore delle etichette dell'asse x
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Colore della griglia dell'asse x
+                        borderColor: '#f6f6f6' // Colore del bordo dell'asse x
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#f6f6f6' // Colore delle etichette della legenda
                     }
                 }
             }
@@ -413,7 +436,30 @@ function dietChart(dietStats) {
             spanGaps: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#f6f6f6' // Colore delle etichette dell'asse x
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Colore della griglia dell'asse x
+                        borderColor: '#f6f6f6' // Colore del bordo dell'asse x
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#f6f6f6' // Colore delle etichette dell'asse x
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Colore della griglia dell'asse x
+                        borderColor: '#f6f6f6' // Colore del bordo dell'asse x
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#f6f6f6' // Colore delle etichette della legenda
+                    }
                 }
             }
         }
