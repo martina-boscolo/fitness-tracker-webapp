@@ -18,6 +18,7 @@
     <title>Homepage</title>
     <script src="../jsp/diets/dietPlans.js" defer></script>
     <script src="../jsp/diets/createNewDiet.js" defer></script>
+    <script src="../jsp/diets/updateDiet.js" defer></script>
 </head>
 
 <body>
@@ -66,159 +67,85 @@
     </button>
     <!-- Modal -->
     <div class="modal fade wide-modal" id="addDietModal" tabindex="-1" aria-labelledby="addDietModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addDietModalLabel">Create new Diet Plan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div style="max-height: 600px; overflow-y: auto; overflow-x: hidden; padding-left: calc(0.3rem + 10px);">
                     <form id="addDietForm">
-                        <div class="mb-3">
-                            <label for="planName" class="form-label">Plan Name</label>
-                            <input type="text" class="form-control" id="planName" required>
-                        </div>
-                        <!-- Monday -->
-                        <div class="mb-3">
-                            <label class="form-label">Monday</label>
-                            <div class="row" id="mondayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <div class="mb-3">
+                                <label for="planName" class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" id="planName" required>
                             </div>
-                            <button type="button" id="addFoodMonday" class="btn btn-primary" onclick="addFoodInput('mondayInputs')">Add Food</button>
-                        </div>
-                        <!-- Tuesday -->
-                        <div class="mb-3">
-                            <label class="form-label">Tuesday</label>
-                            <div class="row" id="tuesdayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Monday -->
+                            <div class="mb-3">
+                                <label class="form-label">Monday</label>
+                                <div class="row" id="mondayInputs"></div>
+                                <button type="button" id="addFoodMonday" class="btn btn-primary" onclick="addFoodInput('mondayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodTuesday" class="btn btn-primary" onclick="addFoodInput('tuesdayInputs')">Add Food</button>
-                        </div>
-                        <!--Wednesday-->
-                        <div class="mb-3">
-                            <label class="form-label">Wednesday</label>
-                            <div class="row" id="wednesdayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Tuesday -->
+                            <div class="mb-3">
+                                <label class="form-label">Tuesday</label>
+                                <div class="row" id="tuesdayInputs"></div>
+                                <button type="button" id="addFoodTuesday" class="btn btn-primary" onclick="addFoodInput('tuesdayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodWednesday" class="btn btn-primary" onclick="addFoodInput('wednesdayInputs')">Add Food</button>
-                        </div>
-                        <!--Thursday-->
-                        <div class="mb-3">
-                            <label class="form-label">Thursday</label>
-                            <div class="row" id="thursdayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Wednesday -->
+                            <div class="mb-3">
+                                <label class="form-label">Wednesday</label>
+                                <div class="row" id="wednesdayInputs"></div>
+                                <button type="button" id="addFoodWednesday" class="btn btn-primary" onclick="addFoodInput('wednesdayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodThursday" class="btn btn-primary" onclick="addFoodInput('thursdayInputs')">Add Food</button>
-                        </div>
-                        <!--Friday-->
-                        <div class="mb-3">
-                            <label class="form-label">Friday</label>
-                            <div class="row" id="fridayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Thursday -->
+                            <div class="mb-3">
+                                <label class="form-label">Thursday</label>
+                                <div class="row" id="thursdayInputs"></div>
+                                <button type="button" id="addFoodThursday" class="btn btn-primary" onclick="addFoodInput('thursdayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodFriday" class="btn btn-primary" onclick="addFoodInput('fridayInputs')">Add Food</button>
-                        </div>
-                        <!--Saturday-->
-                        <div class="mb-3">
-                            <label class="form-label">Saturday</label>
-                            <div class="row" id="saturdayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Friday -->
+                            <div class="mb-3">
+                                <label class="form-label">Friday</label>
+                                <div class="row" id="fridayInputs"></div>
+                                <button type="button" id="addFoodFriday" class="btn btn-primary" onclick="addFoodInput('fridayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodSaturday" class="btn btn-primary" onclick="addFoodInput('saturdayInputs')">Add Food</button>
-                        </div>
-                        <!--Sunday-->
-                        <div class="mb-3">
-                            <label class="form-label">Sunday</label>
-                            <div class="row" id="sundayInputs">
-                                <div class="col">
-                                    <input type="text" class="form-control" placeholder="Food">
-                                </div>
-                                <div class="col">
-                                    <input type="number" class="form-control" placeholder="Quantity (grams)">
-                                </div>
-                                <div class="col">
-                                    <select class="form-select">
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Dinner">Dinner</option>
-                                    </select>
-                                </div>
+                            <!-- Saturday -->
+                            <div class="mb-3">
+                                <label class="form-label">Saturday</label>
+                                <div class="row" id="saturdayInputs"></div>
+                                <button type="button" id="addFoodSaturday" class="btn btn-primary" onclick="addFoodInput('saturdayInputs')">Add Food</button>
                             </div>
-                            <button type="button" id="addFoodSunday" class="btn btn-primary" onclick="addFoodInput('sundayInputs')">Add Food</button>
+                            <!-- Sunday -->
+                            <div class="mb-3">
+                                <label class="form-label">Sunday</label>
+                                <div class="row" id="sundayInputs"></div>
+                                <button type="button" id="addFoodSunday" class="btn btn-primary" onclick="addFoodInput('sundayInputs')">Add Food</button>
+                            </div>
+                            <button type="submit" class="btn btn-success">Add Diet Plan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal per la modifica della dieta -->
+    <div class="modal fade" id="editDietModal" tabindex="-1" aria-labelledby="editDietModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDietModalLabel">Modifica Dieta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editDietForm">
+                        <div class="mb-3">
+                            <label for="planName" class="form-label">New Plan Name</label>
+                            <input type="text" class="form-control" id="planNameModify" required>
                         </div>
-                        <button type="submit" class="btn btn-success">Add Diet Plan</button>
+                        <!-- Aggiungi qui gli altri campi per la modifica della dieta -->
+                        <button type="button" class="btn btn-primary" onclick="updateDiet()">Salva Modifiche</button>
                     </form>
                 </div>
             </div>

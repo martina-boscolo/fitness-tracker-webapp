@@ -1,5 +1,15 @@
 /* diet.css */
+/*:root * {
+    border: 1px solid red;
+    box-sizing: border-box;
+}*/
 
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 /* Style the day headers */
 .day h2 {
     color: #007bff;
