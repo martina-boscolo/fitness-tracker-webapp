@@ -19,8 +19,13 @@ function addFoodInput(containerId) {
     selectInput.innerHTML = `
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
-                <option value="Dinner">Dinner</option>
+                <option valueOverlap="Dinner">Dinner</option>
             `;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.className = 'btn btn-danger mb-2';
+    deleteButton.innerHTML = 'Delete';
 
     const row = document.createElement('div');
     row.className = 'row align-items-center';
@@ -37,17 +42,26 @@ function addFoodInput(containerId) {
     col3.className = 'col';
     col3.appendChild(selectInput);
 
+    const col4 = document.createElement('div');
+    col4.className = 'col-auto';
+    col4.appendChild(deleteButton);
+
     row.appendChild(col1);
     row.appendChild(col2);
     row.appendChild(col3);
+    row.appendChild(col4);
 
     container.appendChild(row);
+
+    deleteButton.addEventListener('click', () => {
+        container.removeChild(row);
+    });
 }
 
-document.getElementById('addDietForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Impedisce il comportamento predefinito del form
+document.getElementById('submitNewDiet').addEventListener('click',(event)=> {
+    event.preventDefault();
 
-    const idUser = 1; // Imposta un valore fisso per l'idUser
+    const idUser = 1;
     const planName = document.getElementById('planName').value;
 
     function getMealData(day) {
@@ -61,9 +75,9 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
         let dinnerCount = 0;
 
         Array.from(rows).forEach(row => {
-            const food = row.children[0].value;
-            const quantity = parseInt(row.children[1].value);
-            const mealType = row.children[2].value;
+            const food = row.children[0].firstElementChild.value;
+            const quantity = parseInt(row.children[1].firstElementChild.value);
+            const mealType = row.children[2].firstElementChild.value;
             if (food && !isNaN(quantity)) {
                 meals[mealType][food] = quantity;
                 if (mealType === 'Breakfast') breakfastCount++;
@@ -71,7 +85,6 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
                 if (mealType === 'Dinner') dinnerCount++;
             }
         });
-
 
         if (breakfastCount === 0) meals.Breakfast = { "No food provided": "" };
         if (lunchCount === 0) meals.Lunch = { "No food provided": "" };
@@ -110,6 +123,7 @@ document.getElementById('addDietForm').addEventListener('submit', function(event
             showNotification('Piano alimentare aggiunto con successo!', 'success');
         })
         .catch(error => console.error('Errore:', error));
+        $('#addDietModal').modal('hide')
 });
 
 
@@ -137,7 +151,7 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-const createNewDietPlanBtn = document.getElementById('newDiet');
+const createNewDietPlanBtn = document.getElementById('submitNewDiet');
 const addDietModal = document.getElementById('addDietModal');
 createNewDietPlanBtn.addEventListener('click', function () {
     addDietModal.style.display = 'block';

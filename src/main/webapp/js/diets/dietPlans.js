@@ -53,6 +53,7 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
                 tabLink.setAttribute('aria-controls', `day-${day}`);
                 tabLink.setAttribute('aria-selected', isFirstDay.toString()); // Set aria-selected based on isFirstDay
 
+                tabLink.style.color = 'orange';
                 tabLink.textContent = day;
 
                 // Append tab link to tab list
