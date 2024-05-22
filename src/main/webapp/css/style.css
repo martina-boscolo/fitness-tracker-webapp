@@ -39,7 +39,7 @@ nav {
 }
 
 nav.navbar .nav-link:hover {
-    color: #b3a5a5; /* White text color on hover */
+    color: rgba(55, 96, 83) !important; /* White text color on hover */
 }
 
 .icon-color {
