@@ -25,7 +25,7 @@ header {
 
 /* Nav */
 nav {
-    background: linear-gradient(to right, rgba(55, 96, 83) 0.5%, #2b2b2b 10%, #3c3f41 100%);
+    background: linear-gradient(to right, rgba(55, 96, 83) 0.5%, #2f2f32 10%, #48494a 100%);
     grid-area: nav;
     display: flex;
     align-items: center;
