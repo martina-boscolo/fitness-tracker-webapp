@@ -25,12 +25,33 @@ header {
 
 /* Nav */
 nav {
+    background: linear-gradient(to right, rgba(55, 96, 83) 0.5%, #2b2b2b 10%, #3c3f41 100%);
     grid-area: nav;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 0.6rem 0.8rem;
     gap: 1rem;
+    box-shadow: 0 1px 3px rgb(96, 89, 89);
+    padding: 0.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: #bfacac !important; /* Set the color of the links to white */
+}
+
+nav.navbar .nav-link:hover {
+    color: #b3a5a5; /* White text color on hover */
+}
+
+.icon-color {
+    color: #bfacac; /* Change to your desired color */
+}
+
+.icon-margin {
+    margin-right: 10px;
+}
+
+.icon-color:hover {
+    color: black;
 }
 
 /* Main */
