@@ -12,12 +12,14 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
             let diet = dietPlan['diet']['diet'];
 
             // Clear existing content except for navigation buttons
-            const contentContainer = document.getElementById('content');
+            const contentContainer = document.getElementById('content-container');
             contentContainer.innerHTML = '';
+
+            document.getElementById('dietPlanTitle').innerHTML = "Diet Plan: " + planName;
 
             // Display the plan name and diet date
             const dataContainer = document.createElement('div');
-            dataContainer.innerHTML = `<h1 class="mb-4">Diet Plan: ${planName}</h1>`;
+            dataContainer.id = 'content';
 
             // Create tabs for each day
             const tabList = document.createElement('ul');
@@ -115,19 +117,23 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
             displayDietPlan(currentPlanIndex);
         }
 
-        const prevButton = document.createElement('button');
-        prevButton.classList.add('btn', 'btn-primary', 'me-2');
-        prevButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+        const prevButton = document.getElementById('prevDiet');
         prevButton.addEventListener('click', previousDietPlan);
+        prevButton.addEventListener('mouseover', () => {
+            prevButton.setAttribute("class","bi bi-arrow-left-circle-fill")
+        });
+        prevButton.addEventListener('mouseout', () => {
+            prevButton.setAttribute("class", "bi bi-arrow-left-circle")
+        });
 
-        const nextButton = document.createElement('button');
-        nextButton.classList.add('btn', 'btn-primary');
-        nextButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+        const nextButton = document.getElementById('nextDiet');
         nextButton.addEventListener('click', nextDietPlan);
+        nextButton.addEventListener('mouseover', () => {
+            nextButton.setAttribute("class","bi bi-arrow-right-circle-fill")
+        });
+        nextButton.addEventListener('mouseout', () => {
+            nextButton.setAttribute("class","bi bi-arrow-right-circle")
+        });
 
-        const navContainer = document.getElementById('navigation');
-        navContainer.innerHTML = '';
-        navContainer.appendChild(prevButton);
-        navContainer.appendChild(nextButton);
     })
     .catch(error => console.error('Error:', error));

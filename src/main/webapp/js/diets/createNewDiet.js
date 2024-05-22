@@ -137,7 +137,7 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-const createNewDietPlanBtn = document.getElementById('createNewDietPlanBtn');
+const createNewDietPlanBtn = document.getElementById('newDiet');
 const addDietModal = document.getElementById('addDietModal');
 createNewDietPlanBtn.addEventListener('click', function () {
     addDietModal.style.display = 'block';
