@@ -18,7 +18,6 @@
     <title>Homepage</title>
     <script src="../js/diets/dietPlans.js" defer></script>
     <script src="../js/diets/createNewDiet.js" defer></script>
-    <script src="../js/diets/updateDiet.js" defer></script>
 </head>
 
 <body>
@@ -143,22 +142,20 @@
     </div>
 
     <!-- Modal per la modifica della dieta -->
-    <div class="modal fade" id="editDietModal" tabindex="-1" aria-labelledby="editDietModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editDietModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editDietModalLabel">Modifica Dieta</h5>
+                    <h5 class="modal-title" id="updateModalLabel">Update Diet Plan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editDietForm">
-                        <div class="mb-3">
-                            <label for="planName" class="form-label">New Plan Name</label>
-                            <input type="text" class="form-control" id="planNameModify" required>
-                        </div>
-                        <!-- Aggiungi qui gli altri campi per la modifica della dieta -->
-                        <button type="button" class="btn btn-primary" onclick="updateDiet()">Salva Modifiche</button>
+                    <form id="dietForm">
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateDiet()">Salva Modifiche</button>
                 </div>
             </div>
         </div>

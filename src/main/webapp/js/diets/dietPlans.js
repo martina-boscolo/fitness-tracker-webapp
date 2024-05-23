@@ -1,4 +1,6 @@
-fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
+fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
+    credentials: 'include'
+})
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -136,5 +138,104 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/1')
             nextButton.setAttribute("class","bi bi-arrow-right-circle")
         });
 
+        $('#editDietModal').on('shown.bs.modal', function (e) {
+            updateDiet(data['resource-list'][currentPlanIndex]);
+        });
+
     })
     .catch(error => console.error('Error:', error));
+
+function updateDiet(data) {
+    // Fetch the selected diet plan
+    console.log(data)
+    const diet = data['diet']['diet'];
+    console.log(diet)
+    const planName = data['diet']['planName'];
+    console.log(planName)
+        const form = document.getElementById('dietForm');
+
+        // Clear existing form content
+        form.innerHTML = '';
+
+        // Create input field for the plan name
+        const planNameFieldset = document.createElement('fieldset');
+        const planNameLabel = document.createElement('label');
+        planNameLabel.textContent = 'Plan Name:';
+        const planNameInput = document.createElement('input');
+        planNameInput.type = 'text';
+        planNameInput.name = 'planName';
+        planNameInput.value = planName; // Set planName value here
+        planNameFieldset.appendChild(planNameLabel);
+        planNameFieldset.appendChild(planNameInput);
+        form.appendChild(planNameFieldset);
+
+        // Iterate through diet plan data and create form fields for meals and foods
+        for (let day in diet) {
+            // Only process keys that are not 'planName' or 'dietDate'
+            if (day !== 'planName' && day !== 'dietDate') {
+                for (let meal in diet[day]) {
+                    // Create fieldset for each meal
+                    const fieldset = document.createElement('fieldset');
+                    const legend = document.createElement('legend');
+                    legend.textContent = `${day} - ${meal}`;
+                    fieldset.appendChild(legend);
+
+                    // Iterate through foods in the meal
+                    for (let food in diet[day][meal]) {
+                        const foodData = diet[day][meal][food];
+
+                        // Create input elements for each food name and quantity
+                        if (typeof foodData === 'object') {
+                            // If food is an object (contains subfoods)
+                            for (let subFood in foodData) {
+                                // Create input field for subFood name
+                                const nameLabel = document.createElement('label');
+                                nameLabel.textContent = `${subFood}:`;
+                                const nameInput = document.createElement('input');
+                                nameInput.type = 'text';
+                                nameInput.name = `${day}-${meal}-${food}-${subFood}`;
+                                nameInput.value = subFood;
+                                fieldset.appendChild(nameLabel);
+                                fieldset.appendChild(nameInput);
+                                fieldset.appendChild(document.createTextNode(': '));
+
+                                // Create input field for quantity
+                                const quantityInput = document.createElement('input');
+                                quantityInput.type = 'text';
+                                quantityInput.name = `${day}-${meal}-${food}-${subFood}-quantity`;
+                                quantityInput.value = foodData[subFood];
+                                fieldset.appendChild(quantityInput);
+                                fieldset.appendChild(document.createElement('br'));
+                            }
+                        } else {
+                            // If food is a direct value
+                            // Create input field for food name
+                            const nameLabel = document.createElement('label');
+                            nameLabel.textContent = `${food}:`;
+                            const nameInput = document.createElement('input');
+                            nameInput.type = 'text';
+                            nameInput.name = `${day}-${meal}-${food}`;
+                            nameInput.value = food;
+                            fieldset.appendChild(nameLabel);
+                            fieldset.appendChild(nameInput);
+                            fieldset.appendChild(document.createTextNode(': '));
+
+                            // Create input field for quantity
+                            const quantityInput = document.createElement('input');
+                            quantityInput.type = 'text';
+                            quantityInput.name = `${day}-${meal}-${food}-quantity`;
+                            quantityInput.value = foodData;
+                            fieldset.appendChild(quantityInput);
+                            fieldset.appendChild(document.createElement('br'));
+                        }
+                    }
+
+                    // Append fieldset to the form
+                    form.appendChild(fieldset);
+                }
+            }
+        }
+    }
+
+
+
