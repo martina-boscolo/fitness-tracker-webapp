@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchImc();
         fetchDiet();
         fetchExercise();
+        formListener();
     }
 
     /* Popover */
@@ -21,6 +22,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// new Stats
+function formListener() {
+    const submitButton = document.getElementById('submitStats');
+    const closeButton = document.getElementById('closeStats');
+    const form = document.getElementById('statsForm');
+
+    submitButton.addEventListener('click', (event) => {
+        if (form.checkValidity()) {
+            const formData = new FormData(form);
+
+            const bodyStats = {
+                height: formData.get('height'),
+                weight: formData.get('weight'),
+                fatty: formData.get('fatty'),
+                lean: formData.get('lean')
+            };
+
+            console.log(JSON.stringify(bodyStats));
+
+            const rest = 'http://localhost:8080/cycleK-1.0.0/rest/' + formData.get('stats_goal');
+            const fetchStats = fetch(rest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyStats)
+            })
+                .then(response => response.json())
+                .then(
+                    data => {
+                        console.log(data);
+                        $('#statsModal').modal('hide');
+                        location.reload();
+                    }
+                )
+                .catch(error => console.error('Error:', error));
+
+        } else {
+            form.reportValidity();
+        }
+    });
+
+    closeButton.addEventListener('click', (event) => {
+        let tmp = form.querySelector('input[name="height"]');
+        form.reset();
+        form.querySelector('input[name="height"]').value = tmp.value;
+    });
+}
 
 // Body Stats
 function fetchBodyStats() {
@@ -146,16 +196,16 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                 data: stats,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderWidth: 1,
-                fill: true
+                pointRadius: 6,
+                borderWidth: 1
             },
             {
                 label: 'Goal',
                 data: goals,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderWidth: 1,
-                fill: true
+                pointRadius: 6,
+                borderWidth: 1
             }
             ]
         },
@@ -168,9 +218,11 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                     title: {
                         display: true,
                         text: 'Weight (Kg)',
-                        color: '#f6f6f6'
+                        color: '#f6f6f6',
+                        font: {size:16}
                     },
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -182,9 +234,11 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                     title: {
                         display: true,
                         text: 'Date',
-                        color: '#f6f6f6'
+                        color: '#f6f6f6',
+                        font: {size:16}
                     },
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -196,6 +250,7 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
             plugins: {
                 legend: {
                     labels: {
+                        font: { size:18 },
                         color: '#f6f6f6' // Colore delle etichette della legenda
                     }
                 }
@@ -429,6 +484,7 @@ function dietChart(dietStats) {
                 y: {
                     beginAtZero: true,
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -438,6 +494,7 @@ function dietChart(dietStats) {
                 },
                 x: {
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -449,6 +506,7 @@ function dietChart(dietStats) {
             plugins: {
                 legend: {
                     labels: {
+                        font: { size:18 },
                         color: '#f6f6f6' // Colore delle etichette della legenda
                     }
                 }

@@ -27,15 +27,12 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             const token = data.token;
             console.log(token)
             if (token) {
-                setCookie('authToken', token, 5); // Set the token as a cookie
-                console.log("Login successful!");
+                setCookie('authToken', token, 120); // Set the token as a cookie
                 window.location.href = "stats.html";
-
                 // Optionally, redirect the user or perform other actions
             } else {
                 alert("Login failed: Token not found in response.");
             }
-            alert("Login successful!");
             // Optionally, redirect the user or perform other actions
         })
         .catch(error => {
