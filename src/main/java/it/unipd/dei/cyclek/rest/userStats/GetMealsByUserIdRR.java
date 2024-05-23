@@ -8,6 +8,8 @@ import it.unipd.dei.cyclek.resources.stats.FoodStats;
 import it.unipd.dei.cyclek.resources.stats.MealAdapter;
 import it.unipd.dei.cyclek.resources.stats.MealFoodGroup;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -31,9 +33,25 @@ public class GetMealsByUserIdRR extends AbstractRR {
 
         try {
 
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("user") + 4);
-            final int idUser = Integer.parseInt(path.substring(1));
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
 
             // creates a new DAO for accessing the database and lists the employee(s)
             mealFoodGroup = new GetMealsAndFoodByUserIdDAO(con, idUser).access().getOutputParam();

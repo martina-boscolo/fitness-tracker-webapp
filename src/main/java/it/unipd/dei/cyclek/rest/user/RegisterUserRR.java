@@ -41,7 +41,9 @@ public class RegisterUserRR extends AbstractRR {
                 return;
             }
             LOGGER.info("User(s) successfully added to database.");
+            res.setContentType("application/json");
             res.setStatus(HttpServletResponse.SC_OK);
+            u.toJSON(res.getOutputStream());
         } catch (PSQLException ex) {
             if (ex.getSQLState().equals("23505")) {
                 LOGGER.error("Cannot add the user(s): constraint violated.", ex);

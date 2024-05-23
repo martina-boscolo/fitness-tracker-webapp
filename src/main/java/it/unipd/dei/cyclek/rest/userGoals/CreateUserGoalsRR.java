@@ -6,6 +6,8 @@ import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.entity.UserGoals;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -21,11 +23,32 @@ public class CreateUserGoalsRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        UserGoals bs = null;
-        Message m = null;
+        UserGoals bs;
+        Message m;
 
         try {
-            final UserGoals userGoals = UserGoals.fromJSON(req.getInputStream());
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
+            UserGoals userGoals = UserGoals.fromJSON(req.getInputStream());
+            userGoals.setIdUser(idUser);
 
             // creates a new DAO for accessing the database and lists the employee(s)
             bs = new CreateUserGoalDAO(con, userGoals).access().getOutputParam();

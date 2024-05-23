@@ -5,11 +5,11 @@
 
 body {
     display: grid;
-    grid-template: auto 1fr auto / auto 1fr;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
-    "nav    nav"
-    "main    main"
-    "footer footer";
+    "nav"
+    "main"
+    "footer";
     height: 100vh;
 }
 
@@ -25,22 +25,38 @@ header {
 
 /* Nav */
 nav {
+    background: linear-gradient(to right, rgba(55, 96, 83) 0.5%, #2f2f32 10%, #48494a 100%);
     grid-area: nav;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 0.6rem 0.8rem;
     gap: 1rem;
+    box-shadow: 0 1px 3px rgb(96, 89, 89);
+    padding: 0.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: #bfacac !important; /* Set the color of the links to white */
+}
+
+nav.navbar .nav-link:hover {
+    color: rgba(55, 96, 83) !important; /* White text color on hover */
+}
+
+.icon-color {
+    color: #bfacac; /* Change to your desired color */
+}
+
+.icon-margin {
+    margin-right: 10px;
+}
+
+.icon-color:hover {
+    color: black;
 }
 
 /* Main */
 main {
     grid-area: main;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
 }
 
 /* Footer */

@@ -8,7 +8,7 @@
     <description>Example of minimal HTML page writing "Hello, world!"</description>
 
     <welcome-file-list>
-        <welcome-file>/html/hello.html</welcome-file>
+        <welcome-file>/html/login.html</welcome-file>
     </welcome-file-list>
 
     <servlet>

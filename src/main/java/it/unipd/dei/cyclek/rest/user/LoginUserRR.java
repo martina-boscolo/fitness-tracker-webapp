@@ -62,6 +62,7 @@ public class LoginUserRR extends AbstractRR {
                 m.toJSON(res.getOutputStream());
             } else {
                 res.setContentType("application/json");
+                res.setStatus(HttpServletResponse.SC_OK);
                 TokenJWT token = new TokenJWT(ul.get(0).getId());
                 token.toJSON(res.getOutputStream());
             }

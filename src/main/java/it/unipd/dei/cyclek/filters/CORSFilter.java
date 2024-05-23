@@ -1,18 +1,10 @@
 package it.unipd.dei.cyclek.filters;
 
-import jakarta.servlet.Filter;
-
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 
 public class CORSFilter implements Filter {
@@ -21,10 +13,11 @@ public class CORSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+        HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         // Allow all origins
-        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 
         // Allow specific HTTP methods
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -35,11 +28,16 @@ public class CORSFilter implements Filter {
         // Allow credentials
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
+        if (req.getMethod().equals("OPTIONS")) {
+            httpResponse.setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
+        }
+
         chain.doFilter(request, response);
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         // Initialization code, if needed
     }
 
