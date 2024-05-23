@@ -58,16 +58,26 @@ function addFoodInput(containerId) {
     });
 }
 
-document.getElementById('submitNewDiet').addEventListener('click',(event)=> {
+document.getElementById('submitNewDiet').addEventListener('click', (event) => {
+    let Cookies = document.cookie;
+    if (Cookies.indexOf('authToken') === -1) {
+        console.error('Error: Unauthorized - Redirecting to login page.');
+        // Redirect to login page
+        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+    } else {
+        processNewDiet(event)
+    }
+});
+
+function processNewDiet(event) {
     event.preventDefault();
 
-    const idUser = 1;
     const planName = document.getElementById('planName').value;
 
     function getMealData(day) {
         const dayInputs = document.getElementById(day);
         const rows = dayInputs.getElementsByClassName('row');
-        const meals = { Breakfast: {}, Lunch: {}, Dinner: {} };
+        const meals = {Breakfast: {}, Lunch: {}, Dinner: {}};
 
 
         let breakfastCount = 0;
@@ -86,15 +96,15 @@ document.getElementById('submitNewDiet').addEventListener('click',(event)=> {
             }
         });
 
-        if (breakfastCount === 0) meals.Breakfast = { "No food provided": "" };
-        if (lunchCount === 0) meals.Lunch = { "No food provided": "" };
-        if (dinnerCount === 0) meals.Dinner = { "No food provided": "" };
+        if (breakfastCount === 0) meals.Breakfast = {"No food provided": ""};
+        if (lunchCount === 0) meals.Lunch = {"No food provided": ""};
+        if (dinnerCount === 0) meals.Dinner = {"No food provided": ""};
 
         return meals;
     }
 
     const dietPlan = {
-        idUser: idUser,
+        idUser: -1,
         planName: planName,
         diet: {
             Monday: getMealData('mondayInputs'),
@@ -114,19 +124,35 @@ document.getElementById('submitNewDiet').addEventListener('click',(event)=> {
         },
         body: JSON.stringify(dietPlan)
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                // Check for 401 Unauthorized
+                if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                }
+                // Throw an error for other non-success statuses
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(addedDiet => {
             console.log('Piano alimentare aggiunto:', addedDiet);
 
-            data['resource-list'].push({ diet: addedDiet });
-            displayDietPlan(data['resource-list'].length - 1); // Mostra il nuovo piano alimentare aggiunto
+            data['resource-list'].push({diet: addedDiet});
+            displayDietPlan(data['resource-list'].length - 1);
             showNotification('Piano alimentare aggiunto con successo!', 'success');
         })
-        .catch(error => console.error('Errore:', error));
-        $('#addDietModal').modal('hide')
-});
-
-
+        .catch(error => {
+            if (error.message === 'Unauthorized') {
+                console.error('Error 401: Unauthorized - Redirecting to login page.');
+                // Redirect to login page
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+            } else {
+                console.error('Error:', error);
+            }
+        });
+    $('#addDietModal').modal('hide')
+}
 
 function showNotification(message, type) {
     const notificationContainer = document.getElementById('notificationContainer');
