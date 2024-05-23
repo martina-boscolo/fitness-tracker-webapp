@@ -125,7 +125,7 @@ function process() {
                     // Throw an error for other non-success statuses
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                response.json();
+                return response.json();
             })
             .then(data => {
                 // Handle the response data
