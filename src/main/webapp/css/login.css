@@ -6,6 +6,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 body {
     background: #A5DD9B;
     font-family: 'Poppins', sans-serif;
@@ -17,7 +18,6 @@ form {
     padding: 50px;
     border-radius: 20px;
     margin-top: 150px;
-
     box-shadow: 0.5rem 0.5rem #81ac75;
 }
 
@@ -54,6 +54,16 @@ h4 {
 
 .link-center:hover {
     text-decoration: underline;
+}
+
+.error {
+    border-color: red; /* Set border color to red */
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    text-align: center;
 }
 
 @media only screen and (max-width:600px){
