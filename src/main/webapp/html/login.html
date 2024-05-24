@@ -14,11 +14,12 @@
 <body>
 
 <div class="container-fluid .d-flex">
-    <form class="mx-auto" id="loginForm" onchange="checkFields()">
+    <form class="mx-auto" id="loginForm">
         <h4 class="text-center">Login</h4>
         <div class="mb-3 mt-5">
             <label for="InputUsername" class="form-label">Username</label>
-            <input type="text" class="form-control" id="InputUsername" aria-describedby="usernameHelp" maxlength="30" required>
+            <input type="text" class="form-control" id="InputUsername" aria-describedby="usernameHelp" maxlength="30"
+                   required>
         </div>
         <div class="mb-3">
             <label for="InputPassword" class="form-label">Password</label>
@@ -26,7 +27,7 @@
         </div>
         <button type="submit" class="btn btn-primary mt-4">Login</button>
         <a href="http://localhost:8080/cycleK-1.0.0/html/register.html" class="link-center">Sign up</a>
-
+        <div id="login-error" class="error-message">Login failed!</div>
     </form>
 </div>
 

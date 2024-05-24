@@ -23,7 +23,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
                 resetForm();
                 renderError(document.getElementById("InputUsername"));
                 renderError(document.getElementById("InputPassword"));
-                renderErrorMessage("Login failed!");
+                document.getElementById("login-error").style.visibility ="visible";
             }
             return response.json();
         })
@@ -53,29 +53,6 @@ function renderError(input) {
     }
 }
 
-function renderErrorMessage(message) {
-    const errorMessage = document.createElement('div');
-    errorMessage.textContent = message;
-    errorMessage.id = "error-login";
-    errorMessage.classList.add('error-message');
-    const form = document.getElementById('loginForm');
-    form.appendChild(errorMessage);
-}
-
-function checkFields() {
-    console.log("I'm here");
-    let username = document.getElementById("InputUsername").value;
-    let password = document.getElementById("InputUsername").value;
-
-    if(username.classList.contains("error") && password.classList.contains("error")) {
-        username.classList.remove("error");
-        password.classList.remove("error");
-        document.getElementById('loginForm').removeChild(document.getElementById('error-login'));
-    }
-
-
-}
-
 function setCookie(name, value, minutes, path = '/', domain = window.location.hostname, secure = true) {
     let cookie = `${name}=${encodeURIComponent(value)};`;
 
@@ -96,4 +73,15 @@ function setCookie(name, value, minutes, path = '/', domain = window.location.ho
     }
 
     document.cookie = cookie;
+}
+
+document.getElementById("InputUsername").addEventListener("input", handleInput);
+document.getElementById("InputPassword").addEventListener("input", handleInput);
+
+function handleInput() {
+    document.getElementById("login-error").style.visibility = "hidden";
+    const inputs = document.querySelectorAll("#InputUsername, #InputPassword");
+    inputs.forEach(input => {
+        input.classList.remove("error");
+    });
 }
