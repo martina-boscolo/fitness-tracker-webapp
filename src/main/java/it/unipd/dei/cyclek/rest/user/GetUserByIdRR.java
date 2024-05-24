@@ -2,9 +2,12 @@ package it.unipd.dei.cyclek.rest.user;
 
 import it.unipd.dei.cyclek.dao.user.GetUserDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.entity.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -24,11 +27,28 @@ public class GetUserByIdRR extends AbstractRR {
         Message m;
 
         try {
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("id") + 2);
-            final int id = Integer.parseInt(path.substring(1));
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
 
-            User user = new User(id);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
+            User user = new User(idUser);
             userList = new GetUserDAO(con, user).access().getOutputParam();
             if (userList != null && userList.size() == 1) {
                 LOGGER.info("User(s) successfully find.");

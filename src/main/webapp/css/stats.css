@@ -1,0 +1,177 @@
+/*:root * {
+    border: 1px solid red;
+    box-sizing: border-box;
+}*/
+
+main {
+    display: grid;
+    grid-template: 1fr 1fr / 1.5fr 1fr;
+    grid-template-areas: 
+    "user imc"
+    "diet exercise";
+    padding: 2rem;
+    gap: 2rem;
+
+    background: #252323;
+    color: #f6f6f6;
+
+    /*overflow: hidden; Sarebbe bello ma rompe il layout */
+}
+@media screen and (max-width: 991px) {
+    main {
+        grid-template: 1fr 1fr 1fr / 1fr 1fr;
+        grid-template-areas: 
+        "user user"
+        "imc  exercise"
+        "diet diet";
+        overflow: visible;
+    }
+}
+
+h2:hover, h4:hover {
+    color: #A5DD9B;
+    cursor: pointer;
+}
+
+.text {
+    font-size: 1.2rem;
+}
+
+* > .text {
+    text-align: center;
+}
+
+/* card */
+main > div {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.5rem 0.5rem #1f1e1e;
+    background: #292727;
+
+    overflow: hidden;
+}
+
+.cardTitle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+}
+
+.cardTitle div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.cardTitle hr{
+    border: 1px solid #f6f6f6;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+button, .btn-group, hr {
+    box-shadow: 0.25rem 0.25rem #1f1e1e;
+}
+
+/* Canvas
+canvas {
+    width: min(90%, auto) !important;
+    height: min(90%, auto) !important;
+}
+*/
+
+/* User */
+.user {
+    grid-area: user;
+}
+
+.user .buttons {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+/* IMC */
+.imc {
+    grid-area: imc;
+}
+
+.imc .cardBody {
+    gap: 5rem;
+}
+
+#imc-comparison {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+#imc-title, #imc-value {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Diet */
+.diet {
+    grid-area: diet;
+}
+
+.diet .buttons {
+    display: flex;
+    margin: 1rem;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#diet-fav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    gap: 4rem;
+}
+
+/* Exercise */
+.exercises {
+    grid-area: exercise;
+}
+
+.exercises .cardBody {
+    gap: 5rem;
+}
+
+.ex-grp {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+.ex-det {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+    gap: 2rem;
+}
+
+#best-worst {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+    gap: 4rem;
+}

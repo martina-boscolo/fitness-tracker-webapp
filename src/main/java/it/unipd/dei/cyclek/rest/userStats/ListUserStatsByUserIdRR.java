@@ -4,8 +4,10 @@ import it.unipd.dei.cyclek.dao.userStats.GetUserStatsByUserIdDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.resources.entity.UserStats;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,9 +26,26 @@ public class ListUserStatsByUserIdRR extends AbstractRR {
         Message m = null;
 
         try {
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("user") + 4);
-            final int idUser = Integer.parseInt(path.substring(1));
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
 
             // creates a new DAO for accessing the database and lists the employee(s)
             bsl = new GetUserStatsByUserIdDAO(con, idUser).access().getOutputParam();

@@ -36,15 +36,15 @@ public class UserStatsService extends AbstractService{
                 new ListUserStatsRR(req, res, con).serve();
             else                                                                      // POST /rest/stats/body  (insert a new bodystats)
                 new CreateUserStatsRR(req, res, con).serve();
-        else if (path.matches("/body/user/\\d+$") && method.equals("GET"))      // GET  /rest/stats/body/user/{id}  (get all measures of a single user)
+        else if (path.matches("/body/user(/)?") && method.equals("GET"))      // GET  /rest/stats/body/user/{id}  (get all measures of a single user)
             new ListUserStatsByUserIdRR(req, res, con).serve();
-        else if (path.matches("/imc/mean") && method.equals("GET"))             // GET  /rest/stats/imc/mean      (get global mean of IMC)
+        else if (path.matches("/imc/mean(/)?") && method.equals("GET"))             // GET  /rest/stats/imc/mean      (get global mean of IMC)
                 new GetMeanImcRR(req, res, con).serve();
-        else if (path.matches("/imc/user/\\d+$") && method.equals("GET"))       // GET  /rest/stats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
+        else if (path.matches("/imc/user(/)?") && method.equals("GET"))       // GET  /rest/stats/imc/user/{id} (get actual imc and meanIMC among measures of a single user)
                 new GetImcByUserIdRR(req, res, con).serve();
-        else if (path.matches("/meals/user/\\d+$") && method.equals("GET"))     // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
+        else if (path.matches("/meals/user(/)?") && method.equals("GET"))     // GET  /rest/stats/meals/user/{id} (get stats about meals for a single user)
             new GetMealsByUserIdRR(req, res, con).serve();
-        else if (path.matches("/exercises/user/\\d+$") && method.equals("GET")) // GET  /rest/stats/exercises/user/{id} (get stats about exercises for a single user)
+        else if (path.matches("/exercises/user(/)?") && method.equals("GET")) // GET  /rest/stats/exercises/user/{id} (get stats about exercises for a single user)
             new GetExerciseStatsByUserIdRR(req, res, con).serve();
         else
             unsupportedOperation(req, res);

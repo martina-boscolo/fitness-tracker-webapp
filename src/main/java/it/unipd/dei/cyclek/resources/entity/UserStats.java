@@ -30,6 +30,8 @@ public class UserStats extends AbstractResource {
         this.statsDate = statsDate;
     }
 
+    public void setIdUser(Integer idUser) {this.idUser = idUser;}
+
     public Integer getId() {
         return id;
     }

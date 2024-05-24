@@ -139,6 +139,7 @@ public enum ErrorCode {
     UNSUPPORTED_MEDIA_TYPE("-904", HttpServletResponse.SC_NOT_ACCEPTABLE, "Not Acceptable", "Unsupported output media type. Resources are represented only in application/json."),
     CONTENT_TYPE_MISSING("-905", HttpServletResponse.SC_BAD_REQUEST, "Bad Request", "Input media type not specified. Content-Type request header missing."),
     UNABLE_TO_SERVE_REQUEST("-906", HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Error", "Unable to serve the REST request. "),
+    UNAUTHORIZED("-907", HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized", "Unauthorized"),
     ;
 
     private final String errorCode;

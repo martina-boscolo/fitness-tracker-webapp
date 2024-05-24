@@ -30,6 +30,8 @@ public class UserGoals extends AbstractResource {
         this.goalDate = goalDate;
     }
 
+    public void setIdUser(Integer idUser) {this.idUser = idUser;}
+
     public Integer getId() {
         return id;
     }

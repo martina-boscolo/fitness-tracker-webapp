@@ -38,7 +38,7 @@ public class UserGoalsService extends AbstractService{
                 new ListUserGoalsRR(req, res, con).serve();           // GET  /rest/goals  (list user goals of all users)
             else
                 new CreateUserGoalsRR(req, res, con).serve();         // POST /rest/goals  (insert a new user goal)
-        else if (path.matches("/user/\\d+$") && method.equals("GET"))
+        else if (path.matches("/user(/)?") && method.equals("GET"))
             new ListUserGoalsByUserIdRR(req, res, con).serve();       // GET /rest/goals/user/{id}  (list user goals of a user)
         else
             unsupportedOperation(req, res);
