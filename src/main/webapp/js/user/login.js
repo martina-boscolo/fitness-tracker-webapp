@@ -28,7 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             console.log(token)
             if (token) {
                 setCookie('authToken', token, 120); // Set the token as a cookie
-                window.location.href = "stats.html";
+                window.location.href = "html/stats.html";
                 // Optionally, redirect the user or perform other actions
             } else {
                 alert("Login failed: Token not found in response.");
