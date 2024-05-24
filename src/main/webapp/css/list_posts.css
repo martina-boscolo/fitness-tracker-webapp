@@ -1,20 +1,19 @@
 body {
-    /*background: linear-gradient(to right, #ffffff, #9bc47e);*/
+    /* background: linear-gradient(to right, #da08ec, #0a51d9);*/
 }
-
 
 
 .sticky-element {
     position: sticky;
     top: 0;
-    /*background: linear-gradient(to left,#ffffff, #9bc47e);*/
+    /*   background: linear-gradient(to left, #da08ec, #0a51d9);*/
     padding: 10px;
     z-index: 100; /* Ensures it stays on top of other content */
     border-radius: 30px; /* Makes the corners rounded */
 
-    }
+}
 
-#social-header{
+#social-header {
     display: flex;
     flex: 3;
     flex-direction: row; /* Change to column direction */
@@ -22,6 +21,7 @@ body {
 
 
 }
+
 .content {
     margin-top: 50px; /* Adjust this value to match the height of your sticky element */
     padding: 10px;
@@ -36,22 +36,50 @@ body {
     margin: 10px;
 }
 
-.head-button{
-   /* border-color: #9bc47e*/
+.head-button {
+    border-color: #9bc47e
 }
 
-#newPostCard{
+#newPostCard {
     margin: 0 auto;
     max-width: 40rem;
     flex: 2;
 }
 
 
-#newPostArea{
+#newPostArea {
     margin: 0 auto;
     text-align: center;
 }
-#postsContainer{
+
+#postsContainer {
     flex: 2;
 }
 
+.pressed {
+    color: red;
+}
+
+.icon {
+    color: gray !important;
+}
+
+.icon:hover {
+
+    color: #363636;
+}
+
+#body-post, #my-post {
+    display: none;
+}
+
+#add-post {
+    position: fixed; /* Make the button sticky */
+    bottom: 20px; /* Position it 20px from the bottom */
+    right: 20px; /* Position it 20px from the right */
+    border-radius: 50%; /* Make the button round */
+    width: 60px; /* Set the width of the button */
+    height: 60px; /* Set the height of the button */
+    font-size: 24px; /* Increase the font size */
+    background-color: gray;
+}

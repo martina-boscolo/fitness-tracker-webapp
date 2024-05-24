@@ -13,7 +13,7 @@ window.onload = function () {
 
                 // Create a new div for the card
                 let card = document.createElement('div');
-                card.className = 'card text-bg-light mb-3';
+                card.className = 'card border-light mb-3';
                 card.style.maxWidth = '30rem'; // Increase the max-width to make the card larger
                 card.style.margin = '0 auto'; // Add auto margins to center the card
 
@@ -55,17 +55,65 @@ window.onload = function () {
 
                 let like = document.createElement('button');
                 like.type = 'button';
-                like.className = 'btn btn-light';
+                like.className = 'btn btn-link icon';
 
+
+                let isLike = false;
                 like.addEventListener('click', function () {
-                    addLike(post.postId);
+                    if (isLike === true) {
+                        // If the button is already pressed, mark it as not pressed
+                        heartIcon.classList.remove('pressed');
+                        deleteLike(post.postId);
+                        isLike = false;
+                    } else {
+                        // If the button is not pressed, mark it as pressed
+                        addLike(post.postId);
+                        heartIcon.classList.add('pressed');
+                        isLike = true;
+
+                    }
+                    countLikes(post.postId, function (likesCount) {
+                        countLike.innerText = ` ${likesCount} likes`;
+                    });
+
                 });
+
+                //like.addEventListener('dblclick', function () {
+                //    addLike(post.postId);
+                //});
 
                 let comment = document.createElement('button');
                 comment.type = 'button';
-                comment.className = 'btn btn-light';
+                comment.className = 'btn btn-link icon';
+                comment.setAttribute('data-bs-toggle', 'collapse');
+                comment.setAttribute('data-bs-target', '#collapseExample');
+                comment.setAttribute('aria-expanded', 'true');
+                comment.setAttribute('aria-controls', 'collapseExample')
                 comment.addEventListener('click', function () {
-                    addComments(post.postId);
+                    let commentSection = document.querySelector('commentSection');
+
+                    listComments(post.postId);
+
+                    // Check if the div is already visible
+                    let collapseDiv = document.getElementById('collapseExample');
+                    // Create the new elements
+                    if (collapseDiv) {
+                        // If the div is visible, hide it
+                        collapseDiv.remove();
+                    } else {
+                        // If the div is not visible, show it
+                        collapseDiv = document.createElement('div');
+                        collapseDiv.className = 'collapse show';
+                        collapseDiv.id = 'collapseExample';
+                        collapseDiv.style = '';
+                        let cardDiv = document.createElement('div');
+                        cardDiv.className = 'card card-body';
+
+
+                        // Append the new elements
+                        collapseDiv.appendChild(cardDiv);
+                        card.appendChild(collapseDiv);
+                    }
                 });
 
                 let count = document.createElement('div')
@@ -73,6 +121,8 @@ window.onload = function () {
                 let countLike = document.createElement('button');
                 countLike.type = 'button';
                 countLike.className = 'btn btn-link';
+
+
                 countLikes(post.postId, function (likesCount) {
                     countLike.innerText = ` ${likesCount} likes`;
                 });
@@ -80,7 +130,7 @@ window.onload = function () {
 
                 let countComment = document.createElement('button');
                 countComment.type = 'button';
-                countComment.className = 'btn btn-link';
+                countComment.className = 'btn btn-link ';
                 countComments(post.postId, function (commentsCount) {
                     countComment.innerText = ` ${commentsCount} comments`;
                 });
@@ -128,12 +178,10 @@ window.onload = function () {
     xhr.open("GET", url, true);
     xhr.send();
 
+    showDiv(event, 'body-post');
+
 }
 
-
-//non funzia
-//document.getElementById("comment-button")
-//    .addEventListener("click", listComments);
 
 function listComments(postId) {
     console.log("schiacciaaa")
@@ -310,4 +358,22 @@ function addComments(postId) {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(JSON.stringify(body));
+}
+
+function deleteLike(postId) {
+    console.log("deleteLike")
+
+
+}
+
+function showDiv(event, id) {
+    // Prevent the default action of the link
+    event.preventDefault();
+
+    // Hide all divs
+    document.getElementById('body-post').style.display = 'none';
+    document.getElementById('my-post').style.display = 'none';
+
+    // Show the specific div
+    document.getElementById(id).style.display = 'block';
 }
