@@ -53,8 +53,9 @@
   <div class="user">
     <div class="cardTitle">
       <div>
-        <h2>Body Stats</h2>
-        <i tabindex="0" class="bi bi-info-circle" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info" data-bs-content="This card shows your collected statistics and goals about body measures. With the buttons below is possible to change metric among weight, fatty mass and lean mass, is also possible to change some chart properties."></i>
+        <h2 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info" data-bs-content="This card shows your collected statistics and goals about body measures. With the buttons below is possible to change metric among weight, fatty mass and lean mass, is also possible to change some chart properties.">
+          Body Stats
+        </h2>
       </div>
       <hr>
     </div>
@@ -135,25 +136,31 @@
   <div class="imc">
     <div class="cardTitle">
       <div>
-        <h2>BMI</h2>
-        <i tabindex="0" class="bi bi-info-circle" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info"
-           data-bs-content="This card displays your BMI (Body Mass Index).
+        <h2 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info"
+            data-bs-content="This card displays your BMI (Body Mass Index).
                 BMI is calculated using the formula: Weight / (Height x Height) kg/m².
-                Your BMI classification is determined based on standard reference tables.
-                Additionally, a comparison is provided between your average BMI over time and the average BMI of all other users."></i>
-      </div>
+                Your BMI classification is determined based on standard reference tables.">
+          BMI
+        </h2>
+        </div>
       <hr>
     </div>
     <div class="cardBody">
       <div id="imc-value"></div>
       <div id="imc-comparison">
         <div>
-          <h5>Mean</h5>
-          <div id="imc-mean"></div>
+          <h4 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Mean Value"
+              data-bs-content="This is the difference among your actual BMI value and the average computed over all your measures. Note: measures not goals.">
+            Mean
+          </h4>
+          <div class="text" id="imc-mean"></div>
         </div>
         <div>
-          <h5>Global</h5>
-          <div id="imc-global"></div>
+          <h4 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Global Value"
+              data-bs-content="This is the difference among your actual BMI value and the average computed over measures of all users. Note: measures not goals.">
+          Global
+          </h4>
+          <div class="text" id="imc-global"></div>
         </div>
       </div>
     </div>
@@ -161,22 +168,23 @@
   <div class="diet">
     <div class="cardTitle">
       <div>
-        <h2>Diet Stats</h2>
-        <i tabindex="0" class="bi bi-info-circle" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info"
+        <h2 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Diet Stats Info"
            data-bs-content="This card shows what is your favorite food and the times you've eaten it.
-             There is also a chart that represent your average consumption of carbohydrates, fats, proteins and the average kcal assumption."></i>
+             There is also a chart that represent your average consumption of carbohydrates, fats, proteins and the average kcal assumption.">
+          Diet Stats
+        </h2>
       </div>
       <hr>
     </div>
     <div class="cardBody">
       <div id="diet-fav">
         <div>
-          <h5>Favourite Food</h5>
-          <div id="fav-food"></div>
+          <h3>Favourite Food</h3>
+          <div class="text" id="fav-food"></div>
         </div>
         <div>
-          <h5>Times Eaten</h5>
-          <div id="fav-count"></div>
+          <h3>Times Eaten</h3>
+          <div class="text" id="fav-count"></div>
         </div>
       </div>
       <hr>
@@ -196,34 +204,37 @@
   <div class="exercises">
     <div class="cardTitle">
       <div>
-        <h2>Exercise Stats</h2>
-        <i tabindex="0" class="bi bi-info-circle" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Body Stats Info"
-           data-bs-content="This card shows what is your favorite exercise and the times you've done it.
-             It also shows which exercises you use the heaviest and lightest weights."></i>
+        <h2 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Exercise Stats Info"
+           data-bs-content="Nothing to explain. Just a card to show exercises stats.">
+          Exercise Stats
+        </h2>
       </div>
       <hr>
     </div>
     <div class="cardBody">
-      <div id="exercise-fav">
-        <h4>Favourite Exercise</h4>
-        <div>
-          <div id="fav-ex">Nome</div>
-          <div id="fav-ex-count">Volte</div>
+      <div class="ex-grp" id="exercise-fav">
+        <h4 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Favorite"
+            data-bs-content="Your favorite exercise, with the respective number of times you did it.">Favourite</h4>
+        <div class="ex-det">
+          <div class="text" id="fav-ex">NAME</div>
+          <div class="text" id="fav-ex-count">TIMES</div>
         </div>
       </div>
-      <div id="exercise-best-worst">
-        <div id="exercise-best">
-          <h5>Best</h5>
-          <div>
-            <div id="best-ex">Nome</div>
-            <div id="best-ex-weight">Volte</div>
+      <div id="best-worst">
+        <div class="ex-grp" id="exercise-best">
+          <h4 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Best"
+              data-bs-content="Your best exercise, with the respective weight amount you lift.">Best</h4>
+          <div class="ex-det">
+            <div class="text" id="best-ex">NAME</div>
+            <div class="text" id="best-ex-weight">Weight</div>
           </div>
         </div>
-        <div id="exercise-worst">
-          <h5>Worst</h5>
-          <div>
-            <div id="worst-ex">Nome</div>
-            <div id="worst-ex-weight">Volte</div>
+        <div class="ex-grp" id="exercise-worst">
+          <h4 tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Worst"
+              data-bs-content="Your worst exercise, with the respective weight amount you lift.">Worst</h4>
+          <div class="ex-det">
+            <div class="text" id="worst-ex">NAME</div>
+            <div class="text" id="worst-ex-weight">Weight</div>
           </div>
         </div>
       </div>
@@ -243,7 +254,6 @@
 
 <!-- Our Scripts -->
 <script src="../js/stats/stats.js"></script>
-<script src="../js/stats/newRecord.js"></script>
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

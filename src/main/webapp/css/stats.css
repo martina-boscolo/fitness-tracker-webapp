@@ -28,6 +28,19 @@ main {
     }
 }
 
+h2:hover, h4:hover {
+    color: #A5DD9B;
+    cursor: pointer;
+}
+
+.text {
+    font-size: 1.2rem;
+}
+
+* > .text {
+    text-align: center;
+}
+
 /* card */
 main > div {
     display: flex;
@@ -64,7 +77,8 @@ main > div {
     flex-direction: column;
     flex-grow: 1;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 1rem;
 }
 
 button, .btn-group, hr {
@@ -95,10 +109,8 @@ canvas {
     grid-area: imc;
 }
 
-#imc-mean, #imc-global {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.imc .cardBody {
+    gap: 5rem;
 }
 
 #imc-comparison {
@@ -137,34 +149,29 @@ canvas {
     grid-area: exercise;
 }
 
-#exercise-fav{
+.exercises .cardBody {
+    gap: 5rem;
+}
+
+.ex-grp {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     text-align: center;
-    margin: 4rem;
+    justify-content: center;
 }
 
-#exercise-fav div{
+.ex-det {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     text-align: center;
-    gap: 1rem;
+    gap: 2rem;
 }
 
-#exercise-best-worst{
+#best-worst {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     text-align: center;
     gap: 4rem;
-    margin: 4rem;
-}
-
-#exercise-best div, #exercise-worst div{
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    gap: 1rem;
 }
