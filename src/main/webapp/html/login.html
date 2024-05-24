@@ -14,11 +14,11 @@
 <body>
 
 <div class="container-fluid .d-flex">
-    <form class="mx-auto" id="loginForm">
+    <form class="mx-auto" id="loginForm" onchange="checkFields()">
         <h4 class="text-center">Login</h4>
         <div class="mb-3 mt-5">
             <label for="InputUsername" class="form-label">Username</label>
-            <input type="text" class="form-control" id="InputUsername" aria-describedby="usernameHelp" required>
+            <input type="text" class="form-control" id="InputUsername" aria-describedby="usernameHelp" maxlength="30" required>
         </div>
         <div class="mb-3">
             <label for="InputPassword" class="form-label">Password</label>

@@ -16,47 +16,47 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="Enter your name" class="form-control">
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter your name" class="form-control" maxlength="50" required>
                 </div>
                 <div class="col-md-6">
                     <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Enter your surname" class="form-control">
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter your surname" class="form-control" maxlength="50" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" class="form-control">
+                    <input type="text" id="username" name="username" placeholder="Enter your username" class="form-control" maxlength="30" required>
                 </div>
                 <div class="col-md-6">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" class="form-control" minlength="6" maxlength="50" required>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="date" class="form-label">Birthday</label>
-                    <input type="date" id="date" name="date" class="form-control">
+                    <input type="date" id="date" name="date" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
-                    <select id="gender" name="gender" class="form-select">
-                        <option selected>Select your gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
+                    <select id="gender" name="gender" class="form-select" required>
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary w-100">
-                        Submit
+                    <button type="reset" class="btn btn-secondary w-100">
+                        Reset
                     </button>
                 </div>
                 <div class="col-md-6">
-                    <button type="reset" class="btn btn-secondary w-100">
-                        Reset
+                    <button type="submit" class="btn btn-primary w-100">
+                        Submit
                     </button>
                 </div>
             </div>

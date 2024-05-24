@@ -9,8 +9,6 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         username: username,
         password: password
     };
-
-    console.log(JSON.stringify(user))
     // Make the API call
     fetch("http://localhost:8080/cycleK-1.0.0/rest/user/login", {
         method: "POST",
@@ -20,29 +18,65 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         },
         body: JSON.stringify(user)
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                resetForm();
+                renderError(document.getElementById("InputUsername"));
+                renderError(document.getElementById("InputPassword"));
+                renderErrorMessage("Login failed!");
+            }
+            return response.json();
+        })
         .then(data => {
             // Handle the response data
-            console.log("Success:", data);
             const token = data.token;
-            console.log(token)
             if (token) {
                 setCookie('authToken', token, 5); // Set the token as a cookie
                 console.log("Login successful!");
                 window.location.href = "stats.html";
 
                 // Optionally, redirect the user or perform other actions
-            } else {
-                alert("Login failed: Token not found in response.");
             }
-            alert("Login successful!");
             // Optionally, redirect the user or perform other actions
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Login failed!");
         });
 });
+
+function resetForm() {
+    const form = document.getElementById('loginForm'); // Assuming your form has an id of 'loginForm'
+    form.reset();
+}
+
+function renderError(input) {
+    if (input) {
+        input.classList.add("error"); // Add CSS class to render username input in red
+    }
+}
+
+function renderErrorMessage(message) {
+    const errorMessage = document.createElement('div');
+    errorMessage.textContent = message;
+    errorMessage.id = "error-login";
+    errorMessage.classList.add('error-message');
+    const form = document.getElementById('loginForm');
+    form.appendChild(errorMessage);
+}
+
+function checkFields() {
+    console.log("I'm here");
+    let username = document.getElementById("InputUsername").value;
+    let password = document.getElementById("InputUsername").value;
+
+    if(username.classList.contains("error") && password.classList.contains("error")) {
+        username.classList.remove("error");
+        password.classList.remove("error");
+        document.getElementById('loginForm').removeChild(document.getElementById('error-login'));
+    }
+
+
+}
 
 function setCookie(name, value, minutes, path = '/', domain = window.location.hostname, secure = true) {
     let cookie = `${name}=${encodeURIComponent(value)};`;
