@@ -112,6 +112,12 @@ i {
 #closeNewDiet{
     background: crimson;
 }
+#updateCurrentDiet{
+    background: #429809;
+}
+#closeUpdateModal{
+    background: crimson;
+}
 .modal-title{
     color: white;
 }
