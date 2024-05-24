@@ -5,3 +5,13 @@ body {
 .card {
     box-shadow: 0.5rem 0.5rem #c19363;
 }
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#registration-error {
+    visibility: hidden;
+}

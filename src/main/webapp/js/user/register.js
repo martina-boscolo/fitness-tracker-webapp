@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent the default form submission
 
-        if(!form.checkValidity()){
+        if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
@@ -37,19 +37,28 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(user)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    document.getElementById("registration-error").style.visibility ="visible";
+                } else {
+                    window.location.href = "login.html";
+                }
+                return response.json();
+            })
             .then(data => {
                 // Handle the response data
                 console.log("Success:", data);
-                window.location.href = "login.html";
+
             })
             .catch(error => {
                 alert("Registration failed!");
                 console.error("Error:", error);
             });
     });
-
-    // Initial check to disable submit button if fields are not filled
-    checkFormFields();
 });
 
+document.getElementById("username").addEventListener("input", handleInput);
+
+function handleInput() {
+    document.getElementById("registration-error").style.visibility = "hidden";
+}
