@@ -2,10 +2,13 @@ package it.unipd.dei.cyclek.dao.user;
 
 import it.unipd.dei.cyclek.dao.AbstractDAO;
 import it.unipd.dei.cyclek.resources.entity.User;
+import it.unipd.dei.cyclek.resources.entity.UserStats;
+import it.unipd.dei.cyclek.utils.TokenJWT;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -13,7 +16,7 @@ import java.util.Locale;
 public class RegisterUserDAO extends AbstractDAO<User> {
 
     private static final String QUERY = "INSERT INTO users (name, surname, birthday, gender, username, password) " +
-            "                            VALUES (?, ?, ?, ?, ?, ?);";
+            "                            VALUES (?, ?, ?, ?, ?, ?) RETURNING *;";
 
 
     private final User user;
@@ -24,7 +27,11 @@ public class RegisterUserDAO extends AbstractDAO<User> {
     }
     @Override
     protected void doAccess() throws Exception {
-        try (PreparedStatement stmnt = con.prepareStatement(QUERY)) {
+        PreparedStatement stmnt = null;
+        ResultSet rs;
+        User u = null;
+        try {
+            stmnt = con.prepareStatement(QUERY);
             stmnt.setString(1, user.getName());
             stmnt.setString(2, user.getSurname());
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -32,9 +39,26 @@ public class RegisterUserDAO extends AbstractDAO<User> {
             stmnt.setString(4, user.getGender());
             stmnt.setString(5, user.getUsername());
             stmnt.setString(6, user.getPassword());
-            stmnt.execute();
+            rs = stmnt.executeQuery();
+
+            if (rs.next()) {
+                u = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("birthday"),
+                        rs.getString("gender"),
+                        rs.getString("username"),
+                        ""
+                );
+            }
+
             LOGGER.info("User registered {}.", user.getUsername());
+        } finally {
+            if (stmnt != null)
+                stmnt.close();
         }
-        this.outputParam = user;
+
+        this.outputParam = u;
     }
 }

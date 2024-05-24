@@ -40,15 +40,14 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => {
                 if (!response.ok) {
                     document.getElementById("registration-error").style.visibility ="visible";
-                } else {
-                    window.location.href = "login.html";
                 }
                 return response.json();
             })
             .then(data => {
-                // Handle the response data
-                console.log("Success:", data);
-
+                const token = data.token;
+                if (token) {
+                    logIn(token);
+                }
             })
             .catch(error => {
                 alert("Registration failed!");
