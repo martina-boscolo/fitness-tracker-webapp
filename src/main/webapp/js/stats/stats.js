@@ -2,12 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if authToken cookie is present
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === -1) {
-        console.error('Error: Unauthorized - Redirecting to login page.');
-        // Redirect to login page
-        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
-    }
-    else {
+    if (checkAuth()) {
         fetchBodyStats();
         fetchImc();
         fetchDiet();
@@ -50,7 +45,17 @@ function formListener() {
                 },
                 body: JSON.stringify(bodyStats)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        // Check for 401 Unauthorized
+                        if (response.status === 401) {
+                            throw new Error('Unauthorized');
+                        }
+                        // Throw an error for other non-success statuses
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(
                     data => {
                         console.log(data);
@@ -58,7 +63,15 @@ function formListener() {
                         location.reload();
                     }
                 )
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    if (error.message === 'Unauthorized') {
+                        console.error('Error 401: Unauthorized - Redirecting to login page.');
+                        // Redirect to login page
+                        window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
 
         } else {
             form.reportValidity();
@@ -120,7 +133,7 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -154,7 +167,7 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -338,7 +351,7 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -366,7 +379,7 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -440,7 +453,7 @@ function fetchDiet() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -566,7 +579,7 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -591,7 +604,7 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = 'http://localhost:8080/cycleK-1.0.0/'; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }

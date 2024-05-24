@@ -32,7 +32,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
             const token = data.token;
             if (token) {
                 setCookie('authToken', token, 120); // Set the token as a cookie
-                window.location.href = "http://localhost:8080/cycleK-1.0.0/html/stats.html";
+                window.location.href = "http://localhost:8080/cycleK-1.0.0/jsp/stats.jsp";
                 // Optionally, redirect the user or perform other actions
             }
             // Optionally, redirect the user or perform other actions
