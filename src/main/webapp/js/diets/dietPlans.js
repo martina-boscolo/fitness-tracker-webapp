@@ -155,24 +155,24 @@ function updateDiet(data) {
 
     // Input field for plan name
     const planNameInputContainer = document.createElement('div');
-    planNameInputContainer.classList.add('mb-3', 'form-group');
+    planNameInputContainer.classList.add('mb-3');
 
     const planNameLabel = document.createElement('label');
-    planNameLabel.textContent = 'Plan Name:';
+    planNameLabel.textContent = 'Plan Name';
+    planNameLabel.setAttribute('for','planName');
+    planNameLabel.classList.add('form-label');
     planNameInputContainer.appendChild(planNameLabel);
 
     const planNameInput = document.createElement('input');
     planNameInput.type = 'text';
     planNameInput.classList.add('form-control');
-    planNameInput.placeholder = 'Enter Plan Name';
+    planNameInput.setAttribute('required','true');
     // Set the value of the input field to the plan name from the diet data
     planNameInput.value = data['diet']['planName'];
     planNameInputContainer.appendChild(planNameInput);
 
     form.appendChild(planNameInputContainer);
 
-    // Array to store the IDs of the day containers
-    const dayContainers = [];
 
     for (let day in diet) {
         // Create a container for each day's inputs
@@ -181,16 +181,18 @@ function updateDiet(data) {
 
         // Day label
         const dayLabel = document.createElement('label');
+        dayLabel.classList.add('form-label');
         dayLabel.textContent = day;
         dayContainer.appendChild(dayLabel);
 
         const dayInputsContainer = document.createElement('div');
-        dayInputsContainer.classList.add('row', 'gy-4');
+        dayInputsContainer.classList.add('row');
         dayInputsContainer.id = `${day.toLowerCase()}EditInputs`;
 
         const addFoodButton = document.createElement('button');
         addFoodButton.textContent = 'Add Food';
-        addFoodButton.classList.add('btn', 'custom', 'mt-3');
+        addFoodButton.classList.add('btn', 'custom');
+        addFoodButton.setAttribute('type','button')
         addFoodButton.onclick = function() {
             addFoodInput(`${day.toLowerCase()}EditInputs`);
         };
@@ -200,32 +202,41 @@ function updateDiet(data) {
 
         form.appendChild(dayContainer);
 
-        dayContainers.push(`${day.toLowerCase()}EditInputs`);
-
         const foods = diet[day];
         for (let meal in foods) {
             for (let food in foods[meal]) {
+
+                const rowContainer = document.createElement('div')
+                rowContainer.classList.add('row', 'align-items-center')
+
                 const foodQuantity = foods[meal][food];
 
-                // Food input row
-                const foodRow = document.createElement('div');
-                foodRow.classList.add('col-12', 'd-flex', 'align-items-center');
+                const col1 = document.createElement('div');
+                col1.className = 'col';
+                const col2 = document.createElement('div');
+                col2.className = 'col';
+                const col3 = document.createElement('div');
+                col3.className = 'col';
+                const col4 = document.createElement('div');
+                col4.className = 'col';
 
                 // Food name input
                 const foodNameInput = document.createElement('input');
                 foodNameInput.type = 'text';
-                foodNameInput.classList.add('form-control', 'me-2');
-                foodNameInput.placeholder = 'Food Name';
+                foodNameInput.classList.add('form-control', 'mb-2');
+                foodNameInput.placeholder = 'Food';
+                foodNameInput.name = `${day.toLowerCase()}Food`;
                 foodNameInput.value = food;
-                foodRow.appendChild(foodNameInput);
+                col1.appendChild(foodNameInput);
 
                 // Food quantity input
                 const foodQuantityInput = document.createElement('input');
                 foodQuantityInput.type = 'number';
-                foodQuantityInput.classList.add('form-control', 'me-2');
+                foodQuantityInput.classList.add('form-control', 'mb-2');
                 foodQuantityInput.placeholder = 'Quantity';
+                foodQuantityInput.name = `${day.toLowerCase()}Qty`;
                 foodQuantityInput.value = foodQuantity;
-                foodRow.appendChild(foodQuantityInput);
+                col2.appendChild(foodQuantityInput);
 
                 // Meal select input
                 const mealSelect = document.createElement('select');
@@ -239,9 +250,21 @@ function updateDiet(data) {
                     }
                     mealSelect.appendChild(option);
                 });
-                foodRow.appendChild(mealSelect);
+                col3.appendChild(mealSelect);
 
-                dayInputsContainer.appendChild(foodRow);
+                const deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'btn btn-danger mb-2';
+                deleteButton.innerHTML = 'Delete';
+                col4.className = 'col-auto';
+                col4.appendChild(deleteButton);
+
+                rowContainer.appendChild(col1);
+                rowContainer.appendChild(col2);
+                rowContainer.appendChild(col3);
+                rowContainer.appendChild(col4);
+
+                dayInputsContainer.appendChild(rowContainer);
             }
         }
     }
