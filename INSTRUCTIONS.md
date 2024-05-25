@@ -76,6 +76,3 @@ The final result should consist in a jsp page that includes the navbar, the main
   - contains a utils file with common functions and constants to facilitate login/logout management and centralize ULR declaration.
 - **jsp**:
   - contains a page for each service.
-
-### `test`
-used for test
