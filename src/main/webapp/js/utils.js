@@ -11,7 +11,7 @@ const STATS = BASE_URL + 'jsp/stats.jsp';
 const SOCIAL = BASE_URL + 'jsp/social.jsp';
 
 const HOMEPAGE_URL = STATS;
-const COOKIE_DURATION = 120;
+const COOKIE_DURATION = 60; // do not change, otherwise you have to change the backend
 
 function checkAuth() {
     let Cookies = document.cookie;
