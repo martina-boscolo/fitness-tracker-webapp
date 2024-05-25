@@ -16,7 +16,7 @@
 
 <%@ include file="../html/template/nav.html" %>
 
-<%@ include file="../html/stats.html" %>
+<%@ include file="../html/social.html" %>
 
 <%@ include file="../html/template/footer.html" %>
 
