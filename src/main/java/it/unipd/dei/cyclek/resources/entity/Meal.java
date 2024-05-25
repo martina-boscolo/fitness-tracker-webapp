@@ -1,5 +1,7 @@
 package it.unipd.dei.cyclek.resources.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,7 +20,16 @@ public class Meal extends AbstractResource {
     @JsonRawValue
     private String meal;                //meal
 
-    public Meal(Integer id, Integer idUser, String date, Integer mealType, String meal) {
+    // Default constructor
+    public Meal() {
+    }
+
+    @JsonCreator
+    public Meal(@JsonProperty("id") Integer id,
+                @JsonProperty("idUser") Integer idUser,
+                @JsonProperty("date") String date,
+                @JsonProperty("mealType") Integer mealType,
+                @JsonProperty("meal") String meal) {
         this.id = id;
         this.idUser = idUser;
         this.date = date;
@@ -26,15 +37,48 @@ public class Meal extends AbstractResource {
         this.meal = meal;
     }
 
-    public Meal(Integer idUser, String date, Integer mealType, String mealJson) {
-        this.idUser = idUser;
-        this.date = date;
-        this.mealType = mealType;
-        this.meal = mealJson;
-    }
-
     public Meal(Integer idUser) {
         this.idUser = idUser;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(Integer mealType) {
+        this.mealType = mealType;
+    }
+
+    public String getMeal() {
+        return meal;
+    }
+
+    public void setMeal(String meal) {
+        this.meal = meal;
     }
 
     @Override
@@ -49,25 +93,5 @@ public class Meal extends AbstractResource {
     public static Meal fromJSON(final InputStream in) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(in, Meal.class);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Integer getIdUser() {
-        return idUser;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public Integer getMealType() {
-        return mealType;
-    }
-
-    public String getMeal() {
-        return meal;
     }
 }

@@ -44,5 +44,5 @@ public class FoodService extends AbstractService {
     }
 }
 
-// http://localhost:8080/cycleK-1.0.0/rest/food         GET
-// http://localhost:8080/cycleK-1.0.0/rest/food/id/1    GET
+// http://localhost:8080/cycleK-1.0.0/rest/foods         GET
+// http://localhost:8080/cycleK-1.0.0/rest/foods/id/1    GET
