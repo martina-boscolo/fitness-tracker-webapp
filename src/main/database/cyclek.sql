@@ -208,8 +208,9 @@ VALUES
 
 INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
 VALUES
-    ('squat','this is a description1','Barbell',1);
+    ('Bench Press','this is a description1','Bench',1),
+    ('Squat','this is a description1','Barbell',1);
 
 INSERT INTO exercise_plan (idUser, planName, plan)
 VALUES
-    (1, 'First Plan', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50}]}}');
+    (1, 'First Plan', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}]}}');
