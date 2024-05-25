@@ -2,7 +2,7 @@ const BASE_URL = 'http://localhost:8080/cycleK-1.0.0/';
 const REST_URL = BASE_URL + 'rest/';
 
 const LOGIN = BASE_URL;
-const SIGNIN = BASE_URL + 'html/register.html';
+const SIGNUP = BASE_URL + 'html/register.html';
 const PROFILE = BASE_URL + 'jsp/profile.jsp';
 const EXERCISE = BASE_URL + 'jsp/exercise.jsp';
 const DIET = BASE_URL + 'jsp/diet.jsp';
