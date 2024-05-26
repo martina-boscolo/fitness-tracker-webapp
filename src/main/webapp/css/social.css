@@ -1,5 +1,14 @@
+#socialk{
+    color:  #A5DD9B;
+
+    text-shadow: 0.3rem 0.3rem #76a470;
+    -webkit-text-stroke: 1px white;
+    font-weight: bold;
+    font-size: 4rem;
+}
+
 body {
-    /* background: linear-gradient(to right, #da08ec, #0a51d9);*/
+     background: #c6b9ff !important;
 }
 
 
@@ -21,7 +30,16 @@ body {
 
 
 }
+.card-header{
+    display: flex;
+    justify-content: space-between;
+}
+.user-header{
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .content {
     margin-top: 50px; /* Adjust this value to match the height of your sticky element */
     padding: 10px;
@@ -47,32 +65,37 @@ body {
 }
 
 
-#newPostArea {
-    margin: 0 auto;
-    text-align: center;
-}
+
 
 #postsContainer {
     flex: 2;
+
 }
 
 .pressed {
     color: red;
+    text-shadow: 3px 3px darkred;
+
 }
 
 .icon {
     color: gray !important;
+    text-shadow: 3px 3px darkgray;
 }
 
 .icon:hover {
 
-    color: #363636;
+    color: #A5DD9B !important;
 }
 
 #body-post, #my-post {
     display: none;
-}
 
+}
+.postCard{
+    box-shadow: 0.5rem 0.5rem #9C92CBFF;
+
+}
 #add-post {
     position: fixed; /* Make the button sticky */
     bottom: 20px; /* Position it 20px from the bottom */
@@ -81,5 +104,33 @@ body {
     width: 60px; /* Set the width of the button */
     height: 60px; /* Set the height of the button */
     font-size: 24px; /* Increase the font size */
-    background-color: gray;
+    background-color:  #A5DD9B;
+    box-shadow: 0.5rem 0.5rem #76a470;
 }
+
+
+
+.commentDiv {
+    display: flex;
+    flex-direction: row;
+
+
+}
+.commentCollapse{
+
+
+}
+
+.comment-input{
+    border: #2f2f32;
+    flex: 8;
+    padding: 5px;
+
+}
+
+.send-comment{
+    flex: 2;
+}
+
+
+

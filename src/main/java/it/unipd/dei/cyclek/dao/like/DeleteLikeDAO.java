@@ -20,27 +20,29 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
     /**
      * The SQL statement to be executed.
      */
-    private static final String STATEMENT = "DELETE FROM likes WHERE id = ?  RETURNING *  ";
+    private static final String STATEMENT = "DELETE FROM likes WHERE id_user = ?  AND id_post = ? RETURNING *  ";
 
     /**
      * The id of the like to be deleted.
      */
-    private final int likeId;
+    private final int userId;
+    private final int postId;
 
     /**
      * Creates a new object for deleting a like from the database.
      *
      * @param con    the connection to the database.
-     * @param likeId the id of the like to be deleted.
+     *
      * @throws IllegalArgumentException if likeId is less than or equal to 0.
      */
-    public DeleteLikeDAO(Connection con, int likeId) {
+    public DeleteLikeDAO(Connection con, int userId, int postId ) {
         super(con);
-        if (likeId <= 0 ) {
+        if (userId <= 0 || postId <= 0) {
             throw new IllegalArgumentException("likeId must be greater than 0.");
         }
 
-        this.likeId = likeId;
+        this.userId = userId;
+        this.postId = postId;
     }
 
     /**
@@ -59,7 +61,8 @@ public class DeleteLikeDAO extends AbstractDAO<Like> {
         try {
             pstmt = con.prepareStatement(STATEMENT);
 
-            pstmt.setInt(1, likeId);
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, postId);
 
             rs = pstmt.executeQuery();
             if (rs.next()) {

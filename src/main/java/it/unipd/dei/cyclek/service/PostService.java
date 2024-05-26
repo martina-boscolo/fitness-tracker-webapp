@@ -51,7 +51,7 @@ public class PostService extends AbstractService {
                     m.toJSON(res.getOutputStream());
                     break;
             }
-        } else if (path.matches("/like/\\d+$")) {
+        } else if (path.matches("/like/\\d+/\\d+$")) {
             if (method.equals("DELETE")) {
                 new DeleteLikeRR(req, res, con).serve();
             } else {

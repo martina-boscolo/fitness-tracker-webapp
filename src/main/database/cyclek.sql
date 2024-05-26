@@ -49,7 +49,9 @@ CREATE TABLE posts
     text_content    TEXT NOT NULL,
     photo           BYTEA,
     photoMediaType  TEXT,
-    post_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    post_date       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    likes_count     INTEGER DEFAULT 0,
+    comments_count  INTEGER DEFAULT 0
 );
 
 CREATE TABLE likes
@@ -145,13 +147,13 @@ VALUES
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00');
 
 -- Martina
-INSERT INTO posts (id_user, text_content, photo, photoMediaType, post_date)
+INSERT INTO posts (id_user, text_content, photo, photoMediaType, post_date, likes_count, comments_count)
 VALUES
-    (1, 'Just finished a 5-mile run! Feeling great!', NULL, NULL,  '2024-04-07 08:30:00'),
-    (2, 'Leg day at the gym was intense!', NULL, NULL,'2024-04-06 17:45:00'),
-    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, NULL, '2024-04-05 09:00:00'),
-    (1, 'Completed my first marathon! What an achievement!', NULL, NULL,   '2024-04-04 11:20:00'),
-    (2, 'Back to the gym after a long break 💪',NULL, NULL,  '2024-04-03 18:00:00');
+    (1, 'Just finished a 5-mile run! Feeling great!', NULL, NULL,  '2024-04-07 08:30:00', 3, 2),
+    (2, 'Leg day at the gym was intense!', NULL, NULL,'2024-04-06 17:45:00', 1, 1),
+    (3, 'Healthy breakfast: oatmeal with fruits and nuts 🥣', NULL, NULL, '2024-04-05 09:00:00', 3, 2),
+    (1, 'Completed my first marathon! What an achievement!', NULL, NULL,   '2024-04-04 11:20:00', 0, 0),
+    (2, 'Back to the gym after a long break 💪',NULL, NULL,  '2024-04-03 18:00:00', 0, 0);
 
 INSERT INTO likes (id_user, id_post)
 VALUES

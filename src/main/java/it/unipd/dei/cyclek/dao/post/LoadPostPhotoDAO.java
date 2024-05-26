@@ -70,7 +70,10 @@ public final class LoadPostPhotoDAO extends AbstractDAO<Post> {
                         null,
                         rs.getBytes("photo"),
                         rs.getString("photoMediaType"),
-                        Timestamp.valueOf(LocalDateTime.now()));
+                        Timestamp.valueOf(LocalDateTime.now()),
+                        null,
+                        Integer.MIN_VALUE,
+                        Integer.MIN_VALUE);
 
                 LOGGER.info("Photo for post %s successfully loaded.", postId);
 

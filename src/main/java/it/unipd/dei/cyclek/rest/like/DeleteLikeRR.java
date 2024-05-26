@@ -41,13 +41,19 @@ public class DeleteLikeRR extends AbstractRR {
 
         try {
             String path = req.getRequestURI();
-            String id = path.substring(path.lastIndexOf('/') + 1);
+            String[] parts = path.split("/");
+            final int userId = Integer.parseInt(parts[5]);
+            final int postId = Integer.parseInt(parts[6]);
 
-            int likeId = Integer.parseInt(id);
+            //String path = req.getRequestURI();
+            //String id = path.substring(path.lastIndexOf('/') + 1);
 
-            LogContext.setResource(Integer.toString(likeId));
+            //int user = Integer.parseInt(userId);
 
-            e = new DeleteLikeDAO(con, likeId).access().getOutputParam();
+            LogContext.setResource(Integer.toString(userId));
+            LogContext.setResource(Integer.toString(postId));
+
+            e = new DeleteLikeDAO(con, userId, postId).access().getOutputParam();
 
             if (e != null) {
                 LOGGER.info("Like successfully deleted.");

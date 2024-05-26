@@ -111,6 +111,9 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         byte[] photo = null;
         String photoMediaType = null;
         Timestamp postDate = new Timestamp(System.currentTimeMillis());
+        String username = null;
+        int likeCount = 0;
+        int commentCount = 0;
 
         // retrieves the request parameters
         for (Part p : req.getParts()) {
@@ -165,12 +168,28 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                         postDate = Timestamp.valueOf(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
                     break;
+                case "username":
+                    try (InputStream is = p.getInputStream()) {
+                        username = new String(is.readAllBytes(), StandardCharsets.UTF_8).trim();
+                    }
+                    break;
+                case "likeCount":
+                    try (InputStream is = p.getInputStream()) {
+                        likeCount = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
+                    }
+                    break;
+                case "commentCount":
+                    try (InputStream is = p.getInputStream()) {
+                        commentCount = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
+                    }
+                    break;
+
             }
 
         }
 
         // creates a new post from the request parameters
-        return new Post( postId, userId, textContent, photo, photoMediaType, postDate);
+        return new Post( postId, userId, textContent, photo, photoMediaType, postDate, username, likeCount, commentCount);
     }
 
 
