@@ -14,7 +14,7 @@
 <body>
 <h1>Create Post Form</h1>
 
-<form method="POST" enctype="multipart/form-data" action="<c:url value="/create-post"/>">
+<form method="POST" enctype="multipart/form-data" action="<c:url value="social.jsp"/>">
 
     <label for="userID">User Id:</label>
     <input id="userID" name="userId" type="text"/><br/>

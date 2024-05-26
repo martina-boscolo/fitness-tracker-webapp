@@ -1,6 +1,7 @@
 currentUserId = 1;
 
 
+
 function clearAllComponents() {
     // Get all the postsContainer elements
     const postsContainers = document.querySelectorAll('[id^="postsContainer-"]');
@@ -664,3 +665,18 @@ function showDiv(event, id) {
     // Show the specific div
     document.getElementById(id).style.display = 'block';
 }
+
+document.getElementById('add-post').addEventListener('click', function() {
+    var url = this.getAttribute('data-url');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.querySelector('#new-post .modal-body').innerHTML = this.responseText;
+            var modal = new bootstrap.Modal(document.getElementById('new-post'));
+            modal.show();
+        }
+    };
+    xhr.send();
+});

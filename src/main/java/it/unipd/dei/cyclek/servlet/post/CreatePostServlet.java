@@ -90,7 +90,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             req.setAttribute("message", m);
 
             // forwards the control to the create-post-result JSP
-            req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
+            req.getRequestDispatcher("/jsp/social.jsp").forward(req, res);
         } catch(Exception ex) {
             LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %s.", p.getPostId()), ex);
             throw ex;
