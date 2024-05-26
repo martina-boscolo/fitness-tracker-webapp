@@ -116,6 +116,11 @@ body {
 
 
 }
+.commentText{
+    display: flex;
+    justify-content: space-between;
+
+}
 .commentCollapse{
 
 

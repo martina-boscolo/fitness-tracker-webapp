@@ -1,14 +1,38 @@
 currentUserId = 1;
 
-window.onload = function () {
-    const url = "http://localhost:8080/cycleK-1.0.0/rest/post"; // Replace with your actual endpoint
+
+function clearAllComponents() {
+    // Get all the postsContainer elements
+    const postsContainers = document.querySelectorAll('[id^="postsContainer-"]');
+
+    // Iterate over each postsContainer and clear its content
+    postsContainers.forEach((postsContainer) => {
+        postsContainer.innerHTML = '';
+    });
+}
+window.onload = function() {
+    loadContent('body-post'); // or 'my-post'
+};
+
+function loadContent(currentVisualization ) {
+    console.log(currentVisualization)
+
+    let url;
+    if (currentVisualization=== 'my-post') {
+         url =`http://localhost:8080/cycleK-1.0.0/rest/post/user/${currentUserId}`;
+    } else if (currentVisualization === 'body-post') {
+         url = "http://localhost:8080/cycleK-1.0.0/rest/post";
+    }
+
     console.log("Request URL: %s.", url);
     const xhr = new XMLHttpRequest();
-
+    const postsContainer = document.getElementById('postsContainer-'+currentVisualization);
+    clearAllComponents();
+    //postsContainer.remove();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const posts = JSON.parse(xhr.responseText)["resource-list"];
-            const postsContainer = document.getElementById('postsContainer');
+
 
             posts.forEach((postObj) => {
                 let post = postObj.post;
@@ -43,7 +67,7 @@ window.onload = function () {
                         // Add a click event listener to the confirm delete button
                         document.getElementById('confirmDelete').addEventListener('click', function () {
                             // Delete the post
-                            deletePost(post.postId);
+                            deletePost(post.postId, card);
 
                             // Remove the card from the DOM
                             card.remove();
@@ -161,7 +185,59 @@ window.onload = function () {
                         card.appendChild(collapseDiv);
                     }
 
-                    addComment(post.postId, collapseDiv)
+                    //addComment(post.postId, totalComments, collapseDiv)
+                    // Create a new input for the comment
+                    let commentDiv = document.createElement('div');
+                    commentDiv.className = 'new-comment';
+
+                    let commentInput = document.createElement('div');
+                    commentInput.className = 'input-group mb-3';
+
+                    let commentText = document.createElement('input');
+                    commentText.type = 'text';
+                    commentText.className = 'form-control';
+                    commentText.placeholder = 'Add a new comment...';
+
+
+
+                    let sendButton = document.createElement('button');
+                    sendButton.type = 'button';
+                    sendButton.className = 'btn btn-outline-secondary';
+                    sendButton.innerText = 'Send';
+                    sendButton.disabled = true;
+
+                    commentText.addEventListener('input', function() {
+                        sendButton.disabled = commentText.value.trim() === '';
+                    });
+
+                    // Trigger the input event once to handle the initial state
+                    commentText.dispatchEvent(new Event('input'));
+
+
+                    // Add a click event listener to the button
+                    sendButton.addEventListener('click', function () {
+                        // Call the function to add the comment
+                        addCommentToPost(post.postId, post.commentCount, commentText.value)
+                            .then(() => {
+                                // After the comment is successfully added, update the count of comments
+                                countComments(post.postId, function(commentsCount) {
+                                    console.log(`Updated comments count: ${commentsCount}`);
+                                    countComment.innerText = ` ${commentsCount} comments`;
+                                });
+                                // Clear the input
+                                commentText.value = '';
+                                // Disable the send button
+                                sendButton.disabled = true;
+                            })
+                            .catch(error => {
+                                console.error(`Failed to add comment: ${error}`);
+                            });
+                    });
+
+                    collapseDiv.appendChild(commentDiv);
+                    commentDiv.appendChild(commentInput);
+                    commentInput.appendChild(commentText);
+                    commentInput.appendChild(sendButton);
 
                 });
 
@@ -170,28 +246,30 @@ window.onload = function () {
                 let countLike = document.createElement('button');
                 countLike.type = 'button';
                 countLike.className = 'btn btn-link';
+                countLike.innerText = ` ${post.likeCount} likes`;
 
-
-                countLikes(post.postId, function (likesCount) {
+                /*countLikes(post.postId, function (likesCount) {
                     countLike.innerText = ` ${likesCount} likes`;
+                });*/
+                countLike.addEventListener('click', function () {
+                    listLikes(post.postId);
                 });
 
 
                 let countComment = document.createElement('button');
                 countComment.type = 'button';
                 countComment.className = 'btn btn-link ';
-                countComments(post.postId, function (commentsCount) {
+                countComment.innerText = ` ${post.commentCount} comments`;
+
+               /* countComments(post.postId, function (commentsCount) {
                     countComment.innerText = ` ${commentsCount} comments`;
-                });
+                });*/
 
 
                 countComment.addEventListener('click', function () {
                     listComments(post.postId);
                 });
 
-                countLike.addEventListener('click', function () {
-                    listLikes(post.postId);
-                });
 
 
                 let heartIcon = document.createElement('i');
@@ -236,7 +314,7 @@ window.onload = function () {
     xhr.open("GET", url, true);
     xhr.send();
 
-    showDiv(event, 'body-post');
+    showDiv(event, currentVisualization);
 
 }
 
@@ -261,74 +339,82 @@ function wasLiked(postId, callback) {
     xhr.send();
 }
 
-function addComment(postId, container) {
+function addComment(postId, totalComments, container) {
     // Create a new input for the comment
     let commentDiv = document.createElement('div');
     commentDiv.className = 'new-comment';
 
     let commentInput = document.createElement('div');
-    commentInput.className = 'comment-input';
+    commentInput.className = 'input-group mb-3';
 
     let commentText = document.createElement('input');
     commentText.type = 'text';
-    commentText.className = 'comment-text';
+    commentText.className = 'form-control';
     commentText.placeholder = 'Add a new comment...';
 
-    let sendComment = document.createElement('div');
-    sendComment.className = 'send-comment';
+
 
     let sendButton = document.createElement('button');
     sendButton.type = 'button';
-    sendButton.className = 'send-button';
+    sendButton.className = 'btn btn-outline-secondary';
     sendButton.innerText = 'Send';
+    sendButton.disabled = true;
+
+    commentText.addEventListener('input', function() {
+        sendButton.disabled = commentText.value.trim() === '';
+    });
+
+    // Trigger the input event once to handle the initial state
+    commentText.dispatchEvent(new Event('input'));
+
 
     // Add a click event listener to the button
     sendButton.addEventListener('click', function () {
         // Call the function to add the
 
-        addCommentToPost(postId, commentInput.value);
-
+        addCommentToPost(postId, post.commentCount , commentText.value);
+        sendButton.disabled = true;
         // Clear the input
-        commentInput.value = '';
+        commentText.value = '';
+
     });
 
-    // Append the input and the button to the container
     container.appendChild(commentDiv);
     commentDiv.appendChild(commentInput);
-    commentDiv.appendChild(sendComment);
     commentInput.appendChild(commentText);
-    sendComment.appendChild(sendButton);
+    commentInput.appendChild(sendButton);
+
 }
 
-function addCommentToPost(postId, textComment) {
+function addCommentToPost(postId,  totalComments, textComment) {
+    return new Promise((resolve, reject) => {
+        console.log("addComment")
 
-    console.log("addComment")
+        const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment`;
+        const xhr = new XMLHttpRequest();
 
-    const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment`;
-    const xhr = new XMLHttpRequest();
-
-    const body = {
-        "comment": {
-            "userId": currentUserId,
-            "postId": postId,
-            "commentText": textComment
-        }
-    };
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 201) {
-                resolve();
-            } else {
-                reject(new Error(`HTTP request failed with status ${xhr.status}`));
+        console.log("text comment" + textComment);
+        const body = {
+            "comment": {
+                "userId": currentUserId,
+                "postId": postId,
+                "commentText": textComment.valueOf()
             }
-        }
-    };
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(body));
+        };
 
-
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 201) {
+                    resolve();
+                } else {
+                    reject(new Error(`HTTP request failed with status ${xhr.status}`));
+                }
+            }
+        };
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(body));
+    });
 }
 
 function listComments(postId, container) {
@@ -352,11 +438,33 @@ function listComments(postId, container) {
             comments.forEach((commentObj) => {
                 let comment = commentObj.comment;
 
-
-
                 let commentDiv = document.createElement('div');
                 commentDiv.className = 'commentText';
                 commentDiv.innerText = `User ${comment.userId}:  ${comment.commentText}`;
+
+
+
+
+                if (comment.userId === currentUserId) {
+                    let deleteCommentButton = document.createElement('button');
+                    deleteCommentButton.type = 'button';
+                    deleteCommentButton.className = 'btn btn-link icon bin';
+
+                    let binComm = document.createElement('i');
+                    binComm.className = 'fa-solid fa-trash';
+
+                    deleteCommentButton.addEventListener('click', function () {
+                        deleteComment(comment.commentId, commentDiv);
+
+
+                    });
+
+                    commentDiv.appendChild(deleteCommentButton);
+                    deleteCommentButton.appendChild(binComm);
+
+
+                }
+
 
                 modalBody.appendChild(commentDiv);
 
@@ -495,6 +603,7 @@ function deleteLike(userId, postId, resolve, reject) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
+
                 resolve();
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));
@@ -517,6 +626,26 @@ function deletePost( postId) {
                 resolve();
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));
+            }
+        }
+    };
+    xhr.open("DELETE", url, true);
+    xhr.send();
+}
+
+function deleteComment( commentId, commentDiv) {
+    console.log("deleteComment")
+
+    const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
+    const xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Remove the commentDiv from the DOM
+                commentDiv.remove();
+            } else {
+                console.error(`HTTP request failed with status ${xhr.status}`);
             }
         }
     };

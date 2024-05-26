@@ -24,73 +24,27 @@
 
 <div class="container">
 
-        <h1 id="socialk">SocialK</h1>
+    <h1 id="socialk">SocialK</h1>
 
     <ul class="nav nav-underline">
         <li class="nav-item">
-            <a class="nav-link " href="#body-post" onclick="showDiv(event, 'body-post')">Explore</a>
+            <a class="nav-link " href="#body-post" onclick="loadContent('body-post')">Explore</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#my-post" onclick="showDiv(event, 'my-post')">My posts</a>
+            <a class="nav-link" href="#my-post" onclick="loadContent('my-post')">My posts</a>
         </li>
-
     </ul>
+
     <hr>
 
     <div id="body-post" class="content">
-
-        <div id="postsContainer">
-
-            <!--div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Comments</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                        <div class="modal-footer">
-                            <div class="input-group">
-
-                                <textarea class="form-control" aria-label="With textarea"></textarea>
-                            </div>
-                            <button type="button" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div-->
-            <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Comments</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="likeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Likes</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="postsContainer-body-post"></div>
     </div>
-    <div id="my-post">
 
+    <div id="my-post" class="content">
+        <div id="postsContainer-my-post"></div>
     </div>
+
 </div>
 
 <div class="modal fade" id="new-post" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,10 +90,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comments</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="likeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Likes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> </div>
+        </div>
+    </div>
+</div>
 
-<button id="add-post" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#new-post"><i
-        class="fa-solid fa-plus"></i></button>
-
+<button id="add-post" type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#new-post">
+    <i class="fa-solid fa-plus"></i>
+</button>
 
 </body>
 </html>
