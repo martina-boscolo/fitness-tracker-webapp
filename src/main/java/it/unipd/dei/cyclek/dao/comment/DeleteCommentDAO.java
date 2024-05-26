@@ -75,7 +75,7 @@ public class DeleteCommentDAO extends AbstractDAO<Comment> {
 
             // Execute the second statement
             pstmt2 = con.prepareStatement(STATEMENT_UPDATE);
-            pstmt2.setInt(1, commentId);
+            pstmt2.setInt(1, c.getPostId());
             pstmt2.executeUpdate();
 
             // If both statements are successful, commit the transaction
