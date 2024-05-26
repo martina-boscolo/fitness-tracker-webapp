@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === -1) {
-        console.error('Error: Unauthorized - Redirecting to login page.');
-        // Redirect to login page
-        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
-    } else {
+    if (checkAuth()) {
         process();
     }
 });

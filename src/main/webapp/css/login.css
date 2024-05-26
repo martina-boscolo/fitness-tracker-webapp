@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -9,7 +7,6 @@
 
 body {
     background: #A5DD9B;
-    font-family: 'Poppins', sans-serif;
 }
 
 form {
@@ -30,10 +27,10 @@ form {
 }
 
 .form-control {
-    color: rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, .87);
     border: none;
     border-bottom: 1px solid;
-    border-bottom-color: rgba(0,0,0,.42);
+    border-bottom-color: rgba(0, 0, 0, .42);
     box-shadow: none !important;
     border-radius: 4px 4px 0 0;
 }
@@ -66,7 +63,11 @@ h4 {
     text-align: center;
 }
 
-@media only screen and (max-width:600px){
+#login-error {
+    visibility: hidden;
+}
+
+@media only screen and (max-width: 600px) {
     form {
         width: 100% !important;
     }

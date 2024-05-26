@@ -2,12 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if authToken cookie is present
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === -1) {
-        console.error('Error: Unauthorized - Redirecting to login page.');
-        // Redirect to login page
-        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
-    }
-    else {
+    if (checkAuth()) {
         fetchBodyStats();
         fetchImc();
         fetchDiet();
@@ -42,7 +37,7 @@ function formListener() {
 
             console.log(JSON.stringify(bodyStats));
 
-            const rest = 'http://localhost:8080/cycleK-1.0.0/rest/' + formData.get('stats_goal');
+            const rest = REST_URL + formData.get('stats_goal');
             const fetchStats = fetch(rest, {
                 method: 'POST',
                 headers: {
@@ -50,7 +45,17 @@ function formListener() {
                 },
                 body: JSON.stringify(bodyStats)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        // Check for 401 Unauthorized
+                        if (response.status === 401) {
+                            throw new Error('Unauthorized');
+                        }
+                        // Throw an error for other non-success statuses
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(
                     data => {
                         console.log(data);
@@ -58,7 +63,15 @@ function formListener() {
                         location.reload();
                     }
                 )
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    if (error.message === 'Unauthorized') {
+                        console.error('Error 401: Unauthorized - Redirecting to login page.');
+                        // Redirect to login page
+                        window.location.href = LOGIN; // Adjust the URL as needed
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
 
         } else {
             form.reportValidity();
@@ -92,7 +105,7 @@ function fetchBodyStats() {
 
     let height = document.getElementById('form-height');
 
-    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/', {
+    const fetchStats = fetch(REST_URL + 'stats/body/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -120,13 +133,13 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/goals/user/', {
+    const fetchGoals = fetch(REST_URL + 'goals/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -154,7 +167,7 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -319,7 +332,7 @@ function fetchImc() {
     let imcMean = document.getElementById('imc-mean');
     let imcGlobal = document.getElementById('imc-global');
 
-    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/imc/mean')
+    const fetchStats = fetch(REST_URL + 'stats/imc/mean')
         .then(response => {
             if (!response.ok) {
                 // Check for 401 Unauthorized
@@ -338,13 +351,13 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/imc/user/', {
+    const fetchGoals = fetch(REST_URL + 'stats/imc/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -366,7 +379,7 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -414,7 +427,7 @@ function fetchDiet() {
     let favFood = document.getElementById('fav-food');
     let favCount = document.getElementById('fav-count');
 
-    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/meals/user/', {
+    const fetchDiet = fetch(REST_URL + 'stats/meals/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -440,7 +453,7 @@ function fetchDiet() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -540,7 +553,7 @@ function fetchExercise() {
     let worstExWeight = document.getElementById('worst-ex-weight');
     let exercises = [];
 
-    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/exercises/user/', {
+    const fetchDiet = fetch(REST_URL + 'stats/exercises/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -566,13 +579,13 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchExercises = fetch('http://localhost:8080/cycleK-1.0.0/rest/exercises')
+    const fetchExercises = fetch(REST_URL + 'exercises')
         .then(response => {
             if (!response.ok) {
                 // Check for 401 Unauthorized
@@ -591,7 +604,7 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }

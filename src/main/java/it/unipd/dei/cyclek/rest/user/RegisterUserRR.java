@@ -6,6 +6,7 @@ import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.entity.User;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.postgresql.util.PSQLException;
@@ -43,7 +44,8 @@ public class RegisterUserRR extends AbstractRR {
             LOGGER.info("User(s) successfully added to database.");
             res.setContentType("application/json");
             res.setStatus(HttpServletResponse.SC_OK);
-            u.toJSON(res.getOutputStream());
+            TokenJWT token = new TokenJWT(u.getId());
+            token.toJSON(res.getOutputStream());
         } catch (PSQLException ex) {
             if (ex.getSQLState().equals("23505")) {
                 LOGGER.error("Cannot add the user(s): constraint violated.", ex);
