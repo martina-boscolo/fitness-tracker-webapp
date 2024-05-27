@@ -265,6 +265,10 @@ function updateDiet(data) {
                 rowContainer.appendChild(col4);
 
                 dayInputsContainer.appendChild(rowContainer);
+
+                deleteButton.addEventListener('click', () => {
+                    dayInputsContainer.removeChild(rowContainer);
+                });
             }
         }
     }
