@@ -154,29 +154,6 @@ function processNewDiet(event) {
     $('#addDietModal').modal('hide')
 }
 
-function showNotification(message, type) {
-    const notificationContainer = document.getElementById('notificationContainer');
-
-    // Create a new alert element
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-    alertDiv.role = 'alert';
-    alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            `;
-
-
-    notificationContainer.appendChild(alertDiv);
-
-
-    setTimeout(() => {
-        $(alertDiv).alert('close');
-    }, 3000);
-}
-
 const createNewDietPlanBtn = document.getElementById('submitNewDiet');
 const addDietModal = document.getElementById('addDietModal');
 createNewDietPlanBtn.addEventListener('click', function () {

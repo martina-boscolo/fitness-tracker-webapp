@@ -1,4 +1,5 @@
-fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
+let idDiet = -1;
+fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/', {
     credentials: 'include'
 })
     .then(response => response.json())
@@ -12,7 +13,7 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
             const dietPlan = data['resource-list'][planIndex];
             let planName = dietPlan['diet']['planName'];
             let diet = dietPlan['diet']['diet'];
-
+            idDiet = dietPlan['diet']['id'];
             // Clear existing content except for navigation buttons
             const contentContainer = document.getElementById('content-container');
             contentContainer.innerHTML = '';
@@ -123,7 +124,7 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
         const prevButton = document.getElementById('prevDiet');
         prevButton.addEventListener('click', previousDietPlan);
         prevButton.addEventListener('mouseover', () => {
-            prevButton.setAttribute("class","bi bi-arrow-left-circle-fill")
+            prevButton.setAttribute("class", "bi bi-arrow-left-circle-fill")
         });
         prevButton.addEventListener('mouseout', () => {
             prevButton.setAttribute("class", "bi bi-arrow-left-circle")
@@ -132,10 +133,10 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
         const nextButton = document.getElementById('nextDiet');
         nextButton.addEventListener('click', nextDietPlan);
         nextButton.addEventListener('mouseover', () => {
-            nextButton.setAttribute("class","bi bi-arrow-right-circle-fill")
+            nextButton.setAttribute("class", "bi bi-arrow-right-circle-fill")
         });
         nextButton.addEventListener('mouseout', () => {
-            nextButton.setAttribute("class","bi bi-arrow-right-circle")
+            nextButton.setAttribute("class", "bi bi-arrow-right-circle")
         });
 
         $('#editDietModal').on('shown.bs.modal', function (e) {
@@ -147,7 +148,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/' , {
 
 function updateDiet(data) {
     const diet = data['diet']['diet'];
-    const planName = data['diet']['planName'];
     const form = document.getElementById('dietForm');
 
     // Clear existing form content
@@ -159,18 +159,20 @@ function updateDiet(data) {
 
     const planNameLabel = document.createElement('label');
     planNameLabel.textContent = 'Plan Name';
-    planNameLabel.setAttribute('for','planName');
+    planNameLabel.setAttribute('for', 'planName');
     planNameLabel.classList.add('form-label');
     planNameInputContainer.appendChild(planNameLabel);
 
     const planNameInput = document.createElement('input');
     planNameInput.type = 'text';
     planNameInput.classList.add('form-control');
-    planNameInput.setAttribute('required','true');
+    planNameInput.setAttribute('required', 'true');
     // Set the value of the input field to the plan name from the diet data
     planNameInput.value = data['diet']['planName'];
+    planNameInput.id = 'planNameId';
+    planNameInput.disabled = true;
+    planNameInput.classList.add('disabled-input');
     planNameInputContainer.appendChild(planNameInput);
-
     form.appendChild(planNameInputContainer);
 
 
@@ -192,8 +194,8 @@ function updateDiet(data) {
         const addFoodButton = document.createElement('button');
         addFoodButton.textContent = 'Add Food';
         addFoodButton.classList.add('btn', 'custom');
-        addFoodButton.setAttribute('type','button')
-        addFoodButton.onclick = function() {
+        addFoodButton.setAttribute('type', 'button')
+        addFoodButton.onclick = function () {
             addFoodInput(`${day.toLowerCase()}EditInputs`);
         };
 
@@ -271,5 +273,69 @@ function updateDiet(data) {
                 });
             }
         }
+    }
+
+    document.getElementById('updateCurrentDiet').onclick = function () {
+        const updatedPlanName = document.getElementById('planNameId').value;
+        console.log('PlanName modificato', updatedPlanName);
+        const updatedDiet = {};
+
+
+        for (let day in diet) {
+            const dayInputsContainer = document.getElementById(`${day.toLowerCase()}EditInputs`);
+            const rows = dayInputsContainer.getElementsByClassName('row');
+
+            updatedDiet[day] = {};
+
+            for (let row of rows) {
+                const foodInput = row.querySelector(`input[name="${day.toLowerCase()}Food"]`);
+                const quantityInput = row.querySelector(`input[name="${day.toLowerCase()}Qty"]`);
+                const mealSelect = row.querySelector('select');
+
+                if (!updatedDiet[day][mealSelect.value]) {
+                    updatedDiet[day][mealSelect.value] = {};
+                }
+
+                updatedDiet[day][mealSelect.value][foodInput.value] = quantityInput.value;
+            }
+        }
+        if (idDiet === -1)
+            throw new Error('Invalid id')
+        const updatedData = {
+            idUser: -1,
+            id: idDiet,
+            dietDate: '2024-05-22 17:07:26.565771',
+            planName: updatedPlanName,
+            diet: updatedDiet
+        };
+        console.log('Dieta Modificata', updatedDiet);
+        console.log(JSON.stringify(updatedData));
+        fetch('http://localhost:8080/cycleK-1.0.0/rest/diet', {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+        }).then(response => {
+            if (!response.ok) {
+                // Check for 401 Unauthorized
+                if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                }
+                // Throw an error for other non-success statuses
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        })
+            .catch(error => {
+                if (error.message === 'Unauthorized') {
+                    console.error('Error 401: Unauthorized - Redirecting to login page.');
+                    // Redirect to login page
+                    window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                } else {
+                    console.error('Error:', error);
+                }
+            });
+        $('#editDietModal').modal('hide')
     }
 }

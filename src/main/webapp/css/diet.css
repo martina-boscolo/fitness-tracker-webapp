@@ -127,3 +127,6 @@ i {
 .custom{
     background: #a3bbd2;
 }
+.disabled-input {
+    cursor: not-allowed;
+}
