@@ -25,7 +25,6 @@ function addFoodInput(containerId) {
     const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
     deleteButton.className = 'btn btn-danger mb-2';
-    deleteButton.innerHTML = 'Delete';
 
     const row = document.createElement('div');
     row.className = 'row align-items-center';
@@ -45,6 +44,10 @@ function addFoodInput(containerId) {
     const col4 = document.createElement('div');
     col4.className = 'col-auto';
     col4.appendChild(deleteButton);
+
+    const trashIcon = document.createElement('i');
+    trashIcon.className = 'bi bi-trash3';
+    deleteButton.appendChild(trashIcon);
 
     row.appendChild(col1);
     row.appendChild(col2);

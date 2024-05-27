@@ -4,7 +4,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/', {
 })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
 
         let currentPlanIndex = 0; // Keep track of the current displayed diet plan
 
@@ -257,8 +256,12 @@ function updateDiet(data) {
                 const deleteButton = document.createElement('button');
                 deleteButton.type = 'button';
                 deleteButton.className = 'btn btn-danger mb-2';
-                deleteButton.innerHTML = 'Delete';
                 col4.className = 'col-auto';
+
+                const trashIcon = document.createElement('i');
+                trashIcon.className = 'bi bi-trash3';
+
+                deleteButton.appendChild(trashIcon);
                 col4.appendChild(deleteButton);
 
                 rowContainer.appendChild(col1);
@@ -304,12 +307,10 @@ function updateDiet(data) {
         const updatedData = {
             idUser: -1,
             id: idDiet,
-            dietDate: '2024-05-22 17:07:26.565771',
+            dietDate: '',
             planName: updatedPlanName,
             diet: updatedDiet
         };
-        console.log('Dieta Modificata', updatedDiet);
-        console.log(JSON.stringify(updatedData));
         fetch('http://localhost:8080/cycleK-1.0.0/rest/diet', {
             credentials: 'include',
             method: 'PUT',
