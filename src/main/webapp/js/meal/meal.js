@@ -27,107 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    fetchMeals();
-
-    function fetchMeals() {
-        console.log("inside fetchMeals");
-        fetch('http://localhost:8080/cycleK-1.0.0/rest/meal/user', {
-            credentials: 'include',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(meals => {
-                console.log("Meals inside fetching methods ", meals, " // ", meals.meals);
-                displayMeals(meals.meals);
-            })
-            .catch(error => {
-                console.error('Error fetching meals:', error);
-            });
-    }
-
-    function fetchFoodDetails(idFood) {
-        console.log("food details");
-        return fetch(`http://localhost:8080/cycleK-1.0.0/rest/foods/id/${idFood}`, {
-            credentials: 'include',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(food => {
-                console.log(food);
-                return food;
-            })
-            .catch(error => {
-                console.error('Error fetching food details:', error);
-                return null;
-            });
-    }
-
-    function calculateNutritionalValues(foods) {
-        console.log("computing nutritional values");
-        return foods.reduce((totals, food) => {
-            totals.calories += food.calories * food.qty / 100;
-            totals.protein += food.nutrients.protein * food.qty / 100;
-            totals.carbs += food.nutrients.carbs * food.qty / 100;
-            totals.fat += food.nutrients.fat * food.qty / 100;
-            return totals;
-        }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
-    }
-
-    function displayMeals(meals) {
-        console.log("meals:", meals);
-        const mealContainer = document.getElementById('right-container');
-        mealContainer.innerHTML = '';
-        console.log(mealContainer);
-
-        for (let i = 0; i < meals.length; i++) {
-            const meal = meals[i];
-            const foodPromises = meal.meal.map(food => fetchFoodDetails(food.idFood));
-
-            Promise.all(foodPromises).then(foodDetails => {
-                const enrichedFoods = foodDetails.map((foodDetail, index) => ({
-                    ...foodDetail,
-                    qty: meal.meal[index].qty
-                }));
-                const nutritionalValues = calculateNutritionalValues(enrichedFoods);
-
-                const mealDiv = document.createElement('div');
-                mealDiv.className = 'meal';
-                mealDiv.innerHTML = `
-                <h3>Meal Type: ${meal.mealType}</h3>
-                <p>Date: ${meal.date}</p>
-                <h4>Foods:</h4>
-                <ul>
-                    ${enrichedFoods.map(food => `<li>${food.name} - ${food.qty}g</li>`).join('')}
-                </ul>
-                <h4>Nutritional Values:</h4>
-                <p>Calories: ${nutritionalValues.calories.toFixed(2)} kcal</p>
-                <p>Protein: ${nutritionalValues.protein.toFixed(2)} g</p>
-                <p>Carbs: ${nutritionalValues.carbs.toFixed(2)} g</p>
-                <p>Fat: ${nutritionalValues.fat.toFixed(2)} g</p>
-            `;
-
-                mealContainer.appendChild(mealDiv);
-            });
-        }
-    }
-
-
     window.addFood = function addFood(mealType) {
         const select = document.getElementById(`${mealType}-foods`);
         const gramsInput = document.getElementById(`${mealType}-grams`);
@@ -136,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const grams = gramsInput.value;
 
         if (foodId && grams) {
-            meals[mealType].push({ idFood: parseInt(foodId), qty: parseInt(grams) });
+            mealsToDisplay[mealType].push({ idFood: parseInt(foodId), qty: parseInt(grams) });
 
             const foodList = document.getElementById(`${mealType}-list`);
             const listItem = document.createElement('li');
@@ -164,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             date: null, // Left null to be managed in the backend
             mealType: mealTypeNumber,
             meal: JSON.stringify({
-                meal: meals[mealType]
+                meal: mealsToDisplay[mealType]
             })
         };
 
@@ -188,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 });
 
-const meals = {
+const mealsToDisplay = {
     breakfast: [],
     lunch: [],
     snack: [],
