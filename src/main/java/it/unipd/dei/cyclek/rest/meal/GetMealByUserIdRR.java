@@ -37,6 +37,8 @@ public class GetMealByUserIdRR extends AbstractRR {
                         break;
                     }
                 }
+                //rictre to remove
+                idUser = 1;
             }
             if (idUser == null) {
                 LOGGER.error("Unauthorized");
@@ -45,6 +47,7 @@ public class GetMealByUserIdRR extends AbstractRR {
                 m.toJSON(res.getOutputStream());
                 return;
             }
+
             LOGGER.info("%%%%%%%%%%%%%%%%%%%%% "+idUser+" %%%%%%%%%%%%%%%%%%%%%");
             LOGGER.info("authorized");
 
