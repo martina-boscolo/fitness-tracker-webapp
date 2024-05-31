@@ -21,9 +21,11 @@
 
 <div class="container">
 
-    <h1 id="socialk">SocialK</h1>
+
 
     <ul class="nav nav-underline">
+        <li class="nav-item">
+            <h1 id="socialk">SocialK</h1>
         <li class="nav-item">
             <a class="nav-link " href="#body-post" onclick="loadContent('body-post')">Explore</a>
         </li>
@@ -48,23 +50,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h6>Create a new post!</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+
 
             <div class="modal-body">
-                <div class="input-group">
 
-                    <textarea class="form-control" aria-label="With textarea"
-                              placeholder="Write your post..."></textarea>
-                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="align-items: end">Cancel
-                </button>
-                <button type="button" class="btn btn-light" style="align-items: end">Publish</button>
-            </div>
+
         </div>
     </div>
 </div>

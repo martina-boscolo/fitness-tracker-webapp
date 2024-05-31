@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
+
 public class CountLikeRR extends AbstractRR {
 
     public CountLikeRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
@@ -25,6 +27,14 @@ public class CountLikeRR extends AbstractRR {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
 
             String path = req.getRequestURI();
             String[] parts = path.split("/");

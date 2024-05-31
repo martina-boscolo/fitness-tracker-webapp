@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.servlet.post;
 
 import it.unipd.dei.cyclek.dao.post.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.entity.Post;
@@ -18,6 +19,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
 
 public class CreatePostServlet extends AbstractDatabaseServlet {
 
@@ -43,6 +46,14 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         Message m = null;
 
         try {
+            /*Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }*/
 
             p = parseRequest(req);
 

@@ -214,6 +214,8 @@ public class Post extends AbstractResource {
         String jUsername = null;
         int jLikeCount = 0;
         int jCommentCount = 0;
+        byte[] jPhoto = null;
+        String jPhotoMediaType= null;
 
 
 
@@ -264,6 +266,14 @@ public class Post extends AbstractResource {
                             jp.nextToken();
                             jCommentCount = jp.getIntValue();
                             break;
+                        case "photo":
+                            jp.nextToken();
+                            jPhoto = Base64.getDecoder().decode(jp.getText());
+                            break;
+                        case "photoMediaType":
+                            jp.nextToken();
+                            jPhotoMediaType = jp.getText();
+                            break;
 
 
                     }
@@ -273,6 +283,6 @@ public class Post extends AbstractResource {
             LOGGER.error("Unable to parse a post object from JSON.", e);
             throw e;
         }
-        return new Post(jPostId, jUserId, jTextContent, null, null, jPostDate, jUsername, jLikeCount, jCommentCount);
+        return new Post(jPostId, jUserId, jTextContent, jPhoto, jPhotoMediaType, jPostDate, jUsername, jLikeCount, jCommentCount);
     }
 }

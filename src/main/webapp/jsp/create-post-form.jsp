@@ -11,24 +11,26 @@
     <title>Create Post Form</title>
 </head>
 
-<body>
-<h1>Create Post Form</h1>
 
-<form method="POST" enctype="multipart/form-data" action="<c:url value="social.jsp"/>">
+    <body>
+          <h1>Create Post Form</h1>
 
-    <label for="userID">User Id:</label>
-    <input id="userID" name="userId" type="text"/><br/>
+          <form method="POST" enctype="multipart/form-data" action="<c:url value="social.jsp"/>">
 
-    <label for="textContentID">Text Content:</label>
-    <input id="textContentID" name="textContent" type="text"/><br/>
+          <script>
+              document.getElementById('userID').value = currentUserId;
+          </script>
 
-    <label for="photoID">Photo:</label>
-    <input id="photoID" name="photo" type="file" accept="image/png, image/jpeg, .jpg, .jpeg, .png"/><br/><br/>
+          <label for="textContentID">Text Content:</label>
+          <input id="textContentID" name="textContent" type="text"/><br/>
 
-    <button type="submit">Submit</button>
-    <br/>
-    <button type="reset">Reset the form</button>
+          <label for="photoID">Photo:</label>
+          <input id="photoID" name="photo" type="file" accept="image/png, image/jpeg, .jpg, .jpeg, .png"/><br/><br/>
 
-</form>
-</body>
+          <button type="submit">Submit</button>
+          <br/>
+          <button type="reset">Reset the form</button>
+
+          </form>
+    </body>
 </html>

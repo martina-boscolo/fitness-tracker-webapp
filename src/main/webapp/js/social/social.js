@@ -1,5 +1,34 @@
-currentUserId = 1;
+let currentUserId = null;
 
+function getUserId() {
+    fetch("http://localhost:8080/cycleK-1.0.0/rest/user/id", {
+        credentials: 'include'
+    }) //modify with token
+        .then(response => response.json())
+        .then(data => {
+            const user = data.user;
+            console.log("user id", user.id);
+            currentUserId = user.id;
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Check if authToken cookie is present
+    let Cookies = document.cookie;
+    if (checkAuth()) {
+        getUserId()
+        loadContent('body-post');
+    } else {
+        // Redirect to login page
+        window.location.href = LOGIN;
+    }
+
+
+});
 
 
 function clearAllComponents() {
@@ -11,23 +40,24 @@ function clearAllComponents() {
         postsContainer.innerHTML = '';
     });
 }
-window.onload = function() {
-    loadContent('body-post'); // or 'my-post'
-};
 
-function loadContent(currentVisualization ) {
+/*window.onload = function () {
+    loadContent('body-post'); // or 'my-post'
+};*/
+
+function loadContent(currentVisualization) {
     console.log(currentVisualization)
 
     let url;
-    if (currentVisualization=== 'my-post') {
-         url =`http://localhost:8080/cycleK-1.0.0/rest/post/user/${currentUserId}`;
+    if (currentVisualization === 'my-post') {
+        url = `http://localhost:8080/cycleK-1.0.0/rest/post/user/${currentUserId}`;
     } else if (currentVisualization === 'body-post') {
-         url = "http://localhost:8080/cycleK-1.0.0/rest/post";
+        url = "http://localhost:8080/cycleK-1.0.0/rest/post";
     }
 
     console.log("Request URL: %s.", url);
     const xhr = new XMLHttpRequest();
-    const postsContainer = document.getElementById('postsContainer-'+currentVisualization);
+    const postsContainer = document.getElementById('postsContainer-' + currentVisualization);
     clearAllComponents();
     //postsContainer.remove();
     xhr.onreadystatechange = function () {
@@ -50,6 +80,21 @@ function loadContent(currentVisualization ) {
                 let userName = document.createElement('div');
                 userName.className = 'user-header';
                 userName.innerText = `${post.username}`; // Replace with your actual header
+
+                let base64String = post.photo;// Replace with your actual Base64 string
+                let imageFormat = post.photoMediaType; // Replace with your actual image format
+
+                if (base64String !== null) {
+// Create a new image element
+                    let img = document.createElement('img');
+
+// Set the src attribute of the img element to the Base64 string
+                    img.src = `data:image/${imageFormat};base64,${base64String}`;
+
+// Append the img element to the body (or any other container element)
+                    card.appendChild(img);
+                }
+
 
                 cardHeader.appendChild(userName);
                 if (post.userId === currentUserId) {
@@ -81,8 +126,6 @@ function loadContent(currentVisualization ) {
                     cardHeader.appendChild(deleteCard);
                     deleteCard.appendChild(bin);
                 }
-
-
 
 
                 // Create the card body
@@ -122,9 +165,9 @@ function loadContent(currentVisualization ) {
 
 
                 let isLike = false;
-                wasLiked(post.postId, function(liked) {
+                wasLiked(post.postId, function (liked) {
 
-                        isLike=liked;
+                    isLike = liked;
 
                 });
 
@@ -200,14 +243,13 @@ function loadContent(currentVisualization ) {
                     commentText.placeholder = 'Add a new comment...';
 
 
-
                     let sendButton = document.createElement('button');
                     sendButton.type = 'button';
                     sendButton.className = 'btn btn-outline-secondary';
                     sendButton.innerText = 'Send';
                     sendButton.disabled = true;
 
-                    commentText.addEventListener('input', function() {
+                    commentText.addEventListener('input', function () {
                         sendButton.disabled = commentText.value.trim() === '';
                     });
 
@@ -221,7 +263,7 @@ function loadContent(currentVisualization ) {
                         addCommentToPost(post.postId, post.commentCount, commentText.value)
                             .then(() => {
                                 // After the comment is successfully added, update the count of comments
-                                countComments(post.postId, function(commentsCount) {
+                                countComments(post.postId, function (commentsCount) {
                                     console.log(`Updated comments count: ${commentsCount}`);
                                     countComment.innerText = ` ${commentsCount} comments`;
                                 });
@@ -262,9 +304,9 @@ function loadContent(currentVisualization ) {
                 countComment.className = 'btn btn-link ';
                 countComment.innerText = ` ${post.commentCount} comments`;
 
-               /* countComments(post.postId, function (commentsCount) {
-                    countComment.innerText = ` ${commentsCount} comments`;
-                });*/
+                /* countComments(post.postId, function (commentsCount) {
+                     countComment.innerText = ` ${commentsCount} comments`;
+                 });*/
 
 
                 countComment.addEventListener('click', function () {
@@ -272,10 +314,9 @@ function loadContent(currentVisualization ) {
                 });
 
 
-
                 let heartIcon = document.createElement('i');
                 heartIcon.className = 'fa-solid  fa-heart heartIcon';
-                wasLiked(post.postId, function(isLiked) {
+                wasLiked(post.postId, function (isLiked) {
                     if (isLiked) {
                         heartIcon.classList.add('pressed');
                     } else {
@@ -297,6 +338,8 @@ function loadContent(currentVisualization ) {
                 card.appendChild(cardHeader);
 
                 card.appendChild(cardBody);
+
+
                 card.appendChild(cardDate);
                 card.appendChild(cardFooter);
                 cardFooter.appendChild(likeComment);
@@ -309,6 +352,9 @@ function loadContent(currentVisualization ) {
                 comment.appendChild(commentIcon);
                 postsContainer.appendChild(card);
             });
+        } else if (xhr.status === 401) {
+            // Redirect to login page
+            window.location.href = LOGIN;
         }
     };
 
@@ -323,17 +369,22 @@ function wasLiked(postId, callback) {
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like`;
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            const likes = JSON.parse(xhr.responseText)["resource-list"];
-            let found = false;
-            likes.forEach((likeObj) => {
-                let like = likeObj.like;
-                if (like.userId === currentUserId) {
-                    console.log("Like from current user already exists.");
-                    found = true;
-                }
-            });
-            callback(found);
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const likes = JSON.parse(xhr.responseText)["resource-list"];
+                let found = false;
+                likes.forEach((likeObj) => {
+                    let like = likeObj.like;
+                    if (like.userId === currentUserId) {
+                        console.log("Like from current user already exists.");
+                        found = true;
+                    }
+                });
+                callback(found);
+            } else if (xhr.status === 401) {
+                // Redirect to login page
+                window.location.href = LOGIN;
+            }
         }
     };
     xhr.open("GET", url, true);
@@ -354,14 +405,13 @@ function addComment(postId, totalComments, container) {
     commentText.placeholder = 'Add a new comment...';
 
 
-
     let sendButton = document.createElement('button');
     sendButton.type = 'button';
     sendButton.className = 'btn btn-outline-secondary';
     sendButton.innerText = 'Send';
     sendButton.disabled = true;
 
-    commentText.addEventListener('input', function() {
+    commentText.addEventListener('input', function () {
         sendButton.disabled = commentText.value.trim() === '';
     });
 
@@ -373,7 +423,7 @@ function addComment(postId, totalComments, container) {
     sendButton.addEventListener('click', function () {
         // Call the function to add the
 
-        addCommentToPost(postId, post.commentCount , commentText.value);
+        addCommentToPost(postId, post.commentCount, commentText.value);
         sendButton.disabled = true;
         // Clear the input
         commentText.value = '';
@@ -387,7 +437,7 @@ function addComment(postId, totalComments, container) {
 
 }
 
-function addCommentToPost(postId,  totalComments, textComment) {
+function addCommentToPost(postId, totalComments, textComment) {
     return new Promise((resolve, reject) => {
         console.log("addComment")
 
@@ -407,6 +457,9 @@ function addCommentToPost(postId,  totalComments, textComment) {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 201) {
                     resolve();
+                } else if (xhr.status === 401) {
+                    // Redirect to login page
+                    window.location.href = LOGIN;
                 } else {
                     reject(new Error(`HTTP request failed with status ${xhr.status}`));
                 }
@@ -444,8 +497,6 @@ function listComments(postId, container) {
                 commentDiv.innerText = `User ${comment.userId}:  ${comment.commentText}`;
 
 
-
-
                 if (comment.userId === currentUserId) {
                     let deleteCommentButton = document.createElement('button');
                     deleteCommentButton.type = 'button';
@@ -470,6 +521,9 @@ function listComments(postId, container) {
                 modalBody.appendChild(commentDiv);
 
             });
+        } else if (xhr.status === 401) {
+            // Redirect to login page
+            window.location.href = LOGIN;
         }
     };
     xhr.open("GET", url, true);
@@ -487,7 +541,6 @@ function listComments(postId, container) {
         }
     });
 }
-
 
 
 function listLikes(postId) {
@@ -517,6 +570,9 @@ function listLikes(postId) {
 
                 modalBody.appendChild(likeDiv);
             });
+        } else if (xhr.status === 401) {
+            // Redirect to login page
+            window.location.href = LOGIN;
         }
     };
     xhr.open("GET", url, true);
@@ -546,6 +602,9 @@ function countLikes(postId, callback) {
             const likesCount = JSON.parse(xhr.responseText);
 
             callback(likesCount);
+        } else if (xhr.status === 401) {
+            // Redirect to login page
+            window.location.href = LOGIN;
         }
     };
     xhr.open("GET", url, true);
@@ -562,6 +621,9 @@ function countComments(postId, callback) {
             const commentsCount = JSON.parse(xhr.responseText);
 
             callback(commentsCount);
+        } else if (xhr.status === 401) {
+            // Redirect to login page
+            window.location.href = LOGIN;
         }
     };
     xhr.open("GET", url, true);
@@ -585,6 +647,9 @@ function addLike(postId, resolve, reject) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 201) {
                 resolve();
+            } else if (xhr.status === 401) {
+                // Redirect to login page
+                window.location.href = LOGIN;
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));
             }
@@ -606,6 +671,9 @@ function deleteLike(userId, postId, resolve, reject) {
             if (xhr.status === 200) {
 
                 resolve();
+            } else if (xhr.status === 401) {
+                // Redirect to login page
+                window.location.href = LOGIN;
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));
             }
@@ -615,7 +683,7 @@ function deleteLike(userId, postId, resolve, reject) {
     xhr.send();
 }
 
-function deletePost( postId) {
+function deletePost(postId) {
     console.log("deletePost")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}`;
@@ -625,6 +693,9 @@ function deletePost( postId) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 resolve();
+            } else if (xhr.status === 401) {
+                // Redirect to login page
+                window.location.href = LOGIN;
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));
             }
@@ -634,7 +705,7 @@ function deletePost( postId) {
     xhr.send();
 }
 
-function deleteComment( commentId, commentDiv) {
+function deleteComment(commentId, commentDiv) {
     console.log("deleteComment")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
@@ -645,6 +716,9 @@ function deleteComment( commentId, commentDiv) {
             if (xhr.status === 200) {
                 // Remove the commentDiv from the DOM
                 commentDiv.remove();
+            } else if (xhr.status === 401) {
+                // Redirect to login page
+                window.location.href = LOGIN;
             } else {
                 console.error(`HTTP request failed with status ${xhr.status}`);
             }
@@ -666,12 +740,12 @@ function showDiv(event, id) {
     document.getElementById(id).style.display = 'block';
 }
 
-document.getElementById('add-post').addEventListener('click', function() {
+document.getElementById('add-post').addEventListener('click', function () {
     var url = this.getAttribute('data-url');
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.querySelector('#new-post .modal-body').innerHTML = this.responseText;
             var modal = new bootstrap.Modal(document.getElementById('new-post'));
