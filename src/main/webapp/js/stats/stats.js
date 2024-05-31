@@ -2,16 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if authToken cookie is present
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === -1) {
-        console.error('Error: Unauthorized - Redirecting to login page.');
-        // Redirect to login page
-        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
-    }
-    else {
+    if (checkAuth()) {
         fetchBodyStats();
         fetchImc();
         fetchDiet();
         fetchExercise();
+        formListener();
     }
 
     /* Popover */
@@ -21,6 +17,73 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// new Stats
+function formListener() {
+    const submitButton = document.getElementById('submitStats');
+    const closeButton = document.getElementById('closeStats');
+    const form = document.getElementById('statsForm');
+
+    submitButton.addEventListener('click', (event) => {
+        if (form.checkValidity()) {
+            const formData = new FormData(form);
+
+            const bodyStats = {
+                height: formData.get('height'),
+                weight: formData.get('weight'),
+                fatty: formData.get('fatty'),
+                lean: formData.get('lean')
+            };
+
+            console.log(JSON.stringify(bodyStats));
+
+            const rest = REST_URL + formData.get('stats_goal');
+            const fetchStats = fetch(rest, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyStats)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Check for 401 Unauthorized
+                        if (response.status === 401) {
+                            throw new Error('Unauthorized');
+                        }
+                        // Throw an error for other non-success statuses
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(
+                    data => {
+                        console.log(data);
+                        $('#statsModal').modal('hide');
+                        location.reload();
+                    }
+                )
+                .catch(error => {
+                    if (error.message === 'Unauthorized') {
+                        console.error('Error 401: Unauthorized - Redirecting to login page.');
+                        // Redirect to login page
+                        window.location.href = LOGIN; // Adjust the URL as needed
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
+
+        } else {
+            form.reportValidity();
+        }
+    });
+
+    closeButton.addEventListener('click', (event) => {
+        let tmp = form.querySelector('input[name="height"]');
+        form.reset();
+        form.querySelector('input[name="height"]').value = tmp.value;
+    });
+}
 
 // Body Stats
 function fetchBodyStats() {
@@ -42,7 +105,7 @@ function fetchBodyStats() {
 
     let height = document.getElementById('form-height');
 
-    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/body/user/', {
+    const fetchStats = fetch(REST_URL + 'stats/body/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -70,13 +133,13 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/goals/user/', {
+    const fetchGoals = fetch(REST_URL + 'goals/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -104,7 +167,7 @@ function fetchBodyStats() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -146,16 +209,16 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                 data: stats,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderWidth: 1,
-                fill: true
+                pointRadius: 6,
+                borderWidth: 1
             },
             {
                 label: 'Goal',
                 data: goals,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderWidth: 1,
-                fill: true
+                pointRadius: 6,
+                borderWidth: 1
             }
             ]
         },
@@ -168,9 +231,11 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                     title: {
                         display: true,
                         text: 'Weight (Kg)',
-                        color: '#f6f6f6'
+                        color: '#f6f6f6',
+                        font: {size:16}
                     },
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -182,9 +247,11 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
                     title: {
                         display: true,
                         text: 'Date',
-                        color: '#f6f6f6'
+                        color: '#f6f6f6',
+                        font: {size:16}
                     },
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -196,6 +263,7 @@ function weightChart(labels, w_stats, w_goals, f_stats, f_goals, l_stats, l_goal
             plugins: {
                 legend: {
                     labels: {
+                        font: { size:18 },
                         color: '#f6f6f6' // Colore delle etichette della legenda
                     }
                 }
@@ -264,7 +332,7 @@ function fetchImc() {
     let imcMean = document.getElementById('imc-mean');
     let imcGlobal = document.getElementById('imc-global');
 
-    const fetchStats = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/imc/mean')
+    const fetchStats = fetch(REST_URL + 'stats/imc/mean')
         .then(response => {
             if (!response.ok) {
                 // Check for 401 Unauthorized
@@ -283,13 +351,13 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchGoals = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/imc/user/', {
+    const fetchGoals = fetch(REST_URL + 'stats/imc/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -311,7 +379,7 @@ function fetchImc() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -359,7 +427,7 @@ function fetchDiet() {
     let favFood = document.getElementById('fav-food');
     let favCount = document.getElementById('fav-count');
 
-    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/meals/user/', {
+    const fetchDiet = fetch(REST_URL + 'stats/meals/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -385,7 +453,7 @@ function fetchDiet() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
@@ -429,6 +497,7 @@ function dietChart(dietStats) {
                 y: {
                     beginAtZero: true,
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -438,6 +507,7 @@ function dietChart(dietStats) {
                 },
                 x: {
                     ticks: {
+                        font: {size:14},
                         color: '#f6f6f6' // Colore delle etichette dell'asse x
                     },
                     grid: {
@@ -449,6 +519,7 @@ function dietChart(dietStats) {
             plugins: {
                 legend: {
                     labels: {
+                        font: { size:18 },
                         color: '#f6f6f6' // Colore delle etichette della legenda
                     }
                 }
@@ -482,7 +553,7 @@ function fetchExercise() {
     let worstExWeight = document.getElementById('worst-ex-weight');
     let exercises = [];
 
-    const fetchDiet = fetch('http://localhost:8080/cycleK-1.0.0/rest/stats/exercises/user/', {
+    const fetchDiet = fetch(REST_URL + 'stats/exercises/user/', {
         credentials: 'include'
     })
         .then(response => {
@@ -508,13 +579,13 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }
         });
 
-    const fetchExercises = fetch('http://localhost:8080/cycleK-1.0.0/rest/exercises')
+    const fetchExercises = fetch(REST_URL + 'exercises')
         .then(response => {
             if (!response.ok) {
                 // Check for 401 Unauthorized
@@ -533,7 +604,7 @@ function fetchExercise() {
             if (error.message === 'Unauthorized') {
                 console.error('Error 401: Unauthorized - Redirecting to login page.');
                 // Redirect to login page
-                window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                window.location.href = LOGIN; // Adjust the URL as needed
             } else {
                 console.error('Error:', error);
             }

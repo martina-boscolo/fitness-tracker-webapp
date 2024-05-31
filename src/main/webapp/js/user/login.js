@@ -9,8 +9,6 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         username: username,
         password: password
     };
-
-    console.log(JSON.stringify(user))
     // Make the API call
     fetch("http://localhost:8080/cycleK-1.0.0/rest/user/login", {
         method: "POST",
@@ -20,48 +18,45 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         },
         body: JSON.stringify(user)
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                resetForm();
+                renderError(document.getElementById("InputUsername"));
+                renderError(document.getElementById("InputPassword"));
+                document.getElementById("login-error").style.visibility ="visible";
+            }
+            return response.json();
+        })
         .then(data => {
             // Handle the response data
-            console.log("Success:", data);
             const token = data.token;
-            console.log(token)
             if (token) {
-                setCookie('authToken', token, 5); // Set the token as a cookie
-                console.log("Login successful!");
-                window.location.href = "stats.html";
-
-                // Optionally, redirect the user or perform other actions
-            } else {
-                alert("Login failed: Token not found in response.");
+                logIn(token);
             }
-            alert("Login successful!");
-            // Optionally, redirect the user or perform other actions
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Login failed!");
         });
 });
 
-function setCookie(name, value, minutes, path = '/', domain = window.location.hostname, secure = true) {
-    let cookie = `${name}=${encodeURIComponent(value)};`;
+function resetForm() {
+    const form = document.getElementById('loginForm'); // Assuming your form has an id of 'loginForm'
+    form.reset();
+}
 
-    if (minutes) {
-        const date = new Date();
-        date.setTime(date.getTime() + (minutes * 60 * 1000));
-        cookie += `expires=${date.toUTCString()};`;
+function renderError(input) {
+    if (input) {
+        input.classList.add("error"); // Add CSS class to render username input in red
     }
+}
 
-    cookie += `path=${path};`;
+document.getElementById("InputUsername").addEventListener("input", handleInput);
+document.getElementById("InputPassword").addEventListener("input", handleInput);
 
-    if (domain) {
-        cookie += `domain=${domain};`;
-    }
-
-    if (secure) {
-        cookie += `secure;`;
-    }
-
-    document.cookie = cookie;
+function handleInput() {
+    document.getElementById("login-error").style.visibility = "hidden";
+    const inputs = document.querySelectorAll("#InputUsername, #InputPassword");
+    inputs.forEach(input => {
+        input.classList.remove("error");
+    });
 }

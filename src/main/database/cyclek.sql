@@ -125,22 +125,31 @@ CREATE TABLE exercise_plan (
 -- Marco
 INSERT INTO users (name, surname, birthday, gender, username, password)
 VALUES 
-    ('Paolo', 'Rossi', '1995-10-08', 'M', 'user1', '1234'),
-    ('Paolo', 'Bianchi', '1995-10-08', 'M', 'user2', '1234'),
-    ('Lucia', 'Rossi', '1995-10-08', 'F', 'user3', '1234');
+    ('Paolo', 'Rossi', '1995-10-08', 'M', 'user1', '123456'),
+    ('Paolo', 'Bianchi', '1995-10-08', 'M', 'user2', '123456'),
+    ('Lucia', 'Rossi', '1995-10-08', 'F', 'user3', '123456');
 
 -- Alessio
 INSERT INTO userStats (idUser, weight, height, fatty, lean, statsDate)
 VALUES
-    (1, 82, 175, 14.8, 20, '2024-01-02 08:30:00'),
+    (1, 70, 175, 11.1, 30.2, '2024-01-01 08:10:00'),
+    (1, 70, 175, 11.3, 31.3, '2024-01-05 09:20:01'),
+    (1, 72, 175, 11.6, 31.6, '2024-02-10 10:30:12'),
+    (1, 73, 175, 12.0, 32.2, '2024-02-15 11:12:02'),
+    (1, 76, 175, 11.8, 33.7, '2024-03-20 12:24:23'),
+    (1, 77, 175, 11.7, 34.1, '2024-04-25 13:36:03'),
+    (1, 80, 175, 12.0, 35.0, '2024-04-30 14:22:34'),
+    (1, 82, 175, 12.0, 35.9, '2024-05-05 15:33:04'),
+    (1, 83, 175, 12.1, 36.2, '2024-05-10 16:44:45'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),
     (3, 82, 165, 27.2, 28.6, '2024-02-07 12:30:00'),
-    (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00'),
-    (1, 78, 175, 13.6, 23.5, '2024-04-09 09:43:00');
+    (3, 80, 165, 2.2, 29,    '2024-02-11 12:30:00');
 
 INSERT INTO userGoals (idUser, weight, height, fatty, lean, goalDate)
 VALUES
-    (1, 75, 175, 10, 25, '2024-04-09 09:43:00'),
+    (1, 75, 175, 11.5, 33.0, '2024-03-01 08:10:00'),
+    (1, 80, 175, 12.0, 36.0, '2024-05-01 09:20:01'),
+    (1, 85, 175, 12.0, 37.0, '2024-07-01 10:30:12'),
     (2, 65.8, 190, 14, 30.6, '2024-04-03 16:12:00'),
     (3, 80, 165, 2.2, 29, '2024-02-11 12:30:00');
 
@@ -199,8 +208,9 @@ VALUES
 
 INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
 VALUES
-    ('squat','this is a description1','Barbell',1);
+    ('Bench Press','this is a description1','Bench',1),
+    ('Squat','this is a description1','Barbell',1);
 
 INSERT INTO exercise_plan (idUser, planName, plan)
 VALUES
-    (1, 'First Plan', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50},{"idExercise":1,"reps":10,"sets":3,"weight":50}]}}');
+    (1, 'First Plan', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}]}}');

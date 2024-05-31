@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === -1) {
-        console.error('Error: Unauthorized - Redirecting to login page.');
-        // Redirect to login page
-        window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
-    }
-    else {
+    if (checkAuth()) {
         process();
     }
 });
@@ -80,6 +74,7 @@ function process() {
     populateForm();
 
     document.getElementById("changeButton").disabled = true;
+
     // Add event listeners to all form inputs to detect changes
     const formInputs = document.querySelectorAll("#ProfileForm input");
     formInputs.forEach(input => {
@@ -116,7 +111,17 @@ function process() {
             },
             body: JSON.stringify(user)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    // Check for 401 Unauthorized
+                    if (response.status === 401) {
+                        throw new Error('Unauthorized');
+                    }
+                    // Throw an error for other non-success statuses
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 // Handle the response data
                 console.log("Success:", data);
@@ -124,8 +129,13 @@ function process() {
 
             })
             .catch(error => {
-                alert("registration failed!");
-                console.error("Error:", error);
+                if (error.message === 'Unauthorized') {
+                    console.error('Error 401: Unauthorized - Redirecting to login page.');
+                    // Redirect to login page
+                    window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
+                } else {
+                    console.error('Error:', error);
+                }
             });
     });
 }
