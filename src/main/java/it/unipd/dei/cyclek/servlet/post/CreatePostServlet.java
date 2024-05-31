@@ -46,14 +46,14 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         Message m = null;
 
         try {
-            /*Integer idUser = extractUserId(req);
+            Integer idUser = extractUserId(req);
             if (idUser == null) {
                 LOGGER.error("Unauthorized");
                 m = ErrorCode.UNAUTHORIZED.getMessage();
                 res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
                 m.toJSON(res.getOutputStream());
                 return;
-            }*/
+            }
 
             p = parseRequest(req);
 
@@ -101,7 +101,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             req.setAttribute("message", m);
 
             // forwards the control to the create-post-result JSP
-            req.getRequestDispatcher("/jsp/social.jsp").forward(req, res);
+            req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
         } catch(Exception ex) {
             LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %s.", p.getPostId()), ex);
             throw ex;
@@ -117,7 +117,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
         // request parameters
         int postId = -1;
-        int userId = -1;
+        int userId = extractUserId(req);
         String textContent = null;
         byte[] photo = null;
         String photoMediaType = null;
@@ -136,12 +136,12 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                         postId = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
                     break;
-                case "userId":
+                /*case "userId":
 
                     try (InputStream is = p.getInputStream()) {
                         userId = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
-                    break;
+                    break;*/
 
                 case "textContent":
                     try (InputStream is = p.getInputStream()) {
@@ -151,49 +151,36 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
 
                 case "photo":
-                    photoMediaType = p.getContentType();
-
-                    switch (photoMediaType.toLowerCase().trim()) {
-
-                        case "image/png":
-                        case "image/jpeg":
-                        case "image/jpg":
-                            // nothing to do
-                            break;
-
-                        default:
-                            LOGGER.error("Unsupported MIME media type %s for post photo.", photoMediaType);
-
-                            throw new MimeTypeParseException(
-                                    String.format("Unsupported MIME media type %s for post photo.",
-                                            photoMediaType));
-                    }
-
                     try (InputStream is = p.getInputStream()) {
                         photo = is.readAllBytes();
                     }
 
+                    if (photo != null && photo.length > 0) {
+                        photoMediaType = p.getContentType();
+
+                        switch (photoMediaType.toLowerCase().trim()) {
+                            case "image/png":
+                            case "image/jpeg":
+                            case "image/jpg":
+                                // nothing to do
+                                break;
+
+                            default:
+                                LOGGER.error("Unsupported MIME media type %s for post photo.", photoMediaType);
+                                throw new MimeTypeParseException(
+                                        String.format("Unsupported MIME media type %s for post photo.",
+                                                photoMediaType));
+                        }
+                    }
+
                     break;
+
                 case "postDate":
                     try (InputStream is = p.getInputStream()) {
                         postDate = Timestamp.valueOf(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
                     break;
-                case "username":
-                    try (InputStream is = p.getInputStream()) {
-                        username = new String(is.readAllBytes(), StandardCharsets.UTF_8).trim();
-                    }
-                    break;
-                case "likeCount":
-                    try (InputStream is = p.getInputStream()) {
-                        likeCount = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
-                    }
-                    break;
-                case "commentCount":
-                    try (InputStream is = p.getInputStream()) {
-                        commentCount = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
-                    }
-                    break;
+
 
             }
 

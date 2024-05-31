@@ -71,7 +71,7 @@ function loadContent(currentVisualization) {
                 // Create a new div for the card
                 let card = document.createElement('div');
                 card.className = 'card border-light mb-3 postCard';
-                card.style.maxWidth = '30rem'; // Increase the max-width to make the card larger
+               // card.style.maxWidth = '30rem'; // Increase the max-width to make the card larger
                 card.style.margin = '0 auto'; // Add auto margins to center the card
 
                 // Create the card header
@@ -79,21 +79,9 @@ function loadContent(currentVisualization) {
                 cardHeader.className = 'card-header';
                 let userName = document.createElement('div');
                 userName.className = 'user-header';
+                userName.style.fontWeight = 'bold';
                 userName.innerText = `${post.username}`; // Replace with your actual header
 
-                let base64String = post.photo;// Replace with your actual Base64 string
-                let imageFormat = post.photoMediaType; // Replace with your actual image format
-
-                if (base64String !== null) {
-// Create a new image element
-                    let img = document.createElement('img');
-
-// Set the src attribute of the img element to the Base64 string
-                    img.src = `data:image/${imageFormat};base64,${base64String}`;
-
-// Append the img element to the body (or any other container element)
-                    card.appendChild(img);
-                }
 
 
                 cardHeader.appendChild(userName);
@@ -141,6 +129,21 @@ function loadContent(currentVisualization) {
                 let cardText = document.createElement('p');
                 cardText.className = 'card-text';
                 cardText.innerText = `${post.textContent}\n`; // Replace with your actual text
+                cardBody.appendChild(cardText);
+
+                let base64String = post.photo;// Replace with your actual Base64 string
+                let imageFormat = post.photoMediaType; // Replace with your actual image format
+
+                if (imageFormat!== null && imageFormat!=="" && imageFormat!== undefined) {
+                    console.log("imageFormat", imageFormat)
+
+                    let img = document.createElement('img');
+                    img.style.width = "100%";
+                    img.style.height = "auto";
+                    img.src = `data:image/${imageFormat};base64,${base64String}`;
+
+                    cardBody.appendChild(img);
+                }
 
                 // Create the card title
                 let cardDate = document.createElement('div');
@@ -149,6 +152,7 @@ function loadContent(currentVisualization) {
                 cardDate.style.display = 'flex';
                 cardDate.style.justifyContent = 'flex-end';
                 cardDate.style.fontSize = '0.8rem';
+                cardDate.style.marginRight = '1rem';
 
 
                 let cardFooter = document.createElement('div');
@@ -236,6 +240,8 @@ function loadContent(currentVisualization) {
 
                     let commentInput = document.createElement('div');
                     commentInput.className = 'input-group mb-3';
+                    commentInput.style.marginRight= '1rem';
+                    commentInput.style.marginleft= '1rem'
 
                     let commentText = document.createElement('input');
                     commentText.type = 'text';
@@ -245,7 +251,7 @@ function loadContent(currentVisualization) {
 
                     let sendButton = document.createElement('button');
                     sendButton.type = 'button';
-                    sendButton.className = 'btn btn-outline-secondary';
+                    sendButton.className = 'btn btn-primary';
                     sendButton.innerText = 'Send';
                     sendButton.disabled = true;
 
@@ -333,7 +339,7 @@ function loadContent(currentVisualization) {
                 plusIcon.className = 'fa-solid fa-plus';
 
 
-                cardBody.appendChild(cardText);
+
 
                 card.appendChild(cardHeader);
 
@@ -749,6 +755,7 @@ document.getElementById('add-post').addEventListener('click', function () {
         if (this.readyState == 4 && this.status == 200) {
             document.querySelector('#new-post .modal-body').innerHTML = this.responseText;
             var modal = new bootstrap.Modal(document.getElementById('new-post'));
+
             modal.show();
         }
     };

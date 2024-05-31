@@ -7,6 +7,11 @@
 <html lang="en">
 <head>
     <title>Create Post</title>
+    <script type="text/javascript">
+        window.location.href = 'jsp/social.jsp';
+    </script>
+
+
 </head>
 
 <body>
@@ -41,6 +46,7 @@
                 <li>photo: not available</li>
             </c:otherwise>
         </c:choose>
+        <li>username: <c:out value="${post.username}"/></li>
         <li>postDate: <c:out value="${post.postDate}"/></li>
 
     </ul>

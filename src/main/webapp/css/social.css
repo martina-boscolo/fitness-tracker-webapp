@@ -1,3 +1,15 @@
+/* CSS file */
+.card {
+    /* This will apply when the viewport is less than 600px */
+    max-width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+    .card {
+        /* This will apply when the viewport is 600px or more */
+        max-width: 50%;
+    }
+}
 #socialk{
     color:  #A5DD9B;
 
@@ -6,7 +18,7 @@
 }
 
 body {
-     background: #c6b9ff !important;
+     background: linear-gradient(to right, #505050 , #949494, #505050); !important;
 }
 
 
@@ -91,7 +103,7 @@ body {
 
 }
 .postCard{
-    box-shadow: 0.5rem 0.5rem #9C92CBFF;
+    box-shadow: 0.5rem 0.5rem #424242;
 
 }
 #add-post {

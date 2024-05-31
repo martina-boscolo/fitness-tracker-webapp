@@ -25,7 +25,7 @@
 
     <ul class="nav nav-underline">
         <li class="nav-item">
-            <h1 id="socialk">SocialK</h1>
+            <a id="socialk">SocialK</a>
         <li class="nav-item">
             <a class="nav-link " href="#body-post" onclick="loadContent('body-post')">Explore</a>
         </li>

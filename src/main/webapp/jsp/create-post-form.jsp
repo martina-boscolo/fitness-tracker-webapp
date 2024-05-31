@@ -15,11 +15,10 @@
     <body>
           <h1>Create Post Form</h1>
 
-          <form method="POST" enctype="multipart/form-data" action="<c:url value="social.jsp"/>">
+<form method="POST" enctype="multipart/form-data" action="<c:url value="/create-post"/>">
 
-          <script>
-              document.getElementById('userID').value = currentUserId;
-          </script>
+    <!--<label for="userID">User Id:</label>
+    <input id="userID" name="userId" type="text"/><br/>-->
 
           <label for="textContentID">Text Content:</label>
           <input id="textContentID" name="textContent" type="text"/><br/>
