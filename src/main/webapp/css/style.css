@@ -1,3 +1,16 @@
+/* CSS file */
+.card {
+    /* This will apply when the viewport is less than 600px */
+    max-width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+    .card {
+        /* This will apply when the viewport is 600px or more */
+        max-width: 50%;
+    }
+}
+
 :root * {
     /*border: 1px solid green;*/
     box-sizing: border-box;

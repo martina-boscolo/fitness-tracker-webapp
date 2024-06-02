@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://localhost:8080/cycleK-1.0.0/css/style.css">
     <link rel="stylesheet" href="http://localhost:8080/cycleK-1.0.0/css/social.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,13 +24,12 @@
 
 
     <ul class="nav nav-underline">
-        <li class="nav-item">
-            <a id="socialk">SocialK</a>
-        <li class="nav-item">
-            <a class="nav-link " href="#body-post" onclick="loadContent('body-post')">Explore</a>
+
+        <li class="nav-item ">
+            <a class="btn btn-link social-menu" style="color: white !important" href="#body-post" onclick="loadContent('body-post')">Explore</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#my-post" onclick="loadContent('my-post')">My posts</a>
+        <li class="nav-item ">
+            <a class="btn btn-link social-menu" style="color: white !important" href="#my-post" onclick="loadContent('my-post')">My posts</a>
         </li>
     </ul>
 

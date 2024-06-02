@@ -239,7 +239,7 @@ function loadContent(currentVisualization) {
                     commentDiv.className = 'new-comment';
 
                     let commentInput = document.createElement('div');
-                    commentInput.className = 'input-group mb-3';
+                    commentInput.className = 'input-group';
                     commentInput.style.marginRight= '1rem';
                     commentInput.style.marginleft= '1rem'
 
@@ -277,6 +277,8 @@ function loadContent(currentVisualization) {
                                 commentText.value = '';
                                 // Disable the send button
                                 sendButton.disabled = true;
+                                commentDiv.remove();
+
                             })
                             .catch(error => {
                                 console.error(`Failed to add comment: ${error}`);
@@ -306,6 +308,7 @@ function loadContent(currentVisualization) {
 
 
                 let countComment = document.createElement('button');
+                let numberOfComment = post.commentCount;
                 countComment.type = 'button';
                 countComment.className = 'btn btn-link ';
                 countComment.innerText = ` ${post.commentCount} comments`;
@@ -316,8 +319,20 @@ function loadContent(currentVisualization) {
 
 
                 countComment.addEventListener('click', function () {
-                    listComments(post.postId);
+                    listComments(post.postId, numberOfComment, countComment)
+                        .then(() => {
+                            // This code will run after listComments is fulfilled
+                            countComments(post.postId, function (commentsCount) {
+                                countComment.innerText = ` ${commentsCount} comments`;
+                            });
+                        })
+                        .catch(error => {
+                            // This code will run if listComments is rejected
+                            console.error(`An error occurred: ${error}`);
+                        });
+
                 });
+
 
 
                 let heartIcon = document.createElement('i');
@@ -477,7 +492,7 @@ function addCommentToPost(postId, totalComments, textComment) {
     });
 }
 
-function listComments(postId, container) {
+function listComments(postId, numberOfComment, countComment ) {
     console.log("listComments")
 
     let modal = document.getElementById('commentModal');
@@ -511,10 +526,21 @@ function listComments(postId, container) {
                     let binComm = document.createElement('i');
                     binComm.className = 'fa-solid fa-trash';
 
-                    deleteCommentButton.addEventListener('click', function () {
-                        deleteComment(comment.commentId, commentDiv);
+                    deleteCommentButton.addEventListener('click', function (numberOfComment) {
+                        deleteComment(comment.commentId, commentDiv, postId)
+                            .then(() => {
+                                // After the comment is successfully deleted, update the count of comments
+                                countComments(postId, function (numberOfComment) {
+                                    console.log(`Updated comments count: ${numberOfComment}`);
+                                 //   countComment.innerText = ` ${commentsCount} comments`;
+                                    console.log(numberOfComment);
 
 
+                                });
+                            })
+                            .catch(error => {
+                                console.error(`Failed to delete comment: ${error}`);
+                            });
                     });
 
                     commentDiv.appendChild(deleteCommentButton);
@@ -644,7 +670,7 @@ function addLike(postId, resolve, reject) {
 
     const body = {
         "like": {
-            "userId": 1,
+            "userId": currentUserId,
             "postId": postId
         }
     };
@@ -703,7 +729,7 @@ function deletePost(postId) {
                 // Redirect to login page
                 window.location.href = LOGIN;
             } else {
-                reject(new Error(`HTTP request failed with status ${xhr.status}`));
+                console.error("error in deleting the post")
             }
         }
     };
@@ -711,7 +737,7 @@ function deletePost(postId) {
     xhr.send();
 }
 
-function deleteComment(commentId, commentDiv) {
+/*function deleteComment(commentId, commentDiv, postId, callback) {
     console.log("deleteComment")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
@@ -722,6 +748,9 @@ function deleteComment(commentId, commentDiv) {
             if (xhr.status === 200) {
                 // Remove the commentDiv from the DOM
                 commentDiv.remove();
+
+                // Call the callback function
+                if (callback) callback();
             } else if (xhr.status === 401) {
                 // Redirect to login page
                 window.location.href = LOGIN;
@@ -732,6 +761,31 @@ function deleteComment(commentId, commentDiv) {
     };
     xhr.open("DELETE", url, true);
     xhr.send();
+}*/
+function deleteComment(commentId, commentDiv, postId) {
+    console.log("deleteComment")
+
+    return new Promise((resolve, reject) => {
+        const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Remove the commentDiv from the DOM
+                    commentDiv.remove();
+                    resolve();
+                } else if (xhr.status === 401) {
+                    // Redirect to login page
+                    window.location.href = LOGIN;
+                } else {
+                    reject(new Error(`HTTP request failed with status ${xhr.status}`));
+                }
+            }
+        };
+        xhr.open("DELETE", url, true);
+        xhr.send();
+    });
 }
 
 function showDiv(event, id) {

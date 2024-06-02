@@ -17,8 +17,21 @@
     font-weight: bold;
 }
 
+.menu{
+    color: white;
+    text-shadow: 0.3rem 0.3rem #76a470;
+    font-weight: bold;
+}
+
+.social-menu{
+    color: white !important;
+}
+.social-menu:hover {
+    color: #A5DD9B !important;
+}
+
 body {
-     background: linear-gradient(to right, #505050 , #949494, #505050); !important;
+     background: #232323; !important;
 }
 
 
@@ -29,7 +42,6 @@ body {
     padding: 10px;
     z-index: 100; /* Ensures it stays on top of other content */
     border-radius: 30px; /* Makes the corners rounded */
-
 }
 
 #social-header {
@@ -37,27 +49,24 @@ body {
     flex: 3;
     flex-direction: row; /* Change to column direction */
     margin: 0 auto;
-
-
 }
+
 .card-header{
     display: flex;
     justify-content: space-between;
 }
 .user-header{
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .content {
-    margin-top: 50px; /* Adjust this value to match the height of your sticky element */
+    margin-top: 50px;
     padding: 10px;
     display: flex;
     flex: 3;
-    flex-direction: row; /* Change to column direction */
-
-
+    flex-direction: row;
 }
 
 .list-group {
@@ -74,18 +83,13 @@ body {
     flex: 2;
 }
 
-
-
-
 #postsContainer {
     flex: 2;
-
 }
 
 .pressed {
     color: red;
     text-shadow: 3px 3px darkred;
-
 }
 
 .icon {
@@ -94,22 +98,19 @@ body {
 }
 
 .icon:hover {
-
     color: #A5DD9B !important;
 }
 
 #body-post, #my-post {
-    display: none;
-
+    display: block;
 }
 .postCard{
     box-shadow: 0.5rem 0.5rem #424242;
-
 }
 #add-post {
     position: fixed; /* Make the button sticky */
-    bottom: 20px; /* Position it 20px from the bottom */
-    right: 20px; /* Position it 20px from the right */
+    bottom: 3%; /* Position it 20px from the bottom */
+    right: 3%; /* Position it 20px from the right */
     border-radius: 50%; /* Make the button round */
     width: 60px; /* Set the width of the button */
     height: 60px; /* Set the height of the button */
@@ -119,30 +120,23 @@ body {
 }
 
 
-
 .commentDiv {
     display: flex;
     flex-direction: row;
-
-
 }
 .commentText{
     display: flex;
     justify-content: space-between;
-
 }
-.commentCollapse{
-
-
+.new-comment{
+    margin-inline: 1rem;
+    margin-block: 1rem;
 }
-
 .comment-input{
     border: #2f2f32;
     flex: 8;
     padding: 5px;
-
 }
-
 .send-comment{
     flex: 2;
 }
