@@ -163,10 +163,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const exerciseElement = document.createElement("div");
                 exerciseElement.className = "exercise";
                 exerciseElement.innerHTML = `
-                <p><strong>Exercise ID:</strong> ${ex.idExercise}</p>
-                <p><strong>Reps:</strong> ${ex.reps}</p>
-                <p><strong>Sets:</strong> ${ex.sets}</p>
-                <p><strong>Weight:</strong> ${ex.weight}</p>
+                
+                <div>
+                    <p><strong>Exercise:</strong> ${ex.idExercise}</p>
+                    <p><strong>Repeatation:</strong> ${ex.reps}</p>
+                    <p><strong>Sets:</strong> ${ex.sets}</p>
+                    <p><strong>Weight:</strong> ${ex.weight}</p>
+                </div>
                 <button class="editBtn"><i class="fas fa-edit"></i></button>
             `;
                 dayElement.appendChild(exerciseElement);
