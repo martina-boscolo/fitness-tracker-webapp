@@ -23,31 +23,20 @@ document.addEventListener('DOMContentLoaded', function () {
         getUserId()
         loadContent('body-post');
     } else {
-        // Redirect to login page
         window.location.href = LOGIN;
     }
-
-
 });
 
 
 function clearAllComponents() {
-    // Get all the postsContainer elements
     const postsContainers = document.querySelectorAll('[id^="postsContainer-"]');
-
-    // Iterate over each postsContainer and clear its content
     postsContainers.forEach((postsContainer) => {
         postsContainer.innerHTML = '';
     });
 }
 
-/*window.onload = function () {
-    loadContent('body-post'); // or 'my-post'
-};*/
-
 function loadContent(currentVisualization) {
     console.log(currentVisualization)
-
     let url;
     if (currentVisualization === 'my-post') {
         url = `http://localhost:8080/cycleK-1.0.0/rest/post/user/${currentUserId}`;
@@ -59,11 +48,9 @@ function loadContent(currentVisualization) {
     const xhr = new XMLHttpRequest();
     const postsContainer = document.getElementById('postsContainer-' + currentVisualization);
     clearAllComponents();
-    //postsContainer.remove();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const posts = JSON.parse(xhr.responseText)["resource-list"];
-
 
             posts.forEach((postObj) => {
                 let post = postObj.post;
@@ -71,8 +58,7 @@ function loadContent(currentVisualization) {
                 // Create a new div for the card
                 let card = document.createElement('div');
                 card.className = 'card border-light mb-3 postCard';
-               // card.style.maxWidth = '30rem'; // Increase the max-width to make the card larger
-                card.style.margin = '0 auto'; // Add auto margins to center the card
+                card.style.margin = '0 auto';
 
                 // Create the card header
                 let cardHeader = document.createElement('div');
@@ -80,9 +66,7 @@ function loadContent(currentVisualization) {
                 let userName = document.createElement('div');
                 userName.className = 'user-header';
                 userName.style.fontWeight = 'bold';
-                userName.innerText = `${post.username}`; // Replace with your actual header
-
-
+                userName.innerText = `${post.username}`;
 
                 cardHeader.appendChild(userName);
                 if (post.userId === currentUserId) {
@@ -94,19 +78,13 @@ function loadContent(currentVisualization) {
                     bin.className = 'fa-solid fa-trash';
 
                     deleteCard.addEventListener('click', function () {
-                        // Show the modal
                         let deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
                         deleteModal.show();
 
                         // Add a click event listener to the confirm delete button
                         document.getElementById('confirmDelete').addEventListener('click', function () {
-                            // Delete the post
                             deletePost(post.postId, card);
-
-                            // Remove the card from the DOM
                             card.remove();
-
-                            // Hide the modal
                             deleteModal.hide();
                         });
                     });
@@ -128,11 +106,11 @@ function loadContent(currentVisualization) {
                 // Create the card text
                 let cardText = document.createElement('p');
                 cardText.className = 'card-text';
-                cardText.innerText = `${post.textContent}\n`; // Replace with your actual text
+                cardText.innerText = `${post.textContent}\n`;
                 cardBody.appendChild(cardText);
 
-                let base64String = post.photo;// Replace with your actual Base64 string
-                let imageFormat = post.photoMediaType; // Replace with your actual image format
+                let base64String = post.photo;
+                let imageFormat = post.photoMediaType;
 
                 if (imageFormat!== null && imageFormat!=="" && imageFormat!== undefined) {
                     console.log("imageFormat", imageFormat)
@@ -170,24 +148,19 @@ function loadContent(currentVisualization) {
 
                 let isLike = false;
                 wasLiked(post.postId, function (liked) {
-
                     isLike = liked;
-
                 });
-
 
                 like.addEventListener('click', function () {
                     let promise;
 
                     if (isLike === true) {
-                        // If the button is already pressed, mark it as not pressed
                         heartIcon.classList.remove('pressed');
                         promise = new Promise((resolve, reject) => {
                             deleteLike(currentUserId, post.postId, resolve, reject);
                         });
                         isLike = false;
                     } else {
-                        // If the button is not pressed, mark it as pressed
                         promise = new Promise((resolve, reject) => {
                             addLike(post.postId, resolve, reject);
                         });
@@ -211,7 +184,6 @@ function loadContent(currentVisualization) {
                 comment.type = 'button';
                 comment.className = 'btn btn-link icon';
 
-
                 let collapseId = 'collapseComments' + post.postId;
 
                 comment.setAttribute('data-bs-toggle', 'collapse');
@@ -220,16 +192,12 @@ function loadContent(currentVisualization) {
                 comment.setAttribute('aria-controls', collapseId)
                 comment.addEventListener('click', function () {
                     let collapseDiv = document.getElementById(collapseId);
-                    // Create the new elements
                     if (collapseDiv) {
-                        // If the div is visible, hide it
                         collapseDiv.remove();
                     } else {
-                        // If the div is not visible, show it
                         collapseDiv = document.createElement('div');
                         collapseDiv.className = 'collapse show commentCollapse';
                         collapseDiv.id = collapseId;
-
                         card.appendChild(collapseDiv);
                     }
 
@@ -258,8 +226,6 @@ function loadContent(currentVisualization) {
                     commentText.addEventListener('input', function () {
                         sendButton.disabled = commentText.value.trim() === '';
                     });
-
-                    // Trigger the input event once to handle the initial state
                     commentText.dispatchEvent(new Event('input'));
 
 
@@ -268,14 +234,11 @@ function loadContent(currentVisualization) {
                         // Call the function to add the comment
                         addCommentToPost(post.postId, post.commentCount, commentText.value)
                             .then(() => {
-                                // After the comment is successfully added, update the count of comments
                                 countComments(post.postId, function (commentsCount) {
                                     console.log(`Updated comments count: ${commentsCount}`);
                                     countComment.innerText = ` ${commentsCount} comments`;
                                 });
-                                // Clear the input
                                 commentText.value = '';
-                                // Disable the send button
                                 sendButton.disabled = true;
                                 commentDiv.remove();
 
@@ -318,19 +281,17 @@ function loadContent(currentVisualization) {
                  });*/
 
 
-                countComment.addEventListener('click', function () {
-                    listComments(post.postId, numberOfComment, countComment)
-                        .then(() => {
-                            // This code will run after listComments is fulfilled
-                            countComments(post.postId, function (commentsCount) {
-                                countComment.innerText = ` ${commentsCount} comments`;
-                            });
-                        })
-                        .catch(error => {
-                            // This code will run if listComments is rejected
-                            console.error(`An error occurred: ${error}`);
+                countComment.addEventListener('click', async function () {
+                    try {
+                        await listComments(post.postId, numberOfComment, countComment);
+                        // This code will run after listComments is fulfilled
+                        countComments(post.postId, function (commentsCount) {
+                            countComment.innerText = ` ${commentsCount} comments`;
                         });
-
+                    } catch (error) {
+                        // This code will run if listComments is rejected
+                        console.error(`An error occurred: ${error}`);
+                    }
                 });
 
 
@@ -357,10 +318,7 @@ function loadContent(currentVisualization) {
 
 
                 card.appendChild(cardHeader);
-
                 card.appendChild(cardBody);
-
-
                 card.appendChild(cardDate);
                 card.appendChild(cardFooter);
                 cardFooter.appendChild(likeComment);
@@ -413,7 +371,6 @@ function wasLiked(postId, callback) {
 }
 
 function addComment(postId, totalComments, container) {
-    // Create a new input for the comment
     let commentDiv = document.createElement('div');
     commentDiv.className = 'new-comment';
 
@@ -436,13 +393,9 @@ function addComment(postId, totalComments, container) {
         sendButton.disabled = commentText.value.trim() === '';
     });
 
-    // Trigger the input event once to handle the initial state
     commentText.dispatchEvent(new Event('input'));
 
-
-    // Add a click event listener to the button
     sendButton.addEventListener('click', function () {
-        // Call the function to add the
 
         addCommentToPost(postId, post.commentCount, commentText.value);
         sendButton.disabled = true;
@@ -506,10 +459,8 @@ function listComments(postId, numberOfComment, countComment ) {
             const comments = JSON.parse(xhr.responseText)["resource-list"];
 
             let modalBody = modal.querySelector('.modal-body');
-            modalBody.innerHTML = '';
-            // Clear the container
+            modalBody.innerHTML = ''
 
-            // Create a new div for each comment and append it to the container
             comments.forEach((commentObj) => {
                 let comment = commentObj.comment;
 
@@ -517,11 +468,12 @@ function listComments(postId, numberOfComment, countComment ) {
                 commentDiv.className = 'commentText';
                 commentDiv.innerText = `User ${comment.userId}:  ${comment.commentText}`;
 
-
                 if (comment.userId === currentUserId) {
                     let deleteCommentButton = document.createElement('button');
                     deleteCommentButton.type = 'button';
                     deleteCommentButton.className = 'btn btn-link icon bin';
+
+
 
                     let binComm = document.createElement('i');
                     binComm.className = 'fa-solid fa-trash';
@@ -532,24 +484,17 @@ function listComments(postId, numberOfComment, countComment ) {
                                 // After the comment is successfully deleted, update the count of comments
                                 countComments(postId, function (numberOfComment) {
                                     console.log(`Updated comments count: ${numberOfComment}`);
-                                 //   countComment.innerText = ` ${commentsCount} comments`;
+                                    countComment.innerText = ` ${numberOfComment} comments`;
                                     console.log(numberOfComment);
-
-
                                 });
                             })
                             .catch(error => {
                                 console.error(`Failed to delete comment: ${error}`);
                             });
                     });
-
                     commentDiv.appendChild(deleteCommentButton);
                     deleteCommentButton.appendChild(binComm);
-
-
                 }
-
-
                 modalBody.appendChild(commentDiv);
 
             });
@@ -577,28 +522,23 @@ function listComments(postId, numberOfComment, countComment ) {
 
 function listLikes(postId) {
     console.log("listLikes")
-
-    // Define the modal
     let modal = document.getElementById('likeModal');
-
-    // Fetch the comments
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like`; // Use the postId in the URL
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const likes = JSON.parse(xhr.responseText)["resource-list"];
 
-            // Clear the modal body
             let modalBody = modal.querySelector('.modal-body');
             modalBody.innerHTML = '';
 
-            // Create a new div for each comment and append it to the modal body
+
             likes.forEach((likeObj) => {
                 let like = likeObj.like;
 
                 let likeDiv = document.createElement('div');
                 likeDiv.className = 'Likes';
-                likeDiv.innerText = `User: ${like.userId}`; // Display the user ID and comment text
+                likeDiv.innerText = `${like.username}`;
 
                 modalBody.appendChild(likeDiv);
             });
@@ -627,7 +567,7 @@ function listLikes(postId) {
 function countLikes(postId, callback) {
     console.log("countLikes")
 
-    const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like/count`; // Use the postId in the URL
+    const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like/count`;
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -647,19 +587,24 @@ function countComments(postId, callback) {
     console.log("countComments")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/comment/count`;
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            const commentsCount = JSON.parse(xhr.responseText);
 
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP request failed with status ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(commentsCount => {
             callback(commentsCount);
-        } else if (xhr.status === 401) {
-            // Redirect to login page
-            window.location.href = LOGIN;
-        }
-    };
-    xhr.open("GET", url, true);
-    xhr.send();
+        })
+        .catch(error => {
+            if (error.message === "HTTP request failed with status 401") {
+                window.location.href = LOGIN;
+            } else {
+                console.error(error);
+            }
+        });
 }
 
 function addLike(postId, resolve, reject) {
@@ -667,7 +612,6 @@ function addLike(postId, resolve, reject) {
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/like`;
     const xhr = new XMLHttpRequest();
-
     const body = {
         "like": {
             "userId": currentUserId,
@@ -680,7 +624,6 @@ function addLike(postId, resolve, reject) {
             if (xhr.status === 201) {
                 resolve();
             } else if (xhr.status === 401) {
-                // Redirect to login page
                 window.location.href = LOGIN;
             } else {
                 reject(new Error(`HTTP request failed with status ${xhr.status}`));

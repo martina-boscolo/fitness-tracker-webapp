@@ -11,54 +11,41 @@
           rel="stylesheet">
     <title>Social</title>
 </head>
-
 <body>
-
 <%@ include file="../html/template/nav.html" %>
-
-
 <body>
-
 <div class="container">
-
-
-
-    <ul class="nav nav-underline">
-
-        <li class="nav-item ">
-            <a class="btn btn-link social-menu" style="color: white !important" href="#body-post" onclick="loadContent('body-post')">Explore</a>
+    <br>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" style="color: white !important" id="home-tab" data-bs-toggle="tab"
+                    data-bs-target="#body-post" type="button" role="tab" aria-controls="home-tab-pane"
+                    aria-selected="true" onclick="loadContent('body-post')">Explore
+            </button>
         </li>
-        <li class="nav-item ">
-            <a class="btn btn-link social-menu" style="color: white !important" href="#my-post" onclick="loadContent('my-post')">My posts</a>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" style="color: white !important" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#my-post" type="button" role="tab" aria-controls="profile-tab-pane"
+                    aria-selected="false" onclick="loadContent('my-post')">My posts
+            </button>
         </li>
     </ul>
-
-    <hr>
 
     <div id="body-post" class="content">
         <div id="postsContainer-body-post"></div>
     </div>
-
     <div id="my-post" class="content">
         <div id="postsContainer-my-post"></div>
     </div>
-
 </div>
-
 <div class="modal fade" id="new-post" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-
-
-
             <div class="modal-body">
-
             </div>
-
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -76,7 +63,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -84,7 +70,7 @@
                 <h5 class="modal-title">Comments</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"> </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 </div>
@@ -95,7 +81,7 @@
                 <h5 class="modal-title">Likes</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body"> </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 </div>

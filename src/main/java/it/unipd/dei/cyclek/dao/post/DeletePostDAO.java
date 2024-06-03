@@ -59,7 +59,7 @@ public class DeletePostDAO extends AbstractDAO<Post> {
                         rs.getBytes("photo"),
                         rs.getString("photoMediaType"),
                         rs.getTimestamp("post_date"),
-                        rs.getString("username"),
+                        "username",
                         rs.getInt("likes_count"),
                         rs.getInt("comments_count")
                 );
