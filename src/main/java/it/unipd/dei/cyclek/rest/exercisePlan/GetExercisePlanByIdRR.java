@@ -15,7 +15,8 @@ import java.sql.SQLException;
 
 public class GetExercisePlanByIdRR extends AbstractRR {
     public Integer id;
-    public GetExercisePlanByIdRR(HttpServletRequest req, HttpServletResponse res, Connection con , Integer id) {
+
+    public GetExercisePlanByIdRR(HttpServletRequest req, HttpServletResponse res, Connection con, Integer id) {
         super(Actions.Get_ExercisePlan_Id, req, res, con);
         this.id = id;
     }
@@ -26,10 +27,7 @@ public class GetExercisePlanByIdRR extends AbstractRR {
         Message m;
 
         try {
-
             el = new GetExercisePlanDao(con, id).access().getOutputParam();
-
-
             if (el != null) {
                 LOGGER.info("Exercise successfully fetch.");
                 res.setStatus(HttpServletResponse.SC_OK);

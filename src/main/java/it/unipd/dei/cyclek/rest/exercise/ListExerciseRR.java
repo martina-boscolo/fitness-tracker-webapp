@@ -29,9 +29,10 @@ public class ListExerciseRR extends AbstractRR {
 
             if (ul != null) {
                 LOGGER.info("Exercises successfully listed.");
-
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ul).toJSON(res.getOutputStream());
+//
+
             } else { // it should not happen
                 LOGGER.error("Fatal error while listing Exercises.");
                 m = ErrorCode.LIST_ALL_EXERCISES_NOT_FOUND.getMessage();
