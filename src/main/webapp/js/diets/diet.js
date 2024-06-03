@@ -240,7 +240,7 @@ function updateDiet(data) {
 
                 // Meal select input
                 const mealSelect = document.createElement('select');
-                mealSelect.classList.add('form-control');
+                mealSelect.classList.add('form-control', 'mb-2');
                 ['Breakfast', 'Lunch', 'Dinner'].forEach(mealOption => {
                     const option = document.createElement('option');
                     option.value = mealOption;

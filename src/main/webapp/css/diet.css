@@ -126,7 +126,8 @@ i {
 .disabled-input {
     cursor: not-allowed;
 }
-.nav-item a {
+
+#daysTab .nav-item a {
     color: white !important;
     font-size: 1.2rem !important;
 }
