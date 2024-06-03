@@ -4,6 +4,9 @@
     justify-content: center;
     gap: 20px;
 }
+@media screen and (max-width: 800px) {
+    .container{flex-direction: column}
+}
 
 .panel {
     padding: 20px;
