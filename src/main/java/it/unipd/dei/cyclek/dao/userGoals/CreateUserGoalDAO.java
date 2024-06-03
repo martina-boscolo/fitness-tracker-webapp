@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public final class CreateUserGoalDAO extends AbstractDAO<UserGoals>{
-    private static final String QUERY = "INSERT INTO userGoals VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE) RETURNING *";
+    private static final String QUERY = "INSERT INTO userGoals VALUES (DEFAULT, ?, ?, ?, ?, ?, CURRENT_DATE + INTERVAL '1 month') RETURNING *";
 
     private final UserGoals userGoals;
 

@@ -62,7 +62,17 @@
 - DO NOT TOUCH THIS FOLDER
 
 #### `webapp`:
-- Will be used for frontend
+Our pages, except for login/signup, are composed of a navbar, the main content and a footer.
+The three part are defined in html folder and the navbar/footer are inside the template folder since are common for every page.
+The final result should consist in a jsp page that includes the navbar, the main and the footer.
 
-### `test`
-used for test
+- **css**:
+  - contains a general style.css file that defines some common properties
+  - contains a file for each page with specific properties
+- **html**:
+  - contains the template folder for the common navbar and footer component.
+  - contains a file for each page that implements the main functionality of a page.
+- **js**:
+  - contains a utils file with common functions and constants to facilitate login/logout management and centralize ULR declaration.
+- **jsp**:
+  - contains a page for each service.

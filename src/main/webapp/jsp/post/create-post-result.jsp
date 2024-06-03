@@ -13,7 +13,7 @@
 <h1>Create Post</h1>
 <hr/>
 
-<c:import url="/jsp/include/show-message.jsp"/>
+<c:import url="/jsp/post/include/show-message.jsp"/>
 
 <c:if test="${not empty post && !message.error}">
     <ul>
