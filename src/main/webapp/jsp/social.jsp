@@ -85,7 +85,7 @@
         </div>
     </div>
 </div>
-<button id="add-post" type="button" class="btn btn-light" data-url="create-post-form.jsp">
+<button id="add-post" type="button" class="btn btn-light" data-url="post/create-post-form.jsp">
     <i class="fa-solid fa-plus"></i>
 </button>
 

@@ -7,7 +7,6 @@ function getUserId() {
         .then(response => response.json())
         .then(data => {
             const user = data.user;
-            console.log("user id", user.id);
             currentUserId = user.id;
         })
         .catch(error => {
@@ -36,7 +35,6 @@ function clearAllComponents() {
 }
 
 function loadContent(currentVisualization) {
-    console.log(currentVisualization)
     let url;
     if (currentVisualization === 'my-post') {
         url = `http://localhost:8080/cycleK-1.0.0/rest/post/user/${currentUserId}`;
@@ -44,7 +42,6 @@ function loadContent(currentVisualization) {
         url = "http://localhost:8080/cycleK-1.0.0/rest/post";
     }
 
-    console.log("Request URL: %s.", url);
     const xhr = new XMLHttpRequest();
     const postsContainer = document.getElementById('postsContainer-' + currentVisualization);
     clearAllComponents();
@@ -113,7 +110,6 @@ function loadContent(currentVisualization) {
                 let imageFormat = post.photoMediaType;
 
                 if (imageFormat!== null && imageFormat!=="" && imageFormat!== undefined) {
-                    console.log("imageFormat", imageFormat)
 
                     let img = document.createElement('img');
                     img.style.width = "100%";
@@ -170,7 +166,6 @@ function loadContent(currentVisualization) {
 
                     promise.then(() => {
                         countLikes(post.postId, function (likesCount) {
-                            console.log("contatooooo", likesCount)
                             countLike.innerText = ` ${likesCount} likes`;
                         });
                     });
@@ -235,7 +230,6 @@ function loadContent(currentVisualization) {
                         addCommentToPost(post.postId, post.commentCount, commentText.value)
                             .then(() => {
                                 countComments(post.postId, function (commentsCount) {
-                                    console.log(`Updated comments count: ${commentsCount}`);
                                     countComment.innerText = ` ${commentsCount} comments`;
                                 });
                                 commentText.value = '';
@@ -266,7 +260,7 @@ function loadContent(currentVisualization) {
                     countLike.innerText = ` ${likesCount} likes`;
                 });*/
                 countLike.addEventListener('click', function () {
-                    listLikes(post.postId);
+                    listLikes(post.postId, post.username );
                 });
 
 
@@ -355,7 +349,6 @@ function wasLiked(postId, callback) {
                 likes.forEach((likeObj) => {
                     let like = likeObj.like;
                     if (like.userId === currentUserId) {
-                        console.log("Like from current user already exists.");
                         found = true;
                     }
                 });
@@ -413,12 +406,9 @@ function addComment(postId, totalComments, container) {
 
 function addCommentToPost(postId, totalComments, textComment) {
     return new Promise((resolve, reject) => {
-        console.log("addComment")
 
         const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment`;
         const xhr = new XMLHttpRequest();
-
-        console.log("text comment" + textComment);
         const body = {
             "comment": {
                 "userId": currentUserId,
@@ -446,8 +436,6 @@ function addCommentToPost(postId, totalComments, textComment) {
 }
 
 function listComments(postId, numberOfComment, countComment ) {
-    console.log("listComments")
-
     let modal = document.getElementById('commentModal');
 
     // Fetch the comments
@@ -483,9 +471,7 @@ function listComments(postId, numberOfComment, countComment ) {
                             .then(() => {
                                 // After the comment is successfully deleted, update the count of comments
                                 countComments(postId, function (numberOfComment) {
-                                    console.log(`Updated comments count: ${numberOfComment}`);
                                     countComment.innerText = ` ${numberOfComment} comments`;
-                                    console.log(numberOfComment);
                                 });
                             })
                             .catch(error => {
@@ -520,8 +506,7 @@ function listComments(postId, numberOfComment, countComment ) {
 }
 
 
-function listLikes(postId) {
-    console.log("listLikes")
+function listLikes(postId, username) {
     let modal = document.getElementById('likeModal');
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like`; // Use the postId in the URL
     const xhr = new XMLHttpRequest();
@@ -538,7 +523,7 @@ function listLikes(postId) {
 
                 let likeDiv = document.createElement('div');
                 likeDiv.className = 'Likes';
-                likeDiv.innerText = `${like.username}`;
+                likeDiv.innerText = `${username}`;
 
                 modalBody.appendChild(likeDiv);
             });
@@ -565,7 +550,6 @@ function listLikes(postId) {
 }
 
 function countLikes(postId, callback) {
-    console.log("countLikes")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/like/count`;
     const xhr = new XMLHttpRequest();
@@ -584,7 +568,6 @@ function countLikes(postId, callback) {
 }
 
 function countComments(postId, callback) {
-    console.log("countComments")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}/comment/count`;
 
@@ -608,7 +591,6 @@ function countComments(postId, callback) {
 }
 
 function addLike(postId, resolve, reject) {
-    console.log("addLike")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/like`;
     const xhr = new XMLHttpRequest();
@@ -636,7 +618,6 @@ function addLike(postId, resolve, reject) {
 }
 
 function deleteLike(userId, postId, resolve, reject) {
-    console.log("deleteLike")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/like/${userId}/${postId}`;
     const xhr = new XMLHttpRequest();
@@ -659,7 +640,6 @@ function deleteLike(userId, postId, resolve, reject) {
 }
 
 function deletePost(postId) {
-    console.log("deletePost")
 
     const url = `http://localhost:8080/cycleK-1.0.0/rest/post/${postId}`;
     const xhr = new XMLHttpRequest();
@@ -680,33 +660,7 @@ function deletePost(postId) {
     xhr.send();
 }
 
-/*function deleteComment(commentId, commentDiv, postId, callback) {
-    console.log("deleteComment")
-
-    const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
-    const xhr = new XMLHttpRequest();
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                // Remove the commentDiv from the DOM
-                commentDiv.remove();
-
-                // Call the callback function
-                if (callback) callback();
-            } else if (xhr.status === 401) {
-                // Redirect to login page
-                window.location.href = LOGIN;
-            } else {
-                console.error(`HTTP request failed with status ${xhr.status}`);
-            }
-        }
-    };
-    xhr.open("DELETE", url, true);
-    xhr.send();
-}*/
 function deleteComment(commentId, commentDiv, postId) {
-    console.log("deleteComment")
 
     return new Promise((resolve, reject) => {
         const url = `http://localhost:8080/cycleK-1.0.0/rest/post/comment/${commentId}`;
