@@ -88,7 +88,7 @@ i {
 .list-group-item {
     border: none;
     padding: 0.75rem 1.25rem;
-    background-color: #f8f9fa;
+    background-color: transparent !important;
     margin-bottom: 0.5rem;
 }
 /* Nested list group styles */
@@ -125,7 +125,7 @@ i {
     background: #292727;
 }
 .custom{
-    background: #327d16;
+    background: #327d16 !important;
     color: white;
 }
 .disabled-input {
