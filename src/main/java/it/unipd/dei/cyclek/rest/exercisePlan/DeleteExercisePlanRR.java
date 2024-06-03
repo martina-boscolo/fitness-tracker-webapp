@@ -15,7 +15,8 @@ import java.sql.SQLException;
 
 public class DeleteExercisePlanRR extends AbstractRR {
     public Integer id;
-    public DeleteExercisePlanRR(HttpServletRequest req, HttpServletResponse res, Connection con , Integer id) {
+
+    public DeleteExercisePlanRR(HttpServletRequest req, HttpServletResponse res, Connection con, Integer id) {
         super(Actions.DELETE_Exercise_Plan, req, res, con);
         this.id = id;
     }
@@ -26,10 +27,7 @@ public class DeleteExercisePlanRR extends AbstractRR {
         Message m;
 
         try {
-
             el = new DeleteExercisePlanDao(con, id).access().getOutputParam();
-
-
             if (el != null) {
                 LOGGER.info("Exercise successfully deleted.");
                 res.setStatus(HttpServletResponse.SC_OK);

@@ -24,6 +24,7 @@ public class ExercisePlanService extends AbstractService {
         String regex = ".*/(\\d+)$";
         // Compile the regex pattern
         Pattern pattern = Pattern.compile(regex);
+        LOGGER.warn("Unsopported operation for URI /%s: %s. %s %s", TABLE_NAME, method, path, pattern.matcher(path).matches());
 
         if (path.isEmpty() || path.equals("/")) {
             switch (method) {
@@ -38,29 +39,23 @@ public class ExercisePlanService extends AbstractService {
                 default:
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             }
-        }
-        else if (method.equals("GET") && path.contains("idUser") && pattern.matcher(path).matches()) {
-            Matcher matcher = pattern.matcher(path);
-            if (matcher.find()) {
-                // Extract the ID from the matched group
-                String id = matcher.group(1);
-                new GetExercisePlanByUserIdRR(req, res, con, Integer.parseInt(id)).serve();
-             }
-            }else if (method.equals("GET") && pattern.matcher(path).matches()) {
+        } else if (method.equals("GET") && path.contains("idUser")) {
+            new GetExercisePlanByUserIdRR(req, res, con).serve();
+        } else if (method.equals("GET") && pattern.matcher(path).matches()) {
             Matcher matcher = pattern.matcher(path);
             if (matcher.find()) {
                 // Extract the ID from the matched group
                 String id = matcher.group(1);
                 new GetExercisePlanByIdRR(req, res, con, Integer.parseInt(id)).serve();
             }
-        }else if (method.equals("DELETE") && pattern.matcher(path).matches()) {
+        } else if (method.equals("DELETE") && pattern.matcher(path).matches()) {
             Matcher matcher = pattern.matcher(path);
             if (matcher.find()) {
                 // Extract the ID from the matched group
                 String id = matcher.group(1);
                 new DeleteExercisePlanRR(req, res, con, Integer.parseInt(id)).serve();
             }
-        }else {
+        } else {
             LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
             throw new UnsupportedOperationException();
         }
