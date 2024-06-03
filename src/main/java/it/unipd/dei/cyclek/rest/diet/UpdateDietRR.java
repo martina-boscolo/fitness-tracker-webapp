@@ -9,6 +9,8 @@ import it.unipd.dei.cyclek.resources.entity.Diet;
 import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -29,6 +31,28 @@ public class UpdateDietRR extends AbstractRR {
 
         try {
 
+
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
             BufferedReader reader = req.getReader();
             StringBuilder jsonBody = new StringBuilder();
             String line;
@@ -41,14 +65,12 @@ public class UpdateDietRR extends AbstractRR {
             int id = rootNode.get("id").asInt();
             String planName = rootNode.get("planName").asText();
             String dietJson = rootNode.get("diet").toString();
-            int idUser = rootNode.get("idUser").asInt();
 
             boolean saved = new UpdateDietDAO(con, new Diet(id, idUser, planName, dietJson, "")).access().getOutputParam();
             if (saved) {
                 LOGGER.info("Diet successfully updated.");
                 res.setStatus(HttpServletResponse.SC_OK);
-            }
-            else{
+            } else {
                 LOGGER.info("Diet cant be modified, 24 hours has passed.");
                 m = ErrorCode.UPDATE_DIET_CONSTRAINT_VIOLATION.getMessage();
                 res.setStatus(ErrorCode.UPDATE_DIET_CONSTRAINT_VIOLATION.getHttpCode());
