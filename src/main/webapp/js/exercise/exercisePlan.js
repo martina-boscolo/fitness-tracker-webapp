@@ -111,34 +111,74 @@ document.addEventListener("DOMContentLoaded", async function () {
     const addExerciseBtn = document.getElementById("addExerciseBtn");
     const addPlanBtn = document.getElementById("addPlanBtn");
     const deletePlanBtn = document.getElementById("deletePlanBtn");
-
+    const planNameElement = document.getElementById('planName');
     // fill the exercise select dropdown
     exerciseSelect.innerHTML = exercises.map(ex => `<option value="${ex.id}">${ex.exercise_name}</option>`).join('');
+
+
+
+
+
+    // function showPlan(index) {
+    //     planContainer.innerHTML = "";
+    //     const planKey = planKeys[index];
+    //     const plan = plans[planKey];
+    //     const planElement = document.createElement("div");
+    //     planElement.className = "plan active";
+    //     planElement.innerHTML = `<h2>${planKey}</h2>`;
+    //     Object.keys(plan.days).forEach(day => {
+    //         const dayElement = document.createElement("div");
+    //         dayElement.className = "mt-4";
+    //         dayElement.innerHTML = `<h3>${day}</h3>`;
+    //         plan.days[day].forEach(ex => {
+    //             const exerciseElement = document.createElement("div");
+    //             exerciseElement.className = "mb-2";
+    //             exerciseElement.innerHTML = `
+    //                 <p>Exercise ID: ${ex.idExercise}, Reps: ${ex.reps}, Sets: ${ex.sets}, Weight: ${ex.weight}</p>
+    //                 <button class="btn btn-warning btn-sm editBtn" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">Edit</button>
+    //             `;
+    //             dayElement.appendChild(exerciseElement);
+    //         });
+    //         planElement.appendChild(dayElement);
+    //     });
+    //     planContainer.appendChild(planElement);
+    // }
+
+
 
     function showPlan(index) {
         planContainer.innerHTML = "";
         const planKey = planKeys[index];
         const plan = plans[planKey];
-        const planElement = document.createElement("div");
-        planElement.className = "plan active";
-        planElement.innerHTML = `<h2>${planKey}</h2>`;
+
+        // Display the plan name in the center
+        planNameElement.textContent = planKey;
+
         Object.keys(plan.days).forEach(day => {
             const dayElement = document.createElement("div");
-            dayElement.className = "mt-4";
-            dayElement.innerHTML = `<h3>${day}</h3>`;
+            dayElement.className = "card";
+            dayElement.innerHTML = `<h2>${day}</h2>`;
+
             plan.days[day].forEach(ex => {
                 const exerciseElement = document.createElement("div");
-                exerciseElement.className = "mb-2";
+                exerciseElement.className = "exercise";
                 exerciseElement.innerHTML = `
-                    <p>Exercise ID: ${ex.idExercise}, Reps: ${ex.reps}, Sets: ${ex.sets}, Weight: ${ex.weight}</p>
-                    <button class="btn btn-warning btn-sm editBtn" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">Edit</button>
-                `;
+                <p><strong>Exercise ID:</strong> ${ex.idExercise}</p>
+                <p><strong>Reps:</strong> ${ex.reps}</p>
+                <p><strong>Sets:</strong> ${ex.sets}</p>
+                <p><strong>Weight:</strong> ${ex.weight}</p>
+                <button class="editBtn"><i class="fas fa-edit"></i></button>
+            `;
                 dayElement.appendChild(exerciseElement);
             });
-            planElement.appendChild(dayElement);
+
+            planContainer.appendChild(dayElement);
         });
-        planContainer.appendChild(planElement);
     }
+
+
+
+
 
     function populateForm(planKey, day, idExercise, reps, sets, weight) {
         daySelect.value = day;
