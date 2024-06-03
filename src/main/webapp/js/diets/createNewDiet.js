@@ -46,7 +46,7 @@ function addFoodInput(containerId) {
     col4.appendChild(deleteButton);
 
     const trashIcon = document.createElement('i');
-    trashIcon.className = 'bi bi-trash3';
+    trashIcon.className = 'bi bi-trash3 fs-6';
     deleteButton.appendChild(trashIcon);
 
     row.appendChild(col1);

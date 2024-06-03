@@ -55,7 +55,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/', {
                 tabLink.setAttribute('aria-controls', `day-${day}`);
                 tabLink.setAttribute('aria-selected', isFirstDay.toString()); // Set aria-selected based on isFirstDay
 
-                tabLink.style.color = 'orange';
                 tabLink.textContent = day;
 
                 // Append tab link to tab list
@@ -259,7 +258,7 @@ function updateDiet(data) {
                 col4.className = 'col-auto';
 
                 const trashIcon = document.createElement('i');
-                trashIcon.className = 'bi bi-trash3';
+                trashIcon.className = 'bi bi-trash3 fs-6';
 
                 deleteButton.appendChild(trashIcon);
                 col4.appendChild(deleteButton);

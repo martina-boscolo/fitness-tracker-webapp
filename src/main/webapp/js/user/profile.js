@@ -76,9 +76,10 @@ function process() {
     document.getElementById("changeButton").disabled = true;
 
     // Add event listeners to all form inputs to detect changes
-    const formInputs = document.querySelectorAll("#ProfileForm input");
+    const formInputs = document.querySelectorAll("#ProfileForm input, #ProfileForm select");
     formInputs.forEach(input => {
         input.addEventListener("input", checkFormChanges);
+        input.addEventListener("change", checkFormChanges);
     });
 
     document.getElementById("ProfileForm").addEventListener("submit", function (event) {
