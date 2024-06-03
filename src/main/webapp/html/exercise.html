@@ -1,90 +1,75 @@
 <main>
-    <!--<button>Show Exercises</button>-->
-    <ul id="exercise_plan-list" style="color: white"></ul>
 
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center align-items-center">
+            <button id="prevPlanBtn" class="btn btn-primary mr-3">Previous Plan</button>
+            <div id="planContainer" class="plan-container"></div>
+            <button id="nextPlanBtn" class="btn btn-primary ml-3">Next Plan</button>
+        </div>
+        <div class="text-center mt-4">
+            <button id="addExerciseBtn" class="btn btn-success">Add Exercise</button>
+            <button id="addPlanBtn" class="btn btn-success">Add New Plan</button>
+            <button id="deletePlanBtn" class="btn btn-danger deleteBtn">Delete Plan</button>
+        </div>
+    </div>
 
-    <button id="newExercisePlan" data-bs-toggle="modal" data-bs-target="#addExercisePlanModal">
-        <i class="bi bi-plus-lg align-middle"></i>
-    </button>
-
-    <div class="modal fade wide-modal" id="addExercisePlanModal" tabindex="-1"
-         aria-labelledby="addExercisePlanModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Modal for Edit/Add Exercise -->
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addExercisePlanModalLabel">Create new Exercise Plan</h5>
+                    <h5 class="modal-title">Edit/Add Exercise</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div style="max-height: 600px; overflow-y: auto; overflow-x: hidden; padding-left: calc(0.3rem + 10px);">
-                        <form id="addExerciePlanForm">
-                            <div class="mb-3">
-                                <label for="planName" class="form-label">Exercise Plan Name</label>
-                                <input type="text" class="form-control" id="planName" required>
-                            </div>
-                            <!-- Monday -->
-                            <div class="mb-3">
-                                <label class="form-label">Monday</label>
-                                <div class="row" id="mondayInputs"></div>
-                                <button type="button" id="addExerciseMonday" class="btn custom"
-                                        onclick="addExerciseInput('mondayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Tuesday -->
-                            <div class="mb-3">
-                                <label class="form-label">Tuesday</label>
-                                <div class="row" id="tuesdayInputs"></div>
-                                <button type="button" id="addExerciseTuesday" class="btn custom"
-                                        onclick="addExerciseInput('tuesdayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Wednesday -->
-                            <div class="mb-3">
-                                <label class="form-label">Wednesday</label>
-                                <div class="row" id="wednesdayInputs"></div>
-                                <button type="button" id="addExerciseWednesday" class="btn custom"
-                                        onclick="addExerciseInput('wednesdayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Thursday -->
-                            <div class="mb-3">
-                                <label class="form-label">Thursday</label>
-                                <div class="row" id="thursdayInputs"></div>
-                                <button type="button" id="addExerciseThursday" class="btn custom"
-                                        onclick="addExerciseInput('thursdayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Friday -->
-                            <div class="mb-3">
-                                <label class="form-label">Friday</label>
-                                <div class="row" id="fridayInputs"></div>
-                                <button type="button" id="addExerciseFriday" class="btn custom"
-                                        onclick="addExerciseInput('fridayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Saturday -->
-                            <div class="mb-3">
-                                <label class="form-label">Saturday</label>
-                                <div class="row" id="saturdayInputs"></div>
-                                <button type="button" id="addExerciseSaturday" class="btn custom"
-                                        onclick="addExerciseInput('saturdayInputs')">Add Exercise
-                                </button>
-                            </div>
-                            <!-- Sunday -->
-                            <div class="mb-3">
-                                <label class="form-label">Sunday</label>
-                                <div class="row" id="sundayInputs"></div>
-                                <button type="button" id="addExerciseSunday" class="btn custom"
-                                        onclick="addExerciseInput('sundayInputs')">Add Exercise
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    <form id="exerciseForm">
+                        <div class="form-group">
+                            <label for="daySelect">Day:</label>
+                            <select id="daySelect" class="form-control" name="day"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseSelect">Exercise:</label>
+                            <select id="exerciseSelect" class="form-control" name="exercise"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reps">Reps:</label>
+                            <input type="number" id="reps" class="form-control" name="reps">
+                        </div>
+                        <div class="form-group">
+                            <label for="sets">Sets:</label>
+                            <input type="number" id="sets" class="form-control" name="sets">
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight:</label>
+                            <input type="number" id="weight" class="form-control" name="weight">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button id="closeNewExercisePlan" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add New Plan -->
+    <div id="planModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
-                    <button id="submitNewExercisePlan" type="button" class="btn btn-primary">Add Exercise Plan</button>
+                </div>
+                <div class="modal-body">
+                    <form id="planForm">
+                        <div class="form-group">
+                            <label for="newPlanName">Plan Name:</label>
+                            <input type="text" id="newPlanName" class="form-control" name="plan" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Plan</button>
+                    </form>
                 </div>
             </div>
         </div>

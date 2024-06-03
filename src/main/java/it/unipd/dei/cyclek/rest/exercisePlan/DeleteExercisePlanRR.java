@@ -23,15 +23,14 @@ public class DeleteExercisePlanRR extends AbstractRR {
 
     @Override
     protected void doServe() throws IOException {
-        ExercisePlan el;
+        Boolean el_result;
         Message m;
 
         try {
-            el = new DeleteExercisePlanDao(con, id).access().getOutputParam();
-            if (el != null) {
+            el_result = new DeleteExercisePlanDao(con, id).access().getOutputParam();
+            if (el_result) {
                 LOGGER.info("Exercise successfully deleted.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                el.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while deleting exercise.");
                 m = ErrorCode.DELETE_EXERCISE_PLAN_BAD_REQUEST.getMessage();

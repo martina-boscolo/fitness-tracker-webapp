@@ -27,6 +27,7 @@ public class AddExercisePlanRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
         Message m = null;
+        ExercisePlan el;
         try {
             BufferedReader reader = req.getReader();
             StringBuilder jsonBody = new StringBuilder();
@@ -63,10 +64,11 @@ public class AddExercisePlanRR extends AbstractRR {
             ExercisePlan plan = new ExercisePlan(idUser, planName, planJson);
             // Assuming you set other properties of the ExercisePlan object
             // Create a DAO for accessing the database and save the ExercisePlan
-            boolean saved = new AddExercisePlanDao(con, plan).access().getOutputParam();
-            if (saved) {
-                LOGGER.info("ExercisePlan successfully saved.");
+            el = new AddExercisePlanDao(con, plan).access().getOutputParam();
+            if (el != null) {
+                LOGGER.info("Exercise successfully Added.");
                 res.setStatus(HttpServletResponse.SC_OK);
+                el.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Failed to save ExercisePlan.");
                 m = ErrorCode.ADD_EXERCISE_PLAN_INSERT_FAIL.getMessage();
