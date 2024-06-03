@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+    if (!checkAuth()) {
+        logOut()
+    }
+});
+
 document.getElementById('submitNewExercisePlan').addEventListener('click', async function () {
         const planName = document.getElementById('planName').value;
 

@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+    if (!checkAuth()) {
+        logOut()
+    }
+});
+
 async function fetchExercises() {
     try {
         const response = await fetch('http://localhost:8080/cycleK-1.0.0/rest/exercises');
