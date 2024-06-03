@@ -19,6 +19,8 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
      * SQL statement to insert a new comment into the database.
      */
     private static final String STATEMENT = "INSERT INTO comments (id_user, id_post, text_content) VALUES (?, ?, ?) RETURNING * ";
+    private static final String STATEMENT_UPDATE = "UPDATE Posts SET comments_count = comments_count + 1 WHERE id = ?";
+
     /**
      * The comment to be inserted into the database.
      */
@@ -47,16 +49,18 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
      */
     @Override
     protected void doAccess() throws SQLException {
-
         PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
         ResultSet rs = null;
 
         Comment c = null;
 
         try {
+            // Turn off auto-commit mode
+            con.setAutoCommit(false);
+
+            // Execute the first statement
             pstmt = con.prepareStatement(STATEMENT);
-
-
             pstmt.setInt(1, comment.getUserId());
             pstmt.setInt(2, comment.getPostId());
             pstmt.setString(3, comment.getCommentText());
@@ -69,13 +73,41 @@ public class CreateCommentDAO extends AbstractDAO<Comment> {
                         rs.getString("text_content"));
                 LOGGER.info("Comment %s successfully stored in the database.", c.getCommentId());
             }
+
+            // Execute the second statement
+            pstmt2 = con.prepareStatement(STATEMENT_UPDATE);
+            pstmt2.setInt(1, comment.getPostId());
+            pstmt2.executeUpdate();
+
+            // If both statements are successful, commit the transaction
+            con.commit();
+
+        } catch (SQLException e) {
+            // If any statement fails, rollback the transaction
+            if (con != null) {
+                try {
+                    LOGGER.error("Transaction is being rolled back");
+                    con.rollback();
+                } catch (SQLException excep) {
+                    LOGGER.error("Error occurred during transaction rollback");
+                }
+            }
         } finally {
+            // Turn auto-commit mode back on
+            if (con != null) {
+                con.setAutoCommit(true);
+            }
 
             if (rs != null) {
                 rs.close();
             }
+
             if (pstmt != null) {
                 pstmt.close();
+            }
+
+            if (pstmt2 != null) {
+                pstmt2.close();
             }
         }
 

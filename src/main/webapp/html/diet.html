@@ -1,6 +1,129 @@
 <main>
-    <div>Chart1</div>
-    <div>Chart2</div>
-    <div>Chart3</div>
-    <div>Chart4</div>
+    <div class="card" id="diet">
+        <div class="cardTitle">
+            <i id="prevDiet" class="bi bi-arrow-left-circle"></i>
+            <h1 id="dietPlanTitle">Title</h1>
+            <i id="nextDiet" class="bi bi-arrow-right-circle"></i>
+        </div>
+        <div class="cardBody">
+            <div id="content-container">
+                <div id="content"></div>
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 m-3">
+        <button id="newDiet" data-bs-toggle="modal" data-bs-target="#addDietModal">
+            <i class="bi bi-plus-lg align-middle"></i>
+        </button>
+        <button id="updateDiet" data-bs-toggle="modal" data-bs-target="#editDietModal">
+            <i class="bi bi-pencil align-middle"></i>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade wide-modal" id="addDietModal" tabindex="-1" aria-labelledby="addDietModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDietModalLabel">Create new Diet Plan</h5>
+                </div>
+                <div class="modal-body">
+                    <div style="max-height: 600px; overflow-y: auto; overflow-x: hidden; padding-left: calc(0.3rem + 10px);">
+                        <form id="addDietForm">
+                            <div class="mb-3">
+                                <label for="planName" class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" id="planName" required>
+                            </div>
+                            <!-- Monday -->
+                            <div class="mb-3">
+                                <label class="form-label">Monday</label>
+                                <div class="row" id="mondayInputs"></div>
+                                <button type="button" id="addFoodMonday" class="btn custom"
+                                        onclick="addFoodInput('mondayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Tuesday -->
+                            <div class="mb-3">
+                                <label class="form-label">Tuesday</label>
+                                <div class="row" id="tuesdayInputs"></div>
+                                <button type="button" id="addFoodTuesday" class="btn custom"
+                                        onclick="addFoodInput('tuesdayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Wednesday -->
+                            <div class="mb-3">
+                                <label class="form-label">Wednesday</label>
+                                <div class="row" id="wednesdayInputs"></div>
+                                <button type="button" id="addFoodWednesday" class="btn custom"
+                                        onclick="addFoodInput('wednesdayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Thursday -->
+                            <div class="mb-3">
+                                <label class="form-label">Thursday</label>
+                                <div class="row" id="thursdayInputs"></div>
+                                <button type="button" id="addFoodThursday" class="btn custom"
+                                        onclick="addFoodInput('thursdayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Friday -->
+                            <div class="mb-3">
+                                <label class="form-label">Friday</label>
+                                <div class="row" id="fridayInputs"></div>
+                                <button type="button" id="addFoodFriday" class="btn custom"
+                                        onclick="addFoodInput('fridayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Saturday -->
+                            <div class="mb-3">
+                                <label class="form-label">Saturday</label>
+                                <div class="row" id="saturdayInputs"></div>
+                                <button type="button" id="addFoodSaturday" class="btn custom"
+                                        onclick="addFoodInput('saturdayInputs')">Add Food
+                                </button>
+                            </div>
+                            <!-- Sunday -->
+                            <div class="mb-3">
+                                <label class="form-label">Sunday</label>
+                                <div class="row" id="sundayInputs"></div>
+                                <button type="button" id="addFoodSunday" class="btn custom"
+                                        onclick="addFoodInput('sundayInputs')">Add Food
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeNewDiet" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                    </button>
+                    <button id="submitNewDiet" type="button" class="btn btn-primary">Add Diet Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal per la modifica della dieta -->
+
+    <div class="modal fade" id="editDietModal" tabindex="-1" aria-labelledby="dietModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dietModalLabel">Edit Diet Plan</h5>
+                </div>
+                <div class="modal-body">
+                    <div style="max-height: 600px; overflow-y: auto; overflow-x: hidden; padding-left: calc(0.3rem + 10px);">
+                        <form id="dietForm">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="closeUpdateModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button id="updateCurrentDiet" type="button" class="btn btn-primary">Update Diet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>

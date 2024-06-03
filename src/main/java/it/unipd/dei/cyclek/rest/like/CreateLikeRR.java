@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
+
 /**
  * A REST resource for creating {@link Like}s.
  *
@@ -41,6 +43,15 @@ public class CreateLikeRR extends AbstractRR {
         Message m = null;
 
         try {
+
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
 
             final Like like = Like.fromJSON(req.getInputStream());
 

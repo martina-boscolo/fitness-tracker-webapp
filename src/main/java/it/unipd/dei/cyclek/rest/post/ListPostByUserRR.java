@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
+
 public class ListPostByUserRR extends AbstractRR {
     public ListPostByUserRR(final HttpServletRequest req, final HttpServletResponse res, Connection con) {
         super(Actions.LIST_POST_BY_USER_ID, req, res, con);
@@ -24,6 +26,15 @@ public class ListPostByUserRR extends AbstractRR {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
             String path = req.getRequestURI();
             String id = path.substring(path.lastIndexOf('/') + 1);
 

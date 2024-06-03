@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ListPostDAO extends AbstractDAO<List<Post>> {
 
-    private static final String STATEMENT = "SELECT * FROM posts ";
+    private static final String STATEMENT = "SELECT users.username, posts.*  FROM posts INNER JOIN users ON posts.id_user = users.id ORDER BY post_date DESC LIMIT 10";
 
     /**
      * Creates a new object for listing all the social network posts from the database.
@@ -52,7 +52,11 @@ public class ListPostDAO extends AbstractDAO<List<Post>> {
                         rs.getString("text_content"),
                         rs.getBytes("photo"),
                         rs.getString("photoMediaType"),
-                        rs.getTimestamp("post_date")
+                        rs.getTimestamp("post_date"),
+                        rs.getString("username"),
+                        rs.getInt("likes_count"),
+                        rs.getInt("comments_count")
+
 
                 ));
             }

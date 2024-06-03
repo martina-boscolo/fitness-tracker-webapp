@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
+
 /**
  * A REST resource for listing {@link Post}s.
  *
@@ -41,6 +43,14 @@ public class ListPostRR extends AbstractRR {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
 
             // creates a new DAO for accessing the database and lists the post(s)
             el = new ListPostDAO(con).access().getOutputParam();
