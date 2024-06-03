@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (!checkAuth()) {
         logOut()
     }
@@ -105,6 +105,7 @@ async function submitUpdatedExercisePlan(planId) {
         planName: planName,
         plan: exercisePlan
     };
+
     console.log(updatedExercisePlan)
 
     try {
@@ -117,14 +118,14 @@ async function submitUpdatedExercisePlan(planId) {
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            console.log("error occurred")
         }
 
-        const responseData = await response.json();
-        console.log('Exercise plan updated:', responseData);
+        // const responseData = await response.json();
+        // console.log('Exercise plan updated:', responseData);
 
         // Optionally, refresh the displayed list of exercise plans
-        fetchExercisePlans();
+        await fetchExercisePlans();
 
         // Close the modal
         document.getElementById('closeNewExercisePlan').click();
@@ -148,7 +149,7 @@ async function deleteExercisePlan(planData) {
         console.log('Exercise plan deleted:', planData.id);
 
         // Refresh the list of exercise plans
-        fetchExercisePlans();
+        await fetchExercisePlans();
 
     } catch (error) {
         console.error('Error deleting exercise plan:', error);
@@ -156,4 +157,4 @@ async function deleteExercisePlan(planData) {
 }
 
 
-fetchExercisePlans();
+fetchExercisePlans().then(() => console.log("fetched the Exercise plans :))"));

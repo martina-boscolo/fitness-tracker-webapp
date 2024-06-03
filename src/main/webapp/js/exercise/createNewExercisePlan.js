@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('submitNewExercisePlan').addEventListener('click', async function () {
+        if (document.getElementById('submitNewExercisePlan').textContent.includes("Update")) {
+            // Glueing with spit
+            return
+        }
         const planName = document.getElementById('planName').value;
 
         const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
