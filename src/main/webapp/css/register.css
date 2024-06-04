@@ -15,3 +15,8 @@ body {
 #registration-error {
     visibility: hidden;
 }
+
+.icon-large {
+    font-size: 28px;
+    font-weight: 800 !important;
+}

@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.getElementById("username").addEventListener("input", handleInput);
+document.getElementById("arrowButton").addEventListener("click", () =>window.location.href = 'http://localhost:8080/cycleK-1.0.0/');
 
 function handleInput() {
     document.getElementById("registration-error").style.visibility = "hidden";
