@@ -20,7 +20,7 @@ public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
     /**
      * The SQL statement to be executed.
      */
-    private static final String STATEMENT = "SELECT * FROM likes WHERE id_post = ? ";
+    private static final String STATEMENT = "SELECT users.username , likes.* FROM likes INNER JOIN users ON likes.id_user = users.id  WHERE likes.id_post = ? ; ";
 
     /**
      * The id of the post.
@@ -65,7 +65,9 @@ public class ListLikesByPostIdDAO extends AbstractDAO<List<Like>> {
             while (rs.next()) {
                 likes.add(new Like(rs.getInt("id"),
                         rs.getInt("id_user"),
-                        rs.getInt("id_post")));
+                        rs.getInt("id_post"),
+                        rs.getString("username"))
+                );
 
             }
             LOGGER.info("Likes successfully listed.");

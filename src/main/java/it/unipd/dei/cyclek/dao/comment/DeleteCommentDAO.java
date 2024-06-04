@@ -67,7 +67,8 @@ public class DeleteCommentDAO extends AbstractDAO<Comment> {
                 c = new Comment(rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getInt("id_post"),
-                        rs.getString("text_content")
+                        rs.getString("text_content"),
+                        "username"
                 );
 
                 LOGGER.info("Comment %s successfully deleted from the database.", c.getCommentId());

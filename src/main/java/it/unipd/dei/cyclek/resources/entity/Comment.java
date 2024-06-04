@@ -22,6 +22,8 @@ public class Comment extends AbstractResource {
     private final int postId;
     private final String commentText;
 
+    private final String username;
+
     /**
      * Constructs a new Comment with the given attributes.
      *
@@ -30,11 +32,12 @@ public class Comment extends AbstractResource {
      * @param userId      the ID of the user who made the comment
      * @param commentText the text of the comment
      */
-    public Comment(int commentId, int userId, int postId,  String commentText) {
+    public Comment(int commentId, int userId, int postId,  String commentText, String username) {
         this.commentId = commentId;
         this.userId = userId;
         this.postId = postId;
         this.commentText = commentText;
+        this.username = username;
     }
 
     /**
@@ -76,6 +79,10 @@ public class Comment extends AbstractResource {
         return commentText;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     /**
      * Writes this Comment as a JSON object to the given output stream.
      *
@@ -101,6 +108,8 @@ public class Comment extends AbstractResource {
 
         jg.writeStringField("commentText", commentText);
 
+        jg.writeStringField("username", username);
+
         jg.writeEndObject();
 
         jg.writeEndObject();
@@ -123,6 +132,7 @@ public class Comment extends AbstractResource {
         int jUserId = -1;
         int jPostId = -1;
         String jCommentText = null;
+        String jUsername = null;
 
 
         try {
@@ -160,6 +170,10 @@ public class Comment extends AbstractResource {
                             jp.nextToken();
                             jCommentText = jp.getText();
                             break;
+                        case "username":
+                            jp.nextToken();
+                            jUsername = jp.getText();
+                            break;
 
                     }
                 }
@@ -168,7 +182,7 @@ public class Comment extends AbstractResource {
             LOGGER.error("Unable to parse a comment object from JSON.", e);
             throw e;
         }
-        return new Comment(jCommentId, jUserId, jPostId, jCommentText);
+        return new Comment(jCommentId, jUserId, jPostId, jCommentText, jUsername);
     }
 
 

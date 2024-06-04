@@ -73,18 +73,13 @@
 @media only screen and (min-width: 600px) {
     .content-container {
         /* This will apply when the viewport is 600px or more */
-        max-width: 50%;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
     }
 }
-/*
-.content-container{
-    width: 40% !important;
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-}
 
- */
 .dataContainer{
     display: flex;
     gap:10px;

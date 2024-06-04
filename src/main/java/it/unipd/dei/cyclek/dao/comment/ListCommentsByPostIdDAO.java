@@ -19,7 +19,7 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
     /**
      * The SQL statement to be executed
      */
-    private static final String STATEMENT = "SELECT * FROM comments WHERE id_post = ?";
+    private static final String STATEMENT = "SELECT users.username , comments.* FROM comments INNER JOIN users ON comments.id_user = users.id  WHERE comments.id_post = ?";
 
     /**
      * The post id
@@ -64,7 +64,8 @@ public class ListCommentsByPostIdDAO extends AbstractDAO<List<Comment>> {
                 comments.add(new Comment(rs.getInt("id"),
                         rs.getInt("id_user"),
                         rs.getInt("id_post"),
-                        rs.getString("text_content"))
+                        rs.getString("text_content"),
+                        rs.getString("username"))
                 );
 
             }

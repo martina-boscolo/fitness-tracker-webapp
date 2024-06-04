@@ -19,6 +19,7 @@ public class Like extends AbstractResource {
     private final int likeId;
     private final int userId;
     private final int postId;
+    private final String username;
 
     /**
      * Creates a new like.
@@ -27,10 +28,11 @@ public class Like extends AbstractResource {
      * @param userId        the user ID of the user who made the like
      * @param postId        the post ID of the post that was liked
      */
-    public Like(int likeDislikeId, int userId, int postId) {
+    public Like(int likeDislikeId, int userId, int postId, String username) {
         this.likeId = likeDislikeId;
         this.userId = userId;
         this.postId = postId;
+        this.username = username;
     }
 
     /**
@@ -62,6 +64,15 @@ public class Like extends AbstractResource {
         return postId;
     }
 
+    /**
+     * Returns the username of the user who made the like.
+     *
+     * @return the username of the user
+     */
+    public String getUsername() {
+        return username;
+    }
+
 
     /**
      * Writes this like as a JSON object to the given output stream.
@@ -86,6 +97,7 @@ public class Like extends AbstractResource {
 
         jg.writeNumberField("postId", postId);
 
+        jg.writeStringField("username", username);
 
         jg.writeEndObject();
 
@@ -107,6 +119,7 @@ public class Like extends AbstractResource {
         int jLikeId = -1;
         int jUserId = -1;
         int jPostId = -1;
+        String jUsername = null;
 
 
         try {
@@ -140,7 +153,10 @@ public class Like extends AbstractResource {
                             jp.nextToken();
                             jPostId = jp.getIntValue();
                             break;
-
+                        case "username":
+                            jp.nextToken();
+                            jUsername = jp.getText();
+                            break;
 
                     }
                 }
@@ -149,7 +165,7 @@ public class Like extends AbstractResource {
             LOGGER.error("Unable to parse a like object from JSON.", e);
             throw e;
         }
-        return new Like(jLikeId, jUserId, jPostId);
+        return new Like(jLikeId, jUserId, jPostId, jUsername);
     }
 
 }

@@ -454,7 +454,7 @@ function listComments(postId, numberOfComment, countComment ) {
 
                 let commentDiv = document.createElement('div');
                 commentDiv.className = 'commentText';
-                commentDiv.innerText = `User ${comment.userId}:  ${comment.commentText}`;
+                commentDiv.innerText = `${comment.username}:  ${comment.commentText}`;
 
                 if (comment.userId === currentUserId) {
                     let deleteCommentButton = document.createElement('button');
@@ -522,8 +522,9 @@ function listLikes(postId, username) {
                 let like = likeObj.like;
 
                 let likeDiv = document.createElement('div');
-                likeDiv.className = 'Likes';
-                likeDiv.innerText = `${username}`;
+                likeDiv.className = 'Likes'
+
+                likeDiv.innerText = `${like.username}`;
 
                 modalBody.appendChild(likeDiv);
             });
