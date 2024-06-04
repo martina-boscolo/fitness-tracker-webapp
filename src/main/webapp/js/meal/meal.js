@@ -216,3 +216,13 @@ function populateMeal(mealData) {
     mealProt.textContent = `Proteins: ${mealData.totProt}g`;
     mealFats.textContent = `Fats: ${mealData.totFats}g`;
 }
+
+document.querySelectorAll('.deleteBtn').forEach(button => {
+    button.addEventListener('click', function() {
+        const meal = this.getAttribute('data-meal');
+        const section = document.getElementById(meal);
+        section.querySelectorAll('div').forEach(div => {
+            div.textContent = '';
+        });
+    });
+});
