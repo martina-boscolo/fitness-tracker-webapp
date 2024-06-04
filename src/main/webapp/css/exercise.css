@@ -102,8 +102,7 @@ body {
 
 .exercise p:first-child {
     font-weight: bold;
-    text-align: center;
-    font-size: 20px;
+    font-size: 17px;
 }
 /*.exercise .details {*/
 /*    display: flex;*/
