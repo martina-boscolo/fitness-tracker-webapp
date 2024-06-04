@@ -194,23 +194,26 @@ INSERT INTO foods (fdnm, kcal, fats, carbohydrates, proteins)
 VALUES 
     ('Chicken', 239, 14, 0, 27),
     ('Rice', 130, 0, 28, 3),
-    ('Greek Yogurt', 93, 1, 3.6, 9),
-    ('Milk', 64, 3.6, 4.9, 3.3),
-    ('Cereals', 378, 1.1, 87, 6),
+    ('Greek Yogurt', 93, 1, 4, 9),
+    ('Milk', 64, 4, 5, 3),
+    ('Cereals', 378, 1, 87, 6),
     ('Salmon', 185, 12, 3, 18),
-    ('Bread', 265, 3.2, 49, 9),
-    ('Pasta', 131, 1.1, 25, 5),
-    ('Salad', 14, 0.1, 3, 0.9),
+    ('Bread', 265, 3, 49, 9),
+    ('Pasta', 131, 1, 25, 5),
+    ('Salad', 14, 0, 3, 1),
     ('Protein Bar', 414, 13, 51, 25),
     ('Broccoli', 34, 0, 7, 3);
 
 
 INSERT INTO meal(id_user, meal_date, meal_type, meal)
 VALUES
-    (1, '2024-10-04', 1, '{"meal":[{"idFood":3, "qty":80},{"idFood":4, "qty":100},{"idFood":5, "qty":300}]}'),
-    (1, '2024-10-04', 2, '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}'),
-    (1, '2024-10-04', 3, '{"meal":[{"idFood":11, "qty":35}]}'),
-    (1, '2024-10-04', 4, '{"meal":[{"idFood":6, "qty":120},{"idFood":7, "qty":250}]}');
+    (1, '2024-06-04', 1, '{"meal":[{"idFood":3, "qty":80},{"idFood":4, "qty":100},{"idFood":5, "qty":300}]}'),
+    (1, '2024-06-04', 2, '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}'),
+    (1, '2024-06-04', 3, '{"meal":[{"idFood":11, "qty":35}]}'),
+    (1, '2024-06-04', 4, '{"meal":[{"idFood":6, "qty":120},{"idFood":7, "qty":250}]}'),
+    (1, '2024-01-04', 2 , '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}'),
+    (1, '2024-01-05', 2 , '{"meal":[{"idFood":2, "qty":80},{"idFood":3, "qty":100},{"idFood":6, "qty":300}]}'),
+    (1, '2024-01-06', 2 , '{"meal":[{"idFood":2, "qty":80},{"idFood":5, "qty":100},{"idFood":7, "qty":300}]}');
 
 -- Kimia
 INSERT INTO exercise_category (category_name)
