@@ -207,7 +207,10 @@ VALUES
 
 INSERT INTO meal(id_user, meal_date, meal_type, meal)
 VALUES
-    (1, '2024-10-04', 3, '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}');
+    (1, '2024-10-04', 1, '{"meal":[{"idFood":3, "qty":80},{"idFood":4, "qty":100},{"idFood":5, "qty":300}]}'),
+    (1, '2024-10-04', 2, '{"meal":[{"idFood":1, "qty":80},{"idFood":2, "qty":100},{"idFood":3, "qty":300}]}'),
+    (1, '2024-10-04', 3, '{"meal":[{"idFood":11, "qty":35}]}'),
+    (1, '2024-10-04', 4, '{"meal":[{"idFood":6, "qty":120},{"idFood":7, "qty":250}]}');
 
 -- Kimia
 INSERT INTO exercise_category (category_name)

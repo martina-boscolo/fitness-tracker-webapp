@@ -5,6 +5,7 @@ import it.unipd.dei.cyclek.resources.entity.Meal;
 import org.postgresql.util.PGobject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.Locale;
 
 public class RegisterMealDAO extends AbstractDAO<Boolean> {
 
+    public static final String QUERYDELETE = "DELETE FROM meal WHERE id_user=? AND meal_date=CURRENT_DATE RETURNING *";
     public static final String QUERY = "INSERT INTO meal (id_user, meal_date, meal_type, meal) VALUES (?,?,?,?)";
 
     private final Meal meal;
@@ -24,6 +26,13 @@ public class RegisterMealDAO extends AbstractDAO<Boolean> {
 
     @Override
     protected final void doAccess() throws SQLException, ParseException {
+
+        ResultSet set = null;
+        try (PreparedStatement ps = con.prepareStatement(QUERYDELETE)) {
+            ps.setInt(1, meal.getIdUser());
+            set = ps.executeQuery();
+            LOGGER.info("Meal successfully deleted");
+        }
 
         try (PreparedStatement pstmt = con.prepareStatement(QUERY)) {
 
@@ -44,7 +53,7 @@ public class RegisterMealDAO extends AbstractDAO<Boolean> {
 
             this.outputParam = rowsAffected > 0;
 
-            LOGGER.info("Diet successfully saved. ");
+            LOGGER.info("Meal successfully saved. ");
         }
     }
 }
