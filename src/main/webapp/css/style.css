@@ -1,4 +1,7 @@
 /* CSS file */
+html, body{
+    background-color: #232323 !important;
+}
 .card {
     /* This will apply when the viewport is less than 600px */
     max-width: 100%;

@@ -12,7 +12,7 @@ main {
     padding: 2rem;
     gap: 2rem;
 
-    background: #252323;
+    background: #232323;
     color: #f6f6f6;
 
     /*overflow: hidden; Sarebbe bello ma rompe il layout */
@@ -20,7 +20,7 @@ main {
 @media screen and (max-width: 991px) {
     main {
         grid-template: 1fr 1fr 1fr / 1fr 1fr;
-        grid-template-areas: 
+        grid-template-areas:
         "user user"
         "imc  exercise"
         "diet diet";
@@ -48,7 +48,7 @@ main > div {
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0.5rem 0.5rem #1f1e1e;
-    background: #292727;
+    background-color: #dee2e608;
 
     overflow: hidden;
 }

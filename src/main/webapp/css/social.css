@@ -1,4 +1,4 @@
-/* CSS file */
+
 .card {
     /* This will apply when the viewport is less than 600px */
     max-width: 100%;
@@ -31,7 +31,7 @@
 }
 
 body {
-     background: #232323; !important;
+    background: #232323; !important;
 }
 
 
@@ -54,6 +54,7 @@ body {
 .card-header{
     display: flex;
     justify-content: space-between;
+    background-color: #dee2e608;
 }
 .user-header{
     display: flex;
