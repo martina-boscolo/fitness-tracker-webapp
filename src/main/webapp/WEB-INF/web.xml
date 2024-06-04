@@ -41,6 +41,8 @@
         <url-pattern>/create-post</url-pattern>
     </servlet-mapping>
 
+
+
     <servlet-mapping>
         <servlet-name>LoadPostPhoto</servlet-name>
         <url-pattern>/load-post-photo</url-pattern>

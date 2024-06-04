@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
+
 /**
  * A REST resource for deleting {@link Post}s.
  *
@@ -39,6 +41,15 @@ public class DeletePostRR extends AbstractRR {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
             // parse the URI path to extract the badge
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("post") + 4);

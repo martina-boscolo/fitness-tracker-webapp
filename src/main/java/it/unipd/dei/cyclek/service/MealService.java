@@ -36,8 +36,12 @@ public class MealService extends AbstractService {
                     LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
                     throw new UnsupportedOperationException();
             }
-        }else if(path.contains("idUser") && method.equals("GET"))
+        }else if(path.matches("/user(/)?") && method.equals("GET"))
             new GetMealByUserIdRR(req, res, con).serve();
+        else{
+            LOGGER.warn("Unsopported operation for URI /%s: %s.", TABLE_NAME, method);
+            throw new UnsupportedOperationException();
+        }
         return true;
     }
 }

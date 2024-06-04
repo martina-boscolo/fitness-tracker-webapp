@@ -19,20 +19,15 @@ i {
 }
 
 #newDiet {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
     height: 3rem;
     width: 3rem;
     background: #fcae2f;
+    margin-bottom: 5px;
+    display: block;
 }
 #updateDiet{
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
     height: 3rem;
     width: 3rem;
-    top: 800px;
     background: #fcae2f;
 }
 
@@ -88,7 +83,7 @@ i {
 .list-group-item {
     border: none;
     padding: 0.75rem 1.25rem;
-    background-color: #f8f9fa;
+    background-color: transparent !important;
     margin-bottom: 0.5rem;
 }
 /* Nested list group styles */
@@ -125,9 +120,14 @@ i {
     background: #292727;
 }
 .custom{
-    background: #327d16;
+    background: #327d16 !important;
     color: white;
 }
 .disabled-input {
     cursor: not-allowed;
+}
+
+#daysTab .nav-item a {
+    color: white !important;
+    font-size: 1.2rem !important;
 }

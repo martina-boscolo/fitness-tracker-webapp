@@ -49,8 +49,13 @@ public class CreatePostDAO extends AbstractDAO<Post> {
             pstmt = con.prepareStatement(STATEMENT);
             pstmt.setInt(1, this.post.getUserId());
             pstmt.setString(2, this.post.getTextContent());
-            pstmt.setBytes(3, this.post.getPhoto());
-            pstmt.setString(4, this.post.getPhotoMediaType());
+            if (this.post.getPhoto() != null && this.post.getPhotoMediaType() != null) {
+                pstmt.setBytes(3, this.post.getPhoto());
+                pstmt.setString(4, this.post.getPhotoMediaType());
+            } else {
+                pstmt.setNull(3, Types.BINARY);
+                pstmt.setNull(4, Types.VARCHAR);
+            }
             pstmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 
             rs = pstmt.executeQuery();
@@ -61,7 +66,11 @@ public class CreatePostDAO extends AbstractDAO<Post> {
                         rs.getString("text_content"),
                         rs.getBytes("photo"),
                         rs.getString("photoMediaType"),
-                        rs.getTimestamp("post_date"));
+                        rs.getTimestamp("post_date"),
+                        "username",
+                        rs.getInt("likes_count"),
+                        rs.getInt("comments_count")
+                );
 
                 LOGGER.info("Post %s successfully stored in the database.", post.getPostId());
             }

@@ -4,6 +4,8 @@ import it.unipd.dei.cyclek.dao.meal.GetMealDao;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.resources.entity.Meal;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,13 +25,39 @@ public class GetMealByUserIdRR extends AbstractRR {
         Message m;
 
         try {
-            String path = req.getRequestURI();
-            path = path.substring(path.lastIndexOf("idUser") + 6);
-            final int idUser = Integer.parseInt(path.substring(1));
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        LOGGER.info("idUser: " + idUser);
+                        break;
+                    }
+                }
+                //rictre to remove
+                idUser = 1;
+            }
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+
+            LOGGER.info("%%%%%%%%%%%%%%%%%%%%% "+idUser+" %%%%%%%%%%%%%%%%%%%%%");
+            LOGGER.info("authorized");
+
             ml = new GetMealDao(con, new Meal(idUser)).access().getOutputParam();
 
             if (ml != null && !ml.isEmpty()) {
                 LOGGER.info("meal(s) successfully listed.");
+                for (Meal meal : ml) {
+                    LOGGER.info("%%%%%%%%%%%%%%%%%%%%% " + meal.getMeal() + " %%%%%%%%%%%%%%%%%%%%%");
+                }
                 res.setStatus(HttpServletResponse.SC_OK);
                 new ResourceList<>(ml).toJSON(res.getOutputStream());
             } else {

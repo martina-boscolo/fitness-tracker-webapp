@@ -20,6 +20,7 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
      * The SQL statement to be executed.
      */
     private static final String STATEMENT = "INSERT INTO likes (id_user, id_post) VALUES (?, ?) RETURNING * ";
+    private static final String STATEMENT_UPDATE = "UPDATE Posts SET likes_count = likes_count + 1 WHERE id = ?";
 
     /**
      * The like to be created.
@@ -52,12 +53,13 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
     protected void doAccess() throws SQLException {
 
         PreparedStatement pstmt = null;
-
+        PreparedStatement pstmt2 = null;
         ResultSet rs = null;
 
         Like like = null;
 
         try {
+            con.setAutoCommit(false);
             pstmt = con.prepareStatement(STATEMENT);
 
             pstmt.setInt(1, this.like.getUserId());
@@ -71,13 +73,40 @@ public class CreateLikeDAO extends AbstractDAO<Like> {
 
                 LOGGER.info("Like %s successfully stored in the database.", like.getLikeId());
             }
+            // Execute the second statement
+            pstmt2 = con.prepareStatement(STATEMENT_UPDATE);
+            pstmt2.setInt(1, like.getPostId());
+            pstmt2.executeUpdate();
+
+            // If both statements are successful, commit the transaction
+            con.commit();
+
+        } catch (SQLException e) {
+            // If any statement fails, rollback the transaction
+            if (con != null) {
+                try {
+                    LOGGER.error("Transaction is being rolled back");
+                    con.rollback();
+                } catch (SQLException excep) {
+                    LOGGER.error("Error occurred during transaction rollback");
+                }
+            }
         } finally {
+            // Turn auto-commit mode back on
+            if (con != null) {
+                con.setAutoCommit(true);
+            }
 
             if (rs != null) {
                 rs.close();
             }
+
             if (pstmt != null) {
                 pstmt.close();
+            }
+
+            if (pstmt2 != null) {
+                pstmt2.close();
             }
         }
 

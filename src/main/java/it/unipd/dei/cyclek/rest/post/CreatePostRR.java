@@ -4,6 +4,8 @@ import it.unipd.dei.cyclek.dao.post.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.*;
 import it.unipd.dei.cyclek.resources.entity.Post;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,8 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
 
 /**
  * A REST resource for creating {@link Post}s.
@@ -40,6 +44,14 @@ public class CreatePostRR extends AbstractRR {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
             String path = req.getRequestURI();
             path = path.substring(path.lastIndexOf("post") + 4);
 

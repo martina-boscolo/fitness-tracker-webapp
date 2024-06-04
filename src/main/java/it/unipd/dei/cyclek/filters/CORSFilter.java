@@ -17,7 +17,7 @@ public class CORSFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         // Allow all origins
-        httpResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
 
         // Allow specific HTTP methods
         httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -37,7 +37,7 @@ public class CORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {
+    public void init(FilterConfig filterConfig) throws ServletException {
         // Initialization code, if needed
     }
 

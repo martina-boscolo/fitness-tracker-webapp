@@ -26,6 +26,10 @@ public class Post extends AbstractResource {
     private final byte[] photo;
     private final String photoMediaType;
     private final Timestamp postDate;
+    private final  String username;
+    private final int likeCount;
+    private final int commentCount;
+
 
     /**
      * Creates a new post.
@@ -36,14 +40,20 @@ public class Post extends AbstractResource {
      * @param photo          the photo of the post
      * @param photoMediaType the media type of the photo of the post
      * @param postDate       the date the post was created
+     * @param username       the username of the user who created the post
+     * @param likeCount      the number of likes the post has
+     * @param commentCount   the number of comments the post has
      */
-    public Post(int postId, int userId, String textContent, final byte[] photo, final String photoMediaType, Timestamp postDate) {
+    public Post(int postId, int userId, String textContent, final byte[] photo, final String photoMediaType, Timestamp postDate, String username, int likeCount, int commentCount) {
         this.postId = postId;
         this.userId = userId;
         this.textContent = textContent;
         this.photo = photo;
         this.photoMediaType = photoMediaType;
         this.postDate = postDate;
+        this.username = username;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
     }
 
 
@@ -104,6 +114,34 @@ public class Post extends AbstractResource {
         return postDate;
     }
 
+    /**
+     * Returns the username of the user who created the post.
+     *
+     * @return the username of the user who created the post
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Returns the number of likes the post has.
+     *
+     * @return the number of likes the post has
+     */
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    /**
+     * Returns the number of comments the post has.
+     *
+     * @return the number of comments the post has
+     */
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+
 
     /**
      * Returns whether the post has a photo.
@@ -146,6 +184,12 @@ public class Post extends AbstractResource {
 
         jg.writeStringField("postDate", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(postDate));
 
+        jg.writeStringField("username", username);
+
+        jg.writeNumberField("likeCount", likeCount);
+
+        jg.writeNumberField("commentCount", commentCount);
+
         jg.writeEndObject();
 
         jg.writeEndObject();
@@ -167,6 +211,12 @@ public class Post extends AbstractResource {
         int jUserId = -1;
         String jTextContent = null;
         Timestamp jPostDate = null;
+        String jUsername = null;
+        int jLikeCount = 0;
+        int jCommentCount = 0;
+        byte[] jPhoto = null;
+        String jPhotoMediaType= null;
+
 
 
         try {
@@ -204,6 +254,28 @@ public class Post extends AbstractResource {
                             jp.nextToken();
                             jPostDate = Timestamp.valueOf(jp.getText());
                             break;
+                        case "username":
+                            jp.nextToken();
+                            jUsername = jp.getText();
+                            break;
+                        case "likeCount":
+                            jp.nextToken();
+                            jLikeCount = jp.getIntValue();
+                            break;
+                        case "commentCount":
+                            jp.nextToken();
+                            jCommentCount = jp.getIntValue();
+                            break;
+                        case "photo":
+                            jp.nextToken();
+                            jPhoto = Base64.getDecoder().decode(jp.getText());
+                            break;
+                        case "photoMediaType":
+                            jp.nextToken();
+                            jPhotoMediaType = jp.getText();
+                            break;
+
+
                     }
                 }
             }
@@ -211,6 +283,6 @@ public class Post extends AbstractResource {
             LOGGER.error("Unable to parse a post object from JSON.", e);
             throw e;
         }
-        return new Post(jPostId, jUserId, jTextContent, null, null, jPostDate);
+        return new Post(jPostId, jUserId, jTextContent, jPhoto, jPhotoMediaType, jPostDate, jUsername, jLikeCount, jCommentCount);
     }
 }

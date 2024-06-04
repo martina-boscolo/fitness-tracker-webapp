@@ -55,7 +55,6 @@ fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/', {
                 tabLink.setAttribute('aria-controls', `day-${day}`);
                 tabLink.setAttribute('aria-selected', isFirstDay.toString()); // Set aria-selected based on isFirstDay
 
-                tabLink.style.color = 'orange';
                 tabLink.textContent = day;
 
                 // Append tab link to tab list
@@ -241,7 +240,7 @@ function updateDiet(data) {
 
                 // Meal select input
                 const mealSelect = document.createElement('select');
-                mealSelect.classList.add('form-control');
+                mealSelect.classList.add('form-control', 'mb-2');
                 ['Breakfast', 'Lunch', 'Dinner'].forEach(mealOption => {
                     const option = document.createElement('option');
                     option.value = mealOption;
@@ -259,7 +258,7 @@ function updateDiet(data) {
                 col4.className = 'col-auto';
 
                 const trashIcon = document.createElement('i');
-                trashIcon.className = 'bi bi-trash3';
+                trashIcon.className = 'bi bi-trash3 fs-6';
 
                 deleteButton.appendChild(trashIcon);
                 col4.appendChild(deleteButton);
@@ -280,7 +279,6 @@ function updateDiet(data) {
 
     document.getElementById('updateCurrentDiet').onclick = function () {
         const updatedPlanName = document.getElementById('planNameId').value;
-        console.log('PlanName modificato', updatedPlanName);
         const updatedDiet = {};
 
 
@@ -328,6 +326,9 @@ function updateDiet(data) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
         })
+            .then(data => {
+                window.location.reload();
+            })
             .catch(error => {
                 if (error.message === 'Unauthorized') {
                     console.error('Error 401: Unauthorized - Redirecting to login page.');
@@ -335,6 +336,7 @@ function updateDiet(data) {
                     window.location.href = 'http://localhost:8080/cycleK-1.0.0/html/login.html'; // Adjust the URL as needed
                 } else {
                     console.error('Error:', error);
+                    alert("DietPlan cant be modified 24 hours has passed!");
                 }
             });
         $('#editDietModal').modal('hide')

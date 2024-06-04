@@ -18,8 +18,8 @@ import java.io.OutputStream;
 
 public class Comment extends AbstractResource {
     private final int commentId;
-    private final int postId;
     private final int userId;
+    private final int postId;
     private final String commentText;
 
     /**
@@ -30,10 +30,10 @@ public class Comment extends AbstractResource {
      * @param userId      the ID of the user who made the comment
      * @param commentText the text of the comment
      */
-    public Comment(int commentId, int postId, int userId, String commentText) {
+    public Comment(int commentId, int userId, int postId,  String commentText) {
         this.commentId = commentId;
-        this.postId = postId;
         this.userId = userId;
+        this.postId = postId;
         this.commentText = commentText;
     }
 
@@ -95,9 +95,9 @@ public class Comment extends AbstractResource {
 
         jg.writeNumberField("commentId", commentId);
 
-        jg.writeNumberField("postId", postId);
-
         jg.writeNumberField("userId", userId);
+
+        jg.writeNumberField("postId", postId);
 
         jg.writeStringField("commentText", commentText);
 
@@ -120,8 +120,8 @@ public class Comment extends AbstractResource {
 
         // the fields read from JSON
         int jCommentId = -1;
-        int jPostId = -1;
         int jUserId = -1;
+        int jPostId = -1;
         String jCommentText = null;
 
 
@@ -148,19 +148,18 @@ public class Comment extends AbstractResource {
                             jp.nextToken();
                             jCommentId = jp.getIntValue();
                             break;
-                        case "postId":
-                            jp.nextToken();
-                            jPostId = jp.getIntValue();
-                            break;
                         case "userId":
                             jp.nextToken();
                             jUserId = jp.getIntValue();
+                            break;
+                        case "postId":
+                            jp.nextToken();
+                            jPostId = jp.getIntValue();
                             break;
                         case "commentText":
                             jp.nextToken();
                             jCommentText = jp.getText();
                             break;
-
 
                     }
                 }
@@ -169,7 +168,7 @@ public class Comment extends AbstractResource {
             LOGGER.error("Unable to parse a comment object from JSON.", e);
             throw e;
         }
-        return new Comment(jCommentId, jPostId, jUserId, jCommentText);
+        return new Comment(jCommentId, jUserId, jPostId, jCommentText);
     }
 
 

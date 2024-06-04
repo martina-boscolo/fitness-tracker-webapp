@@ -8,6 +8,8 @@ import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.entity.Meal;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,27 +31,36 @@ public class RegisterMealRR extends AbstractRR {
         Message m;
 
         try {
-
-            BufferedReader reader = req.getReader();
-            StringBuilder jsonBody = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonBody.append(line);
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        LOGGER.info("idUser: " + idUser);
+                        break;
+                    }
+                }
             }
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(jsonBody.toString());
-            int idUser = rootNode.get("idUser").asInt();
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
+            LOGGER.info("authorized");
 
             LocalDate today = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dateAsString = today.format(formatter);
+            LOGGER.info("data fetched");
 
-            int mealType = rootNode.get("mealType").asInt();
-            String mealJson = rootNode.get("meal").toString();
-
-            Meal meal = new Meal(idUser, dateAsString, mealType, mealJson);
-
+            Meal meal = Meal.fromJSON(req.getInputStream());
+            meal.setIdUser(idUser);
+            meal.setDate(dateAsString);
             boolean saved = new RegisterMealDAO(con, meal).access().getOutputParam();
 
             if (saved) {

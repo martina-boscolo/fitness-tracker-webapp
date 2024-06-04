@@ -2,6 +2,7 @@ package it.unipd.dei.cyclek.servlet.post;
 
 import it.unipd.dei.cyclek.dao.post.CreatePostDAO;
 import it.unipd.dei.cyclek.resources.Actions;
+import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.LogContext;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.resources.entity.Post;
@@ -18,6 +19,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+
+import static it.unipd.dei.cyclek.utils.AuthUtils.extractUserId;
 
 public class CreatePostServlet extends AbstractDatabaseServlet {
 
@@ -43,6 +46,14 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
         Message m = null;
 
         try {
+            Integer idUser = extractUserId(req);
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
 
             p = parseRequest(req);
 
@@ -90,7 +101,7 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
             req.setAttribute("message", m);
 
             // forwards the control to the create-post-result JSP
-            req.getRequestDispatcher("/jsp/create-post-result.jsp").forward(req, res);
+            req.getRequestDispatcher("/jsp/post/create-post-result.jsp").forward(req, res);
         } catch(Exception ex) {
             LOGGER.error(new StringFormattedMessage("Unable to send response when creating post %s.", p.getPostId()), ex);
             throw ex;
@@ -106,11 +117,14 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
         // request parameters
         int postId = -1;
-        int userId = -1;
+        int userId = extractUserId(req);
         String textContent = null;
         byte[] photo = null;
         String photoMediaType = null;
         Timestamp postDate = new Timestamp(System.currentTimeMillis());
+        String username = null;
+        int likeCount = 0;
+        int commentCount = 0;
 
         // retrieves the request parameters
         for (Part p : req.getParts()) {
@@ -122,12 +136,12 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
                         postId = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
                     break;
-                case "userId":
+                /*case "userId":
 
                     try (InputStream is = p.getInputStream()) {
                         userId = Integer.parseInt(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
-                    break;
+                    break;*/
 
                 case "textContent":
                     try (InputStream is = p.getInputStream()) {
@@ -137,40 +151,43 @@ public class CreatePostServlet extends AbstractDatabaseServlet {
 
 
                 case "photo":
-                    photoMediaType = p.getContentType();
-
-                    switch (photoMediaType.toLowerCase().trim()) {
-
-                        case "image/png":
-                        case "image/jpeg":
-                        case "image/jpg":
-                            // nothing to do
-                            break;
-
-                        default:
-                            LOGGER.error("Unsupported MIME media type %s for post photo.", photoMediaType);
-
-                            throw new MimeTypeParseException(
-                                    String.format("Unsupported MIME media type %s for post photo.",
-                                            photoMediaType));
-                    }
-
                     try (InputStream is = p.getInputStream()) {
                         photo = is.readAllBytes();
                     }
 
+                    if (photo != null && photo.length > 0) {
+                        photoMediaType = p.getContentType();
+
+                        switch (photoMediaType.toLowerCase().trim()) {
+                            case "image/png":
+                            case "image/jpeg":
+                            case "image/jpg":
+                                // nothing to do
+                                break;
+
+                            default:
+                                LOGGER.error("Unsupported MIME media type %s for post photo.", photoMediaType);
+                                throw new MimeTypeParseException(
+                                        String.format("Unsupported MIME media type %s for post photo.",
+                                                photoMediaType));
+                        }
+                    }
+
                     break;
+
                 case "postDate":
                     try (InputStream is = p.getInputStream()) {
                         postDate = Timestamp.valueOf(new String(is.readAllBytes(), StandardCharsets.UTF_8).trim());
                     }
                     break;
+
+
             }
 
         }
 
         // creates a new post from the request parameters
-        return new Post( postId, userId, textContent, photo, photoMediaType, postDate);
+        return new Post( postId, userId, textContent, photo, photoMediaType, postDate, username, likeCount, commentCount);
     }
 
 
