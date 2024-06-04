@@ -95,10 +95,10 @@ window.registerMeal = function registerMeal(mealType) {
         },
         body: JSON.stringify(mealData)
     })
-        .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
             alert('Meal registered successfully!');
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
