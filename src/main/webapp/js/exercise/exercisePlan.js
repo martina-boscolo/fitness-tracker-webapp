@@ -161,16 +161,18 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             plan.days[day].forEach(ex => {
                 const exerciseElement = document.createElement("div");
+                const exerciseName = exercises.filter((ex1) => ex1.id == ex.idExercise)[0].exercise_name
                 exerciseElement.className = "exercise";
                 exerciseElement.innerHTML = `
-                
                 <div>
-                    <p><strong>Exercise:</strong> ${ex.idExercise}</p>
+                    <p><strong>Exercise:</strong> ${exerciseName}</p>
                     <p><strong>Repeatation:</strong> ${ex.reps}</p>
                     <p><strong>Sets:</strong> ${ex.sets}</p>
                     <p><strong>Weight:</strong> ${ex.weight}</p>
                 </div>
-                <button class="editBtn"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-warning btn-sm editBtn" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">
+                    <i class="fas fa-edit" style="pointer-events:none"></i>
+                </button>
             `;
                 dayElement.appendChild(exerciseElement);
             });
