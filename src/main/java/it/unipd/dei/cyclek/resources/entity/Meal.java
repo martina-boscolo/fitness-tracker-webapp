@@ -3,6 +3,7 @@ package it.unipd.dei.cyclek.resources.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import it.unipd.dei.cyclek.resources.AbstractResource;
@@ -92,6 +93,7 @@ public class Meal extends AbstractResource {
 
     public static Meal fromJSON(final InputStream in) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
+        //JsonNode node = objectMapper.readTree(new String(in.readAllBytes(), StandardCharsets.UTF_8));
         return objectMapper.readValue(in, Meal.class);
     }
 }

@@ -87,6 +87,7 @@ window.registerMeal = function registerMeal(mealType) {
         })
     };
 
+    console.log("BODY", JSON.stringify(mealData));
     fetch('http://localhost:8080/cycleK-1.0.0/rest/meal/', {
         credentials: 'include',
         method: 'POST',
@@ -94,6 +95,7 @@ window.registerMeal = function registerMeal(mealType) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(mealData)
+
     })
         .then(data => {
             console.log('Success:', data);
