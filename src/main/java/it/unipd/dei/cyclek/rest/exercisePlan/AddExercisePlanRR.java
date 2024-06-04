@@ -8,6 +8,8 @@ import it.unipd.dei.cyclek.resources.ErrorCode;
 import it.unipd.dei.cyclek.resources.entity.ExercisePlan;
 import it.unipd.dei.cyclek.resources.Message;
 import it.unipd.dei.cyclek.rest.AbstractRR;
+import it.unipd.dei.cyclek.utils.TokenJWT;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,7 @@ public class AddExercisePlanRR extends AbstractRR {
     @Override
     protected void doServe() throws IOException {
         Message m = null;
+        ExercisePlan el;
         try {
             BufferedReader reader = req.getReader();
             StringBuilder jsonBody = new StringBuilder();
@@ -35,17 +38,37 @@ public class AddExercisePlanRR extends AbstractRR {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonBody.toString());
-            int idUser = rootNode.get("idUser").asInt();
+            Integer idUser = null;
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("authToken".equals(cookie.getName())) {
+                        String cookieValue = cookie.getValue();
+                        // Assuming the cookie value directly contains the idUser
+                        idUser = Integer.parseInt(TokenJWT.extractUserId(cookieValue));
+                        break;
+                    }
+                }
+            }
+
+            if (idUser == null) {
+                LOGGER.error("Unauthorized");
+                m = ErrorCode.UNAUTHORIZED.getMessage();
+                res.setStatus(ErrorCode.UNAUTHORIZED.getHttpCode());
+                m.toJSON(res.getOutputStream());
+                return;
+            }
             String planName = rootNode.get("planName").asText();
             String planJson = rootNode.get("plan").toString();
 
             ExercisePlan plan = new ExercisePlan(idUser, planName, planJson);
             // Assuming you set other properties of the ExercisePlan object
             // Create a DAO for accessing the database and save the ExercisePlan
-            boolean saved = new AddExercisePlanDao(con, plan).access().getOutputParam();
-            if (saved) {
-                LOGGER.info("ExercisePlan successfully saved.");
+            el = new AddExercisePlanDao(con, plan).access().getOutputParam();
+            if (el != null) {
+                LOGGER.info("Exercise successfully Added.");
                 res.setStatus(HttpServletResponse.SC_OK);
+                el.toJSON(res.getOutputStream());
             } else {
                 LOGGER.error("Failed to save ExercisePlan.");
                 m = ErrorCode.ADD_EXERCISE_PLAN_INSERT_FAIL.getMessage();

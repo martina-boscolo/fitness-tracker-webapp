@@ -15,25 +15,22 @@ import java.sql.SQLException;
 
 public class DeleteExercisePlanRR extends AbstractRR {
     public Integer id;
-    public DeleteExercisePlanRR(HttpServletRequest req, HttpServletResponse res, Connection con , Integer id) {
+
+    public DeleteExercisePlanRR(HttpServletRequest req, HttpServletResponse res, Connection con, Integer id) {
         super(Actions.DELETE_Exercise_Plan, req, res, con);
         this.id = id;
     }
 
     @Override
     protected void doServe() throws IOException {
-        ExercisePlan el;
+        Boolean el_result;
         Message m;
 
         try {
-
-            el = new DeleteExercisePlanDao(con, id).access().getOutputParam();
-
-
-            if (el != null) {
+            el_result = new DeleteExercisePlanDao(con, id).access().getOutputParam();
+            if (el_result) {
                 LOGGER.info("Exercise successfully deleted.");
                 res.setStatus(HttpServletResponse.SC_OK);
-                el.toJSON(res.getOutputStream());
             } else { // it should not happen
                 LOGGER.error("Fatal error while deleting exercise.");
                 m = ErrorCode.DELETE_EXERCISE_PLAN_BAD_REQUEST.getMessage();

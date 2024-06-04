@@ -1,6 +1,79 @@
 <main>
-    <div>Chart1</div>
-    <div>Chart2</div>
-    <div>Chart3</div>
-    <div>Chart4</div>
+    <div class="navigation-container">
+        <button id="prevPlanBtn" title="Previous Plan"><i class="fas fa-chevron-left"></i></button>
+        <div id="planName" class="plan-name"></div>
+        <button id="nextPlanBtn" title="Next Plan"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="button-container">
+        <button id="addPlanBtn" class="btn btn-success">Add New Plan</button>
+    </div>
+    <div class="card-container" id="planContainer"></div>
+    <div class="text-center mt-4">
+        <button id="addExerciseBtn" class="btn btn-success ml-4 mr-4">Add Exercise</button>
+        <button id="deletePlanBtn" class="btn btn-danger deleteBtn ml-4 mr-4">Delete Plan</button>
+    </div>
+
+
+    <!-- Modal for Edit/Add Exercise -->
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit/Add Exercise</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="exerciseForm">
+                        <div class="form-group">
+                            <label for="daySelect">Day:</label>
+                            <select id="daySelect" class="form-control" name="day"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseSelect">Exercise:</label>
+                            <select id="exerciseSelect" class="form-control" name="exercise"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reps">Reps:</label>
+                            <input type="number" id="reps" class="form-control" name="reps">
+                        </div>
+                        <div class="form-group">
+                            <label for="sets">Sets:</label>
+                            <input type="number" id="sets" class="form-control" name="sets">
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight:</label>
+                            <input type="number" id="weight" class="form-control" name="weight">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add New Plan -->
+    <div id="planModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="planForm">
+                        <div class="form-group">
+                            <label for="newPlanName">Plan Name:</label>
+                            <input type="text" id="newPlanName" class="form-control" name="plan" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Plan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
