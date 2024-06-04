@@ -226,6 +226,10 @@ VALUES
 INSERT INTO exercises(exercise_name, description, exercise_equipment, id_category)
 VALUES
     ('Bench Press','this is a description1','Bench',1),
+    ('Deadlift','Description','Barbell',1),
+    ('Pull-down','Description','Machine',1),
+    ('Lateral raise','Description','Dumbells',1),
+    ('Leg curl','Description','Machine',1),
     ('Squat','this is a description1','Barbell',1);
 
 INSERT INTO exercise_plan (idUser, planName, plan)
