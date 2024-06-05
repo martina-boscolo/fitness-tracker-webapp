@@ -14,21 +14,29 @@ main{
     color: #f6f6f6;
 }
 
-i {
-    font-size: xx-large;
-}
-
 #newDiet {
-    height: 3rem;
-    width: 3rem;
-    background: #81ac75;
-    margin-bottom: 5px;
-    display: block;
+    position: fixed;
+    bottom: 11%;
+    right: 3%;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background-color:  #A5DD9B;
+    box-shadow: 0.5rem 0.5rem #76a470;
+    color: black;
 }
 #updateDiet{
-    height: 3rem;
-    width: 3rem;
-    background: #81ac75;
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+    background-color:  #A5DD9B;
+    box-shadow: 0.5rem 0.5rem #76a470;
+    color: black;
 }
 
 .card {
@@ -102,13 +110,13 @@ i {
     color: white;
 }
 #submitNewDiet{
-    background: #429809;
+    background: #81ac75;
 }
 #closeNewDiet{
     background: crimson;
 }
 #updateCurrentDiet{
-    background: #429809;
+    background: #81ac75;
 }
 #closeUpdateModal{
     background: crimson;
@@ -117,7 +125,7 @@ i {
     color: white;
 }
 .modal-content{
-    background: #292727;
+    background: #81ac75;
 }
 .custom{
     background: #81ac75 !important;

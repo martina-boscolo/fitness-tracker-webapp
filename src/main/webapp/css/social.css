@@ -109,13 +109,13 @@ body {
     box-shadow: 0.5rem 0.5rem #424242;
 }
 #add-post {
-    position: fixed; /* Make the button sticky */
-    bottom: 3%; /* Position it 20px from the bottom */
-    right: 3%; /* Position it 20px from the right */
-    border-radius: 50%; /* Make the button round */
-    width: 60px; /* Set the width of the button */
-    height: 60px; /* Set the height of the button */
-    font-size: 24px; /* Increase the font size */
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
     background-color:  #A5DD9B;
     box-shadow: 0.5rem 0.5rem #76a470;
 }

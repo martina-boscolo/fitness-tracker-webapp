@@ -17,13 +17,13 @@
     flex: 1;
     min-width: 250px;
     border-style: none none none solid;
-    border-color: #81ac75;
+    border-color: #A5DD9B;
     background-color: #dee2e608;
 }
 
 .panel h2 {
     margin-top: 0;
-    border-bottom: 2px solid #81ac75;
+    border-bottom: 2px solid #A5DD9B;
 }
 
 .form-group {
