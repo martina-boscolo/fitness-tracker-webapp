@@ -12,6 +12,7 @@ function addFoodInput(containerId) {
     qtyInput.placeholder = 'Quantity (grams)';
     qtyInput.className = 'form-control mb-2';
     qtyInput.name = `${containerId}Qty`;
+    qtyInput.min = 0;
 
     const selectInput = document.createElement('select');
     selectInput.className = 'form-select mb-2';
