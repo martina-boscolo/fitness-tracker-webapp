@@ -15,7 +15,7 @@ const COOKIE_DURATION = 60; // do not change, otherwise you have to change the b
 
 function checkAuth() {
     let Cookies = document.cookie;
-    if (Cookies.indexOf('authToken') === 1) {
+    if (Cookies.indexOf('authToken') === -1) {
         console.error('Error: Unauthorized - Redirecting to login page.');
         // Redirect to login page
         window.location.href = LOGIN; // Adjust the URL as needed
