@@ -117,31 +117,39 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 
-
-
     // function showPlan(index) {
     //     planContainer.innerHTML = "";
     //     const planKey = planKeys[index];
     //     const plan = plans[planKey];
-    //     const planElement = document.createElement("div");
-    //     planElement.className = "plan active";
-    //     planElement.innerHTML = `<h2>${planKey}</h2>`;
+    //
+    //     // Display the plan name in the center
+    //     planNameElement.textContent = planKey;
+    //
     //     Object.keys(plan.days).forEach(day => {
     //         const dayElement = document.createElement("div");
-    //         dayElement.className = "mt-4";
-    //         dayElement.innerHTML = `<h3>${day}</h3>`;
+    //         dayElement.className = "card";
+    //         dayElement.innerHTML = `<h2>${day}</h2>`;
+    //
     //         plan.days[day].forEach(ex => {
     //             const exerciseElement = document.createElement("div");
-    //             exerciseElement.className = "mb-2";
+    //             const exerciseName = exercises.filter((ex1) => ex1.id == ex.idExercise)[0].exercise_name
+    //             exerciseElement.className = "exercise";
     //             exerciseElement.innerHTML = `
-    //                 <p>Exercise ID: ${ex.idExercise}, Reps: ${ex.reps}, Sets: ${ex.sets}, Weight: ${ex.weight}</p>
-    //                 <button class="btn btn-warning btn-sm editBtn" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">Edit</button>
-    //             `;
+    //             <div>
+    //                 <p><strong>Exercise:</strong> ${exerciseName}</p>
+    //                 <p><strong>Repetition:</strong> ${ex.reps}</p>
+    //                 <p><strong>Sets:</strong> ${ex.sets}</p>
+    //                 <p><strong>Weight:</strong> ${ex.weight}</p>
+    //             </div>
+    //             <button class="btn btn-warning btn-sm editBtn  edit-button" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">
+    //                 <i class="fas fa-edit" style="pointer-events:none"></i>
+    //             </button>
+    //         `;
     //             dayElement.appendChild(exerciseElement);
     //         });
-    //         planElement.appendChild(dayElement);
+    //
+    //         planContainer.appendChild(dayElement);
     //     });
-    //     planContainer.appendChild(planElement);
     // }
 
 
@@ -161,17 +169,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             plan.days[day].forEach(ex => {
                 const exerciseElement = document.createElement("div");
-                const exerciseName = exercises.filter((ex1) => ex1.id == ex.idExercise)[0].exercise_name
+                const exerciseName = exercises.filter((ex1) => ex1.id == ex.idExercise)[0].exercise_name;
                 exerciseElement.className = "exercise";
                 exerciseElement.innerHTML = `
-                <div>
+                <div class="exercise-info">
                     <p><strong>Exercise:</strong> ${exerciseName}</p>
                     <p><strong>Repetition:</strong> ${ex.reps}</p>
                     <p><strong>Sets:</strong> ${ex.sets}</p>
                     <p><strong>Weight:</strong> ${ex.weight}</p>
                 </div>
                 <button class="btn btn-warning btn-sm editBtn" data-plan="${planKey}" data-day="${day}" data-id="${ex.idExercise}">
-                    <i class="fas fa-edit" style="pointer-events:none"></i>
+                    <i class="fas fa-edit" style="pointer-events:none" aria-hidden="true"></i>
                 </button>
             `;
                 dayElement.appendChild(exerciseElement);
@@ -180,6 +188,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             planContainer.appendChild(dayElement);
         });
     }
+
+
+
 
 
 
