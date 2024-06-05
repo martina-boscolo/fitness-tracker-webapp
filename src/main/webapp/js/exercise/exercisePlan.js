@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 exerciseElement.innerHTML = `
                 <div>
                     <p><strong>Exercise:</strong> ${exerciseName}</p>
-                    <p><strong>Repeatation:</strong> ${ex.reps}</p>
+                    <p><strong>Repetition:</strong> ${ex.reps}</p>
                     <p><strong>Sets:</strong> ${ex.sets}</p>
                     <p><strong>Weight:</strong> ${ex.weight}</p>
                 </div>

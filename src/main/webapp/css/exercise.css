@@ -87,7 +87,7 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #ffc107;
+    background: transparent;
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -134,7 +134,7 @@ body {
 }
 
 .btn-success {
-    background-color: #28a745;
+    background-color: #81AC75FF;
     color: #fff;
 }
 
