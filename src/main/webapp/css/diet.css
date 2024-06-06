@@ -109,6 +109,9 @@ main{
 .form-label {
     color: white;
 }
+
+i {font-size: xx-large;}
+
 #submitNewDiet{
     background: #81ac75;
 }

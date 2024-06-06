@@ -146,10 +146,10 @@ function extractMeals(json) {
                 const qty = foodMap[foodData.food.id];
 
                 totFoods.push(foodData.food.fdnm);
-                totKcal += (Number(foodData.food.kcal) * qty / 100);
-                totCarbs += (Number(foodData.food.carbs) * qty / 100);
-                totFats += (Number(foodData.food.fats) * qty / 100);
-                totProt += (Number(foodData.food.prot) * qty / 100);
+                totKcal += Math.round(Number(foodData.food.kcal) * qty / 100);
+                totCarbs += Math.round(Number(foodData.food.carbs) * qty / 100);
+                totFats += Math.round(Number(foodData.food.fats) * qty / 100);
+                totProt += Math.round(Number(foodData.food.prot) * qty / 100);
             }));
 
             return Promise.all(foodFetchPromises)
