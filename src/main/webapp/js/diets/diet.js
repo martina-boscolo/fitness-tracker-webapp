@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+    if (!checkAuth()) {
+        window.location.href = BASE_URL;
+    }
+});
+
 let idDiet = -1;
 
 fetch('http://localhost:8080/cycleK-1.0.0/rest/diet/idUser/', {
