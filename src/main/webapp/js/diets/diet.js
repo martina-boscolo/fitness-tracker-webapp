@@ -194,14 +194,14 @@ function updateDiet(data) {
 
         const dayInputsContainer = document.createElement('div');
         dayInputsContainer.classList.add('row');
-        dayInputsContainer.id = `${day.toLowerCase()}EditInputs`;
+        dayInputsContainer.id = `${day.toLowerCase()}`;
 
         const addFoodButton = document.createElement('button');
         addFoodButton.textContent = 'Add Food';
         addFoodButton.classList.add('btn', 'custom');
         addFoodButton.setAttribute('type', 'button')
         addFoodButton.onclick = function () {
-            addFoodInput(`${day.toLowerCase()}EditInputs`);
+            addFoodInput(`${day.toLowerCase()}`);
         };
 
         dayContainer.appendChild(dayInputsContainer);
@@ -290,7 +290,7 @@ function updateDiet(data) {
 
 
         for (let day in diet) {
-            const dayInputsContainer = document.getElementById(`${day.toLowerCase()}EditInputs`);
+            const dayInputsContainer = document.getElementById(`${day.toLowerCase()}`);
             const rows = dayInputsContainer.getElementsByClassName('row');
 
             updatedDiet[day] = {};
