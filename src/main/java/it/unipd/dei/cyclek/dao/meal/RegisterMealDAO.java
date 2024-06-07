@@ -14,8 +14,9 @@ import java.util.Locale;
 
 public class RegisterMealDAO extends AbstractDAO<Boolean> {
 
-    public static final String QUERYDELETE = "DELETE FROM meal WHERE id_user=? AND meal_date=CURRENT_DATE RETURNING *";
-    public static final String QUERY = "INSERT INTO meal (id_user, meal_date, meal_type, meal) VALUES (?,?,?,?)";
+    public static final String QUERY = "INSERT INTO meal (id_user, meal_date, meal_type, meal) VALUES (?,?,?,?) " +
+            "ON CONFLICT (id_user, meal_date, meal_type) " +
+            "DO UPDATE SET meal = EXCLUDED.meal;";
 
     private final Meal meal;
 
@@ -26,13 +27,6 @@ public class RegisterMealDAO extends AbstractDAO<Boolean> {
 
     @Override
     protected final void doAccess() throws SQLException, ParseException {
-
-        ResultSet set = null;
-        try (PreparedStatement ps = con.prepareStatement(QUERYDELETE)) {
-            ps.setInt(1, meal.getIdUser());
-            set = ps.executeQuery();
-            LOGGER.info("Meal successfully deleted");
-        }
 
         try (PreparedStatement pstmt = con.prepareStatement(QUERY)) {
 
