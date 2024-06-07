@@ -109,7 +109,7 @@ function loadContent(currentVisualization) {
                 let base64String = post.photo;
                 let imageFormat = post.photoMediaType;
 
-                if (imageFormat!== null && imageFormat!=="" && imageFormat!== undefined) {
+                if (imageFormat !== null && imageFormat !== "" && imageFormat !== undefined) {
 
                     let img = document.createElement('img');
                     img.style.width = "100%";
@@ -203,8 +203,8 @@ function loadContent(currentVisualization) {
 
                     let commentInput = document.createElement('div');
                     commentInput.className = 'input-group';
-                    commentInput.style.marginRight= '1rem';
-                    commentInput.style.marginleft= '1rem'
+                    commentInput.style.marginRight = '1rem';
+                    commentInput.style.marginleft = '1rem'
 
                     let commentText = document.createElement('input');
                     commentText.type = 'text';
@@ -260,7 +260,7 @@ function loadContent(currentVisualization) {
                     countLike.innerText = ` ${likesCount} likes`;
                 });*/
                 countLike.addEventListener('click', function () {
-                    listLikes(post.postId, post.username );
+                    listLikes(post.postId, post.username);
                 });
 
 
@@ -289,7 +289,6 @@ function loadContent(currentVisualization) {
                 });
 
 
-
                 let heartIcon = document.createElement('i');
                 heartIcon.className = 'fa-solid  fa-heart heartIcon';
                 wasLiked(post.postId, function (isLiked) {
@@ -307,8 +306,6 @@ function loadContent(currentVisualization) {
 
                 let plusIcon = document.createElement('i');
                 plusIcon.className = 'fa-solid fa-plus';
-
-
 
 
                 card.appendChild(cardHeader);
@@ -435,7 +432,7 @@ function addCommentToPost(postId, totalComments, textComment) {
     });
 }
 
-function listComments(postId, numberOfComment, countComment ) {
+function listComments(postId, numberOfComment, countComment) {
     let modal = document.getElementById('commentModal');
 
     // Fetch the comments
@@ -460,7 +457,6 @@ function listComments(postId, numberOfComment, countComment ) {
                     let deleteCommentButton = document.createElement('button');
                     deleteCommentButton.type = 'button';
                     deleteCommentButton.className = 'btn btn-link icon bin';
-
 
 
                     let binComm = document.createElement('i');
