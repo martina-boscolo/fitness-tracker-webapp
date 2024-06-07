@@ -96,7 +96,7 @@ CREATE TABLE meal (
     meal_date       DATE NOT NULL DEFAULT CURRENT_DATE,
     meal_type       INTEGER NOT NULL,
     meal            JSON NOT NULL,
-    
+
     CONSTRAINT unique_user_date_type_combination UNIQUE (id_user, meal_date, meal_type)
 );
 
@@ -126,7 +126,7 @@ CREATE TABLE exercise_plan (
 
 -- Marco
 INSERT INTO users (name, surname, birthday, gender, username, password)
-VALUES 
+VALUES
     ('Paolo', 'Rossi', '1995-10-08', 'M', 'Paolo95', '123456'),
     ('Alessandro', 'Bianchi', '2000-07-13', 'M', 'ABianchi00', '123456'),
     ('Lucia', 'Verdi', '2002-11-22', 'F', 'Lucy02', '123456');
@@ -191,7 +191,7 @@ VALUES
 
 -- Riccardo
 INSERT INTO foods (fdnm, kcal, fats, carbohydrates, proteins)
-VALUES 
+VALUES
     ('Chicken', 239, 14, 0, 27),
     ('Rice', 130, 0, 28, 3),
     ('Greek Yogurt', 93, 1, 4, 9),
@@ -234,4 +234,5 @@ VALUES
 
 INSERT INTO exercise_plan (idUser, planName, plan)
 VALUES
-    (1, 'First Plan', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120}]}}');
+    (1, 'Strength', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120},{"idExercise":3,"reps":20,"sets":2,"weight":50},{"idExercise":4,"reps":15,"sets":4,"weight":30}],"Tuesday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120},{"idExercise":5,"reps":12,"sets":6,"weight":10},{"idExercise":6,"reps":20,"sets":2,"weight":80}],"Thursday":[{"idExercise":2,"reps":10,"sets":3,"weight":80},{"idExercise":4,"reps":10,"sets":3,"weight":120},{"idExercise":5,"reps":12,"sets":6,"weight":10},{"idExercise":6,"reps":20,"sets":2,"weight":80}],"Friday":[{"idExercise":4,"reps":25,"sets":2,"weight":15},{"idExercise":3,"reps":15,"sets":4,"weight":25},{"idExercise":5,"reps":12,"sets":6,"weight":10},{"idExercise":6,"reps":20,"sets":2,"weight":80}]}}'),
+    (1, 'Endurance', '{"plan":{"Monday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":2,"reps":10,"sets":3,"weight":120},{"idExercise":3,"reps":20,"sets":2,"weight":50},{"idExercise":4,"reps":15,"sets":4,"weight":30}],"Wednesday":[{"idExercise":1,"reps":10,"sets":3,"weight":80},{"idExercise":4,"reps":10,"sets":3,"weight":120},{"idExercise":5,"reps":12,"sets":6,"weight":10},{"idExercise":6,"reps":20,"sets":2,"weight":80}],"Friday":[{"idExercise":4,"reps":25,"sets":2,"weight":15},{"idExercise":3,"reps":15,"sets":4,"weight":25},{"idExercise":5,"reps":12,"sets":6,"weight":10},{"idExercise":6,"reps":20,"sets":2,"weight":80}]}}');

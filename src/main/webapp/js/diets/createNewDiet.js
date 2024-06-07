@@ -140,11 +140,7 @@ function processNewDiet(event) {
             return response.json();
         })
         .then(addedDiet => {
-            console.log('Piano alimentare aggiunto:', addedDiet);
-
             data['resource-list'].push({diet: addedDiet});
-            displayDietPlan(data['resource-list'].length - 1);
-            showNotification('Piano alimentare aggiunto con successo!', 'success');
         })
         .catch(error => {
             if (error.message === 'Unauthorized') {
@@ -163,3 +159,5 @@ const addDietModal = document.getElementById('addDietModal');
 createNewDietPlanBtn.addEventListener('click', function () {
     addDietModal.style.display = 'block';
 });
+
+document.getElementById("submitNewDiet").addEventListener("click", () => window.location.reload());
