@@ -29,7 +29,7 @@
         <textarea id="textContentID" name="textContent" class="form-control" placeholder="Write your post..."  aria-label="With textarea"></textarea>
         <br/>
 
-          <label for="photoID">If you want, add a photo to your post!</label>
+          <label for="photoID">If you want, add a photo to your post! (jpg, jpeg, png)</label>
     <br/>
           <input id="photoID" name="photo" type="file" accept="image/png, image/jpeg, .jpg, .jpeg, .png"/><br/><br/>
     </div>
